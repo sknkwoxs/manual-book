@@ -4,8 +4,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sknkwoxs.github.io',
-  base: '/manual-book',
+  site: 'https://manual.skunkworks.co.kr',
+  base: '/',
   integrations: [
     starlight({
       title: '고객 매뉴얼',
