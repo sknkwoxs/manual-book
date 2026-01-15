@@ -1,0 +1,136 @@
+---
+title: "아이템 계층 구조 구현 문서"
+---
+
+> [SI-DATA 문서](../../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [구현](../)
+
+**작성일**: 2026-01-15  
+**수정일**: 2026-01-15  
+**버전**: 1.0
+
+---
+
+## 1. 개요
+
+이 문서는 아이템 계층 구조의 기술적 구현에 대해 설명합니다.
+
+아이템 계층 구조는 콘텐츠 분류를 위한 AJAX 연동 드롭다운 구조입니다.
+
+```
+아이템 타입 (ITEM 타입)
+  └─ 세부 아이템명 (ITEM명)
+       └─ 아이템 내 카테고리 (카테고리)
+```
+
+구조적 설계에 대해서는 [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)를 참조하세요.
+
+---
+
+## 2. AJAX 연동 흐름
+
+### 2.1 ITEM 타입 선택 시
+
+1. `field_item_type`에서 상위 분류 선택
+2. AJAX 콜백 `si_data_update_service_options()` 실행
+3. `field_service` 옵션이 선택된 ITEM 타입의 자식으로 필터링됨
+4. 자식이 1개인 경우 자동 선택
+
+### 2.2 ITEM명 선택 시
+
+1. `field_service`에서 중간 분류 선택
+2. AJAX 콜백 `si_data_update_category_options()` 실행
+3. `field_chapter` 옵션이 동일 이름의 item_category 자식으로 필터링됨
+
+---
+
+## 3. 구현 코드
+
+### 3.1 파일 위치
+
+| 파일 | 경로 | 설명 |
+|------|------|------|
+| si_data.module | `web/modules/custom/si_data/` | AJAX 연동 로직 |
+
+### 3.2 주요 함수
+
+```php
+/**
+ * hook_form_alter() - 신규 콘텐츠 타입 폼에 AJAX 연동 설정
+ */
+function si_data_form_alter(&$form, FormStateInterface $form_state, $form_id)
+
+/**
+ * ITEM 타입 (depth 0) 옵션 반환
+ * @return array ITEM 타입 옵션 배열 (tid => name)
+ */
+function si_data_get_item_type_options()
+
+/**
+ * AJAX 콜백: ITEM 타입 변경 시 field_service 옵션 업데이트
+ */
+function si_data_update_service_options(array &$form, FormStateInterface $form_state)
+
+/**
+ * 선택된 ITEM 타입의 자식 term 반환
+ * @param int $item_type_tid ITEM 타입 term ID
+ * @return array ITEM명 옵션 배열 (tid => name)
+ */
+function si_data_get_service_options($item_type_tid)
+
+/**
+ * AJAX 콜백: ITEM명 변경 시 field_chapter 옵션 업데이트
+ */
+function si_data_update_category_options(array &$form, FormStateInterface $form_state)
+
+/**
+ * item_category에서 동일 이름의 자식 term 반환
+ * @param int $service_term_id ITEM명 term ID
+ * @return array 카테고리 옵션 배열 (tid => name)
+ */
+function si_data_get_category_options($service_term_id)
+```
+
+### 3.3 대상 폼 목록
+
+```php
+$target_forms = [
+  'node_data_content_form',
+  'node_data_content_edit_form',
+  'node_dxpr_content_form',
+  'node_dxpr_content_edit_form',
+  'node_report_content_form',
+  'node_report_content_edit_form',
+  'node_html_content_form',
+  'node_html_content_edit_form',
+  'node_survey_content_form',
+  'node_survey_content_edit_form',
+  'node_heritage_content_form',
+  'node_heritage_content_edit_form',
+  'node_photo_content_form',
+  'node_photo_content_edit_form',
+];
+```
+
+---
+
+## 4. 필드 매핑
+
+| 계층 | 필드명 | 머신명 | 택소노미 |
+|------|--------|--------|----------|
+| 아이템 타입 | ITEM 타입 | `field_item_type` | item_service (depth 0) |
+| 세부 아이템명 | ITEM명 | `field_service` | item_service (depth 1) |
+| 아이템 내 카테고리 | 카테고리 | `field_chapter` | item_category |
+
+---
+
+## 5. 관련 문서
+
+- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
+
+---
+
+## 변경 이력
+
+| 버전 | 날짜 | 변경 내용 |
+|------|------|-----------|
+| 1.0 | 2026-01-15 | 초기 문서 작성 (SI-DATA_신규_콘텐츠_설계.md에서 분리) |
