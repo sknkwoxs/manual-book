@@ -27,6 +27,10 @@ export default defineConfig({
               autogenerate: { directory: 'si-data/search-system' },
             },
             {
+              label: 'LLM Search PoC',
+              autogenerate: { directory: 'si-data/llm-search-poc' },
+            },
+            {
               label: '신규 콘텐츠 설계',
               items: [
                 { label: '설계 문서', link: '/si-data/new-content-design/design-overview/' },

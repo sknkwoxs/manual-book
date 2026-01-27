@@ -12,6 +12,7 @@ title: SI-DATA 문서
 |---|------|------|
 | 1 | [SI-DATA 신규 콘텐츠 설계 문서](./new-content-design/design-overview/) | 7개 신규 콘텐츠 타입 설계 문서 |
 | 2 | [검색시스템 설계 문서](./search-system/) | SLLM 검색시스템 관련 문서 |
+| 3 | [LLM Search PoC](./llm-search-poc/) | LLM 기반 검색 기능 개선 PoC |
 
 ---
 
