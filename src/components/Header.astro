@@ -1,0 +1,47 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Header.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<a 
+  href="https://skunkworks.co.kr" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class="skunkworks-logo"
+  title="SKUNKWORKS STUDIO"
+>
+  <img src="/skunkworks-logo.png" alt="SKUNKWORKS STUDIO" />
+</a>
+
+<style>
+  .skunkworks-logo {
+    position: fixed;
+    top: 1rem;
+    right: 10rem;
+    z-index: 100;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+  
+  .skunkworks-logo:hover {
+    opacity: 1;
+  }
+  
+  .skunkworks-logo img {
+    height: 24px;
+    width: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .skunkworks-logo {
+      top: 0.75rem;
+      right: 9rem;
+    }
+    
+    .skunkworks-logo img {
+      height: 18px;
+    }
+  }
+</style>

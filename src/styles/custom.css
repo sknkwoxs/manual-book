@@ -1,0 +1,685 @@
+/* =============================================
+   SKUNKWORKS Manual Book - Custom Styles
+   완전 모노톤 디자인
+   ============================================= */
+
+/* -----------------------------------------
+   1. 폰트 임포트
+   ----------------------------------------- */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/pretendard-gov/1.3.9/variable/pretendardvariable-gov-dynamic-subset.min.css');
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
+/* -----------------------------------------
+   2. CSS 변수 (Starlight 테마 오버라이드)
+   ----------------------------------------- */
+:root {
+  /* 모노톤 액센트 색상 */
+  --sl-color-accent: #151617;
+  --sl-color-accent-low: #f6f6f6;
+  --sl-color-accent-high: #000000;
+  
+  /* 텍스트 색상 */
+  --sl-color-text: #151617;
+  --sl-color-text-accent: #151617;
+  
+  /* 배경 색상 */
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #f6f6f6;
+  
+  /* 테두리 */
+  --sl-color-hairline: #d8d8d8;
+  --sl-color-hairline-light: #e8e8e8;
+  
+  /* 폰트 패밀리 */
+  --sl-font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --sl-font-mono: 'SF Mono', Monaco, 'Andale Mono', 'Courier New', monospace;
+  
+  /* Grey 팔레트 */
+  --grey1: #f6f6f6;
+  --grey3: #d8d8d8;
+  --grey5: #ababab;
+  --grey6: #6d6d6d;
+  --grey7: #393a3e;
+  --grey8: #151617;
+}
+
+/* 다크 모드 */
+:root[data-theme='dark'] {
+  --sl-color-accent: #e8e8e8;
+  --sl-color-accent-low: #2a2b2c;
+  --sl-color-accent-high: #ffffff;
+  
+  --sl-color-text: #e8e8e8;
+  --sl-color-text-accent: #ffffff;
+  --sl-color-bg: #151617;
+  --sl-color-bg-nav: #1a1b1c;
+  --sl-color-bg-sidebar: #1a1b1c;
+  
+  --sl-color-hairline: #393a3e;
+  --sl-color-hairline-light: #2a2b2c;
+}
+
+/* -----------------------------------------
+   3. 기본 타이포그래피
+   ----------------------------------------- */
+body {
+  font-family: var(--sl-font);
+  color: var(--grey8);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+:root[data-theme='dark'] body {
+  color: #e8e8e8;
+}
+
+/* -----------------------------------------
+   4. 제목 스타일 (h1 ~ h4)
+   ----------------------------------------- */
+.sl-markdown-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--grey8);
+  letter-spacing: -0.02em;
+}
+
+:root[data-theme='dark'] .sl-markdown-content h1 {
+  color: #ffffff;
+}
+
+.sl-markdown-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--grey3);
+  color: var(--grey8);
+}
+
+:root[data-theme='dark'] .sl-markdown-content h2 {
+  color: #ffffff;
+  border-bottom-color: #393a3e;
+}
+
+.sl-markdown-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--grey7);
+}
+
+:root[data-theme='dark'] .sl-markdown-content h3 {
+  color: #e8e8e8;
+}
+
+.sl-markdown-content h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--grey7);
+}
+
+:root[data-theme='dark'] .sl-markdown-content h4 {
+  color: #e8e8e8;
+}
+
+/* -----------------------------------------
+   5. 링크 스타일
+   ----------------------------------------- */
+.sl-markdown-content a {
+  color: var(--grey8);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s ease;
+}
+
+.sl-markdown-content a:hover {
+  opacity: 0.7;
+}
+
+:root[data-theme='dark'] .sl-markdown-content a {
+  color: #e8e8e8;
+}
+
+/* -----------------------------------------
+   6. 본문 텍스트 (다크 모드)
+   ----------------------------------------- */
+:root[data-theme='dark'] .sl-markdown-content,
+:root[data-theme='dark'] .sl-markdown-content p,
+:root[data-theme='dark'] .sl-markdown-content span,
+:root[data-theme='dark'] .sl-markdown-content div {
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] .sl-markdown-content tbody td {
+  color: #e8e8e8;
+}
+
+/* -----------------------------------------
+   7. 테이블 스타일
+   ----------------------------------------- */
+.sl-markdown-content table {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  display: table !important;
+  table-layout: fixed !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--grey3);
+}
+
+/* 테이블 wrapper도 전체 너비로 */
+.sl-markdown-content > div:has(table),
+.sl-markdown-content .table-container,
+.sl-markdown-content [class*="table"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto;
+}
+
+.sl-markdown-content thead {
+  background: var(--grey8);
+}
+
+.sl-markdown-content thead th {
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.875rem 1rem;
+  border: none;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+}
+
+.sl-markdown-content thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.sl-markdown-content thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.sl-markdown-content tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.sl-markdown-content tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.sl-markdown-content tbody tr:nth-child(even) {
+  background-color: var(--grey1);
+}
+
+.sl-markdown-content tbody tr:hover {
+  background-color: #e8e8e8;
+}
+
+.sl-markdown-content tbody td {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid var(--grey3);
+  color: var(--grey8);
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.sl-markdown-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sl-markdown-content tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.sl-markdown-content tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/* 다크 모드 테이블 */
+:root[data-theme='dark'] .sl-markdown-content thead {
+  background: #393a3e;
+}
+
+:root[data-theme='dark'] .sl-markdown-content tbody tr:nth-child(odd) {
+  background-color: #1a1b1c;
+}
+
+:root[data-theme='dark'] .sl-markdown-content tbody tr:nth-child(even) {
+  background-color: #222324;
+}
+
+:root[data-theme='dark'] .sl-markdown-content tbody tr:hover {
+  background-color: #2a2b2c;
+}
+
+:root[data-theme='dark'] .sl-markdown-content tbody td {
+  border-bottom-color: #393a3e;
+}
+
+/* -----------------------------------------
+   8. 코드 블록 스타일
+   ----------------------------------------- */
+
+/* 인라인 코드 */
+.sl-markdown-content :not(pre) > code {
+  background-color: var(--grey1);
+  color: var(--grey8);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: var(--sl-font-mono);
+  font-weight: 500;
+  border: 1px solid var(--grey3);
+}
+
+:root[data-theme='dark'] .sl-markdown-content :not(pre) > code {
+  background-color: #2a2b2c;
+  color: #e8e8e8;
+  border-color: #393a3e;
+}
+
+/* 코드 블록 */
+.sl-markdown-content pre {
+  background-color: var(--grey1) !important;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 0;
+  overflow-x: auto;
+  border: 1px solid var(--grey3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sl-markdown-content pre code {
+  background: transparent;
+  color: var(--grey8);
+  padding: 0;
+  border: none;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  font-family: var(--sl-font-mono);
+}
+
+/* Expressive Code 스타일 오버라이드 */
+.expressive-code {
+  margin: 0;
+}
+
+.expressive-code .frame {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--grey3);
+}
+
+.expressive-code pre {
+  background-color: var(--grey1) !important;
+  border-radius: 8px !important;
+}
+
+.expressive-code .frame pre code {
+  color: var(--grey8);
+}
+
+/* 코드 블록 헤더 제거 */
+.expressive-code .header {
+  display: none !important;
+}
+
+/* 다크 모드 코드 블록 */
+:root[data-theme='dark'] .sl-markdown-content pre {
+  background-color: #1a1b1c !important;
+  border-color: #393a3e;
+}
+
+:root[data-theme='dark'] .sl-markdown-content pre code {
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] .expressive-code .frame {
+  border-color: #393a3e;
+}
+
+:root[data-theme='dark'] .expressive-code pre {
+  background-color: #1a1b1c !important;
+}
+
+:root[data-theme='dark'] .expressive-code .frame pre code {
+  color: #e8e8e8;
+}
+
+/* -----------------------------------------
+   9. 사이드바 스타일
+   ----------------------------------------- */
+
+/* 사이드바 전체 */
+nav.sidebar {
+  font-size: 0.9rem;
+}
+
+/* 사이드바 그룹 제목 */
+nav.sidebar summary,
+nav.sidebar .top-level > li > details > summary {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--grey8);
+  padding: 0.5rem 0;
+  letter-spacing: -0.01em;
+}
+
+/* 사이드바 링크 */
+nav.sidebar a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin: 0.125rem 0;
+  color: var(--grey7);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+nav.sidebar a:hover {
+  background-color: var(--grey1);
+  color: var(--grey8);
+}
+
+/* 선택된 페이지 */
+nav.sidebar a[aria-current='page'],
+nav.sidebar a[aria-current='page']:hover {
+  background-color: var(--grey8);
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* 사이드바 리스트 간격 */
+nav.sidebar ul {
+  padding-left: 0;
+}
+
+nav.sidebar ul ul {
+  padding-left: 0.75rem;
+  margin: 0.25rem 0;
+}
+
+nav.sidebar li {
+  margin: 0;
+}
+
+/* 다크 모드 사이드바 */
+:root[data-theme='dark'] nav.sidebar summary,
+:root[data-theme='dark'] nav.sidebar .top-level > li > details > summary {
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] nav.sidebar a {
+  color: #ababab;
+}
+
+:root[data-theme='dark'] nav.sidebar a:hover {
+  background-color: #2a2b2c;
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] nav.sidebar a[aria-current='page'],
+:root[data-theme='dark'] nav.sidebar a[aria-current='page']:hover {
+  background-color: #e8e8e8;
+  color: var(--grey8) !important;
+}
+
+/* -----------------------------------------
+   10. 기타 요소
+   ----------------------------------------- */
+
+/* 블록쿼트 */
+.sl-markdown-content blockquote {
+  border-left: 4px solid var(--grey8);
+  background-color: var(--grey1);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--grey7);
+}
+
+:root[data-theme='dark'] .sl-markdown-content blockquote {
+  border-left-color: #e8e8e8;
+  background-color: #2a2b2c;
+  color: #c8c8c8;
+}
+
+/* 수평선 */
+.sl-markdown-content hr {
+  border: none;
+  border-top: 2px solid var(--grey3);
+  margin: 2.5rem 0;
+}
+
+:root[data-theme='dark'] .sl-markdown-content hr {
+  border-top-color: #393a3e;
+}
+
+/* 리스트 */
+.sl-markdown-content ul,
+.sl-markdown-content ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.sl-markdown-content ul {
+  list-style: none;
+}
+
+.sl-markdown-content ul > li {
+  position: relative;
+  padding-left: 1rem;
+  margin: 0.625rem 0;
+  line-height: 1.7;
+}
+
+.sl-markdown-content ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background-color: var(--grey8);
+  border-radius: 50%;
+}
+
+.sl-markdown-content ol {
+  list-style: none;
+  counter-reset: ol-counter;
+}
+
+.sl-markdown-content ol > li {
+  position: relative;
+  padding-left: 2rem;
+  margin: 0.75rem 0;
+  line-height: 1.7;
+  counter-increment: ol-counter;
+}
+
+.sl-markdown-content ol > li::before {
+  content: counter(ol-counter);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: 1.4rem;
+  height: 1.4rem;
+  background-color: var(--grey8);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 중첩 리스트 */
+.sl-markdown-content ul ul,
+.sl-markdown-content ol ol,
+.sl-markdown-content ul ol,
+.sl-markdown-content ol ul {
+  margin: 0.5rem 0;
+}
+
+.sl-markdown-content ul ul > li::before {
+  width: 5px;
+  height: 5px;
+  background-color: transparent;
+  border: 1.5px solid var(--grey6);
+}
+
+/* 다크 모드 리스트 */
+:root[data-theme='dark'] .sl-markdown-content ul > li,
+:root[data-theme='dark'] .sl-markdown-content ol > li {
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] .sl-markdown-content ul > li::before {
+  background-color: #e8e8e8;
+}
+
+:root[data-theme='dark'] .sl-markdown-content ul ul > li::before {
+  background-color: transparent;
+  border-color: #ababab;
+}
+
+:root[data-theme='dark'] .sl-markdown-content ol > li::before {
+  background-color: #e8e8e8;
+  color: var(--grey8);
+}
+
+/* 강조 텍스트 */
+.sl-markdown-content strong {
+  font-weight: 600;
+  color: var(--grey8);
+}
+
+:root[data-theme='dark'] .sl-markdown-content strong {
+  color: #ffffff;
+}
+
+/* -----------------------------------------
+   11. 이전/다음 페이지 버튼
+   ----------------------------------------- */
+.pagination-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--grey3);
+}
+
+.pagination-links a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--grey3);
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.pagination-links a:hover {
+  border-color: var(--grey8);
+  background-color: var(--grey1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pagination-links .link-title {
+  font-weight: 600;
+  color: var(--grey8);
+  font-size: 1rem;
+}
+
+.pagination-links .link-hint {
+  font-size: 0.75rem;
+  color: var(--grey6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.pagination-links a[rel="prev"] {
+  text-align: left;
+}
+
+.pagination-links a[rel="next"] {
+  text-align: right;
+  margin-left: auto;
+}
+
+/* 다크 모드 이전/다음 버튼 */
+:root[data-theme='dark'] .pagination-links a {
+  background-color: #1a1b1c;
+  border-color: #393a3e;
+}
+
+:root[data-theme='dark'] .pagination-links a:hover {
+  border-color: #e8e8e8;
+  background-color: #2a2b2c;
+}
+
+:root[data-theme='dark'] .pagination-links .link-title {
+  color: #e8e8e8;
+}
+
+:root[data-theme='dark'] .pagination-links .link-hint {
+  color: #ababab;
+}
+
+/* -----------------------------------------
+   12. 반응형 조정
+   ----------------------------------------- */
+@media (max-width: 768px) {
+  .sl-markdown-content h1 {
+    font-size: 1.75rem;
+  }
+  
+  .sl-markdown-content h2 {
+    font-size: 1.375rem;
+  }
+  
+  .sl-markdown-content h3 {
+    font-size: 1.125rem;
+  }
+  
+  .sl-markdown-content table {
+    font-size: 0.8rem;
+  }
+  
+  .sl-markdown-content thead th,
+  .sl-markdown-content tbody td {
+    padding: 0.625rem 0.75rem;
+  }
+  
+  .pagination-links {
+    flex-direction: column;
+  }
+  
+  .pagination-links a[rel="next"] {
+    margin-left: 0;
+    text-align: left;
+  }
+}

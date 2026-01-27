@@ -9,6 +9,10 @@ export default defineConfig({
   integrations: [
     starlight({
       title: '고객 매뉴얼',
+      customCss: ['./src/styles/custom.css'],
+      components: {
+        Header: './src/components/Header.astro',
+      },
       defaultLocale: 'root',
       locales: {
         root: { label: '한국어', lang: 'ko' },
