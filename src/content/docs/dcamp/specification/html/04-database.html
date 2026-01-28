@@ -1,0 +1,452 @@
+<!-- 4. 데이터베이스 설계 -->
+<div class="section">
+<h1>4. 데이터베이스 설계</h1>
+
+<h2>4.1 데이터 구조 개요</h2>
+
+<p>dcamp 웹사이트는 Drupal의 엔티티(Entity) 시스템을 기반으로 데이터를 관리합니다. 엔티티는 "데이터의 단위"를 의미하며, 각 엔티티는 여러 "번들(유형)"로 세분화됩니다.</p>
+
+<p>예를 들어, "포트폴리오"라는 엔티티 안에 "스타트업", "파트너사", "캠퍼스"라는 번들이 있습니다.</p>
+
+<pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                       데이터 구조 개요                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐           │
+│   │    Node     │   │  Portfolio  │   │ DcampEvent  │           │
+│   │  (콘텐츠)    │   │ (포트폴리오) │   │  (이벤트)    │           │
+│   ├─────────────┤   ├─────────────┤   ├─────────────┤           │
+│   │ - notice    │   │ - startup   │   │ - applicant │           │
+│   │ - insight   │   │ - partner   │   │ - application│          │
+│   │ - page      │   │ - campus    │   │ - apply     │           │
+│   └─────────────┘   └─────────────┘   │ - judge     │           │
+│                                       └─────────────┘           │
+│                                                                  │
+│   ┌─────────────┐   ┌─────────────┐                             │
+│   │    User     │   │   Webform   │                             │
+│   │   (회원)     │   │  (신청서)    │                             │
+│   ├─────────────┤   ├─────────────┤                             │
+│   │ - user      │   │ (양식별로    │                             │
+│   │   (일반회원) │   │  동적 생성)  │                             │
+│   │ - manager   │   │             │                             │
+│   │   (관리자)   │   │             │                             │
+│   └─────────────┘   └─────────────┘                             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</pre>
+
+<hr>
+
+<h2>4.2 핵심 엔티티 정의</h2>
+
+<h3>Node (콘텐츠)</h3>
+
+<p>일반적인 콘텐츠를 관리하는 기본 엔티티입니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>번들</th>
+      <th>용도</th>
+      <th>주요 필드</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>notice</td>
+      <td>공지사항</td>
+      <td>제목, 본문, 첨부파일, 카테고리</td>
+    </tr>
+    <tr>
+      <td>insight</td>
+      <td>인사이트 (뉴스/아티클)</td>
+      <td>제목, 본문, 썸네일, 태그, 작성자</td>
+    </tr>
+    <tr>
+      <td>page</td>
+      <td>일반 페이지</td>
+      <td>제목, 본문, 이미지</td>
+    </tr>
+    <tr>
+      <td>page_setting</td>
+      <td>페이지 설정</td>
+      <td>메인/서브 페이지별 설정값</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Portfolio (포트폴리오)</h3>
+
+<p>dcamp와 관련된 회사/기관 정보를 관리하는 자체 개발 엔티티입니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>번들</th>
+      <th>용도</th>
+      <th>주요 필드</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>startup</td>
+      <td>스타트업 정보</td>
+      <td>회사명, 로고, 소개, 대표자, 멤버, 투자정보, 태그</td>
+    </tr>
+    <tr>
+      <td>partner</td>
+      <td>파트너사/투자사</td>
+      <td>회사명, 로고, 소개, 유형, 프로그램</td>
+    </tr>
+    <tr>
+      <td>campus</td>
+      <td>캠퍼스 정보</td>
+      <td>이름, 위치, 소개, 이미지</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>스타트업 데이터 구조 상세:</p>
+
+<pre>
+[스타트업 Portfolio]
+├── 기본 정보
+│   ├── 회사명 (title)
+│   ├── 법인명 (field_inc_name)
+│   ├── 로고 (field_st_logo)
+│   ├── 요약 (field_st_summary)
+│   └── 소개 (field_st_about)
+│
+├── 대표자 정보
+│   ├── 대표자명 (field_owner_name)
+│   ├── 대표자 이메일 (field_owner_email)
+│   └── 대표자 생년월일 (field_owner_birth)
+│
+├── 회사 정보
+│   ├── 설립일 (field_inc_date)
+│   ├── 사업자등록번호 (field_inc_tax_id)
+│   ├── 홈페이지 (field_st_homepage)
+│   └── 산업 분야 (field_st_industry)
+│
+├── 입주 정보
+│   ├── 입주위치 (field_campus) → Portfolio:campus 참조
+│   ├── 입주 날짜 (field_tenant_date)
+│   └── 층 정보 (field_floor)
+│
+└── 투자/재무 정보
+    ├── 투자유치 (field_attract_investment)
+    ├── 기업가치 (field_inc_value)
+    └── 매출 (field_sales)
+</pre>
+
+<h3>DcampEvent (이벤트/프로그램)</h3>
+
+<p>프로그램 운영과 심사를 위한 자체 개발 엔티티입니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>번들</th>
+      <th>용도</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>applicant</td>
+      <td>참가자 모집형</td>
+      <td>행사 참여 신청 (ex: 세미나)</td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>심사형 프로그램</td>
+      <td>신청 → 심사 → 선발 (ex: 데모데이)</td>
+    </tr>
+    <tr>
+      <td>apply</td>
+      <td>신청 내역</td>
+      <td>회원이 제출한 신청서 연결</td>
+    </tr>
+    <tr>
+      <td>judge</td>
+      <td>심사 정보</td>
+      <td>심사위원 배정, 점수 기록</td>
+    </tr>
+    <tr>
+      <td>assign_judge</td>
+      <td>심사위원 배정</td>
+      <td>심사위원-신청서 연결</td>
+    </tr>
+    <tr>
+      <td>mailhistory</td>
+      <td>메일 발송 이력</td>
+      <td>발송된 안내 메일 기록</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>심사형 프로그램 흐름:</p>
+
+<pre>
+[프로그램 등록]     [신청서 접수]     [심사위원 배정]     [심사 진행]     [결과 발표]
+     │                  │                  │                 │               │
+     ▼                  ▼                  ▼                 ▼               ▼
+application ──────► apply ──────────► assign_judge ─────► judge ──────► 메일 발송
+ (프로그램)         (신청내역)         (심사위원 배정)     (점수 입력)    (mailhistory)
+</pre>
+
+<h3>User (회원)</h3>
+
+<p>회원 정보를 관리하며, 일반 회원과 관리자를 완전히 분리합니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>번들</th>
+      <th>용도</th>
+      <th>특징</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>user</td>
+      <td>일반 회원</td>
+      <td>dcamp.kr에서 가입, 프로그램 신청 가능</td>
+    </tr>
+    <tr>
+      <td>manager</td>
+      <td>관리자</td>
+      <td>admin.dcamp.kr 전용, 시스템 관리</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>회원 데이터 구조:</p>
+
+<pre>
+[일반 회원 - user.user]
+├── 기본 정보
+│   ├── 이메일 (mail) - 로그인 ID
+│   ├── 이름 (field_name)
+│   └── 소속 회사명 (field_company) - 텍스트
+│
+├── 동의 정보
+│   ├── 개인정보 동의 (field_private)
+│   └── 이용약관 동의 (field_terms)
+│
+└── 인증 정보
+    ├── 소셜 로그인 타입 (field_social)
+    └── 소셜 ID (field_social_id)
+
+[관리자 - user.manager]
+├── 기본 정보
+│   ├── 이메일 (mail)
+│   ├── 이름 (field_name)
+│   └── 소속 팀 (field_team)
+│
+└── 권한 정보
+    └── 역할 (roles) - 부서/담당별 권한
+</pre>
+
+<h3>Webform (신청서)</h3>
+
+<p>동적으로 생성되는 양식 데이터입니다. 프로그램마다 다른 양식을 만들 수 있습니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>구성 요소</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Webform</td>
+      <td>양식 정의 (질문 항목, 순서)</td>
+    </tr>
+    <tr>
+      <td>WebformSubmission</td>
+      <td>제출된 답변 데이터</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>4.3 엔티티 관계도</h2>
+
+<pre>
+┌──────────────────────────────────────────────────────────────────────────┐
+│                            엔티티 관계도                                  │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────┐                              ┌─────────────┐
+│    User     │                              │  Portfolio  │
+│   (회원)     │                              │(스타트업 등) │
+└──────┬──────┘                              └──────┬──────┘
+       │                                            │
+       │  신청자/심사위원                             │  입주위치, 파트너
+       │                                            │
+       ▼                                            ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           DcampEvent (프로그램)                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────┐      ┌─────────────┐      ┌─────────────┐            │
+│   │ application │ ◄─── │   apply     │ ───► │   judge     │            │
+│   │ (프로그램)   │      │ (신청내역)   │      │  (심사)     │            │
+│   └─────────────┘      └─────────────┘      └─────────────┘            │
+│          │                    │                    │                    │
+│          │                    │                    │                    │
+│          ▼                    ▼                    ▼                    │
+│   ┌─────────────┐      ┌─────────────┐      ┌─────────────┐            │
+│   │   Webform   │      │    User     │      │    User     │            │
+│   │  (신청양식)  │      │  (신청자)    │      │ (심사위원)   │            │
+│   └─────────────┘      └─────────────┘      └─────────────┘            │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          Portfolio 내부 관계                             │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────┐                                                       │
+│   │   startup   │ ───► field_campus ───► campus (입주위치)              │
+│   │ (스타트업)   │ ───► field_partner ──► partner (파트너사)             │
+│   └─────────────┘                                                       │
+│                                                                          │
+│   ┌─────────────┐      ┌─────────────┐                                 │
+│   │   partner   │      │   campus    │                                 │
+│   │ (파트너사)   │      │ (캠퍼스)    │                                 │
+│   └─────────────┘      └─────────────┘                                 │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>주요 참조 관계:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>엔티티</th>
+      <th>필드</th>
+      <th>참조 대상</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dcamp_event:apply</td>
+      <td>field_member_id</td>
+      <td>user</td>
+      <td>신청자</td>
+    </tr>
+    <tr>
+      <td>dcamp_event:apply</td>
+      <td>field_event_id</td>
+      <td>dcamp_event:application</td>
+      <td>프로그램</td>
+    </tr>
+    <tr>
+      <td>dcamp_event:judge</td>
+      <td>field_judge</td>
+      <td>user (role=judge)</td>
+      <td>심사위원</td>
+    </tr>
+    <tr>
+      <td>dcamp_event:judge</td>
+      <td>field_event_id</td>
+      <td>dcamp_event:application</td>
+      <td>프로그램</td>
+    </tr>
+    <tr>
+      <td>dcamp_event:application</td>
+      <td>field_webform</td>
+      <td>webform</td>
+      <td>신청 양식</td>
+    </tr>
+    <tr>
+      <td>dcamp_event:application</td>
+      <td>field_center</td>
+      <td>portfolio:campus</td>
+      <td>센터</td>
+    </tr>
+    <tr>
+      <td>portfolio:startup</td>
+      <td>field_campus</td>
+      <td>portfolio:campus</td>
+      <td>입주위치</td>
+    </tr>
+    <tr>
+      <td>portfolio:startup</td>
+      <td>field_partner</td>
+      <td>portfolio:partner</td>
+      <td>파트너사</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>4.4 관리자 권한 역할</h2>
+
+<p>시스템에는 부서/업무별로 세분화된 관리자 역할이 정의되어 있습니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>역할 ID</th>
+      <th>설명</th>
+      <th>주요 권한</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>administrator</td>
+      <td>최고 관리자</td>
+      <td>모든 권한</td>
+    </tr>
+    <tr>
+      <td>staff</td>
+      <td>일반 직원</td>
+      <td>기본 콘텐츠 관리</td>
+    </tr>
+    <tr>
+      <td>bizops</td>
+      <td>비즈옵스팀</td>
+      <td>스타트업, 프로그램 관리</td>
+    </tr>
+    <tr>
+      <td>investment</td>
+      <td>투자팀</td>
+      <td>투자 관련 정보 관리</td>
+    </tr>
+    <tr>
+      <td>growth</td>
+      <td>그로스팀</td>
+      <td>프로그램 운영</td>
+    </tr>
+    <tr>
+      <td>membership</td>
+      <td>멤버십팀</td>
+      <td>회원 관리</td>
+    </tr>
+    <tr>
+      <td>space</td>
+      <td>공간팀</td>
+      <td>캠퍼스 관리</td>
+    </tr>
+    <tr>
+      <td>planning</td>
+      <td>기획팀</td>
+      <td>콘텐츠, 페이지 관리</td>
+    </tr>
+    <tr>
+      <td>judge</td>
+      <td>심사위원</td>
+      <td>심사 기능만 접근</td>
+    </tr>
+  </tbody>
+</table>
+</div>
