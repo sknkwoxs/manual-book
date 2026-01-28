@@ -1,0 +1,105 @@
+---
+/**
+ * 커스텀 Pagination 컴포넌트
+ * 프로젝트 경계를 넘지 않도록 이전/다음 링크 필터링
+ */
+
+const { dir, pagination } = Astro.locals.starlightRoute;
+const { prev, next } = pagination;
+const isRtl = dir === 'rtl';
+
+// 현재 페이지의 프로젝트 prefix 추출
+const currentPath = Astro.url.pathname;
+const projectPrefix = currentPath.split('/').filter(Boolean)[0] || '';
+
+// 링크가 같은 프로젝트인지 확인
+const isSameProject = (href: string | undefined): boolean => {
+  if (!href) return false;
+  const linkProject = href.split('/').filter(Boolean)[0] || '';
+  return linkProject === projectPrefix;
+};
+
+// 같은 프로젝트 내의 링크만 표시
+const filteredPrev = prev && isSameProject(prev.href) ? prev : null;
+const filteredNext = next && isSameProject(next.href) ? next : null;
+
+// 번역 텍스트
+const prevLabel = '이전';
+const nextLabel = '다음';
+---
+
+<div class="pagination-links print:hidden" dir={dir}>
+  {
+    filteredPrev && (
+      <a href={filteredPrev.href} rel="prev">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;">
+          <path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/>
+        </svg>
+        <span>
+          {prevLabel}
+          <br />
+          <span class="link-title">{filteredPrev.label}</span>
+        </span>
+      </a>
+    )
+  }
+  {
+    filteredNext && (
+      <a href={filteredNext.href} rel="next">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;">
+          <path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/>
+        </svg>
+        <span>
+          {nextLabel}
+          <br />
+          <span class="link-title">{filteredNext.label}</span>
+        </span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .pagination-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+    gap: 1rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    flex-basis: calc(50% - 0.5rem);
+    flex-grow: 1;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--sl-color-gray-2);
+    box-shadow: var(--sl-shadow-md);
+    overflow-wrap: anywhere;
+  }
+  [rel='next'] {
+    justify-content: end;
+    text-align: end;
+    flex-direction: row-reverse;
+  }
+  a:hover {
+    border-color: var(--sl-color-gray-2);
+  }
+
+  .link-title {
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-2xl);
+    line-height: var(--sl-line-height-headings);
+  }
+
+  svg {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>

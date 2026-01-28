@@ -13,6 +13,9 @@ export default defineConfig({
       components: {
         Header: './src/components/Header.astro',
         PageTitle: './src/components/PageTitle.astro',
+        Sidebar: './src/components/Sidebar.astro',
+        Pagination: './src/components/Pagination.astro',
+        SiteTitle: './src/components/SiteTitle.astro',
       },
       defaultLocale: 'root',
       locales: {

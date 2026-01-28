@@ -1,0 +1,41 @@
+---
+/**
+ * 커스텀 SiteTitle 컴포넌트
+ * 현재 프로젝트에 맞는 타이틀과 링크 표시
+ */
+
+// 현재 페이지 경로에서 프로젝트 prefix 추출
+const currentPath = Astro.url.pathname;
+const projectPrefix = currentPath.split('/').filter(Boolean)[0] || '';
+
+// 프로젝트별 타이틀 및 링크 매핑
+const projectConfig: Record<string, { title: string; href: string }> = {
+  'si-data': { title: '서울연구원 매뉴얼북', href: '/si-data/' },
+  'dcamp': { title: '디캠프 매뉴얼북', href: '/dcamp/' },
+};
+
+// 현재 프로젝트 설정 가져오기 (없으면 기본값)
+const config = projectConfig[projectPrefix] || { title: '고객 매뉴얼', href: '/' };
+---
+
+<a href={config.href} class="site-title sl-flex">
+  <span translate="no">
+    {config.title}
+  </span>
+</a>
+
+<style>
+  .site-title {
+    align-items: center;
+    gap: var(--sl-nav-gap);
+    font-size: var(--sl-text-h4);
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  span {
+    overflow: hidden;
+  }
+</style>
