@@ -57,6 +57,10 @@ export default defineConfig({
               label: '개발 명세서',
               autogenerate: { directory: 'dcamp/specification' },
             },
+            {
+              label: '화면계획서',
+              autogenerate: { directory: 'dcamp/plan' },
+            },
           ],
         },
       ],
