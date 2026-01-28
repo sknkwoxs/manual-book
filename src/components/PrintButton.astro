@@ -23,6 +23,28 @@
   </button>
 </div>
 
+<!-- 이 문서 인쇄용 모달 -->
+<div class="print-modal-overlay" id="currentPrintModal">
+  <div class="print-modal print-modal-small">
+    <h3>이 문서 인쇄</h3>
+    <p class="print-modal-desc">인쇄 헤더에 표시될 정보를 입력해주세요.</p>
+    <form id="currentPrintForm">
+      <div class="print-form-group">
+        <label for="currentClientName">고객사명</label>
+        <input type="text" id="currentClientName" name="clientName" placeholder="예: 서울연구원" />
+      </div>
+      <div class="print-form-group">
+        <label for="currentProjectName">프로젝트명</label>
+        <input type="text" id="currentProjectName" name="projectName" placeholder="예: LLM 검색 기능 개선 PoC" />
+      </div>
+      <div class="print-modal-actions">
+        <button type="button" class="print-modal-btn cancel" id="cancelCurrentPrint">취소</button>
+        <button type="submit" class="print-modal-btn confirm">인쇄하기</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- 섹션 전체 인쇄용 모달 -->
 <div class="print-modal-overlay" id="printModal">
   <div class="print-modal">
@@ -166,6 +188,10 @@
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .print-modal.print-modal-small {
+    max-width: 400px;
   }
 
   :root[data-theme='dark'] .print-modal {
@@ -383,25 +409,55 @@
   // 프린트 버튼 이벤트 핸들러
   document.addEventListener('DOMContentLoaded', () => {
     const printButtons = document.querySelectorAll('.print-btn');
+    
+    // 섹션 인쇄 모달
     const modal = document.getElementById('printModal');
     const form = document.getElementById('printForm') as HTMLFormElement;
     const cancelBtn = document.getElementById('cancelPrint');
     const addRevisionBtn = document.getElementById('addRevisionBtn');
     const revisionHistory = document.getElementById('revisionHistory');
     
+    // 이 문서 인쇄 모달
+    const currentModal = document.getElementById('currentPrintModal');
+    const currentForm = document.getElementById('currentPrintForm') as HTMLFormElement;
+    const cancelCurrentBtn = document.getElementById('cancelCurrentPrint');
+    
     printButtons.forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const printType = (e.currentTarget as HTMLButtonElement).dataset.print;
         
         if (printType === 'current') {
-          printCurrentPage();
+          // 이 문서 인쇄 모달 표시
+          currentModal?.classList.add('active');
         } else if (printType === 'section') {
-          // 모달 표시
+          // 섹션 전체 인쇄 모달 표시
           modal?.classList.add('active');
         }
       });
     });
 
+    // === 이 문서 인쇄 모달 핸들러 ===
+    cancelCurrentBtn?.addEventListener('click', () => {
+      currentModal?.classList.remove('active');
+    });
+
+    currentModal?.addEventListener('click', (e) => {
+      if (e.target === currentModal) {
+        currentModal.classList.remove('active');
+      }
+    });
+
+    currentForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(currentForm);
+      const clientName = formData.get('clientName') as string || '';
+      const projectName = formData.get('projectName') as string || '';
+      
+      currentModal?.classList.remove('active');
+      printCurrentPage(clientName, projectName);
+    });
+
+    // === 섹션 전체 인쇄 모달 핸들러 ===
     // 변경 이력 추가 버튼
     addRevisionBtn?.addEventListener('click', () => {
       const newItem = document.createElement('div');
@@ -461,7 +517,21 @@
   });
 
   // 현재 문서만 인쇄
-  function printCurrentPage() {
+  function printCurrentPage(clientName: string, projectName: string) {
+    // 인쇄 헤더의 프로젝트 정보 업데이트
+    const infoEl = document.querySelector('.print-header-info');
+    if (infoEl) {
+      // 고객명 또는 프로젝트명이 있으면 표시
+      if (clientName || projectName) {
+        const parts = [];
+        if (clientName) parts.push(clientName);
+        if (projectName) parts.push(projectName);
+        infoEl.textContent = parts.join(' | ');
+      } else {
+        infoEl.textContent = '';
+      }
+    }
+    
     window.print();
   }
 

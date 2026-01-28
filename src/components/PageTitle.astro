@@ -12,7 +12,10 @@ const pageTitle = entry?.data?.title || '문서';
 
 <!-- 인쇄 전용 헤더 (화면에서는 숨김, 인쇄 시에만 표시) -->
 <div class="print-header">
-  <span class="print-header-title">{pageTitle}</span>
+  <div class="print-header-left">
+    <span class="print-header-info"></span>
+    <span class="print-header-title">{pageTitle}</span>
+  </div>
   <span class="print-header-logo">
     <img src="/skunkworks-logo.png" alt="SKUNKWORKS" />
   </span>
