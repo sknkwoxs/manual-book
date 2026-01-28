@@ -1084,6 +1084,28 @@
           }
         }
         
+        /* 표지 페이지 - 쪽수 없음 */
+        @page cover {
+          @bottom-center {
+            content: none;
+          }
+        }
+        
+        /* 목차 페이지 - 쪽수 없음 */
+        @page toc {
+          @bottom-center {
+            content: none;
+          }
+        }
+        
+        .cover-page {
+          page: cover;
+        }
+        
+        .toc-page {
+          page: toc;
+        }
+        
         body {
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
