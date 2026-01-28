@@ -564,6 +564,9 @@
       // 모든 페이지 콘텐츠 가져오기
       const contents = await fetchAllPages(flatLinks);
       
+      // 섹션 타이틀 가져오기
+      const sectionTitle = getSectionTitle();
+      
       // 새 창에서 인쇄 (계층 구조 정보 함께 전달)
       printCombinedContent(contents, clientName, projectName, docVersion, docType, revisions, tocItems);
       
@@ -575,6 +578,25 @@
       const spanEl = btn.querySelector('span');
       if (spanEl) spanEl.textContent = originalText;
     }
+  }
+
+  // 현재 섹션의 제목 가져오기
+  function getSectionTitle(): string {
+    const sidebar = document.querySelector('nav.sidebar');
+    if (!sidebar) return '';
+
+    const currentLink = sidebar.querySelector(`a[aria-current="page"]`);
+    if (!currentLink) return '';
+
+    const parentDetails = currentLink.closest('details');
+    if (!parentDetails) return '';
+
+    const summary = parentDetails.querySelector(':scope > summary');
+    if (!summary) return '';
+
+    // summary 내부의 텍스트 추출 (group-label 클래스 또는 직접 텍스트)
+    const groupLabel = summary.querySelector('.group-label');
+    return groupLabel?.textContent?.trim() || summary.textContent?.trim() || '';
   }
 
   // 사이드바에서 현재 섹션의 링크들 추출 (계층 구조 포함)
@@ -699,7 +721,8 @@
     docVersion: string,
     docType: string,
     revisions: { date: string; version: string; desc: string; author: string }[],
-    tocItems: TocItem[]
+    tocItems: TocItem[],
+    sectionTitle: string
   ) {
     // 로고 이미지 URL 가져오기
     const logoImg = document.querySelector('.skunkworks-logo img') as HTMLImageElement;

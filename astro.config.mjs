@@ -42,6 +42,20 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '디캠프',
+          items: [
+            { label: '개요', link: '/dcamp/' },
+            {
+              label: '관리자 매뉴얼',
+              autogenerate: { directory: 'dcamp/manual' },
+            },
+            {
+              label: '개발 명세서',
+              autogenerate: { directory: 'dcamp/specification' },
+            },
+          ],
+        },
       ],
     }),
   ],
