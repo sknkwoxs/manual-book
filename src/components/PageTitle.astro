@@ -1,0 +1,22 @@
+---
+// PageTitle.astro - Starlight PageTitle 오버라이드
+// 제목 아래에 프린트 버튼 추가 + 인쇄 전용 헤더
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import PrintButton from './PrintButton.astro';
+
+// 페이지 제목 가져오기
+const { entry } = Astro.props;
+const pageTitle = entry?.data?.title || '문서';
+---
+
+<!-- 인쇄 전용 헤더 (화면에서는 숨김, 인쇄 시에만 표시) -->
+<div class="print-header">
+  <span class="print-header-title">{pageTitle}</span>
+  <span class="print-header-logo">
+    <img src="/skunkworks-logo.png" alt="SKUNKWORKS" />
+  </span>
+</div>
+
+<Default {...Astro.props}><slot /></Default>
+<PrintButton />
