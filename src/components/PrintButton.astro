@@ -518,18 +518,13 @@
 
   // 현재 문서만 인쇄
   function printCurrentPage(clientName: string, projectName: string) {
-    // 인쇄 헤더의 프로젝트 정보 업데이트
-    const infoEl = document.querySelector('.print-header-info');
-    if (infoEl) {
-      // 고객명 또는 프로젝트명이 있으면 표시
-      if (clientName || projectName) {
-        const parts = [];
-        if (clientName) parts.push(clientName);
-        if (projectName) parts.push(projectName);
-        infoEl.textContent = parts.join(' | ');
-      } else {
-        infoEl.textContent = '';
-      }
+    // 인쇄 헤더의 타이틀에 고객사명/프로젝트명 표시
+    const titleEl = document.querySelector('.print-header-title');
+    if (titleEl) {
+      const parts = [];
+      if (clientName) parts.push(clientName);
+      if (projectName) parts.push(projectName);
+      titleEl.textContent = parts.join(' | ');
     }
     
     window.print();
