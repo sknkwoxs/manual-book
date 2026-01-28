@@ -371,6 +371,15 @@
 </style>
 
 <script>
+  // 계층 구조를 가진 링크 타입
+  interface TocItem {
+    href?: string;
+    title: string;
+    level: number;
+    isGroup: boolean;
+    children?: TocItem[];
+  }
+
   // 프린트 버튼 이벤트 핸들러
   document.addEventListener('DOMContentLoaded', () => {
     const printButtons = document.querySelectorAll('.print-btn');
@@ -470,21 +479,22 @@
     if (spanEl) spanEl.textContent = '준비 중...';
 
     try {
-      // 현재 섹션의 링크들 가져오기
-      const sectionLinks = getSectionLinks();
+      // 현재 섹션의 링크들 가져오기 (계층 구조)
+      const tocItems = getSectionLinks();
+      const flatLinks = flattenTocItems(tocItems);
       
-      if (sectionLinks.length === 0) {
+      if (flatLinks.length === 0) {
         alert('섹션 문서를 찾을 수 없습니다.');
         return;
       }
 
-      if (spanEl) spanEl.textContent = `${sectionLinks.length}개 문서 수집 중...`;
+      if (spanEl) spanEl.textContent = `${flatLinks.length}개 문서 수집 중...`;
 
       // 모든 페이지 콘텐츠 가져오기
-      const contents = await fetchAllPages(sectionLinks);
+      const contents = await fetchAllPages(flatLinks);
       
-      // 새 창에서 인쇄
-      printCombinedContent(contents, clientName, projectName, docVersion, revisions);
+      // 새 창에서 인쇄 (계층 구조 정보 함께 전달)
+      printCombinedContent(contents, clientName, projectName, docVersion, revisions, tocItems);
       
     } catch (error) {
       console.error('섹션 인쇄 오류:', error);
@@ -496,41 +506,89 @@
     }
   }
 
-  // 사이드바에서 현재 섹션의 링크들 추출
-  function getSectionLinks(): { href: string; title: string }[] {
-    const links: { href: string; title: string }[] = [];
-    const currentPath = window.location.pathname;
+  // 사이드바에서 현재 섹션의 링크들 추출 (계층 구조 포함)
+  function getSectionLinks(): TocItem[] {
+    const items: TocItem[] = [];
     
     // 사이드바에서 현재 활성화된 링크의 부모 섹션 찾기
     const sidebar = document.querySelector('nav.sidebar');
-    if (!sidebar) return links;
+    if (!sidebar) return items;
 
-    // 현재 페이지가 속한 details/ul 찾기
+    // 현재 페이지가 속한 details 찾기
     const currentLink = sidebar.querySelector(`a[aria-current="page"]`);
-    if (!currentLink) return links;
+    if (!currentLink) return items;
 
-    // 가장 가까운 부모 ul 또는 details 내의 모든 링크 수집
-    let parentSection = currentLink.closest('ul');
-    if (!parentSection) return links;
-
-    // 상위 details가 있으면 그 안의 모든 링크 가져오기
+    // 현재 페이지가 속한 최상위 details 찾기
     const parentDetails = currentLink.closest('details');
-    if (parentDetails) {
-      parentSection = parentDetails.querySelector('ul');
-    }
+    if (!parentDetails) return items;
 
-    if (parentSection) {
-      const allLinks = parentSection.querySelectorAll('a[href]');
-      allLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        const title = link.textContent?.trim() || '';
-        if (href && title && !href.startsWith('#')) {
-          links.push({ href, title });
+    // 재귀적으로 계층 구조 추출
+    function extractItems(container: Element, level: number): TocItem[] {
+      const result: TocItem[] = [];
+      
+      // 직접 자식 li 요소들만 처리
+      const directUl = container.querySelector(':scope > ul');
+      if (!directUl) return result;
+      
+      const directLis = directUl.querySelectorAll(':scope > li');
+      
+      directLis.forEach(li => {
+        const nestedDetails = li.querySelector(':scope > details');
+        
+        if (nestedDetails) {
+          // 그룹 (하위 섹션이 있는 경우)
+          const summary = nestedDetails.querySelector(':scope > summary');
+          const groupTitle = summary?.querySelector('.group-label')?.textContent?.trim() || 
+                            summary?.textContent?.trim() || '그룹';
+          
+          const groupItem: TocItem = {
+            title: groupTitle,
+            level: level,
+            isGroup: true,
+            children: extractItems(nestedDetails, level + 1)
+          };
+          result.push(groupItem);
+        } else {
+          // 일반 링크
+          const link = li.querySelector(':scope > a[href]');
+          if (link) {
+            const href = link.getAttribute('href');
+            const title = link.textContent?.trim() || '';
+            if (href && title && !href.startsWith('#')) {
+              result.push({
+                href,
+                title,
+                level: level,
+                isGroup: false
+              });
+            }
+          }
         }
       });
+      
+      return result;
     }
 
-    return links;
+    return extractItems(parentDetails, 0);
+  }
+
+  // 계층 구조를 평탄화하여 링크 목록으로 변환
+  function flattenTocItems(items: TocItem[]): { href: string; title: string }[] {
+    const result: { href: string; title: string }[] = [];
+    
+    function flatten(items: TocItem[]) {
+      for (const item of items) {
+        if (!item.isGroup && item.href) {
+          result.push({ href: item.href, title: item.title });
+        }
+        if (item.children) {
+          flatten(item.children);
+        }
+      }
+    }
+    
+    flatten(items);
+    return result;
   }
 
   // 모든 페이지 콘텐츠 가져오기
@@ -568,7 +626,8 @@
     clientName: string, 
     projectName: string,
     docVersion: string,
-    revisions: { date: string; version: string; desc: string; author: string }[]
+    revisions: { date: string; version: string; desc: string; author: string }[],
+    tocItems: TocItem[]
   ) {
     // 로고 이미지 URL 가져오기
     const logoImg = document.querySelector('.skunkworks-logo img') as HTMLImageElement;
@@ -581,13 +640,36 @@
       day: 'numeric'
     });
 
-    // 목차 HTML 생성
-    const tocHtml = contents.map((item, index) => 
-      `<div class="toc-item">
-        <span class="toc-number">${index + 1}</span>
-        <span class="toc-title">${item.title}</span>
-      </div>`
-    ).join('');
+    // 계층적 목차 HTML 생성
+    let docIndex = 0;
+    function generateTocHtml(items: TocItem[], level: number = 0): string {
+      let html = '';
+      
+      for (const item of items) {
+        if (item.isGroup) {
+          // 그룹 제목
+          html += `<div class="toc-group" style="margin-left: ${level * 1.5}rem; margin-top: ${level === 0 ? '1.5rem' : '0.75rem'};">
+            <span class="toc-group-title">${item.title}</span>
+          </div>`;
+          
+          // 하위 항목들
+          if (item.children && item.children.length > 0) {
+            html += generateTocHtml(item.children, level + 1);
+          }
+        } else if (item.href) {
+          // 일반 문서 링크
+          docIndex++;
+          html += `<div class="toc-item" style="margin-left: ${level * 1.5}rem;">
+            <span class="toc-number">${docIndex}</span>
+            <span class="toc-title">${item.title}</span>
+          </div>`;
+        }
+      }
+      
+      return html;
+    }
+    
+    const tocHtml = generateTocHtml(tocItems);
 
     // 변경 이력 HTML 생성
     const revisionHtml = revisions.length > 0 ? `
@@ -714,22 +796,35 @@
         margin-bottom: 3rem;
       }
       
+      .toc-group {
+        margin-top: 1rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      .toc-group-title {
+        font-size: 11pt;
+        font-weight: 700;
+        color: #151617;
+      }
+      
       .toc-item {
         display: flex;
         align-items: baseline;
-        padding: 0.5rem 0;
-        border-bottom: 1px dotted #ccc;
+        padding: 0.375rem 0;
+        border-bottom: 1px dotted #ddd;
       }
       
       .toc-number {
         font-weight: 600;
         color: #151617;
         min-width: 2rem;
+        font-size: 10pt;
       }
       
       .toc-title {
         flex: 1;
         color: #393a3e;
+        font-size: 10pt;
       }
       
       /* 변경 이력 섹션 */
