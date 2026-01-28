@@ -63,6 +63,10 @@
         <label for="docVersion">문서 버전 <span class="required">*</span></label>
         <input type="text" id="docVersion" name="docVersion" placeholder="예: 1.0" value="1.0" required />
       </div>
+      <div class="print-form-group">
+        <label for="docType">문서 종류</label>
+        <input type="text" id="docType" name="docType" placeholder="예: 기술 문서, 제안서, 설계서" value="기술 문서" />
+      </div>
       
       <!-- 변경 이력 섹션 -->
       <div class="print-form-section">
@@ -490,6 +494,7 @@
       const clientName = formData.get('clientName') as string;
       const projectName = formData.get('projectName') as string;
       const docVersion = formData.get('docVersion') as string;
+      const docType = formData.get('docType') as string;
       
       // 변경 이력 수집
       const revDates = formData.getAll('revDate[]') as string[];
@@ -512,7 +517,7 @@
       modal?.classList.remove('active');
       
       const btn = document.querySelector('[data-print="section"]') as HTMLButtonElement;
-      await printSection(btn, clientName, projectName, docVersion, revisions);
+      await printSection(btn, clientName, projectName, docVersion, docType, revisions);
     });
   });
 
@@ -536,6 +541,7 @@
     clientName: string, 
     projectName: string, 
     docVersion: string,
+    docType: string,
     revisions: { date: string; version: string; desc: string; author: string }[]
   ) {
     btn.classList.add('loading');
@@ -559,7 +565,7 @@
       const contents = await fetchAllPages(flatLinks);
       
       // 새 창에서 인쇄 (계층 구조 정보 함께 전달)
-      printCombinedContent(contents, clientName, projectName, docVersion, revisions, tocItems);
+      printCombinedContent(contents, clientName, projectName, docVersion, docType, revisions, tocItems);
       
     } catch (error) {
       console.error('섹션 인쇄 오류:', error);
@@ -691,6 +697,7 @@
     clientName: string, 
     projectName: string,
     docVersion: string,
+    docType: string,
     revisions: { date: string; version: string; desc: string; author: string }[],
     tocItems: TocItem[]
   ) {
@@ -1233,7 +1240,7 @@
       <img src="${logoSrc}" alt="SKUNKWORKS" />
     </div>
     <h1 class="cover-title">${projectName}</h1>
-    <p class="cover-subtitle">기술 문서</p>
+    ${docType ? `<p class="cover-subtitle">${docType}</p>` : ''}
     <div class="cover-info">
       <div class="cover-info-item">
         <span class="cover-info-label">고객사</span>
