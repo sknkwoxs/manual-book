@@ -1,8 +1,6 @@
----
-title: "DXPR 콘텐츠 필드 구성"
----
+# DXPR 콘텐츠 필드 구성
 
-> [SI-DATA 문서](../../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [콘텐츠 타입](../)
+> [SI-DATA 문서](../../index.md) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md) / [콘텐츠 타입](./index.md)
 
 **콘텐츠 타입**: `dxpr_content`  
 **작성일**: 2026-01-15  
@@ -50,7 +48,7 @@ DXPR 콘텐츠는 DXPR 빌더 기반 콘텐츠를 위한 콘텐츠 타입입니�
 
 ## 5. 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
+- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md)
 
 ---
 

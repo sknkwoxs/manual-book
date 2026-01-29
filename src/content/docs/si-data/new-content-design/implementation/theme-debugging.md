@@ -1,8 +1,6 @@
----
-title: "테마 디버깅"
----
+# 테마 디버깅
 
-> [SI-DATA 문서](../../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [구현](../)
+> [SI-DATA 문서](../../index.md) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md) / [구현](./index.md)
 
 **작성일**: 2026-01-15  
 **버전**: 1.0
@@ -47,7 +45,7 @@ twig.config:
 
 ## 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
+- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md)
 
 ---
 

@@ -1,8 +1,6 @@
----
-title: "SI-DATA 신규 콘텐츠 설계 문서"
----
+# SI-DATA 신규 콘텐츠 설계 문서
 
-> [SI-DATA 문서](../)
+> [SI-DATA 문서](../index.md)
 
 **작성일**: 2026-01-07  
 **수정일**: 2026-01-15  
@@ -44,13 +42,14 @@ SI-DATA(서울연구데이터서비스)의 7개 신규 콘텐츠 타입은 **동
 | 1 | 제목 | `title` | String | 콘텐츠 제목 (기본 필드) |
 | 2 | ITEM 타입 | `field_item_type` | Entity Reference (Taxonomy) | 상위 분류 선택 |
 | 3 | ITEM명 | `field_service` | Entity Reference (Taxonomy) | 중간 분류 선택 |
-| 4 | 주제분류 | `field_topic` | Entity Reference (Taxonomy) | 주제별 분류 (중복선택 가능) |
-| 5 | 시기분류 | `field_decade` | Entity Reference (Taxonomy) | 시기별 분류 (중복선택 가능) |
-| 6 | 챕터 | `field_chapter` | Entity Reference (Taxonomy) | 하위 분류 선택 |
-| 7 | 핵심 키워드 | `field_keyword` | Text (plain) | 검색용 키워드 |
-| 8 | 디스크립션 | `field_description` | Text (formatted, long) | 상세 설명 |
-| 9 | 공공누리 | `field_ggnuri` | List (text) | 저작권 유형 |
-| 10 | 종간콘텐츠 여부 | `field_legacy` | Boolean | 종간 콘텐츠 여부 |
+| 4 | 카테고리 | `field_chapter` | Entity Reference (Taxonomy) | 하위 분류 선택 |
+| 5 | 주제분류 | `field_category_data` | Entity Reference (Taxonomy) | 주제별 분류 |
+| 6 | 시기분류 | `field_series` | Entity Reference (Taxonomy) | 시기별 분류 |
+| 7 | 형태분류 | `field_format` | Entity Reference (Taxonomy) | 형태별 분류 |
+| 8 | 핵심 키워드 | `field_keyword` | Text (plain) | 검색용 키워드 |
+| 9 | 디스크립션 | `field_description` | Text (formatted, long) | 상세 설명 |
+| 10 | 공공누리 | `field_ggnuri` | List (text) | 저작권 유형 |
+| 11 | 종간콘텐츠 여부 | `field_legacy` | Boolean | 종간 콘텐츠 여부 |
 
 ### 2.2 콘텐츠 타입별 필드 구성
 
@@ -91,7 +90,7 @@ SI-DATA(서울연구데이터서비스)의 7개 신규 콘텐츠 타입은 **동
                           │
                           ▼ AJAX 연동
 ┌─────────────────────────────────────────────────────────────┐
-│  챕터 (field_chapter)                                        │
+│  카테고리 (field_chapter)                                    │
 │  └─ ITEM 카테고리 택소노미                                   │
 │     예: 인구, 경제, 교통, 주거...                            │
 └─────────────────────────────────────────────────────────────┘
@@ -99,9 +98,9 @@ SI-DATA(서울연구데이터서비스)의 7개 신규 콘텐츠 타입은 **동
 
 ### 3.2 AJAX 연동 흐름
 
-ITEM 타입 → ITEM명 → 챕터 순으로 AJAX 연동되어 옵션이 필터링됩니다.
+ITEM 타입 → ITEM명 → 카테고리 순으로 AJAX 연동되어 옵션이 필터링됩니다.
 
-> 상세 구현 내용은 [아이템 계층 구조 구현](./implementation/item-hierarchy.md)을 참조하세요.
+> 상세 구현 내용은 [아이템 계층 구조 구현](./implementation/아이템_계층구조_구현.md)을 참조하세요.
 
 ### 3.3 ITEM 서비스 택소노미 구조
 
@@ -149,19 +148,19 @@ ITEM 서비스 택소노미
 
 ### 3.4 ITEM 카테고리 택소노미 구조
 
-각 ITEM명(depth 1)은 고유한 챕터 집합을 가집니다. ITEM명 선택 시 해당 ITEM명에 연결된 챕터만 `field_chapter`에 표시됩니다.
+각 ITEM명(depth 1)은 고유한 카테고리 집합을 가집니다. ITEM명 선택 시 해당 ITEM명에 연결된 카테고리만 `field_chapter`에 표시됩니다.
 
 | ITEM 타입 | ITEM명 | 카테고리 문서 |
 |-----------|--------|---------------|
-| 데이터로 본 서울 | 데이터로 본 서울 | [카테고리 목록](./taxonomy/data-seoul.md) |
-| 서울과 세계대도시 | 서울과 세계대도시 | [카테고리 목록](./taxonomy/seoul-world-cities.md) |
-| 지도로 본 서울 | 2000, 2007, 2013 | [카테고리 목록](./taxonomy/map-seoul.md) |
-| 지표로 본 서울 | 2003, 2010, 2015 | [카테고리 목록](./taxonomy/indicators-seoul.md) |
-| 통계로 본 서울 | 인구, 경제, 교통, 주거, 영문판 | [카테고리 목록](./taxonomy/statistics-seoul.md) |
-| 서울도시기본계획 모니터링 | 2015~2024 | [카테고리 목록](./taxonomy/urban-plan-monitoring.md) |
-| 조사데이터 | 설문조사 | [카테고리 목록](./taxonomy/survey-data.md) |
-| 서울의 근현대유산 | 서울의 근현대 유산 | [카테고리 목록](./taxonomy/modern-heritage.md) |
-| 디지털 사진 | 디지털 사진 | [카테고리 목록](./taxonomy/digital-photo.md) |
+| 데이터로 본 서울 | 데이터로 본 서울 | [카테고리 목록](./taxonomy/데이터로_본_서울.md) |
+| 서울과 세계대도시 | 서울과 세계대도시 | [카테고리 목록](./taxonomy/서울과_세계대도시.md) |
+| 지도로 본 서울 | 2000, 2007, 2013 | [카테고리 목록](./taxonomy/지도로_본_서울.md) |
+| 지표로 본 서울 | 2003, 2010, 2015 | [카테고리 목록](./taxonomy/지표로_본_서울.md) |
+| 통계로 본 서울 | 인구, 경제, 교통, 주거, 영문판 | [카테고리 목록](./taxonomy/통계로_본_서울.md) |
+| 서울도시기본계획 모니터링 | 2015~2024 | [카테고리 목록](./taxonomy/서울도시기본계획_모니터링.md) |
+| 조사데이터 | 설문조사 | [카테고리 목록](./taxonomy/조사데이터.md) |
+| 서울의 근현대유산 | 서울의 근현대 유산 | [카테고리 목록](./taxonomy/서울의_근현대유산.md) |
+| 디지털 사진 | 디지털 사진 | [카테고리 목록](./taxonomy/디지털_사진.md) |
 
 > 각 카테고리 택소노미는 현재 정의 중이며, 향후 완성될 예정입니다.
 
@@ -173,10 +172,11 @@ ITEM 서비스 택소노미
 
 | # | 분류명 | 필드명 | 타입 | 용어 목록 |
 |---|--------|--------|------|-----------|
-| 1 | 주제분류 | `field_topic` | Taxonomy (category_topic) | [용어 목록](./taxonomy/topic-classification.md) |
-| 2 | 시기분류 | `field_decade` | Taxonomy (category_decade) | [용어 목록](./taxonomy/period-classification.md) |
-| 3 | 공공누리 | `field_ggnuri` | List (text) | 제1~4유형 |
-| 4 | 핵심키워드 | `field_keyword` | Text (plain) | 자유 입력 |
+| 1 | 주제분류 | `field_category_data` | Taxonomy (category_subject) | [용어 목록](./taxonomy/주제분류.md) |
+| 2 | 시기분류 | `field_series` | Taxonomy (category_period) | [용어 목록](./taxonomy/시기분류.md) |
+| 3 | 형태분류 | `field_format` | Taxonomy (category_format) | [용어 목록](./taxonomy/형태분류.md) |
+| 4 | 공공누리 | `field_ggnuri` | List (text) | 제1~4유형 |
+| 5 | 핵심키워드 | `field_keyword` | Text (plain) | 자유 입력 |
 
 ---
 
@@ -188,9 +188,10 @@ ITEM 서비스 택소노미
 |--------|--------|------|------|
 | ITEM 타입 | `field_item_type` | Entity Reference (Taxonomy) | 콘텐츠의 최상위 분류 선택 |
 | ITEM명 | `field_service` | Entity Reference (Taxonomy) | 콘텐츠의 중간 분류 선택 |
-| 주제분류 | `field_topic` | Entity Reference (Taxonomy) | 콘텐츠의 주제별 분류 (중복선택 가능) |
-| 시기분류 | `field_decade` | Entity Reference (Taxonomy) | 콘텐츠의 시기별 분류 (중복선택 가능) |
-| 챕터 | `field_chapter` | Entity Reference (Taxonomy) | 콘텐츠의 하위 분류 선택 |
+| 카테고리 | `field_chapter` | Entity Reference (Taxonomy) | 콘텐츠의 하위 분류 선택 |
+| 주제분류 | `field_category_data` | Entity Reference (Taxonomy) | 콘텐츠의 주제별 분류 |
+| 시기분류 | `field_series` | Entity Reference (Taxonomy) | 콘텐츠의 시기별 분류 |
+| 형태분류 | `field_format` | Entity Reference (Taxonomy) | 콘텐츠의 형태별 분류 |
 
 ### 5.2 메타데이터 필드 그룹
 
@@ -231,7 +232,7 @@ ITEM 서비스 택소노미
 
 | # | 문서 | 설명 |
 |---|------|------|
-| 1 | [아이템 계층 구조 구현](./implementation/item-hierarchy.md) | AJAX 연동 구현 |
+| 1 | [아이템 계층 구조 구현](./implementation/아이템_계층구조_구현.md) | AJAX 연동 구현 |
 | 2 | [View Display 설정](./implementation/view-display-settings.md) | 표시/숨김 필드 설정 |
 | 3 | [노드 템플릿 구현](./implementation/node-template.md) | Twig 템플릿 구조 |
 | 4 | [테마 디버깅](./implementation/theme-debugging.md) | Twig 디버깅 설정 |
@@ -239,80 +240,23 @@ ITEM 서비스 택소노미
 
 ---
 
-## 7. 폼 UI 개선사항
+## 7. 향후 고려사항
 
-노드 편집 폼의 사용자 경험 개선을 위한 UI 구현입니다.
-
-### 7.1 체크박스 그리드 레이아웃
-
-주제분류, 시기분류 필드의 체크박스를 그리드 형태로 배치하여 공간을 효율적으로 사용합니다.
-
-| 필드 | 레이아웃 | 설명 |
-|------|----------|------|
-| 주제분류 (`field_topic`) | 5열 그리드 | 18개 항목을 5열로 배치 |
-| 시기분류 (`field_decade`) | 4열 그리드 | 4개 항목을 한 줄에 배치 |
-
-**반응형 대응:**
-- 태블릿 (992px 이하): 3열
-- 모바일 (768px 이하): 2열
-- 작은 모바일 (480px 이하): 1열
-
-### 7.2 주제 설명 아코디언
-
-주제분류 체크박스 아래에 각 주제에 대한 설명을 아코디언 형태로 제공합니다.
-
-**UI 구조:**
-```
-주제분류
-☐ 인구가구  ☐ 주택  ☐ 토지이용  ☐ 도시계획  ☐ 산업경제
-☐ 기업경영  ☐ 교통  ☐ 사회      ☐ 복지      ☐ 보건
-...
-콘텐츠의 주제를 선택합니다. 복수 선택 가능합니다.
-
-▶ 주제 설명 보기  ← 클릭 시 펼침
-```
-
-**펼쳤을 때:**
-```
-▼ 주제 설명 보기
-┌────────────┬────────────────────────────────────────┐
-│ 인구가구   │ 인구구조, 가구유형, 이동, 인구변동     │
-│ 주택       │ 주택현황, 주거환경, 주거비, 임대...    │
-│ ...        │ ...                                    │
-└────────────┴────────────────────────────────────────┘
-```
-
-**구현 방식:**
-- HTML5 `<details>` + `<summary>` 태그 사용 (JavaScript 불필요)
-- 설명 데이터: `category_topic` 택소노미 term의 description 필드 활용
-
-### 7.3 관련 파일
-
-| 파일 | 설명 |
-|------|------|
-| `web/modules/custom/si_data/si_data.module` | `si_data_form_alter()` - 폼에 아코디언 마크업 삽입 |
-| `web/modules/custom/si_data/si_data.module` | `si_data_build_topic_descriptions()` - 주제 설명 마크업 생성 |
-| `web/modules/custom/si_data/css/si-data.css` | 체크박스 그리드, 아코디언 스타일 |
-| `web/modules/custom/si_data/si_data.libraries.yml` | CSS 라이브러리 정의 |
-
----
-
-## 8. 향후 고려사항
-
-1. **ITEM 챕터 목록 추가**
-   - 각 ITEM명별 챕터(field_chapter) 용어 정의 필요
-   - 관련 문서: [taxonomy/](./taxonomy/) 디렉토리 내 ITEM 카테고리 문서
+1. **ITEM 카테고리 목록 추가**
+   - 각 ITEM명별 카테고리(field_chapter) 용어 정의 필요
+   - 관련 문서: [docs/taxonomy/](./taxonomy/) 디렉토리 내 ITEM 카테고리 문서
 
 2. **분류 택소노미 용어 정리**
-   - 주제분류(category_topic): 18개 용어 정의 완료
-   - 관련 문서: [주제분류](./taxonomy/topic-classification.md)
+   - 주제분류(category_subject): 현재 17개 용어, 검토 및 정리 필요
+   - 형태분류(category_format): 용어 정의 필요
+   - 관련 문서: [주제분류](./taxonomy/주제분류.md), [형태분류](./taxonomy/형태분류.md)
 
 3. **기존 콘텐츠 마이그레이션**
    - 기존 콘텐츠 타입(`data_seoul` 등)의 데이터를 신규 콘텐츠 타입으로 마이그레이션
 
 4. **브레드크럼 구현** (보류)
    - 목록 페이지 및 메뉴 변경 작업 시 함께 진행 예정
-   - 구조: `ITEM 타입 > ITEM명 > 챕터`
+   - 구조: `ITEM 타입 > ITEM명 > 카테고리`
 
 5. **검색 연동**
    - Elasticsearch 검색에서 신규 콘텐츠 타입의 분류 체계 반영
@@ -322,9 +266,11 @@ ITEM 서비스 택소노미
 
 ---
 
-## 9. 관련 문서
+## 8. 관련 문서
 
-- [아이템 계층 구조 구현](./implementation/item-hierarchy.md)
+- [아이템 계층 구조 구현](./implementation/아이템_계층구조_구현.md)
+- [콘텐츠 타입 분석](./overview/콘텐츠_타입_분석.md)
+- [데이터로 본 서울 - 현 콘텐츠 택소노미 분석](./overview/데이터로_본_서울-현_콘텐츠_택소노미_분석.md)
 
 ---
 
@@ -333,4 +279,3 @@ ITEM 서비스 택소노미
 | 버전 | 날짜 | 변경 내용 |
 |------|------|-----------|
 | 1.0 | 2026-01-15 | 초기 문서 작성 |
-| 1.1 | 2026-01-29 | 폼 UI 개선사항 섹션 추가 (체크박스 그리드, 주제 설명 아코디언) |
