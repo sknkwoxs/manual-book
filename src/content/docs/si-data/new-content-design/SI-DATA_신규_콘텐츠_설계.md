@@ -1,3 +1,7 @@
+---
+title: SI-DATA 신규 콘텐츠 설계 문서
+---
+
 # SI-DATA 신규 콘텐츠 설계 문서
 
 > [SI-DATA 문서](../index.md)
