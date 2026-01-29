@@ -59,13 +59,13 @@ SI-DATA(서울연구데이터서비스)의 7개 신규 콘텐츠 타입은 **동
 
 | 콘텐츠 타입 | 문서 |
 |-------------|------|
-| 데이터 콘텐츠 | [data_content 필드 구성](./content-types/data_content/) |
-| DXPR 콘텐츠 | [dxpr_content 필드 구성](./content-types/dxpr_content/) |
-| 리포트 콘텐츠 | [report_content 필드 구성](./content-types/report_content/) |
-| HTML 콘텐츠 | [html_content 필드 구성](./content-types/html_content/) |
-| 조사 콘텐츠 | [survey_content 필드 구성](./content-types/survey_content/) |
-| 근현대유산 콘텐츠 | [heritage_content 필드 구성](./content-types/heritage_content/) |
-| 사진 콘텐츠 | [photo_content 필드 구성](./content-types/photo_content/) |
+| 데이터 콘텐츠 | [data_content 필드 구성](../content-types/data_content/) |
+| DXPR 콘텐츠 | [dxpr_content 필드 구성](../content-types/dxpr_content/) |
+| 리포트 콘텐츠 | [report_content 필드 구성](../content-types/report_content/) |
+| HTML 콘텐츠 | [html_content 필드 구성](../content-types/html_content/) |
+| 조사 콘텐츠 | [survey_content 필드 구성](../content-types/survey_content/) |
+| 근현대유산 콘텐츠 | [heritage_content 필드 구성](../content-types/heritage_content/) |
+| 사진 콘텐츠 | [photo_content 필드 구성](../content-types/photo_content/) |
 
 ---
 
@@ -101,7 +101,7 @@ SI-DATA(서울연구데이터서비스)의 7개 신규 콘텐츠 타입은 **동
 
 ITEM 타입 → ITEM명 → 챕터 순으로 AJAX 연동되어 옵션이 필터링됩니다.
 
-> 상세 구현 내용은 [아이템 계층 구조 구현](./implementation/item-hierarchy/)을 참조하세요.
+> 상세 구현 내용은 [아이템 계층 구조 구현](../implementation/item-hierarchy/)을 참조하세요.
 
 ### 3.3 ITEM 서비스 택소노미 구조
 
@@ -153,15 +153,15 @@ ITEM 서비스 택소노미
 
 | ITEM 타입 | ITEM명 | 카테고리 문서 |
 |-----------|--------|---------------|
-| 데이터로 본 서울 | 데이터로 본 서울 | [카테고리 목록](./taxonomy/data-seoul/) |
-| 서울과 세계대도시 | 서울과 세계대도시 | [카테고리 목록](./taxonomy/seoul-world-cities/) |
-| 지도로 본 서울 | 2000, 2007, 2013 | [카테고리 목록](./taxonomy/map-seoul/) |
-| 지표로 본 서울 | 2003, 2010, 2015 | [카테고리 목록](./taxonomy/indicators-seoul/) |
-| 통계로 본 서울 | 인구, 경제, 교통, 주거, 영문판 | [카테고리 목록](./taxonomy/statistics-seoul/) |
-| 서울도시기본계획 모니터링 | 2015~2024 | [카테고리 목록](./taxonomy/urban-plan-monitoring/) |
-| 조사데이터 | 설문조사 | [카테고리 목록](./taxonomy/survey-data/) |
-| 서울의 근현대유산 | 서울의 근현대 유산 | [카테고리 목록](./taxonomy/modern-heritage/) |
-| 디지털 사진 | 디지털 사진 | [카테고리 목록](./taxonomy/digital-photo/) |
+| 데이터로 본 서울 | 데이터로 본 서울 | [카테고리 목록](../taxonomy/data-seoul/) |
+| 서울과 세계대도시 | 서울과 세계대도시 | [카테고리 목록](../taxonomy/seoul-world-cities/) |
+| 지도로 본 서울 | 2000, 2007, 2013 | [카테고리 목록](../taxonomy/map-seoul/) |
+| 지표로 본 서울 | 2003, 2010, 2015 | [카테고리 목록](../taxonomy/indicators-seoul/) |
+| 통계로 본 서울 | 인구, 경제, 교통, 주거, 영문판 | [카테고리 목록](../taxonomy/statistics-seoul/) |
+| 서울도시기본계획 모니터링 | 2015~2024 | [카테고리 목록](../taxonomy/urban-plan-monitoring/) |
+| 조사데이터 | 설문조사 | [카테고리 목록](../taxonomy/survey-data/) |
+| 서울의 근현대유산 | 서울의 근현대 유산 | [카테고리 목록](../taxonomy/modern-heritage/) |
+| 디지털 사진 | 디지털 사진 | [카테고리 목록](../taxonomy/digital-photo/) |
 
 > 각 카테고리 택소노미는 현재 정의 중이며, 향후 완성될 예정입니다.
 
@@ -173,8 +173,8 @@ ITEM 서비스 택소노미
 
 | # | 분류명 | 필드명 | 타입 | 용어 목록 |
 |---|--------|--------|------|-----------|
-| 1 | 주제분류 | `field_topic` | Taxonomy (category_topic) | [용어 목록](./taxonomy/topic-classification/) |
-| 2 | 시기분류 | `field_decade` | Taxonomy (category_decade) | [용어 목록](./taxonomy/period-classification/) |
+| 1 | 주제분류 | `field_topic` | Taxonomy (category_topic) | [용어 목록](../taxonomy/topic-classification/) |
+| 2 | 시기분류 | `field_decade` | Taxonomy (category_decade) | [용어 목록](../taxonomy/period-classification/) |
 | 3 | 공공누리 | `field_ggnuri` | List (text) | 제1~4유형 |
 | 4 | 핵심키워드 | `field_keyword` | Text (plain) | 자유 입력 |
 
@@ -231,11 +231,11 @@ ITEM 서비스 택소노미
 
 | # | 문서 | 설명 |
 |---|------|------|
-| 1 | [아이템 계층 구조 구현](./implementation/item-hierarchy/) | AJAX 연동 구현 |
-| 2 | [View Display 설정](./implementation/view-display-settings/) | 표시/숨김 필드 설정 |
-| 3 | [노드 템플릿 구현](./implementation/node-template/) | Twig 템플릿 구조 |
-| 4 | [테마 디버깅](./implementation/theme-debugging/) | Twig 디버깅 설정 |
-| 5 | [테스트 및 확인](./implementation/testing/) | 테스트 URL 및 시나리오 |
+| 1 | [아이템 계층 구조 구현](../implementation/item-hierarchy/) | AJAX 연동 구현 |
+| 2 | [View Display 설정](../implementation/view-display-settings/) | 표시/숨김 필드 설정 |
+| 3 | [노드 템플릿 구현](../implementation/node-template/) | Twig 템플릿 구조 |
+| 4 | [테마 디버깅](../implementation/theme-debugging/) | Twig 디버깅 설정 |
+| 5 | [테스트 및 확인](../implementation/testing/) | 테스트 URL 및 시나리오 |
 
 ---
 
@@ -301,11 +301,11 @@ ITEM 서비스 택소노미
 
 1. **ITEM 챕터 목록 추가**
    - 각 ITEM명별 챕터(field_chapter) 용어 정의 필요
-   - 관련 문서: [taxonomy/](./taxonomy/) 디렉토리 내 ITEM 카테고리 문서
+   - 관련 문서: [taxonomy/](../taxonomy/) 디렉토리 내 ITEM 카테고리 문서
 
 2. **분류 택소노미 용어 정리**
    - 주제분류(category_topic): 18개 용어 정의 완료
-   - 관련 문서: [주제분류](./taxonomy/topic-classification/)
+   - 관련 문서: [주제분류](../taxonomy/topic-classification/)
 
 3. **기존 콘텐츠 마이그레이션**
    - 기존 콘텐츠 타입(`data_seoul` 등)의 데이터를 신규 콘텐츠 타입으로 마이그레이션
@@ -324,7 +324,7 @@ ITEM 서비스 택소노미
 
 ## 9. 관련 문서
 
-- [아이템 계층 구조 구현](./implementation/item-hierarchy/)
+- [아이템 계층 구조 구현](../implementation/item-hierarchy/)
 
 ---
 
