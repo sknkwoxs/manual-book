@@ -2,7 +2,7 @@
 title: "형태분류 (category_format) - 보류"
 ---
 
-> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md) / [택소노미](./)
+> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [택소노미](./)
 
 **작성일**: 2026-01-15  
 **상태**: ~~정의 중~~ → **보류** (2026-01-29)
@@ -31,7 +31,7 @@ title: "형태분류 (category_format) - 보류"
 
 ## 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md)
+- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
 
 ---
 

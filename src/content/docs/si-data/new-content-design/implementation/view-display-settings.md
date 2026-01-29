@@ -4,7 +4,7 @@ title: View Display 설정
 
 # View Display 설정
 
-> [SI-DATA 문서](../../index.md) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md) / [구현](./index.md)
+> [SI-DATA 문서](../../index/) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계/) / [구현](./index/)
 
 **작성일**: 2026-01-15  
 **버전**: 1.0
@@ -53,7 +53,7 @@ title: View Display 설정
 
 ## 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md)
+- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계/)
 
 ---
 

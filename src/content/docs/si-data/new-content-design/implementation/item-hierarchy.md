@@ -2,7 +2,7 @@
 title: "아이템 계층 구조 구현 문서"
 ---
 
-> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md) / [구현](./)
+> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [구현](./)
 
 **작성일**: 2026-01-15  
 **수정일**: 2026-01-15  
@@ -22,7 +22,7 @@ title: "아이템 계층 구조 구현 문서"
        └─ 아이템 내 카테고리 (카테고리)
 ```
 
-구조적 설계에 대해서는 [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md)를 참조하세요.
+구조적 설계에 대해서는 [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)를 참조하세요.
 
 ---
 
@@ -125,7 +125,7 @@ $target_forms = [
 
 ## 5. 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md)
+- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
 
 ---
 

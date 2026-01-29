@@ -4,7 +4,7 @@ title: 콘텐츠 타입 문서
 
 # 콘텐츠 타입 문서
 
-> [SI-DATA 문서](../../index.md) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md)
+> [SI-DATA 문서](../../index/) / [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계/)
 
 7개 신규 콘텐츠 타입별 필드 구성 문서입니다.
 
@@ -14,13 +14,13 @@ title: 콘텐츠 타입 문서
 
 | # | 콘텐츠 타입 | 머신명 | 용도 |
 |---|------------|--------|------|
-| 1 | [데이터 콘텐츠](./data_content.md) | `data_content` | 데이터로 본 서울 콘텐츠 |
-| 2 | [DXPR 콘텐츠](./dxpr_content.md) | `dxpr_content` | DXPR 빌더 기반 콘텐츠 |
-| 3 | [리포트 콘텐츠](./report_content.md) | `report_content` | 인사이트 리포트 |
-| 4 | [HTML 콘텐츠](./html_content.md) | `html_content` | HTML 기반 콘텐츠 |
-| 5 | [조사 콘텐츠](./survey_content.md) | `survey_content` | 설문조사 데이터 |
-| 6 | [근현대유산 콘텐츠](./heritage_content.md) | `heritage_content` | 근현대 유산 데이터 |
-| 7 | [사진 콘텐츠](./photo_content.md) | `photo_content` | 디지털 사진 콘텐츠 |
+| 1 | [데이터 콘텐츠](./data_content/) | `data_content` | 데이터로 본 서울 콘텐츠 |
+| 2 | [DXPR 콘텐츠](./dxpr_content/) | `dxpr_content` | DXPR 빌더 기반 콘텐츠 |
+| 3 | [리포트 콘텐츠](./report_content/) | `report_content` | 인사이트 리포트 |
+| 4 | [HTML 콘텐츠](./html_content/) | `html_content` | HTML 기반 콘텐츠 |
+| 5 | [조사 콘텐츠](./survey_content/) | `survey_content` | 설문조사 데이터 |
+| 6 | [근현대유산 콘텐츠](./heritage_content/) | `heritage_content` | 근현대 유산 데이터 |
+| 7 | [사진 콘텐츠](./photo_content/) | `photo_content` | 디지털 사진 콘텐츠 |
 
 ---
 
@@ -34,5 +34,5 @@ title: 콘텐츠 타입 문서
 
 ## 관련 링크
 
-- [신규 콘텐츠 설계 문서 홈](../index.md)
-- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계.md)
+- [신규 콘텐츠 설계 문서 홈](../index/)
+- [SI-DATA 신규 콘텐츠 설계 문서](../SI-DATA_신규_콘텐츠_설계/)

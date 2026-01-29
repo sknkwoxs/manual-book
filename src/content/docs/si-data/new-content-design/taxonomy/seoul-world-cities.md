@@ -2,7 +2,7 @@
 title: "서울과 세계대도시 - 카테고리 택소노미"
 ---
 
-> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md) / [택소노미](./)
+> [SI-DATA 문서](../../) / [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/) / [택소노미](./)
 
 **작성일**: 2026-01-15  
 **수정일**: 2026-01-29  
@@ -34,8 +34,8 @@ title: "서울과 세계대도시 - 카테고리 택소노미"
 
 ## 관련 문서
 
-- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview.md)
-- [아이템 계층 구조 구현](../implementation/item-hierarchy.md)
+- [SI-DATA 신규 콘텐츠 설계 문서](../design-overview/)
+- [아이템 계층 구조 구현](../implementation/item-hierarchy/)
 
 ---
 
