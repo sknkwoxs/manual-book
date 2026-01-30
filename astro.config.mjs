@@ -94,28 +94,28 @@ export default defineConfig({
           ],
         },
         {
-          label: '국회기록원 ISP',
+          label: '국회기록 아카이브',
           items: [
-            { label: '개요', link: '/nara-isp/' },
+            { label: '개요', link: '/nanet-platform/' },
             {
-              label: '1. 수집',
-              autogenerate: { directory: 'nara-isp/01-collection' },
+              label: '1. 수집 (Collection)',
+              autogenerate: { directory: 'nanet-platform/01-collection' },
             },
             {
-              label: '2. 연결',
-              autogenerate: { directory: 'nara-isp/02-connection' },
+              label: '2. 연결 (Connection)',
+              autogenerate: { directory: 'nanet-platform/02-connection' },
             },
             {
-              label: '3. 서비스',
-              autogenerate: { directory: 'nara-isp/03-service' },
+              label: '3. 서비스 (Service)',
+              autogenerate: { directory: 'nanet-platform/03-service' },
             },
             {
-              label: '4. 확장',
-              autogenerate: { directory: 'nara-isp/04-expansion' },
+              label: '4. 확장 (Expansion)',
+              autogenerate: { directory: 'nanet-platform/04-expansion' },
             },
             {
-              label: '산출물',
-              autogenerate: { directory: 'nara-isp/deliverables' },
+              label: '부록',
+              autogenerate: { directory: 'nanet-platform/appendix' },
             },
           ],
         },
