@@ -63,6 +63,36 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '좋은생각 ISP',
+          items: [
+            { label: '개요', link: '/goodthinking-isp/' },
+            {
+              label: '1. 프로젝트 개요',
+              autogenerate: { directory: 'goodthinking-isp/01-project-overview' },
+            },
+            {
+              label: '2. 현황 분석',
+              autogenerate: { directory: 'goodthinking-isp/02-analysis' },
+            },
+            {
+              label: '3. 목표 모델 설계',
+              autogenerate: { directory: 'goodthinking-isp/03-design' },
+            },
+            {
+              label: '4. 이행 계획',
+              autogenerate: { directory: 'goodthinking-isp/04-implementation' },
+            },
+            {
+              label: '5. 향후 확장 로드맵',
+              autogenerate: { directory: 'goodthinking-isp/05-future-roadmap' },
+            },
+            {
+              label: '부록',
+              autogenerate: { directory: 'goodthinking-isp/appendix' },
+            },
+          ],
+        },
       ],
     }),
   ],
