@@ -93,6 +93,32 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '국회기록원 ISP',
+          items: [
+            { label: '개요', link: '/nara-isp/' },
+            {
+              label: '1. 수집',
+              autogenerate: { directory: 'nara-isp/01-collection' },
+            },
+            {
+              label: '2. 연결',
+              autogenerate: { directory: 'nara-isp/02-connection' },
+            },
+            {
+              label: '3. 서비스',
+              autogenerate: { directory: 'nara-isp/03-service' },
+            },
+            {
+              label: '4. 확장',
+              autogenerate: { directory: 'nara-isp/04-expansion' },
+            },
+            {
+              label: '산출물',
+              autogenerate: { directory: 'nara-isp/deliverables' },
+            },
+          ],
+        },
       ],
     }),
   ],
