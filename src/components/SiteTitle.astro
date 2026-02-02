@@ -13,7 +13,7 @@ const projectConfig: Record<string, { title: string; href: string }> = {
   'si-data': { title: '서울연구원 매뉴얼북', href: '/si-data/' },
   'dcamp': { title: '디캠프 매뉴얼북', href: '/dcamp/' },
   'goodthinking-isp': { title: '좋은생각 ISP', href: '/goodthinking-isp/' },
-  'nanet-platform': { title: '국회기록 아카이브', href: '/nanet-platform/' },
+  'nanet-platform': { title: 'AI 기반 국회기록원 아카이브 모형', href: '/nanet-platform/' },
 };
 
 // 현재 프로젝트 설정 가져오기 (없으면 기본값)
@@ -30,7 +30,7 @@ const config = projectConfig[projectPrefix] || { title: '고객 매뉴얼', href
   .site-title {
     align-items: center;
     gap: var(--sl-nav-gap);
-    font-size: var(--sl-text-h4);
+    font-size: var(--sl-text-sm);
     font-weight: 600;
     color: var(--sl-color-text-accent);
     text-decoration: none;

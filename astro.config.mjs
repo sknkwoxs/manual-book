@@ -1,12 +1,13 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://manual.skunkworks.co.kr',
   base: '/',
   integrations: [
+    mermaid(),
     starlight({
       title: '고객 매뉴얼',
       customCss: ['./src/styles/custom.css'],
@@ -94,7 +95,7 @@ export default defineConfig({
           ],
         },
         {
-          label: '국회기록 아카이브',
+          label: 'AI 기반 국회기록원 아카이브 모형',
           items: [
             { label: '개요', link: '/nanet-platform/' },
             {

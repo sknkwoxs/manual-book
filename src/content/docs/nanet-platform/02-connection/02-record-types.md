@@ -15,16 +15,22 @@ sidebar:
 
 법안은 **연결의 허브**이다. 대부분의 국회 기록이 법안과 직간접적으로 연결된다.
 
-```
-                              [법안]
-                                │
-        ┌───────────┬───────────┼───────────┬───────────┐
-        │           │           │           │           │
-        ▼           ▼           ▼           ▼           ▼
-    [발의자]    [회의록]    [수정안]    [관련법안]   [정책]
-        │           │           │           │           │
-   의원 프로필  심사 발언   변경 이력   유사법안    정부정책
-   정당 소속    쟁점 토론   조문 비교   모법/개정   예산연결
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+flowchart TB
+    B["법안"]
+    B --> P["발의자<br/>의원 프로필<br/>정당 소속"]
+    B --> M["회의록<br/>심사 발언<br/>쟁점 토론"]
+    B --> A["수정안<br/>변경 이력<br/>조문 비교"]
+    B --> R["관련법안<br/>유사법안<br/>모법/개정"]
+    B --> PO["정책<br/>정부정책<br/>예산연결"]
+    
+    style B fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style P fill:#fff,stroke:#333,stroke-width:1px
+    style M fill:#fff,stroke:#333,stroke-width:1px
+    style A fill:#fff,stroke:#333,stroke-width:1px
+    style R fill:#fff,stroke:#333,stroke-width:1px
+    style PO fill:#fff,stroke:#333,stroke-width:1px
 ```
 
 **연결 관계:**
@@ -42,16 +48,22 @@ sidebar:
 
 의원을 중심으로 의정활동 전체를 연결한다.
 
-```
-                              [의원]
-                                │
-        ┌───────────┬───────────┼───────────┬───────────┐
-        │           │           │           │           │
-        ▼           ▼           ▼           ▼           ▼
-    [발의법안]   [발언기록]   [표결기록]   [소속위원회]  [정당]
-        │           │           │           │           │
-   42건 발의    156회 발언   찬성/반대    활동 위원회   정당 변경
-   가결 12건    질의/토론    표결 패턴    간사 여부     이력
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+flowchart TB
+    M["의원"]
+    M --> B["발의법안<br/>42건 발의<br/>가결 12건"]
+    M --> S["발언기록<br/>156회 발언<br/>질의/토론"]
+    M --> V["표결기록<br/>찬성/반대<br/>표결 패턴"]
+    M --> C["소속위원회<br/>활동 위원회<br/>간사 여부"]
+    M --> P["정당<br/>정당 변경<br/>이력"]
+    
+    style M fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style B fill:#fff,stroke:#333,stroke-width:1px
+    style S fill:#fff,stroke:#333,stroke-width:1px
+    style V fill:#fff,stroke:#333,stroke-width:1px
+    style C fill:#fff,stroke:#333,stroke-width:1px
+    style P fill:#fff,stroke:#333,stroke-width:1px
 ```
 
 **AI 분석 예시:**
