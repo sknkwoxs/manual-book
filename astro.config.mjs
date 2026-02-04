@@ -120,6 +120,10 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '삼화 리브랜딩',
+          autogenerate: { directory: 'samhwa-rebranding' },
+        },
       ],
     }),
   ],
