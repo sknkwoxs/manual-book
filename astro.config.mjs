@@ -124,6 +124,20 @@ export default defineConfig({
           label: '삼화 리브랜딩',
           autogenerate: { directory: 'samhwa-rebranding' },
         },
+        {
+          label: 'GenEdit (BreezeBio)',
+          items: [
+            { label: '개요', link: '/genedit/' },
+            {
+              label: '관리자 매뉴얼',
+              autogenerate: { directory: 'genedit/manual' },
+            },
+            {
+              label: '개발 명세서',
+              autogenerate: { directory: 'genedit/specification' },
+            },
+          ],
+        },
       ],
     }),
   ],
