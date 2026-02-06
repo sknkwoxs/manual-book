@@ -824,8 +824,8 @@ nav.sidebar li {
 
   /* ----- 테이블 스타일 (A4 최적화) ----- */
   .sl-markdown-content table {
-    font-size: 9pt !important;
-    margin: 0.75rem 0 !important;
+    font-size: 8pt !important;
+    margin: 0.5rem 0 !important;
     page-break-inside: avoid;
     border: 1px solid #ccc !important;
     box-shadow: none !important;
@@ -839,13 +839,13 @@ nav.sidebar li {
 
   .sl-markdown-content thead th {
     color: #000 !important;
-    padding: 0.4rem 0.5rem !important;
-    font-size: 9pt !important;
+    padding: 0.25rem 0.4rem !important;
+    font-size: 8pt !important;
     border-bottom: 1px solid #999 !important;
   }
 
   .sl-markdown-content tbody td {
-    padding: 0.4rem 0.5rem !important;
+    padding: 0.2rem 0.4rem !important;
     color: #000 !important;
     border-bottom: 1px solid #ddd !important;
   }
@@ -981,6 +981,18 @@ nav.sidebar li {
   /* ----- 강조 텍스트 ----- */
   .sl-markdown-content strong {
     color: #000 !important;
+  }
+
+  /* ----- 빈 페이지 방지 ----- */
+  p:empty,
+  div:empty {
+    display: none !important;
+  }
+
+  /* 불필요한 페이지 나눔 방지 */
+  .sl-markdown-content > *:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
   }
 
   /* ----- 페이지 번호 (브라우저 기본 설정 사용) ----- */

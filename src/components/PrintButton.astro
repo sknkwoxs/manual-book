@@ -67,6 +67,10 @@
         <label for="docType">문서 종류</label>
         <input type="text" id="docType" name="docType" placeholder="예: 기술 문서, 제안서, 설계서" value="기술 문서" />
       </div>
+      <div class="print-form-group">
+        <label for="docAuthor">작성자</label>
+        <input type="text" id="docAuthor" name="docAuthor" placeholder="예: 홍길동" />
+      </div>
       
       <!-- 변경 이력 섹션 -->
       <div class="print-form-section">
@@ -495,6 +499,7 @@
       const projectName = formData.get('projectName') as string;
       const docVersion = formData.get('docVersion') as string;
       const docType = formData.get('docType') as string;
+      const docAuthor = formData.get('docAuthor') as string;
       
       // 변경 이력 수집
       const revDates = formData.getAll('revDate[]') as string[];
@@ -517,7 +522,7 @@
       modal?.classList.remove('active');
       
       const btn = document.querySelector('[data-print="section"]') as HTMLButtonElement;
-      await printSection(btn, clientName, projectName, docVersion, docType, revisions);
+      await printSection(btn, clientName, projectName, docVersion, docType, docAuthor, revisions);
     });
   });
 
@@ -542,6 +547,7 @@
     projectName: string, 
     docVersion: string,
     docType: string,
+    docAuthor: string,
     revisions: { date: string; version: string; desc: string; author: string }[]
   ) {
     btn.classList.add('loading');
@@ -568,7 +574,7 @@
       const sectionTitle = getSectionTitle();
       
       // 새 창에서 인쇄 (계층 구조 정보 함께 전달)
-      printCombinedContent(contents, clientName, projectName, docVersion, docType, revisions, tocItems);
+      printCombinedContent(contents, clientName, projectName, docVersion, docType, docAuthor, revisions, tocItems);
       
     } catch (error) {
       console.error('섹션 인쇄 오류:', error);
@@ -712,9 +718,15 @@
             }
           });
           
+          // 페이지 네비게이션 링크 제거 (← Part X | Part Y → 패턴)
+          let contentHtml = mainContent.innerHTML;
+          contentHtml = contentHtml.replace(/<p>\s*<a[^>]*>←[^<]*<\/a>\s*\|\s*<a[^>]*>[^<]*→<\/a>\s*<\/p>/gi, '');
+          contentHtml = contentHtml.replace(/<p>\s*<a[^>]*>←[^<]*<\/a>\s*<\/p>/gi, '');
+          contentHtml = contentHtml.replace(/<p>\s*<a[^>]*>[^<]*→<\/a>\s*<\/p>/gi, '');
+          
           contents.push({
             title: link.title,
-            content: mainContent.innerHTML
+            content: contentHtml
           });
         }
       } catch (error) {
@@ -732,13 +744,16 @@
     projectName: string,
     docVersion: string,
     docType: string,
+    docAuthor: string,
     revisions: { date: string; version: string; desc: string; author: string }[],
-    tocItems: TocItem[],
-    sectionTitle: string
+    tocItems: TocItem[]
   ) {
     // 로고 이미지 URL 가져오기
     const logoImg = document.querySelector('.skunkworks-logo img') as HTMLImageElement;
     const logoSrc = logoImg?.src || '/skunkworks-logo.png';
+    
+    // 프로젝트명 줄바꿈 처리 (\n → <br>)
+    const projectNameHtml = projectName.replace(/\\n/g, '<br>');
     
     // 현재 날짜
     const today = new Date().toLocaleDateString('ko-KR', {
@@ -854,6 +869,9 @@
         font-weight: 700;
         margin: 0 0 1rem 0;
         color: #151617;
+        white-space: pre-line;
+        word-break: keep-all;
+        line-height: 1.3;
       }
       
       .cover-subtitle {
@@ -1069,8 +1087,8 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 9pt;
-        margin: 0.75rem 0;
+        font-size: 8pt;
+        margin: 0.5rem 0;
         page-break-inside: avoid;
       }
       
@@ -1080,14 +1098,15 @@
       
       th {
         text-align: left;
-        padding: 0.4rem 0.5rem;
+        padding: 0.25rem 0.4rem;
         font-weight: 600;
         border: 1px solid #ccc;
         color: #000;
+        font-size: 8pt;
       }
       
       td {
-        padding: 0.4rem 0.5rem;
+        padding: 0.2rem 0.4rem;
         border: 1px solid #ccc;
         vertical-align: top;
       }
@@ -1235,6 +1254,26 @@
           padding: 0 15mm 20mm 15mm;
         }
         
+        /* 빈 페이지 방지 */
+        .print-section-item:empty,
+        .print-content:empty,
+        p:empty,
+        div:empty:not(.cover-logo):not(.cover-info):not(.cover-info-item) {
+          display: none !important;
+        }
+        
+        /* 불필요한 페이지 나눔 방지 */
+        .print-section-item {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        
+        /* 마지막 섹션 뒤 빈 페이지 방지 */
+        .print-section-item:last-child {
+          page-break-after: avoid;
+          break-after: avoid;
+        }
+        
         /* 쪽수 표시 */
         .page-number {
           position: fixed;
@@ -1274,7 +1313,7 @@
     <div class="cover-logo">
       <img src="${logoSrc}" alt="SKUNKWORKS" />
     </div>
-    <h1 class="cover-title">${projectName}</h1>
+    <h1 class="cover-title">${projectNameHtml}</h1>
     ${docType ? `<p class="cover-subtitle">${docType}</p>` : ''}
     <div class="cover-info">
       <div class="cover-info-item">
@@ -1285,6 +1324,10 @@
         <span class="cover-info-label">버전</span>
         <strong>${docVersion}</strong>
       </div>
+      ${docAuthor ? `<div class="cover-info-item">
+        <span class="cover-info-label">작성자</span>
+        <strong>${docAuthor}</strong>
+      </div>` : ''}
     </div>
     <p class="cover-date">${today}</p>
   </div>
