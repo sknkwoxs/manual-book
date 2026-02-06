@@ -343,7 +343,7 @@ class NewsRestApi
     "title": "News Title",
     "excerpt": "News excerpt...",
     "date": "2026-02-05",
-    "category": "Press Release",
+    "category": "Press Releases",
     "thumbnail": "https://...",
     "url": "/news/news-title"
 }
