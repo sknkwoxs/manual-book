@@ -273,6 +273,35 @@ body {
   border-bottom-color: #393a3e;
 }
 
+/* 4열 체크리스트 테이블 (연번, 점검내용, 점검결과, 비고) */
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) {
+  table-layout: auto !important;
+}
+
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(1),
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(1) {
+  width: 5%;
+  min-width: 50px;
+  text-align: center;
+}
+
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(2),
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(2) {
+  width: 40%;
+}
+
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(3),
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(3) {
+  width: 10%;
+  min-width: 80px;
+  text-align: center;
+}
+
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(4),
+.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(4) {
+  width: 45%;
+}
+
 /* -----------------------------------------
    8. 코드 블록 스타일
    ----------------------------------------- */
@@ -959,8 +988,33 @@ nav.sidebar li {
 
   /* ----- 이미지 ----- */
   .sl-markdown-content img {
+    display: block !important;
     max-width: 100% !important;
+    max-height: 247mm !important; /* A4 높이 297mm - 상하 여백 50mm */
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    page-break-before: always; /* 이미지는 항상 새 페이지에서 시작 */
     page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  /* 첫 번째 이미지는 새 페이지 안 함 (h1 바로 뒤에 있는 경우) */
+  .sl-markdown-content h1 + p img,
+  .sl-markdown-content h1 + figure img {
+    page-break-before: auto;
+  }
+
+  /* 이미지를 감싸는 컨테이너 (figure, p 등) */
+  .sl-markdown-content figure,
+  .sl-markdown-content p:has(img) {
+    page-break-inside: avoid;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* 큰 이미지는 별도 페이지로 분리하지 않고 축소 */
+  .sl-markdown-content img[src] {
+    break-inside: avoid;
   }
 
   /* ----- 수평선 ----- */
