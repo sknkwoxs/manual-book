@@ -717,6 +717,29 @@
               img.setAttribute('src', absoluteUrl);
             }
           });
+
+          // 마크다운 본문의 첫 번째 h1 제거 (printCombinedContent에서 item.title로 별도 출력하므로 중복 방지)
+          const firstH1Wrapper = mainContent.querySelector('.sl-heading-wrapper:has(> h1)');
+          if (firstH1Wrapper) {
+            firstH1Wrapper.remove();
+          } else {
+            // sl-heading-wrapper가 없는 경우 직접 h1 제거
+            const firstH1 = mainContent.querySelector('h1');
+            if (firstH1) firstH1.remove();
+          }
+
+          // 작성 이력 섹션 제거 (h2/h3 #작성-이력 및 후속 요소)
+          const historyHeading = mainContent.querySelector('#작성-이력');
+          if (historyHeading) {
+            const wrapper = historyHeading.closest('.sl-heading-wrapper') || historyHeading;
+            let sibling = wrapper.nextElementSibling;
+            while (sibling) {
+              const next = sibling.nextElementSibling;
+              sibling.remove();
+              sibling = next;
+            }
+            wrapper.remove();
+          }
           
           // 페이지 네비게이션 링크 제거 (← Part X | Part Y → 패턴)
           let contentHtml = mainContent.innerHTML;

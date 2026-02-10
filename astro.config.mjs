@@ -68,6 +68,7 @@ export default defineConfig({
           label: '좋은생각 ISP',
           items: [
             { label: '개요', link: '/goodthinking-isp/' },
+            { label: '추진 일정', link: '/goodthinking-isp/schedule/' },
             {
               label: '1. 프로젝트 개요',
               autogenerate: { directory: 'goodthinking-isp/01-project-overview' },

@@ -14,5 +14,7 @@ import PrintButton from './PrintButton.astro';
   </span>
 </div>
 
-<Default {...Astro.props}><slot /></Default>
+<div class="starlight-page-title">
+  <Default {...Astro.props}><slot /></Default>
+</div>
 <PrintButton />
