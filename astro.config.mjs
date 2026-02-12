@@ -168,6 +168,52 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: 'GCED Clearinghouse',
+          items: [
+            { label: '개요', link: '/gced/' },
+            {
+              label: '관리자 매뉴얼',
+              items: [
+                { label: '목차', link: '/gced/manual/' },
+                { label: '시스템 개요', link: '/gced/manual/01-system-overview/' },
+                { label: '역할 및 권한', link: '/gced/manual/02-user-roles/' },
+                {
+                  label: '콘텐츠 관리',
+                  items: [
+                    { label: '콘텐츠 관리 개요', link: '/gced/manual/03-content-management/' },
+                    { label: '자료(Resources)', link: '/gced/manual/03-content-management/01-resources/' },
+                    { label: '이벤트(Events)', link: '/gced/manual/03-content-management/02-events/' },
+                    { label: '뉴스(News)', link: '/gced/manual/03-content-management/03-news/' },
+                    { label: '유용한 링크(Useful Links)', link: '/gced/manual/03-content-management/04-useful-links/' },
+                  ],
+                },
+                { label: '택소노미 관리', link: '/gced/manual/04-taxonomy/' },
+                {
+                  label: '워크플로우',
+                  items: [
+                    { label: '워크플로우 개요', link: '/gced/manual/05-workflow/' },
+                    { label: '협력연구자(RC)', link: '/gced/manual/05-workflow/01-research-collaborator/' },
+                    { label: 'DB 총괄관리자(GS)', link: '/gced/manual/05-workflow/02-general-supervisor/' },
+                    { label: '다큐멘탈리스트(Documentalist)', link: '/gced/manual/05-workflow/03-documentalist/' },
+                  ],
+                },
+                { label: '번역 관리', link: '/gced/manual/06-translation/' },
+                { label: '웹사이트 관리', link: '/gced/manual/07-site-admin/' },
+              ],
+            },
+          ],
+        },
+        {
+          label: '한울타리',
+          items: [
+            { label: '개요', link: '/mcfamily/' },
+            {
+              label: '제출 문서',
+              autogenerate: { directory: 'mcfamily/document' },
+            },
+          ],
+        },
       ],
     }),
   ],
