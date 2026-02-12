@@ -139,6 +139,24 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '자원봉사 아카이브',
+          items: [
+            { label: '개요', link: '/v1365/' },
+            {
+              label: '현황 분석',
+              autogenerate: { directory: 'v1365/analysis' },
+            },
+            {
+              label: '운영유지 가이드',
+              autogenerate: { directory: 'v1365/operations' },
+            },
+            {
+              label: 'CMS 어드민 컨버팅 로드맵(제안)',
+              autogenerate: { directory: 'v1365/roadmap' },
+            },
+          ],
+        },
       ],
     }),
   ],
