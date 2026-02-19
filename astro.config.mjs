@@ -75,7 +75,18 @@ export default defineConfig({
             },
             {
               label: '2. 현황 분석',
-              autogenerate: { directory: 'goodthinking-isp/02-analysis' },
+              items: [
+                { label: '개요', link: '/goodthinking-isp/02-analysis/' },
+                { label: '조사 가이드 및 주의사항', link: '/goodthinking-isp/02-analysis/investigation-guide/' },
+                { label: '시스템 정밀진단', link: '/goodthinking-isp/02-analysis/system-diagnosis/' },
+                { label: '업무 분석', link: '/goodthinking-isp/02-analysis/business-analysis/' },
+                { label: '이해관계자 인터뷰', link: '/goodthinking-isp/02-analysis/interview/' },
+                { label: '요구사항 분석', link: '/goodthinking-isp/02-analysis/requirements/' },
+                {
+                  label: '관련 회의록 및 인터뷰 자료',
+                  autogenerate: { directory: 'goodthinking-isp/02-analysis/meeting-notes' },
+                },
+              ],
             },
             {
               label: '3. 목표 모델 설계',
