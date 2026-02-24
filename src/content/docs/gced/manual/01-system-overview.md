@@ -121,7 +121,7 @@ flowchart TB
     end
 
     subgraph AWS["AWS Lightsail"]
-        Drupal["Drupal 11\nApache + PHP 8.2"]
+        Drupal["Drupal 11\nnginx + PHP 8.3"]
         DB["MariaDB"]
         OS["OpenSearch"]
         Redis["Redis"]
@@ -144,7 +144,7 @@ flowchart TB
 | **CMS** | Drupal 11 (Headless) | Gin 관리자 테마 |
 | **프론트엔드** | Astro | Cloudflare Workers에서 서빙 |
 | **API** | Drupal JSON:API | CDN 캐시 7일, 자동 퍼지 |
-| **웹서버** | Apache2 + PHP 8.2 | - |
+| **웹서버** | nginx + PHP 8.3-fpm | - |
 | **데이터베이스** | MariaDB | - |
 | **검색엔진** | OpenSearch | 7개 언어별 형태소 분석기, PDF 인덱싱 |
 | **캐시** | Redis + Cloudflare CDN | - |
