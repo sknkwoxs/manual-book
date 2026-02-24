@@ -53,7 +53,7 @@ Resources는 Published 상태에서만 번역이 가능합니다.
 6. 추가 언어 쌍이 필요한 경우 **Add another item** 버튼을 클릭합니다
 7. **Save** 버튼을 클릭하여 저장합니다
 
-![Translation skills 설정 화면](./images/translation-skills.png)
+![Translation skills 설정 화면](../images/translation-skills.png)
 
 :::tip[여러 언어 쌍 설정]
 한 명의 번역담당자에게 여러 언어 쌍을 설정할 수 있습니다. 예를 들어:
@@ -108,14 +108,14 @@ flowchart LR
 2. **Operations** 컬럼의 드롭다운 클릭
 3. **Translate** 선택
 
-![콘텐츠 목록에서 Translate 접근](./images/translation-menu-list.png)
+![콘텐츠 목록에서 Translate 접근](../images/translation-menu-list.png)
 
 ### 방법 2: 콘텐츠 편집 화면에서 접근
 
 1. 콘텐츠 편집 화면 진입
 2. 상단 탭에서 **Translate** 클릭
 
-![콘텐츠 편집 화면에서 Translate 접근](./images/translation-menu-edit.png)
+![콘텐츠 편집 화면에서 Translate 접근](../images/translation-menu-edit.png)
 
 ---
 
@@ -123,7 +123,7 @@ flowchart LR
 
 번역 화면(`/node/{nid}/translations`)에서 각 언어별 번역 상태를 확인할 수 있습니다.
 
-![번역 화면 구성](./images/translation-overview.png)
+![번역 화면 구성](../images/translation-overview.png)
 
 | 컬럼 | 설명 |
 |------|------|
@@ -181,7 +181,7 @@ flowchart LR
 
 1. 번역 화면에서 번역할 언어의 **Add** 버튼 클릭
 
-![직접 번역 화면](./images/translation-add.png)
+![직접 번역 화면](../images/translation-add.png)
 
 2. 원래 언어(Original language)의 각 필드를 번역 언어로 변경
 3. **Save** 버튼 클릭
@@ -225,11 +225,11 @@ DeepL을 통해 자동 번역을 수행합니다.
 1. 번역 화면에서 번역할 언어 선택 (체크박스)
 2. **Request translation** 버튼 클릭
 
-![번역 요청 화면](./images/translation-request.png)
+![번역 요청 화면](../images/translation-request.png)
 
 3. **Provider** 드롭다운에서 **DeepL API** 선택 후 **Submit to provider** 클릭
 
-![번역 작업 제출](./images/translation-job-checkout.png)
+![번역 작업 제출](../images/translation-job-checkout.png)
 
 ### 번역 완료 후
 
@@ -237,11 +237,11 @@ DeepL을 통해 자동 번역을 수행합니다.
 2. 번역 초안 작성 후, **검토 필요 상태(Needs review)**로 전환
 3. 해당 버튼을 클릭하여 번역 내역 열람
 
-![Needs review 상태](./images/translation-needs-review.png)
+![Needs review 상태](../images/translation-needs-review.png)
 
 ### 번역 검토 화면
 
-![번역 검토 화면](./images/translation-review.png)
+![번역 검토 화면](../images/translation-review.png)
 
 | 영역 | 설명 |
 |------|------|
@@ -267,7 +267,7 @@ DeepL을 통해 자동 번역을 수행합니다.
 2. **Request translation** 버튼 클릭
 3. **Provider** 드롭다운에서 **Utilisateur Drupal** 선택
 
-![Provider 선택 화면 - Utilisateur Drupal 선택](./images/translation-provider-drupal-user.png)
+![Provider 선택 화면 - Utilisateur Drupal 선택](../images/translation-provider-drupal-user.png)
 
 4. **Submit to provider** 클릭
 
@@ -318,7 +318,7 @@ DeepL API를 선택하면 AI 번역이 즉시 실행됩니다. 번역담당자�
 
 번역담당자는 이 페이지에서 자신에게 할당된 번역 작업 목록을 확인합니다.
 
-![Manage Tasks 화면](./images/translation-manage-tasks.png)
+![Manage Tasks 화면](../images/translation-manage-tasks.png)
 
 - 회원의 **번역 가능 언어** 설정에 따라 해당 언어의 번역 작업만 표시
 - 할당된 번역 작업을 클릭하여 번역 진행 화면(`/translate/items/{tid}`)으로 이동
@@ -338,7 +338,7 @@ DeepL API를 선택하면 AI 번역이 즉시 실행됩니다. 번역담당자�
 - 하나의 Job에는 여러 Job Items가 포함될 수 있음
 - 콘텐츠 확인 및 공개/비공개 설정 가능
 
-![Jobs 목록](./images/translation-jobs.png)
+![Jobs 목록](../images/translation-jobs.png)
 
 ### Job Items
 
@@ -350,7 +350,7 @@ DeepL API를 선택하면 AI 번역이 즉시 실행됩니다. 번역담당자�
 - 콘텐츠별 번역 요청 내역 확인
 - **Review** 버튼으로 번역 진행 내역 열람
 
-![Job Items 목록](./images/translation-job-items.png)
+![Job Items 목록](../images/translation-job-items.png)
 
 ### Translation Sources
 
