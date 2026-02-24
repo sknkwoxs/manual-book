@@ -17,7 +17,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Main & Popup |
-| **경로** | `/admin/gced/settings` |
+| **경로** | `/en/admin/content/site-settings` |
 | **접근 권한** | 최고관리자 (Administrator) |
 
 #### 설정 방법
@@ -49,7 +49,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Main & Popup |
-| **경로** | `/admin/gced/settings` |
+| **경로** | `/en/admin/content/site-settings` |
 | **접근 권한** | 최고관리자 (Administrator) |
 
 #### 설정 방법
@@ -90,7 +90,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Statistics > Content Statistics |
-| **경로** | `/admin/gced/statistics/content` |
+| **경로** | `/en/admin/content/stat` |
 | **기본 열람 기간** | 접속일 이전 30일 |
 
 ![Content Statistics](../images/07-statistics-content.png)
@@ -104,7 +104,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Statistics > View Statistics |
-| **경로** | `/admin/gced/statistics/view` |
+| **경로** | `/en/admin/content/stat/view` |
 | **기본 열람 기간** | 접속일 이전 30일 |
 
 ![View Statistics](../images/07-statistics-view.png)
@@ -118,7 +118,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Statistics > Search Statistics |
-| **경로** | `/admin/gced/statistics/search` |
+| **경로** | `/en/admin/content/stat/search` |
 | **기본 열람 기간** | 접속일 이전 30일 |
 
 ![Search Statistics](../images/07-statistics-search.png)
@@ -132,7 +132,7 @@ title: 웹사이트 관리
 | 항목 | 내용 |
 |------|------|
 | **위치** | Site Admin > Statistics > Visit Statistics |
-| **경로** | `/admin/gced/statistics/visit` |
+| **경로** | `/en/admin/content/stat/visit` |
 | **기본 열람 기간** | 접속일 이전 30일 |
 
 ![Visit Statistics](../images/07-statistics-visit.png)
