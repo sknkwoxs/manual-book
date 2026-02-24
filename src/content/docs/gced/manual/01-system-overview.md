@@ -173,6 +173,6 @@ flowchart TB
 ---
 
 ## 다음 단계
-
+- [인프라 현황](./01-1-infrastructure) - 운영 인프라, 비용 현황, 레거시 서버 종료 기록
 - [역할 및 권한](./02-user-roles) - 관리자 역할 구성 및 권한 안내
 - [콘텐츠 관리](./03-content-management/) - Resources, Events, News, Useful Links 관리 방법

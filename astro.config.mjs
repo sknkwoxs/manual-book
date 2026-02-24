@@ -177,6 +177,7 @@ export default defineConfig({
               items: [
                 { label: '목차', link: '/gced/manual/' },
                 { label: '시스템 개요', link: '/gced/manual/01-system-overview/' },
+                { label: '인프라 현황', link: '/gced/manual/01-1-infrastructure/' },
                 { label: '역할 및 권한', link: '/gced/manual/02-user-roles/' },
                 {
                   label: '콘텐츠 관리',
