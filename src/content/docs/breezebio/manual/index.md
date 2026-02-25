@@ -1,10 +1,10 @@
 ---
-title: GenEdit 관리자 매뉴얼
+title: BreezeBio 관리자 매뉴얼
 ---
 
-# GenEdit 관리자 매뉴얼
+# BreezeBio 관리자 매뉴얼
 
-GenEdit(BreezeBio) 웹사이트 관리자 시스템 사용 매뉴얼입니다.
+BreezeBio 웹사이트 관리자 시스템 사용 매뉴얼입니다.
 
 ## 목차
 

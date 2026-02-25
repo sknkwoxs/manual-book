@@ -4,15 +4,15 @@ title: ACF 블록 가이드
 
 ## 1. ACF 블록 개요
 
-GenEdit 웹사이트는 **ACF Pro (Advanced Custom Fields)**를 사용하여 커스텀 블록을 제공합니다. 이 블록들은 Figma 디자인을 정확히 구현하며, 관리자가 쉽게 콘텐츠를 편집할 수 있습니다.
+BreezeBio 웹사이트는 **ACF Pro (Advanced Custom Fields)**를 사용하여 커스텀 블록을 제공합니다. 이 블록들은 Figma 디자인을 정확히 구현하며, 관리자가 쉽게 콘텐츠를 편집할 수 있습니다.
 
 ### 블록 접근 방법
 
 1. 페이지 편집 화면에서 `+` 버튼 클릭
-2. 블록 검색창에 "genedit" 또는 블록명 입력
-3. **GenEdit** 카테고리에서 원하는 블록 선택
+2. 블록 검색창에 "breezebio" 또는 블록명 입력
+3. **BreezeBio** 카테고리에서 원하는 블록 선택
 
-![GenEdit 블록 카테고리](../images/genedit-blocks.png)
+![BreezeBio 블록 카테고리](../images/genedit-blocks.png)
 
 ---
 

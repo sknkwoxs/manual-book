@@ -137,16 +137,16 @@ export default defineConfig({
           autogenerate: { directory: 'samhwa-rebranding' },
         },
         {
-          label: 'GenEdit (BreezeBio)',
+          label: 'BreezeBio',
           items: [
-            { label: '개요', link: '/genedit/' },
+            { label: '개요', link: '/breezebio/' },
             {
               label: '관리자 매뉴얼',
-              autogenerate: { directory: 'genedit/manual' },
+              autogenerate: { directory: 'breezebio/manual' },
             },
             {
               label: '개발 명세서',
-              autogenerate: { directory: 'genedit/specification' },
+              autogenerate: { directory: 'breezebio/specification' },
             },
           ],
         },

@@ -4,7 +4,7 @@ title: 6. 커스텀 모듈
 
 ## 6.1 모듈 개요
 
-GenEdit 테마는 4개의 커스텀 포스트 타입(CPT) 모듈과 추가 기능 모듈을 포함합니다.
+BreezeBio 테마는 4개의 커스텀 포스트 타입(CPT) 모듈과 추가 기능 모듈을 포함합니다.
 
 | 모듈 | 네임스페이스 | CPT | 역할 |
 |------|-------------|-----|------|
@@ -378,10 +378,10 @@ class LlmsTxtGenerator
     
     public function generate(): string
     {
-        $output = "# GenEdit Inc.\n\n";
+        $output = "# BreezeBio\n\n";
         $output .= "> Genetic Medicine Delivered\n\n";
         $output .= "## About\n";
-        $output .= "GenEdit develops innovative genetic medicines...\n\n";
+        $output .= "BreezeBio develops innovative genetic medicines...\n\n";
         $output .= "## Pages\n";
         // 페이지 목록 생성
         

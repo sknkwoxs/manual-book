@@ -4,7 +4,7 @@ title: 1. 프로젝트 개요
 
 ## 1.1 시스템 소개
 
-GenEdit(BreezeBio) 웹사이트는 유전자 치료제 개발 기업 GenEdit Inc.의 기업 소개 웹사이트입니다. NanoGalaxy® 기술 플랫폼, 파이프라인 현황, 팀 소개, 뉴스 등 기업 정보를 제공합니다.
+GenEdit(BreezeBio) 웹사이트는 유전자 치료제 개발 기업 BreezeBio의 기업 소개 웹사이트입니다. NanoGalaxy® 기술 플랫폼, 파이프라인 현황, 팀 소개, 뉴스 등 기업 정보를 제공합니다.
 
 ### 주요 특징
 

@@ -4,7 +4,7 @@ title: 다국어 관리
 
 ## 1. Polylang 개요
 
-GenEdit 웹사이트는 **Polylang** 플러그인을 사용하여 다국어를 지원합니다.
+BreezeBio 웹사이트는 **Polylang** 플러그인을 사용하여 다국어를 지원합니다.
 
 ### 지원 언어
 

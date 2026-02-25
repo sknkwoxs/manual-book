@@ -1,10 +1,10 @@
 ---
-title: GenEdit 개발 명세서
+title: BreezeBio 개발 명세서
 ---
 
-# GenEdit 개발 명세서
+# BreezeBio 개발 명세서
 
-GenEdit(BreezeBio) 웹사이트 기술 개발 문서입니다.
+BreezeBio 웹사이트 기술 개발 문서입니다.
 
 ---
 
@@ -12,8 +12,8 @@ GenEdit(BreezeBio) 웹사이트 기술 개발 문서입니다.
 
 | 항목 | 내용 |
 |------|------|
-| 프로젝트명 | GenEdit Inc. 기업 웹사이트 |
-| 고객사 | GenEdit Inc. |
+| 프로젝트명 | BreezeBio 기업 웹사이트 |
+| 고객사 | BreezeBio |
 | 대상 | BreezeBio 웹사이트 (breezebio.com) |
 | 버전 | 1.0 |
 | 작성일 | 2026년 2월 5일 |
@@ -52,7 +52,7 @@ GenEdit(BreezeBio) 웹사이트 기술 개발 문서입니다.
 ┌──────────────────────────────────────────────────────────────────┐
 │                     WordPress (Bedrock)                          │
 │  ┌────────────────────────────────────────────────────────────┐  │
-│  │                     genedit 테마                            │  │
+│  │                     BreezeBio 테마                           │  │
 │  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │  │
 │  │  │    Timber    │  │   Svelte 5   │  │  ACF Pro     │      │  │
 │  │  │    + Twig    │  │   + Vite 6   │  │   Blocks     │      │  │

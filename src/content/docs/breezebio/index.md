@@ -1,9 +1,9 @@
 ---
-title: GenEdit 매뉴얼북
-description: GenEdit Inc. 웹사이트 운영 매뉴얼 및 개발 명세서
+title: BreezeBio 매뉴얼북
+description: BreezeBio 웹사이트 운영 매뉴얼 및 개발 명세서
 ---
 
-**GenEdit Inc.** 웹사이트 기술 문서입니다.
+**BreezeBio** 웹사이트 기술 문서입니다.
 
 ---
 
@@ -18,8 +18,8 @@ description: GenEdit Inc. 웹사이트 운영 매뉴얼 및 개발 명세서
 
 ## 프로젝트 개요
 
-- **프로젝트명**: GenEdit Inc. 기업 웹사이트
-- **고객사**: GenEdit Inc. (유전자 치료제 개발 기업)
+- **프로젝트명**: BreezeBio 기업 웹사이트
+- **고객사**: BreezeBio (유전자 치료제 개발 기업)
 - **기술 스택**: WordPress Bedrock + Timber/Twig + Svelte 5 + Vite 6
 - **시스템 유형**: WordPress 기반 기업 웹사이트 (다국어 지원)
 

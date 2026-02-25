@@ -269,4 +269,4 @@ ddev npm run build
 
 - 도메인: breezebio.com
 - DNS/CDN: Cloudflare
-- 호스팅: VPS (genedit 서버)
+- 호스팅: VPS (BreezeBio 서버)
