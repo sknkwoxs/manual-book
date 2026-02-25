@@ -139,11 +139,19 @@ BreezeBio의 인터랙티브 블록은 Svelte로 구현되어 CSR(Client-Side Re
 
 ### 작동 방식
 
-```
-1. 페이지 로드 → 서버에서 .seo-content HTML 출력
-2. AI/검색엔진 → .seo-content 콘텐츠 인덱싱
-3. JavaScript 로드 → Svelte 마운트 → .seo-content 숨김
-4. 사용자 → 인터랙티브 UI 사용
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+sequenceDiagram
+    participant S as 서버
+    participant B as 브라우저
+    participant AI as AI/검색엔진
+
+    S->>B: .seo-content HTML 출력
+    AI->>S: 크롤링 요청
+    S->>AI: .seo-content 콘텐츠 제공
+    B->>B: JavaScript 로드
+    B->>B: Svelte 마운트 + .seo-content 숨김
+    B->>B: 인터랙티브 UI 표시
 ```
 
 ### 확인 방법

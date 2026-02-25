@@ -8,8 +8,18 @@ title: 문의 관리
 
 ### 시스템 구성
 
-```
-[방문자] → Contact 폼 제출 → [REST API] → [DB 저장 + 이메일 알림]
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+flowchart LR
+    A[방문자] --> B[Contact 폼 제출]
+    B --> C[REST API]
+    C --> D[DB 저장]
+    C --> E[이메일 알림]
+    style A fill:#fff,stroke:#333,stroke-width:1px
+    style B fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style C fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style D fill:#fff,stroke:#333,stroke-width:1px
+    style E fill:#fff,stroke:#333,stroke-width:1px
 ```
 
 | 기능 | 설명 |
