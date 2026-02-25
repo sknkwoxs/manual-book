@@ -720,7 +720,7 @@ nav.sidebar li {
   text-align: center;
 }
 
-.sl-markdown-content figure {
+.sl-markdown-content figure:not(.frame) {
   text-align: center;
 }
 
