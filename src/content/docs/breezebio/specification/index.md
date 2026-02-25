@@ -37,28 +37,33 @@ BreezeBio 웹사이트 기술 개발 문서입니다.
 
 ## 시스템 한눈에 보기
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         사용자 접점                               │
-├─────────────────────────────┬───────────────────────────────────┤
-│      일반 사용자             │           관리자                   │
-│    (breezebio.com)          │    (breezebio.com/wp/wp-admin)    │
-│  - 회사 정보 조회            │  - 콘텐츠 편집                     │
-│  - 뉴스/파이프라인 확인      │  - 팀 멤버 관리                    │
-│  - 문의하기                  │  - 문의 확인                       │
-└──────────────┬──────────────┴──────────────┬────────────────────┘
-               │                              │
-               ▼                              ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                     WordPress (Bedrock)                          │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │                     BreezeBio 테마                           │  │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │  │
-│  │  │    Timber    │  │   Svelte 5   │  │  ACF Pro     │      │  │
-│  │  │    + Twig    │  │   + Vite 6   │  │   Blocks     │      │  │
-│  │  └──────────────┘  └──────────────┘  └──────────────┘      │  │
-│  └────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+flowchart TB
+    subgraph users["사용자 접점"]
+        direction LR
+        U1["**일반 사용자**<br/>breezebio.com<br/>───<br/>회사 정보 조회<br/>뉴스/파이프라인 확인<br/>문의하기"]
+        U2["**관리자**<br/>breezebio.com/wp/wp-admin<br/>───<br/>콘텐츠 편집<br/>팀 멤버 관리<br/>문의 확인"]
+    end
+
+    subgraph wp["WordPress (Bedrock)"]
+        subgraph theme["BreezeBio 테마"]
+            direction LR
+            T1["**Timber**<br/>+ Twig"]
+            T2["**Svelte 5**<br/>+ Vite 6"]
+            T3["**ACF Pro**<br/>Blocks"]
+        end
+    end
+
+    U1 --> wp
+    U2 --> wp
+
+    style users fill:#fff,stroke:#333,stroke-width:1px
+    style wp fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style theme fill:#fff,stroke:#333,stroke-width:1px
+    style T1 fill:#fff,stroke:#333,stroke-width:1px
+    style T2 fill:#fff,stroke:#333,stroke-width:1px
+    style T3 fill:#fff,stroke:#333,stroke-width:1px
 ```
 
 ---

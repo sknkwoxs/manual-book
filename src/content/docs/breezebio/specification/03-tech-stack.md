@@ -144,24 +144,34 @@ database:
 
 breezebio.com 도메인은 **Cloudflare**를 통해 DNS 및 CDN을 관리합니다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Cloudflare                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  DNS Records                                              │   │
-│  │  ├── A     breezebio.com      → [서버 IP]                 │   │
-│  │  ├── A     www                → [서버 IP]                 │   │
-│  │  └── CNAME (기타 서브도메인)                               │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  보안/성능 기능                                            │   │
-│  │  ├── SSL/TLS: Full (Strict)                               │   │
-│  │  ├── Auto Minify: JS, CSS, HTML                           │   │
-│  │  ├── Brotli 압축: ON                                       │   │
-│  │  └── Browser Cache TTL: 설정값                             │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px' }}}%%
+flowchart TB
+    subgraph CF["**Cloudflare**"]
+        subgraph DNS["**DNS Records**"]
+            A1["A breezebio.com → 서버 IP"]
+            A2["A www → 서버 IP"]
+            C1["CNAME 기타 서브도메인"]
+        end
+        subgraph SEC["**보안/성능 기능**"]
+            S1["SSL/TLS: Full Strict"]
+            S2["Auto Minify: JS, CSS, HTML"]
+            S3["Brotli 압축: ON"]
+            S4["Browser Cache TTL: 설정값"]
+        end
+        DNS --> SEC
+    end
+
+    style CF fill:#fff,stroke:#333,stroke-width:2px
+    style DNS fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style SEC fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style A1 fill:#fff,stroke:#333,stroke-width:1px
+    style A2 fill:#fff,stroke:#333,stroke-width:1px
+    style C1 fill:#fff,stroke:#333,stroke-width:1px
+    style S1 fill:#fff,stroke:#333,stroke-width:1px
+    style S2 fill:#fff,stroke:#333,stroke-width:1px
+    style S3 fill:#fff,stroke:#333,stroke-width:1px
+    style S4 fill:#fff,stroke:#333,stroke-width:1px
 ```
 
 ### Cloudflare 주요 기능
