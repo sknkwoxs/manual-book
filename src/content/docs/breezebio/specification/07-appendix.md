@@ -187,10 +187,10 @@ URL: breezebio.com/wp/*
 
 **해결**:
 ```bash
-cd web/app/themes/genedit
-rm -rf node_modules package-lock.json
-ddev npm install
-ddev npm run build
+$ cd web/app/themes/genedit
+$ rm -rf node_modules package-lock.json
+$ ddev npm install
+$ ddev npm run build
 ```
 
 ### 스타일이 적용되지 않음

@@ -248,19 +248,19 @@ Svelte 컴포넌트는 CSR로 렌더링되어 검색엔진/AI 크롤러가 콘�
 
 ```bash
 # 요약 버전
-curl https://breezebio.com/llms.txt
+$ curl https://breezebio.com/llms.txt
 
 # 전체 버전
-curl https://breezebio.com/llms-full.txt
+$ curl https://breezebio.com/llms-full.txt
 
 # REST API
-curl https://breezebio.com/wp-json/genedit/v1/llms.txt
+$ curl https://breezebio.com/wp-json/genedit/v1/llms.txt
 ```
 
 ### robots.txt 테스트
 
 ```bash
-curl https://breezebio.com/robots.txt | grep -A2 "GPTBot"
+$ curl https://breezebio.com/robots.txt | grep -A2 "GPTBot"
 ```
 
 ### Schema.org 검증
@@ -272,7 +272,7 @@ curl https://breezebio.com/robots.txt | grep -A2 "GPTBot"
 
 ```bash
 # 서버 로그에서 AI 크롤러 접근 확인
-grep -E "GPTBot|ClaudeBot|PerplexityBot" /var/log/nginx/access.log
+$ grep -E "GPTBot|ClaudeBot|PerplexityBot" /var/log/nginx/access.log
 ```
 
 ---

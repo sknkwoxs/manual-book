@@ -241,10 +241,10 @@ node_modules/
 
 ```bash
 # 배포 전 빌드
-ddev npm run build
-git add dist/
-git commit -m "빌드 산출물 업데이트"
-git push live main
+$ ddev npm run build
+$ git add dist/
+$ git commit -m "빌드 산출물 업데이트"
+$ git push live main
 ```
 
 ---

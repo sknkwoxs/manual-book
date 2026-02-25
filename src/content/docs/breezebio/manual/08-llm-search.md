@@ -187,8 +187,8 @@ BreezeBio의 인터랙티브 블록은 Svelte로 구현되어 CSR(Client-Side Re
 ### llms.txt 검증
 
 ```bash
-curl https://breezebio.com/llms.txt
-curl https://breezebio.com/llms-full.txt
+$ curl https://breezebio.com/llms.txt
+$ curl https://breezebio.com/llms-full.txt
 ```
 
 ### 서버 로그에서 AI 크롤러 확인

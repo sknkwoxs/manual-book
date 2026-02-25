@@ -160,19 +160,19 @@ About 페이지의 Team 블록은 자동으로 팀 멤버 데이터를 불러옵
 ### 팀 멤버 조회
 
 ```bash
-ddev wp genedit team list
+$ ddev wp genedit team list
 ```
 
 ### 팀 멤버 생성 (CSV)
 
 ```bash
-ddev wp genedit team import /path/to/team.csv
+$ ddev wp genedit team import /path/to/team.csv
 ```
 
 ### 팀 멤버 내보내기
 
 ```bash
-ddev wp genedit team export /path/to/output.csv
+$ ddev wp genedit team export /path/to/output.csv
 ```
 
 ---

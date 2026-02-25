@@ -225,13 +225,13 @@ class TeamMemberQuery
 
 ```bash
 # 팀 멤버 목록
-ddev wp genedit team list
+$ ddev wp genedit team list
 
 # CSV에서 가져오기
-ddev wp genedit team import /path/to/file.csv
+$ ddev wp genedit team import /path/to/file.csv
 
 # CSV로 내보내기
-ddev wp genedit team export /path/to/output.csv
+$ ddev wp genedit team export /path/to/output.csv
 ```
 
 ---

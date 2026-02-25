@@ -219,7 +219,7 @@ flowchart TB
 ### 개발 서버 (HMR)
 
 ```bash
-ddev npm run dev
+$ ddev npm run dev
 ```
 
 - Vite 개발 서버가 `http://localhost:5173`에서 실행

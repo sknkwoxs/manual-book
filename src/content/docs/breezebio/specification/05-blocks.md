@@ -228,7 +228,7 @@ public function acfJsonLoadPaths(array $paths): array
 ### CLI 도구
 
 ```bash
-ddev npm run create:block
+$ ddev npm run create:block
 ```
 
 대화형으로 블록 이름을 입력하면 기본 구조가 생성됩니다.
