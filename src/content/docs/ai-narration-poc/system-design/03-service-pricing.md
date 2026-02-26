@@ -113,7 +113,7 @@ Gemini 비디오 분석 시 오디오가 자동으로 포함되므로, **별도 
 | Google Cloud | Standard | $4 / 100만 글자 | 월 400만 글자 무료 | 기본 품질 |
 | OpenAI | tts-1 | $15 / 100만 글자 | - | 실시간 최적화 |
 | OpenAI | tts-1-hd | $30 / 100만 글자 | - | 고품질 |
-| NAVER | CLOVA Voice Premium | ~₩4 / 글자 (약 $0.003) | - | 한국어 최적화 |
+| NAVER | CLOVA Voice Premium | \~₩4 / 글자 (약 $0.003) | - | 한국어 최적화 |
 
 > **PoC 권장**: Google Cloud WaveNet (무료 티어 활용 + 합리적 품질/가격 + SSML 지원)
 >

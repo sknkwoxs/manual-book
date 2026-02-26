@@ -18,7 +18,7 @@ description: AI 기반 화면해설 생성 및 협업 편집 SaaS PoC 시스템 
 | 5 | [PoC 월간 운영 비용](./system-design/05-cost-scenario/) | Gemini Flash 기준 30건/월 비용 시나리오 |
 | 6 | [비용 스케일링](./system-design/06-cost-scaling/) | Gemini 기준 규모 확장 시 비용 추이 |
 | 7 | [비용 최적화 전략](./system-design/07-cost-optimization/) | Context Caching, Batch Tier, 인프라 최적화 |
-| 8 | [PoC 구현 우선순위](./system-design/08-poc-priority/) | P0~P3 단계별 구현 로드맵 |
+| 8 | [PoC 구현 우선순위](./system-design/08-poc-priority/) | P0\~P3 단계별 구현 로드맵 |
 | 9 | [주요 고려사항](./system-design/09-considerations/) | 성능, 품질, 보안, 확장성 |
 | 10 | [서비스 비교 요약](./system-design/10-service-comparison/) | 영상 분석, LLM, TTS, STT 서비스 비교 |
 
