@@ -24,6 +24,20 @@ export default defineConfig({
       },
       sidebar: [
         {
+          label: 'AI 화면해설 PoC',
+          items: [
+            { label: '개요', link: '/ai-narration-poc/' },
+            {
+              label: '시스템 구성 및 운영 비용',
+              autogenerate: { directory: 'ai-narration-poc/system-design' },
+            },
+            {
+              label: '개발 비용',
+              autogenerate: { directory: 'ai-narration-poc/development-cost' },
+            },
+          ],
+        },
+        {
           label: 'SI-Data',
           items: [
             { label: '개요', link: '/si-data/' },
