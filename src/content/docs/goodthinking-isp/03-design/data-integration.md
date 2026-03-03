@@ -16,16 +16,23 @@ description: 통합 DB 스키마(ERD) 설계
 ```
 AS-IS: 분산된 데이터                    TO-BE: 통합 데이터
 ┌──────────┐                           ┌──────────────────┐
-│ CS DB    │                           │                  │
-│ (MSSQL)  │──┐                        │   통합 DB        │
-└──────────┘  │                        │   (PostgreSQL)   │
+│CS 고객관리│                           │                  │
+│  DB      │──┐                        │   통합 DB        │
+│(MSSQL 75t)│  │                        │   (PostgreSQL    │
+└──────────┘  │                        │    또는 MSSQL)   │
               │    ┌────────────┐      │                  │
 ┌──────────┐  ├───▶│ ETL/동기화 │────▶│  • 고객 마스터   │
-│ 자사몰DB │──┤    └────────────┘      │  • 주문 통합     │
-└──────────┘  │                        │  • CS 이력       │
-              │                        │  • 구독 정보     │
-┌──────────┐  │                        │                  │
-│ 외부몰   │──┘                        └──────────────────┘
+│홈페이지DB │──┤    └────────────┘      │  • 주문 통합     │
+│(MSSQL 63t)│  │                        │  • CS 이력       │
+└──────────┘  │                        │  • 구독 정보     │
+              │                        │  • CMS 콘텐츠    │
+┌──────────┐  │                        │  • 재고/발송     │
+│ CMS DB   │──┤                        │                  │
+│(MSSQL 13t)│  │                        └──────────────────┘
+└──────────┘  │
+              │
+┌──────────┐  │
+│ 외부몰   │──┘
 │ (API)    │
 └──────────┘
 ```
@@ -201,11 +208,25 @@ AS-IS: 분산된 데이터                    TO-BE: 통합 데이터
 
 ### 데이터 매핑
 
-| AS-IS (MSSQL) | TO-BE (PostgreSQL) | 변환 규칙 |
+| AS-IS (MSSQL) | TO-BE (통합 DB) | 변환 규칙 |
 |---------------|-------------------|----------|
-| (분석 후 작성) | customer | |
-| | subscription | |
-| | order | |
+| PT_Customer (48 cols) | customer | Customer_ID→customer_code, 연락처 정규화, 주소 분리 |
+| PT_Subscribe (20 cols) | subscription | Subscribe_SN→구독코드, 상태 코드 표준화 |
+| PT_Receiver (43 cols) | delivery_address / order_item | 받는사람 → 배송지 + 주문항목 분리 |
+| PT_Finance (22 cols) | payment | Finance_Type 기준 입금/환불 분리 |
+| PT_Company (49 cols) | partner | 거래처 → 파트너 마스터 |
+| PT_Book (30 cols) + PT_BookPrice | product | 도서+가격 → 상품 통합 |
+| PT_Stock + PT_GiftStock | inventory | 재고 통합 (일반+선물) |
+| PT_Councel_History | cs_ticket + cs_history | 상담이력 → CS 티켓/이력 분리 |
+| PT_Giro | payment_giro | 지로 전용 결제 |
+| PT_GiftSend | gift_order | 선물 발송 → 선물 주문 |
+| PT_DEFERINCOME_* (INFO/MST/STAT) | deferred_revenue | 선수수익 통합 |
+| PTM_Products + PTM_ProductOptions | product (웹 상품 병합) | 홈페이지 상품 → 상품 통합 |
+| PTM_Orders + PTM_Order_Items | order + order_item | 홈페이지 주문 병합 |
+| PTM_Regular_Orders + PTM_Regulars | subscription (웹 구독 병합) | 정기구독 통합 |
+| PTM_Coupons + PTM_Coupon_* | coupon + coupon_history | 쿠폰 통합 |
+| ptcms_contents + ptcms_writer | cms_content + cms_writer | CMS 콘텐츠 이관 |
+| ptcms_books | product (도서 카테고리) | CMS 도서 → 상품 통합 |
 
 ### 중복 데이터 처리
 
@@ -218,4 +239,5 @@ AS-IS: 분산된 데이터                    TO-BE: 통합 데이터
 
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
-| YYYY-MM-DD | - | 초안 작성 |
+| 2026-02-23 | - | 초안 작성 |
+| 2026-03-03 | ISP 컨설턴트 | AS-IS→TO-BE 전환 다이어그램 보강 (3개 DB 소스 명시), 데이터 매핑 테이블 17건 작성 (C/S 75t + CMS 13t + 홈페이지 63t → 통합 DB 매핑), MySQL→MSSQL 오류 수정 |
