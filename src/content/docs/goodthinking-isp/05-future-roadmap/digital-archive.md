@@ -208,15 +208,50 @@ description: 나만의 좋은생각 및 주제별 큐레이션 서비스
 
 ---
 
+## ISP 연계 안내
+
+> **본 디지털 아카이브 서비스는 ISP 1단계(통합 웹 관리 시스템 구축) 완료 후 2단계 이후 추진을 권장합니다.**
+
+### 선행 조건 (ISP 1단계에서 해결)
+
+| 선행 작업 | ISP 산출물 참조 | 상태 |
+|----------|----------------|:----:|
+| On-Prem ↔ AWS DB 통합 이관 | [데이터 통합 설계](/goodthinking-isp/03-design/data-integration/) | 1단계 |
+| CMS 콘텐츠 DB 통합 | [마이그레이션 계획](/goodthinking-isp/04-implementation/migration-plan/) | 1단계 |
+| 통합 인증(JWT RBAC) 구축 | [웹 아키텍처 설계](/goodthinking-isp/03-design/web-architecture/) | 1단계 |
+| REST API 기반 콘텐츠 조회 | [웹 아키텍처 설계](/goodthinking-isp/03-design/web-architecture/) | 1단계 |
+
+### 활용 가능한 현행 데이터
+
+ISP 1단계에서 통합 이관되는 CMS DB(13 tables)가 아카이브 서비스의 핵심 데이터 소스입니다:
+
+| CMS 테이블 | 컬럼 수 | 아카이브 활용 |
+|-----------|:-------:|-------------|
+| `ptcms_contents` | 33 | 본문 콘텐츠 (스크랩/큐레이션 대상) |
+| `ptcms_subject` | - | 주제 분류 (주제별 큐레이션 기준) |
+| `ptcms_subject_ext` | - | 주제 확장 정보 |
+| `ptcms_writer` | - | 필자 정보 (저작권 관리) |
+| `ptcms_copyright` | - | 저작권 정보 (투고작 확인) |
+| `ptcms_keyword_log` | - | 검색 키워드 (태그 후보) |
+| `ptcms_keyword_sum` | - | 키워드 집계 (인기 키워드) |
+| `ptcms_image` | - | 콘텐츠 이미지 (PDF/책 조판) |
+| `ptcms_econtents` | - | 전자 콘텐츠 (e-Book 원본) |
+| `ptcms_books` | - | 단행본 정보 |
+| `ptcms_books_loan` | - | 도서 대출 이력 |
+
+> 통합 DB 이관 완료 후, 위 테이블들을 REST API로 조회하여 아카이브 서비스를 구축할 수 있습니다.
+
+---
+
 ## 콘텐츠 준비
 
 ### 필요 작업
 
-- [ ] 전체 아카이브 디지털화 완료
-- [ ] 콘텐츠 주제 태깅
-- [ ] 시대별 분류 기준 수립
-- [ ] 큐레이션 기획 (편집팀)
-- [ ] 저작권 확인 (투고작)
+- [ ] 전체 아카이브 디지털화 완료 — `ptcms_contents`(33컬럼) 기준, 현행 디지털화 범위 확인 필요
+- [ ] 콘텐츠 주제 태깅 — `ptcms_subject` + `ptcms_subject_ext` 기존 분류 체계 활용 가능
+- [ ] 시대별 분류 기준 수립 — `ptcms_contents` 발행일 기준 자동 분류 설계
+- [ ] 큐레이션 기획 (편집팀) — `ptcms_keyword_sum` 인기 키워드 데이터 참조
+- [ ] 저작권 확인 (투고작) — `ptcms_copyright` + `ptcms_writer` 테이블로 자동 검증 가능
 
 ---
 
@@ -224,4 +259,5 @@ description: 나만의 좋은생각 및 주제별 큐레이션 서비스
 
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
-| YYYY-MM-DD | - | 초안 작성 |
+| 2026-02-23 | 스컹크웍스스튜디오 | 초안 작성 |
+| 2026-03-03 | 스컹크웍스스튜디오 | ISP 연계 안내 추가, CMS 현행 데이터 연결, 콘텐츠 준비 체크리스트 구체화 |
