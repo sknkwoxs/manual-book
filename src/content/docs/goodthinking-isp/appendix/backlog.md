@@ -436,33 +436,40 @@ AS-IS 자료(Google Drive)가 ISP 문서(manual-book)의 어느 섹션에 활용
 
 ### 9.3 주차별 참여 스케줄
 
-```
-Week 1-2 (Phase 1: 착수)
-├── 업무분석가: 킥오프 후속 처리, 업무플로우 PDF 분석 시작
-├── IT컨설턴트: AWS/VPN 접근 확보, DB 정의서 예비 분석
-└── 고객사: 접근 권한 제공, 인터뷰 일정 조율
+```mermaid
+graph TD
+    subgraph W12["Week 1-2 · Phase 1: 착수"]
+        W12A["업무분석가<br/>킥오프 후속 처리<br/>업무플로우 PDF 분석 시작"]
+        W12B["IT컨설턴트<br/>AWS/VPN 접근 확보<br/>DB 정의서 예비 분석"]
+        W12C["고객사<br/>접근 권한 제공<br/>인터뷰 일정 조율"]
+    end
 
-Week 3-4 (Phase 2: 현행 분석) ← 가장 바쁜 기간
-├── 업무분석가: 인터뷰 5건 수행, 워크 쉐도잉, 수동 프로세스 목록화
-├── IT컨설턴트: MSSQL 직접 분석, ERD 역공학, 시스템 진단
-├── 정황규: 인터뷰 + 화면 워크스루 (1-2시간 × 2회)
-├── 어은진: 인터뷰 (1시간)
-├── 이민애: 인터뷰 (1시간)
-├── 김혜원: 인터뷰 (1시간)
-├── 더아이앤오: 인터뷰 (1시간, 원격 가능)
-└── 김재옥: 인터뷰 요청 (1-2시간, 원격)
+    subgraph W34["Week 3-4 · Phase 2: 현행 분석 ⬅ 가장 바쁜 기간"]
+        W34A["업무분석가<br/>인터뷰 5건 수행<br/>워크 쉐도잉<br/>수동 프로세스 목록화"]
+        W34B["IT컨설턴트<br/>MSSQL 직접 분석<br/>ERD 역공학<br/>시스템 진단"]
+        W34C["정황규: 인터뷰 + 화면 워크스루<br/>1-2시간 × 2회"]
+        W34D["어은진: 인터뷰 1시간"]
+        W34E["이민애: 인터뷰 1시간"]
+        W34F["김혜원: 인터뷰 1시간"]
+        W34G["더아이앤오: 인터뷰 1시간<br/>원격 가능"]
+        W34H["김재옥: 인터뷰 요청<br/>1-2시간, 원격"]
+    end
 
-Week 5-6 (Phase 3: TO-BE 설계)
-├── 업무분석가: 요구사항 정의서 작성, BPR AS-IS 파트
-├── IT컨설턴트: 아키텍처 설계, ERD 설계, 기술 스택 확정
-├── 정황규: 요구사항/자동화 프로세스 검증 (30분)
-└── 정용철 대표: 중간 보고 검토 (선택)
+    subgraph W56["Week 5-6 · Phase 3: TO-BE 설계"]
+        W56A["업무분석가<br/>요구사항 정의서 작성<br/>BPR AS-IS 파트"]
+        W56B["IT컨설턴트<br/>아키텍처 설계<br/>ERD 설계<br/>기술 스택 확정"]
+        W56C["정황규<br/>요구사항/자동화 프로세스 검증<br/>30분"]
+        W56D["정용철 대표<br/>중간 보고 검토 · 선택"]
+    end
 
-Week 7-8 (Phase 4: RFP)
-├── 업무분석가: RFP 업무 요구사항 파트, 산출물 검수
-├── IT컨설턴트: RFP 기술 파트, 예산 산정, 평가 기준
-├── 정용철 대표: 최종 보고 승인, 예산 확인
-└── 김재옥: 마이그레이션 계획 검증 (선택)
+    subgraph W78["Week 7-8 · Phase 4: RFP"]
+        W78A["업무분석가<br/>RFP 업무 요구사항 파트<br/>산출물 검수"]
+        W78B["IT컨설턴트<br/>RFP 기술 파트<br/>예산 산정<br/>평가 기준"]
+        W78C["정용철 대표<br/>최종 보고 승인<br/>예산 확인"]
+        W78D["김재옥<br/>마이그레이션 계획 검증 · 선택"]
+    end
+
+    W12 --> W34 --> W56 --> W78
 ```
 
 ---
@@ -471,27 +478,55 @@ Week 7-8 (Phase 4: RFP)
 
 > 화살표 방향 = "이 문서가 완성되어야 다음 문서를 작성할 수 있음"
 
-```
-Phase 1                Phase 2                    Phase 3               Phase 4
-───────               ───────                    ───────               ───────
+```mermaid
+flowchart LR
+    subgraph P1["Phase 1"]
+        kickoff["kickoff-agenda<br/>✅ 90%"]
+    end
 
-kickoff-agenda ──┬──▶ interview ──────────────▶ requirements ─────▶ rfp-preparation
-(✅ 90%)         │    (30%)                      (85%)                  (90%)
-                 │                                    │
-                 ├──▶ business-analysis ─────────────┘─────────────▶ process-automation
-                 │    (85%)                                            (90%)
-                 │
-                 ├──▶ system-diagnosis ──────▶ data-integration ──▶ migration-plan
-                 │    (90%)                    (85%)                  (75%)
-                 │                                    │
-                 │                               web-architecture
-                 │                                   (80%)
-                 │                                    │
-                 └──▶ investigation-guide            quality-scenarios ──▶ utility-tree
-                      (95%)                           (90%)                  (90%)
+    subgraph P2["Phase 2"]
+        interview["interview<br/>30%"]
+        ba["business-analysis<br/>85%"]
+        sd["system-diagnosis<br/>90%"]
+        ig["investigation-guide<br/>95%"]
+    end
 
-Google Drive                                    05-future-roadmap/
-자료 (#1-23) ──▶ Phase 2 전체 문서에 투입         (75% — ISP 연계 안내 완료)
+    subgraph P3["Phase 3"]
+        req["requirements<br/>85%"]
+        di["data-integration<br/>85%"]
+        wa["web-architecture<br/>80%"]
+        qs["quality-scenarios<br/>90%"]
+        pa["process-automation<br/>90%"]
+    end
+
+    subgraph P4["Phase 4"]
+        rfp["rfp-preparation<br/>90%"]
+        mp["migration-plan<br/>75%"]
+        ut["utility-tree<br/>90%"]
+    end
+
+    subgraph EXT["외부"]
+        gdrive["Google Drive<br/>자료 #1-23"]
+        future["05-future-roadmap/<br/>75%"]
+    end
+
+    kickoff --> interview
+    kickoff --> ba
+    kickoff --> sd
+    kickoff --> ig
+
+    interview --> req
+    ba --> req
+    req --> rfp
+    req --> pa
+
+    sd --> di
+    di --> mp
+    di --> wa
+
+    qs --> ut
+
+    gdrive -.-> P2
 ```
 
 ### 크리티컬 패스 (Critical Path)
