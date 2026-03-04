@@ -59,23 +59,21 @@ description: ISP 프로젝트 산출물 목록 및 양식
 
 #### 표지 구성
 
-```
-┌─────────────────────────────────────────┐
-│                                         │
-│     좋은생각 CS 시스템 웹 전환 ISP        │
-│                                         │
-│         [산출물명]                        │
-│                                         │
-│                                         │
-│                                         │
-│     버전: X.X                           │
-│     작성일: YYYY-MM-DD                   │
-│     작성자: OOO                          │
-│                                         │
-│                                         │
-│          [수행사 로고]                    │
-│                                         │
-└─────────────────────────────────────────┘
+```mermaid
+graph TD
+    A["<b>좋은생각 CS 시스템 웹 전환 ISP</b>"]
+    B["<b>[산출물명]</b>"]
+    C["버전: X.X<br/>작성일: YYYY-MM-DD<br/>작성자: OOO"]
+    D["[수행사 로고]"]
+    
+    A --> B
+    B --> C
+    C --> D
+    
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style B fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style C fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style D fill:#f9f9f9,stroke:#333,stroke-width:2px
 ```
 
 #### 문서 이력

@@ -25,23 +25,29 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ### 1. 아키텍처 현황
 
-```
-┌─────────────────────┐     ┌──────────────────────────┐
-│   CS 프로그램         │     │   웹 시스템 (AWS)          │
-│   (Tobesoft XPlatform)│  ✗  │   (Node.js Admin + SPA    │
-│   [로컬 PC 설치]      │     │    + CMS)                 │
-└────────┬────────────┘     └────────┬─────────────────┘
-         │                           │
-         ▼                           ▼
-┌─────────────────────┐     ┌──────────────────────────┐
-│   MSSQL (On-Prem)    │     │   MSSQL (AWS)             │
-│   고객관리 75 tables  │     │   홈페이지 63 tables       │
-│   CMS 13 tables       │     │   + 7 Procedures          │
-│   20 SPs + 14 Funcs   │     │                           │
-│   + 15 Triggers        │     │                           │
-└─────────────────────┘     └──────────────────────────┘
-         ↑                           ↑
-         └──── 연동 불가 (수동 Excel) ──┘
+```mermaid
+graph TD
+    subgraph CS["CS 환경"]
+        A["CS 프로그램<br/>(Tobesoft)<br/>로컬 설치"]
+    end
+    
+    subgraph WEB["웹 환경"]
+        B["웹 시스템<br/>(CMS/쇼핑몰)"]
+    end
+    
+    subgraph DB["데이터베이스"]
+        C["MSSQL DB<br/>(로컬)"]
+        D["별도 DB"]
+    end
+    
+    A --> C
+    B --> D
+    
+    C -.->|연동 불가| D
+    
+    style CS fill:#ffccbc
+    style WEB fill:#b3e5fc
+    style DB fill:#f0f4c3
 ```
 
 **문제점:**
@@ -51,15 +57,11 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ### 2. 데이터 현황
 
-| 채널 | 데이터 위치 | DB/테이블 규모 | 주요 엔티티 | 통합 방식 |
-|------|------------|---------------|------------|----------|
-| C/S 고객관리 | On-Prem MSSQL | 75 tables, 20 SPs, 14 Functions, 15 Triggers | PT_Customer(48cols), PT_Subscribe(20), PT_Receiver(43), PT_Finance(22), PT_Company(49), PT_Book(30) | - (마스터) |
-| CMS | On-Prem MSSQL (동일 서버) | 13 tables | ptcms_contents(33cols), ptcms_member, ptcms_writer, ptcms_books | C/S와 직접 참조 가능하나 수동 관리 |
-| 자사몰 (홈페이지) | AWS MSSQL | 63 tables, 7 Procedures | PTM_Orders, PTM_Products, PTM_Regular_Orders, PTM_Members | Excel 수작업 (On-Prem ↔ AWS 미연동) |
-| 외부몰 (네이버/쿠팡) | 외부 플랫폼 | Playauto 경유 | 주문, 배송, 반품 | Playauto에서 Excel 다운로드 → C/S 수동 입력 |
-| 이카운트 ERP | 외부 SaaS | - | 회계, 재무 | C/S PT_Finance와 이중 입력 (수동) |
-
-> **총 151 tables** = C/S 고객관리 75t + CMS 13t + 홈페이지 63t
+| 채널 | 데이터 위치 | 통합 방식 |
+|------|------------|----------|
+| 자사몰 | 별도 DB | Excel 수작업 |
+| 외부몰 | 외부 플랫폼 | Excel 수작업 |
+| 후원 | CS 프로그램 | - |
 
 **문제점:**
 - [ ] 고객 정보 중복 및 불일치
@@ -68,10 +70,22 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ### 3. 프로세스 현황
 
-```
-[주문발생] → [Excel 다운로드] → [수기 취합] → [CS 입력] → [권한 부여]
-                                    ↑
-                              휴먼 에러 발생 구간
+```mermaid
+flowchart LR
+    A["주문발생"] --> B["Excel 다운로드"]
+    B --> C["수기 취합"]
+    C --> D["CS 입력"]
+    D --> E["권한 부여"]
+    
+    F["휴먼 에러 발생 구간"]
+    
+    D -.->|에러| F
+    
+    style A fill:#c8e6c9
+    style E fill:#c8e6c9
+    style F fill:#ffccbc
+    style C fill:#fff9c4
+    style D fill:#fff9c4
 ```
 
 **문제점:**
@@ -85,19 +99,20 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ### 1. 아키텍처 목표
 
-```
-┌─────────────────────────────────────────┐
-│           웹 기반 통합 시스템             │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐  │
-│  │ CS Admin │  │   CMS   │  │  쇼핑몰  │  │
-│  └────┬────┘  └────┬────┘  └────┬────┘  │
-│       └──────────┬──────────────┘       │
-│                  ▼                      │
-│         ┌───────────────┐               │
-│         │   통합 DB     │               │
-│         │  (Cloud)      │               │
-│         └───────────────┘               │
-└─────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph WEB["웹 기반 통합 시스템"]
+        A["CS Admin"]
+        B["CMS"]
+        C["쇼핑몰"]
+        
+        A --> D["통합 DB<br/>(Cloud)"]
+        B --> D
+        C --> D
+    end
+    
+    style WEB fill:#c8e6c9
+    style D fill:#fff9c4
 ```
 
 ### 2. 데이터 통합 목표
@@ -108,10 +123,23 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ### 3. 자동화 프로세스 목표
 
-```
-[주문발생] → [자동 수집] → [자동 처리] → [즉시 권한 부여] → [알림 발송]
-                              ↑
-                        시스템 자동 처리
+```mermaid
+flowchart LR
+    A["주문발생"] --> B["자동 수집"]
+    B --> C["자동 처리"]
+    C --> D["즉시 권한 부여"]
+    D --> E["알림 발송"]
+    
+    F["시스템 자동 처리"]
+    
+    C -.->|시스템 자동| F
+    
+    style A fill:#c8e6c9
+    style E fill:#c8e6c9
+    style F fill:#c8e6c9
+    style B fill:#b3e5fc
+    style C fill:#b3e5fc
+    style D fill:#b3e5fc
 ```
 
 ---
@@ -130,5 +158,4 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
-| 2026-02-26 | - | 초안 작성 (템플릿) |
-| 2026-03-03 | 김명직 | AS-IS 아키텍처 다이어그램 상세화 (Tobesoft XPlatform, MSSQL 75t/63t/13t 명시), 데이터 현황 테이블 5채널 상세 보강 (총 151 tables) |
+| YYYY-MM-DD | - | 초안 작성 |

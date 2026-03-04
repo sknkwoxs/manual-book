@@ -225,18 +225,16 @@ description: 웹 기반 전환을 위한 요구사항 도출
 
 ## 요구사항 우선순위 매트릭스
 
-```
-                  중요도
-           높음         낮음
-        ┌─────────┬─────────┐
-  긴    │  Must   │  Nice   │
-  급    │  Have   │  to     │
-  도    │ (필수)  │  Have   │
-        ├─────────┼─────────┤
-  낮    │ Should  │  Won't  │
-  음    │  Have   │  Have   │
-        │ (권장)  │ (제외)  │
-        └─────────┴─────────┘
+```mermaid
+quadrantChart
+    title 요구사항 우선순위 매트릭스
+    x-axis 낮음 --> 높음
+    y-axis 낮음 --> 높음
+    
+    Must Have: 0.85, 0.85
+    Should Have: 0.6, 0.7
+    Nice to Have: 0.4, 0.5
+    Won't Have: 0.3, 0.2
 ```
 
 ### Must Have (필수) — 23건
