@@ -325,6 +325,7 @@ ITEM 서비스 택소노미
 ## 9. 관련 문서
 
 - [아이템 계층 구조 구현](../implementation/item-hierarchy/)
+- [GNB 메뉴 구조 설계](./gnb-menu-structure/)
 
 ---
 

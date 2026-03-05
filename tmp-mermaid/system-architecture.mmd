@@ -1,0 +1,7 @@
+graph TD
+    Client[Browser] --> Apache[Apache Web Server]
+    Apache --> PHP[PHP Omeka Classic]
+    PHP --> MySQL[(MySQL DB)]
+    PHP --> Solr[Solr Server 검색]
+    PHP --> Storage[File Storage /files/]
+    Apache --> Assets[Static Assets JS, CSS, Images]

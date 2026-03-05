@@ -36,15 +36,7 @@ sidebar:
 
 ## 시스템 구성도
 
-```mermaid
-graph TD
-    Client[Browser] --> Apache[Apache Web Server]
-    Apache --> PHP[PHP Omeka Classic]
-    PHP --> MySQL[(MySQL DB)]
-    PHP --> Solr[Solr Server 검색]
-    PHP --> Storage[File Storage /files/]
-    Apache --> Assets[Static Assets JS, CSS, Images]
-```
+![시스템 구성도](../assets/system-architecture.svg)
 
 ---
 

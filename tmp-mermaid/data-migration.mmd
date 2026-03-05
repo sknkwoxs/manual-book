@@ -1,0 +1,14 @@
+graph LR
+    subgraph "현행 시스템 (Omeka Classic)"
+        A[아이템] --> D[메타데이터]
+        B[컬렉션] --> D
+        C[파일] --> D
+    end
+    
+    D -- "추출 → 변환 → 적재" --> E{검증}
+    
+    subgraph "신규 시스템 (Drupal)"
+        E --> F[기록물 콘텐츠 + 미디어]
+        E --> G[메타데이터 필드]
+        E --> H[분류 체계]
+    end
