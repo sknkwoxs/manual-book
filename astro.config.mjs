@@ -228,6 +228,10 @@ export default defineConfig({
               label: '제출 문서',
               autogenerate: { directory: 'mcfamily/document' },
             },
+            {
+              label: '보안교육 자료 (2026.03)',
+              autogenerate: { directory: 'mcfamily/education' },
+            },
           ],
         },
       ],
