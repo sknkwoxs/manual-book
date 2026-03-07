@@ -14,7 +14,7 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 |------|------|
 | **위치** | Resources > Taxonomy |
 | **경로** | `/taxonomy-term-list` |
-| **접근 권한** | Administrator, General Supervisor, Documentalist |
+| **접근 권한** | Administrator, General Supervisor |
 
 ### 택소노미 종류
 
@@ -74,6 +74,21 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 3. 필요시 다국어 번역 추가
 4. **Save** 버튼 클릭
 
+### 키워드 번역
+
+등록된 키워드에 다국어 번역을 추가할 수 있습니다.
+
+1. 키워드 목록에서 **Translations** 컬럼의 배지 클릭
+   - 초록색: 번역 편집
+   - 회색: 새 번역 추가
+2. 번역할 언어의 **Add** 또는 **Edit** 클릭
+3. 번역된 키워드명 입력
+4. **Save** 버튼 클릭
+
+:::tip
+키워드 번역은 검색 및 필터 기능에서 해당 언어로 키워드가 표시되도록 합니다. 주요 키워드는 7개 언어 모두 번역하는 것을 권장합니다.
+:::
+
 ---
 
 ## Creator 관리
@@ -124,9 +139,16 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 
 1. 상단 **[Add Creator]** 버튼 클릭
 2. **Name** 필드에 저작자명 입력
-3. **Creator Type** 선택 (Author / Corporate Author / Translator)
-4. 필요시 다국어 번역 추가
-5. **Save** 버튼 클릭
+3. 필요시 **Description** 입력
+4. **Save** 버튼 클릭
+
+:::tip[Description 활용]
+Description은 사용자 화면에 표시되지 않는 내부 메모입니다. 택소노미 등록 과정에서 다른 작업자들에게 공유하고자 하는 내용(예: 동명이인 구분, 소속 정보, 등록 사유 등)을 적어두면 유용합니다.
+:::
+
+:::note
+Creator Type(Author / Corporate Author / Translator)은 Creator 등록 시 선택하지 않습니다. Resources 편집 화면에서 해당 Creator를 어느 필드(Author, Corporate Author, Translator)에 연결하느냐에 따라 유형이 결정됩니다.
+:::
 
 
 
@@ -230,10 +252,13 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 |------|:--------:|:-------:|
 | Administrator | CRUD | CRUD |
 | General Supervisor | CRUD | CRUD |
-| Documentalist | CRUD | CRUD |
-| Research Collaborator | - | - |
+| Documentalist | - | - |
 
 > CRUD: Create(생성), Read(읽기), Update(수정), Delete(삭제)
+
+:::note
+다큐멘탈리스트는 택소노미 관리 권한이 없습니다. 키워드/저작자 추가가 필요한 경우 DB 총괄관리자 또는 최고관리자에게 요청하세요.
+:::
 
 ---
 

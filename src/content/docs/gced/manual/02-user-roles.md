@@ -28,8 +28,11 @@ title: 역할 및 권한
 |------|------|--------|
 | **최고관리자** | 시스템 관리자 및 업무 총괄 관리 | Administrator |
 | **DB 총괄관리자** | 승인된 데이터의 메타데이터 형식 검토 및 시스템 최종 반영 | General Supervisor |
-| **다큐멘탈리스트** | 협력연구자가 제공한 데이터를 검수하고 시스템에 업로드 | Documentalist |
-| **협력연구자** | 7개 언어 담당자 그룹 | Research Collaborator |
+| **다큐멘탈리스트** | Resources 콘텐츠 등록, 검수, 번역 업무 담당 | Documentalist |
+
+:::note[협력연구자 역할 통합]
+기존 협력연구자(Research Collaborator) 역할은 다큐멘탈리스트에 통합되었습니다. 협력연구자는 현재 관리자 사이트에 접근하지 않습니다.
+:::
 
 ---
 
@@ -47,7 +50,7 @@ title: 역할 및 권한
 - 모든 콘텐츠 타입 게시글 관리
 - 회원 계정 관리 (생성/수정/삭제)
 - 사이트 설정 관리
-- 번역 요청 (AI 번역)
+- 번역 요청 관리
 
 ---
 
@@ -70,51 +73,50 @@ title: 역할 및 권한
 | 항목 | 내용 |
 |------|------|
 | **기계명** | documentalist |
-| **설명** | 협력연구자가 제공한 데이터를 검수하고 시스템에 업로드 |
+| **설명** | Resources 콘텐츠 등록, 검수, 번역 업무 담당 |
 | **구성** | 7개 언어별 담당자 6명 (한/영, 중, 프, 러, 스, 아) |
 
 **주요 권한:**
-- 제공된 데이터의 내용 검수
+- Resources 콘텐츠 신규 등록 (Draft 또는 Published)
 - Resource 상태 변경: **Draft → Published**, **Archive**
 - 번역 검토 및 직접 번역
 
 ---
 
-### Research Collaborator (협력연구자)
+## 참고: 협력연구자 (Research Collaborator)
+
+:::caution[현재 미사용]
+협력연구자 역할은 다큐멘탈리스트에 통합되어 현재 관리자 사이트에 접근하지 않습니다. 아래 내용은 참고용입니다.
+:::
 
 | 항목 | 내용 |
 |------|------|
 | **기계명** | research_collaborator |
-| **설명** | 7개 언어 담당자 그룹 |
-| **주기** | 연 3~4회 데이터 제공 (영어/한국어는 연 10회) |
-
-**주요 권한:**
-- Resource **Draft** 상태 게시글 작성
-- 본인이 작성한 콘텐츠 수정
+| **설명** | 7개 언어 담당자 그룹 (역할 통합됨) |
 
 ---
 
 ## 역할별 워크플로우 권한
 
-| 상태 변경 | Research Collaborator | Documentalist | General Supervisor | Administrator |
-|----------|:--------------------:|:-------------:|:------------------:|:-------------:|
-| Draft 작성 | O | - | - | O |
-| Draft → Published | - | O | O | O |
-| → Archived | O | O | O | O |
-| Archived 유지 | O | O | O | O |
-| Archived → Draft | O | - | - | O |
+| 상태 변경 | Documentalist | General Supervisor | Administrator |
+|----------|:-------------:|:------------------:|:-------------:|
+| Draft 작성 | O | O | O |
+| Draft → Published | O | O | O |
+| → Archived | O | O | O |
+| Archived 유지 | O | O | O |
+| Archived → Draft | O | O | O |
 
 ---
 
 ## 역할별 콘텐츠 권한
 
-| 콘텐츠 타입 | Research Collaborator | Documentalist | General Supervisor | Administrator |
-|------------|:--------------------:|:-------------:|:------------------:|:-------------:|
-| Resources | CRUD (Draft만) | CRUD | CRUD | CRUD |
-| Events | - | - | - | CRUD |
-| News | - | - | - | CRUD |
-| Useful Links | - | - | - | CRUD |
-| Taxonomy | Read | Read | CRUD | CRUD |
+| 콘텐츠 타입 | Documentalist | General Supervisor | Administrator |
+|------------|:-------------:|:------------------:|:-------------:|
+| Resources | CRUD | CRUD | CRUD |
+| Events | - | - | CRUD |
+| News | - | - | CRUD |
+| Useful Links | - | - | CRUD |
+| Taxonomy | - | CRUD | CRUD |
 
 ---
 

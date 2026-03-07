@@ -12,7 +12,7 @@ sidebar:
 |------|------|
 | 위치 | Board > Resources |
 | 경로 | `/admin/content?type=resources` |
-| 접근 권한 | Administrator, General Supervisor, Documentalist, Research Collaborator |
+| 접근 권한 | Administrator, General Supervisor, Documentalist |
 
 ---
 
@@ -168,13 +168,15 @@ File과 Resource URL 중 하나 이상 입력하는 것을 권장합니다. 둘 
 
 | 필드 | 설명 | 필수 |
 |------|------|:----:|
-| Published | 공개/비공개 여부 | O |
-| Create new revision | 리비전 생성 여부. 기본 활성화 (필수) | - |
-| Revision log message | 수정 내용 메모. 어떤 변경을 했는지 간단히 기록 | - |
-| Change to | 워크플로우 상태 변경 (Draft → Published → Archived) | O |
+| Published | 공개/비공개 여부 체크박스 | O |
+| Moderation state | 워크플로우 상태 (Draft / Published / Archived) | O |
 
 :::note
-Published 상태와 워크플로우 상태(Change to)는 별도로 관리됩니다. 워크플로우 상태가 Published가 아니면 Published 체크와 관계없이 비공개 처리됩니다.
+리비전은 저장 시 **자동으로 생성**됩니다. 별도 체크박스 없이 모든 수정 사항이 기록됩니다.
+:::
+
+:::note
+Published 체크박스와 Moderation state는 별도로 관리됩니다. Moderation state가 Published가 아니면 Published 체크와 관계없이 비공개 처리됩니다.
 :::
 
 ### 저장
@@ -193,7 +195,7 @@ Resources에는 워크플로우가 적용됩니다. 자세한 내용은 [워크�
 
 | 상태 | 설명 | 공개 여부 |
 |------|------|:--------:|
-| Draft | 초안. 협력연구자가 작성 | 비공개 |
+| Draft | 초안. 다큐멘탈리스트가 작성 | 비공개 |
 | Published | 게시 완료. DB 총괄관리자가 승인 | 공개 |
 | Archived | 보관 처리 | 비공개 |
 
@@ -201,13 +203,13 @@ Resources에는 워크플로우가 적용됩니다. 자세한 내용은 [워크�
 
 ## 역할별 권한
 
-| 기능 | Research Collaborator | Documentalist | General Supervisor | Administrator |
-|------|:--------------------:|:-------------:|:------------------:|:-------------:|
-| 목록 조회 | O | O | O | O |
-| 콘텐츠 추가 (Draft) | O | - | - | O |
-| 콘텐츠 수정 | 본인 작성만 | O | O | O |
-| 상태 변경 (Draft → Published) | - | O | O | O |
-| 번역 요청 | - | - | - | O |
+| 기능 | Documentalist | General Supervisor | Administrator |
+|------|:-------------:|:------------------:|:-------------:|
+| 목록 조회 | O | O | O |
+| 콘텐츠 추가 (Draft) | O | O | O |
+| 콘텐츠 수정 | O | O | O |
+| 상태 변경 (Draft → Published) | O | O | O |
+| 번역 요청 | - | - | O |
 
 ---
 

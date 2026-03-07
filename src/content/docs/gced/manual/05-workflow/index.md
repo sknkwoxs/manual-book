@@ -17,8 +17,8 @@ flowchart LR
     Draft[Draft<br/>초안] -->|"Publish<br/>👤 DB 총괄관리자, 다큐멘탈리스트"| Published[Published<br/>게시 완료]
     Published -->|"Archive<br/>👤 전체"| Archived[Archived<br/>보관]
     Draft -->|"Archive<br/>👤 전체"| Archived
-    Archived -->|"Restore to Draft<br/>👤 협력연구자"| Draft
-    Published -->|"Create New Draft<br/>👤 협력연구자"| Draft
+    Archived -->|"Restore to Draft<br/>👤 다큐멘탈리스트"| Draft
+    Published -->|"Create New Draft<br/>👤 다큐멘탈리스트"| Draft
 ```
 
 :::note
@@ -31,7 +31,7 @@ flowchart LR
 
 | 상태 | 설명 | 공개 여부 |
 |------|------|:--------:|
-| **Draft** | 협력연구자가 작성한 초안 | 비공개 |
+| **Draft** | 다큐멘탈리스트가 작성한 초안 | 비공개 |
 | **Published** | 최종 승인, 웹사이트에 공개 | **공개** |
 | **Archived** | 더 이상 노출하지 않고 보관 | 비공개 |
 
@@ -43,20 +43,16 @@ Resources를 새로 등록할 때 두 가지 방식이 있습니다.
 
 ### Draft로 등록 (워크플로우 적용)
 
-협력연구자가 콘텐츠를 **Draft** 상태로 등록합니다. 등록된 Draft는 DB 총괄관리자의 검토와 게시 승인을 거쳐 Published 상태가 됩니다.
+다큐멘탈리스트가 콘텐츠를 **Draft** 상태로 등록합니다. 등록된 Draft는 DB 총괄관리자의 검토와 게시 승인을 거쳐 Published 상태가 됩니다.
 
 | 수행자 | 작업 |
 |--------|------|
-| 협력연구자 | Draft로 콘텐츠 등록 |
+| 다큐멘탈리스트 | Draft로 콘텐츠 등록 |
 | DB 총괄관리자 | Draft를 검토한 후 Publish |
 
 ### Published로 직접 등록 (워크플로우 생략)
 
 DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태로 저장할 수 있습니다. 검토 과정이 필요 없는 콘텐츠에 활용합니다.
-
-:::note
-협력연구자는 Publish 권한이 없으므로, 반드시 Draft로만 등록할 수 있습니다.
-:::
 
 ---
 
@@ -82,12 +78,12 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 
 ### 역할별 권한
 
-| 전환 | 협력연구자 | 다큐멘탈리스트 | DB 총괄관리자 |
-|------|:--------:|:----------:|:----------:|
-| Create New Draft | O | - | - |
-| Publish | - | O | O |
+| 전환 | 다큐멘탈리스트 | DB 총괄관리자 | 최고관리자 |
+|------|:----------:|:----------:|:--------:|
+| Create New Draft | O | O | O |
+| Publish | O | O | O |
 | Archive | O | O | O |
-| Restore to Draft | O | - | - |
+| Restore to Draft | O | O | O |
 
 ---
 
@@ -118,7 +114,7 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 노트가 작성되면 Assignee로 지정된 담당자에게 이메일 알림이 발송됩니다.
 
 :::note
-협력연구자, DB 총괄관리자, 다큐멘탈리스트 모두 노트 작성 및 확인이 가능합니다.
+다큐멘탈리스트, DB 총괄관리자 모두 노트 작성 및 확인이 가능합니다.
 :::
 
 ---
@@ -140,6 +136,5 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 
 각 역할에 해당하는 상세 워크플로우를 확인하세요.
 
-- [협력연구자 (Research Collaborator)](./01-research-collaborator) — 초안 등록, 수정, 보관, 복원
 - [DB 총괄관리자 (General Supervisor)](./02-general-supervisor) — 검토, 게시 승인, 보관
-- [다큐멘탈리스트 (Documentalist)](./03-documentalist) — 검수, 게시 승인, 보관
+- [다큐멘탈리스트 (Documentalist)](./03-documentalist) — 콘텐츠 등록, 검수, 게시 승인, 보관
