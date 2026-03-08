@@ -234,6 +234,24 @@ export default defineConfig({
             },
           ],
         },
+        {
+          label: '충남지역공동체활성화센터',
+          items: [
+            { label: '개요', link: '/clocal/' },
+            { label: '아우름 분석 및 개선 제안', link: '/clocal/01-awoorum-analysis/' },
+            { label: 'DB 플랫폼 ISP 제안', link: '/clocal/02-db-platform-isp/' },
+          ],
+        },
+        {
+          label: '서울시립사진미술관 포토라이브러리',
+          items: [
+            { label: '개요', link: '/sema-photo/' },
+            {
+              label: '시민 교육 프로그램',
+              autogenerate: { directory: 'sema-photo/education' },
+            },
+          ],
+        },
       ],
     }),
   ],
