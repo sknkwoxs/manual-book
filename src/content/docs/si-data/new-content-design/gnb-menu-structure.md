@@ -165,7 +165,7 @@ GNB 메뉴에 따라 2depth의 성격이 다릅니다. 이는 콘텐츠 특성�
 | 조사데이터 | _(2depth 없음)_ | — | 목록 페이지 직행 |
 | 근현대유산 | _(2depth 없음)_ | — | 목록 페이지 직행 |
 
-**구현 시 주의**: "도시 모니터링"의 2depth는 `field_service` depth 1 term을 사용하고, "데이터로 본 서울"의 2depth는 `field_item_type` depth 0 term을 사용합니다.
+**구현 시 주의**: "도시 모니터링"의 2depth는 `field_service` depth 1 term을 사용하고, "데이터로 본 서울"의 2depth는 `field_service` depth 0 term을 사용합니다.
 
 ---
 
