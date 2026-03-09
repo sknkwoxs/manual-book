@@ -56,7 +56,7 @@ export default defineConfig({
                 { label: 'GNB 메뉴 구조', link: '/si-data/new-content-design/gnb-menu-structure/' },
                 { label: '택소노미', autogenerate: { directory: 'si-data/new-content-design/taxonomy' } },
                 { label: '콘텐츠 타입', autogenerate: { directory: 'si-data/new-content-design/content-types' } },
-                { label: '구현', autogenerate: { directory: 'si-data/new-content-design/implementation' } },
+                { label: '마이그레이션', link: '/si-data/new-content-design/migration-report/' },
               ],
             },
           ],
