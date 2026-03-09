@@ -27,10 +27,14 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 #### CS 환경 (고객관리 시스템)
 
-- **접속 주소**: `cs.positive.co.kr`
-- **구동 방식**: ActiveX 기반 — Tobesoft XPlatform (Windows/Internet Explorer 전용)
+- **접속 주소**: `http://cs.positive.co.kr/` (`203.231.234.6`)
+- **구동 방식**: ActiveX 기반 — Tobesoft XPlatform 9.2.1 + eGovFrame 3.2 (Windows/Internet Explorer 전용)
+- **WAS**: Tomcat 7.0 (Windows Server 2012)
 - **접근 조건**: 사내 내부망 또는 내부 VPN(MikroTik PPTP) 접속 필수
-- **데이터베이스**: AWS MSSQL (75개 테이블, 20 SP, 14 Function, 15 Trigger)
+- **형상관리**: Visual SVN Server
+- **데이터베이스**: MSSQL Server 2008 (`203.231.234.7:1433`) — 75개 테이블, 20 SP, 14 Function, 15 Trigger
+- **화면 수**: **86개** (사용자 매뉴얼 74개 + 관리자 매뉴얼 12개)
+- **외부 연동**: 나이스페이(PG 4종/CTI ARS), 금융결제원(지로), Ecount-ERP(엑셀 양방향), 더아이앤오(외부콜센터)
 
 #### 웹 환경 (AWS)
 
@@ -52,8 +56,8 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 ```mermaid
 graph TD
-    subgraph CS["CS 환경 — cs.positive.co.kr"]
-        A["CS 프로그램<br/>(Tobesoft XPlatform)<br/>ActiveX · Windows/IE 전용<br/>내부망/VPN 필수"]
+    subgraph CS["CS 환경 — cs.positive.co.kr (203.231.234.6)"]
+        A["CS 프로그램<br/>(XPlatform 9.2.1 + eGovFrame 3.2)<br/>ActiveX · Windows/IE 전용<br/>Tomcat 7.0 / Win Server 2012"]
     end
 
     subgraph AWS["AWS 웹 환경"]
@@ -62,14 +66,17 @@ graph TD
         B3["③ 웹사이트 관리시스템<br/>(Node.js Admin)"]
     end
 
-    subgraph EXT["외부 판매 채널"]
+    subgraph EXT["외부 연동"]
         E1["네이버 스마트스토어"]
         E2["쿠팡"]
         E3["Playauto<br/>(주문 수집)"]
+        E4["나이스페이<br/>(PG/CTI ARS)"]
+        E5["금융결제원<br/>(지로)"]
+        E6["Ecount-ERP"]
     end
 
     subgraph DB["데이터베이스"]
-        C["MSSQL<br/>(CS 고객관리 DB)<br/>AWS · 75t"]
+        C["MSSQL 2008<br/>(CS 고객관리 DB)<br/>203.231.234.7:1433<br/>75t · 20SP · 14FN · 15TR"]
         D["MSSQL<br/>(홈페이지 DB + CMS DB)<br/>AWS RDS 추정 · 76t"]
     end
 
@@ -78,10 +85,14 @@ graph TD
     B2 --> D
     B3 --> D
 
+    A <-->|"나이스페이 API<br/>(카드/ARS/가상계좌/현금영수증)"| E4
+    A <-->|"ocrser.txt 파일 업로드"| E5
+    A <-->|"엑셀 양방향<br/>(거래처/재고수불부)"| E6
     E1 --> E3
     E2 --> E3
 
-    C -.->|"❌ 연동 불가<br/>Excel 수작업 이관"| D
+    C -.->|"❌ 범용 API 연동 없음<br/>Excel 수작업 이관"| D
+    C <-->|"⚠️ 선수수익 연동만 존재<br/>(웹 구독접수/결제/발송)"| D
     E3 -.->|"❌ 미연동<br/>Excel 다운로드 → CS 업로드"| C
 
     style CS fill:#ffccbc
@@ -92,10 +103,12 @@ graph TD
 
 **문제점:**
 - [ ] CS 프로그램이 ActiveX/IE 전용으로 Windows PC + 내부망/VPN에서만 접근 가능
-- [ ] CS DB ↔ 웹 DB 간 API 연동 없음 — 데이터 이관은 전적으로 Excel 수작업에 의존
+- [ ] CS DB(`203.231.234.7`, 온프레미스) ↔ 웹 DB(AWS RDS) 간 범용 API 연동 없음 — 데이터 이관은 전적으로 Excel 수작업에 의존
+- [x] 단, **선수수익 반영에 한해** 웹↔CS 이벤트 기반 연동이 존재함을 확인 (관리자 매뉴얼 — `D:\POSITIVEWebIntefaceLog\` 로그 경로)
 - [ ] 외부몰(네이버/쿠팡) 구독 주문이 CS 시스템에 자동 반영되지 않음 — Playauto에서 Excel 다운로드 후 수동 업로드
 - [ ] 웹사이트·CMS·관리시스템이 분리 운영되어 실시간 정보 공유 제한
 - [ ] 결제 발생 → CMS 열람 권한 부여까지 수작업 지연 (최대 1영업일)
+- [ ] Windows Server 2012 + MSSQL 2008 — 모두 EOL(지원 종료) 상태로 보안 패치 중단
 
 ### 2. 데이터 현황
 
@@ -200,5 +213,6 @@ flowchart LR
 
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
+| 2026-03-09 | 김명직 | 관리자 매뉴얼 V1.1 기반 인프라 상세(IP/OS/WAS) 추가, 외부연동 7종 반영, 웹연동 로그 발견사항 반영, CS DB 위치 온프레미스로 수정 |
 | 2026-03-09 | 김명직 | AS-IS 아키텍처 현황 전면 개편 — cs.positive.co.kr/ActiveX 구조, 웹 환경 3개 분리, 외부몰 미연동 문제 반영 |
 | YYYY-MM-DD | - | 초안 작성 |
