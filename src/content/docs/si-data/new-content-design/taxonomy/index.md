@@ -18,7 +18,6 @@ title: 택소노미 문서
 |---|--------|--------|----------|------|------|
 | 1 | 주제분류 | `field_topic` | `category_topic` | [용어 목록](./topic-classification/) | 중복선택 가능 |
 | 2 | 시기분류 | `field_decade` | `category_decade` | [용어 목록](./period-classification/) | 중복선택 가능 |
-| 3 | 형태분류 | `field_format` | `category_format` | [용어 목록](./format-classification/) | **보류** |
 
 ---
 
