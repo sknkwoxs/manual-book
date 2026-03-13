@@ -72,24 +72,32 @@ DB 총괄관리자가 번역 요청, 검토, Job 관리를 수행하는 방법�
 
 ### 번역 대상 필드
 
-모든 필드가 번역 대상에 포함되지는 않습니다.
+콘텐츠의 모든 필드가 함께 번역되지는 않습니다. 필드 유형에 따라 번역 방식이 다릅니다.
 
-**번역 대상 필드:**
+**콘텐츠와 함께 번역되는 필드:**
 - Title (제목)
 - Description (본문)
 - 기타 텍스트 필드
 
-**번역 미대상 필드:**
+**별도 번역이 필요한 필드 (Taxonomy):**
+
+아래 필드들은 Taxonomy(분류 체계)로 관리되어, 콘텐츠 번역 시 함께 번역되지 않습니다. [Suggestions 기능](#suggestions-활용)을 통해 별도로 번역합니다.
+
+- Keyword
+- Topic
+- Region
+
+**번역이 불필요한 필드:**
+
+아래 필드들은 URL, 고유명사, 메타데이터 등으로 번역하지 않습니다.
+
 - Author
 - Corporate Author
 - DB URL
 - Ebook URL
 - File
-- Keyword
-- Region
 - Resource Info (Format, File type)
 - Resource URL
-- Topic
 - Translate Title
 - Translator
 - Year of publication
