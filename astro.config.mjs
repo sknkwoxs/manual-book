@@ -214,7 +214,14 @@ export default defineConfig({
                     { label: '다큐멘탈리스트(Documentalist)', link: '/gced/manual/05-workflow/03-documentalist/' },
                   ],
                 },
-                { label: '번역 관리', link: '/gced/manual/06-translation/' },
+                {
+                  label: '번역 관리',
+                  items: [
+                    { label: '번역 관리 개요', link: '/gced/manual/06-translation/' },
+                    { label: '관리자용 (요청·검토)', link: '/gced/manual/06-translation/01-admin/' },
+                    { label: '번역자용 (Local Tasks)', link: '/gced/manual/06-translation/02-translator/' },
+                  ],
+                },
                 { label: '웹사이트 관리', link: '/gced/manual/07-site-admin/' },
               ],
             },
