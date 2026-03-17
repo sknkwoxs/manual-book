@@ -37,6 +37,13 @@
         <label for="currentProjectName">프로젝트명</label>
         <input type="text" id="currentProjectName" name="projectName" placeholder="예: LLM 검색 기능 개선 PoC" />
       </div>
+      <div class="print-form-group print-checkbox-group">
+        <label class="print-checkbox-label">
+          <input type="checkbox" id="currentLandscape" name="landscape" />
+          <span class="print-checkbox-custom"></span>
+          <span>가로 방향 인쇄 (Landscape)</span>
+        </label>
+      </div>
       <div class="print-modal-actions">
         <button type="button" class="print-modal-btn cancel" id="cancelCurrentPrint">취소</button>
         <button type="submit" class="print-modal-btn confirm">인쇄하기</button>
@@ -90,6 +97,13 @@
         <button type="button" class="add-revision-btn" id="addRevisionBtn">+ 이력 추가</button>
       </div>
       
+      <div class="print-form-group print-checkbox-group">
+        <label class="print-checkbox-label">
+          <input type="checkbox" id="sectionLandscape" name="landscape" />
+          <span class="print-checkbox-custom"></span>
+          <span>가로 방향 인쇄 (Landscape)</span>
+        </label>
+      </div>
       <div class="print-modal-actions">
         <button type="button" class="print-modal-btn cancel" id="cancelPrint">취소</button>
         <button type="submit" class="print-modal-btn confirm">인쇄하기</button>
@@ -406,6 +420,92 @@
       grid-template-columns: 1fr 1fr;
     }
   }
+
+  /* 체크박스 (가로 인쇄 옵션) */
+  .print-checkbox-group {
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--grey3, #d8d8d8);
+  }
+
+  :root[data-theme='dark'] .print-checkbox-group {
+    border-top-color: #393a3e;
+  }
+
+  .print-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--grey7, #393a3e);
+    user-select: none;
+  }
+
+  :root[data-theme='dark'] .print-checkbox-label {
+    color: #e8e8e8;
+  }
+
+  .print-checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .print-checkbox-custom {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--grey4, #ababab);
+    border-radius: 4px;
+    background: #fff;
+    transition: all 0.15s ease;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .print-checkbox-label input[type="checkbox"]:checked + .print-checkbox-custom {
+    background: var(--grey8, #151617);
+    border-color: var(--grey8, #151617);
+  }
+
+  .print-checkbox-label input[type="checkbox"]:checked + .print-checkbox-custom::after {
+    content: '';
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .print-checkbox-label input[type="checkbox"]:focus-visible + .print-checkbox-custom {
+    outline: 2px solid var(--grey8, #151617);
+    outline-offset: 2px;
+  }
+
+  :root[data-theme='dark'] .print-checkbox-custom {
+    background: #2a2b2c;
+    border-color: #6d6d6d;
+  }
+
+  :root[data-theme='dark'] .print-checkbox-label input[type="checkbox"]:checked + .print-checkbox-custom {
+    background: #e8e8e8;
+    border-color: #e8e8e8;
+  }
+
+  :root[data-theme='dark'] .print-checkbox-label input[type="checkbox"]:checked + .print-checkbox-custom::after {
+    border-color: #151617;
+  }
+
+  :root[data-theme='dark'] .print-checkbox-label input[type="checkbox"]:focus-visible + .print-checkbox-custom {
+    outline-color: #e8e8e8;
+  }
 </style>
 
 <script>
@@ -464,9 +564,10 @@
       const formData = new FormData(currentForm);
       const clientName = formData.get('clientName') as string || '';
       const projectName = formData.get('projectName') as string || '';
+      const landscape = (document.getElementById('currentLandscape') as HTMLInputElement)?.checked || false;
       
       currentModal?.classList.remove('active');
-      printCurrentPage(clientName, projectName);
+      printCurrentPage(clientName, projectName, landscape);
     });
 
     // === 섹션 전체 인쇄 모달 핸들러 ===
@@ -526,13 +627,15 @@
       
       modal?.classList.remove('active');
       
+      const landscape = (document.getElementById('sectionLandscape') as HTMLInputElement)?.checked || false;
+      
       const btn = document.querySelector('[data-print="section"]') as HTMLButtonElement;
-      await printSection(btn, clientName, projectName, docVersion, docType, docAuthor, docDate, revisions);
+      await printSection(btn, clientName, projectName, docVersion, docType, docAuthor, docDate, revisions, landscape);
     });
   });
 
   // 현재 문서만 인쇄
-  function printCurrentPage(clientName: string, projectName: string) {
+  function printCurrentPage(clientName: string, projectName: string, landscape: boolean) {
     // 인쇄 헤더의 타이틀에 고객사명/프로젝트명 표시
     const titleEl = document.querySelector('.print-header-title');
     if (titleEl) {
@@ -542,7 +645,21 @@
       titleEl.textContent = parts.join(' | ');
     }
     
+    // 가로 인쇄 스타일 동적 주입
+    let landscapeStyle: HTMLStyleElement | null = null;
+    if (landscape) {
+      landscapeStyle = document.createElement('style');
+      landscapeStyle.id = 'print-landscape-style';
+      landscapeStyle.textContent = '@media print { @page { size: A4 landscape; margin: 12mm; } }';
+      document.head.appendChild(landscapeStyle);
+    }
+    
     window.print();
+    
+    // 인쇄 후 landscape 스타일 제거
+    if (landscapeStyle) {
+      landscapeStyle.remove();
+    }
   }
 
   // 섹션 전체 인쇄
@@ -554,7 +671,8 @@
     docType: string,
     docAuthor: string,
     docDate: string,
-    revisions: { date: string; version: string; desc: string; author: string }[]
+    revisions: { date: string; version: string; desc: string; author: string }[],
+    landscape: boolean
   ) {
     btn.classList.add('loading');
     const originalText = btn.querySelector('span')?.textContent || '';
@@ -580,7 +698,7 @@
       const sectionTitle = getSectionTitle();
       
       // 새 창에서 인쇄 (계층 구조 정보 함께 전달)
-      printCombinedContent(contents, clientName, projectName, docVersion, docType, docAuthor, docDate, revisions, tocItems);
+      printCombinedContent(contents, clientName, projectName, docVersion, docType, docAuthor, docDate, revisions, tocItems, landscape);
       
     } catch (error) {
       console.error('섹션 인쇄 오류:', error);
@@ -776,7 +894,8 @@
     docAuthor: string,
     docDate: string,
     revisions: { date: string; version: string; desc: string; author: string }[],
-    tocItems: TocItem[]
+    tocItems: TocItem[],
+    landscape: boolean
   ) {
     // 로고 이미지 URL 가져오기
     const logoImg = document.querySelector('.skunkworks-logo img') as HTMLImageElement;
@@ -1230,8 +1349,8 @@
       
       @media print {
         @page {
-          size: A4;
-          margin: 15mm 0 20mm 0;
+          size: ${landscape ? 'A4 landscape' : 'A4'};
+          margin: ${landscape ? '12mm' : '15mm 0 20mm 0'};
           
           @bottom-center {
             content: counter(page);
