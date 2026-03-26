@@ -1,6 +1,7 @@
 ---
 title: AI 화면해설 PoC
 description: AI 기반 화면해설 생성 및 협업 편집 SaaS PoC 시스템 구성 및 운영 비용 추산서
+archived: true
 ---
 
 **AI 기반 화면해설 생성 및 협업 편집 SaaS PoC** 시스템 구성 및 운영 비용 추산 문서입니다.

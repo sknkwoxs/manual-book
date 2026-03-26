@@ -24,20 +24,6 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'AI 화면해설 PoC',
-          items: [
-            { label: '개요', link: '/ai-narration-poc/' },
-            {
-              label: '시스템 구성 및 운영 비용',
-              autogenerate: { directory: 'ai-narration-poc/system-design' },
-            },
-            {
-              label: '개발 비용',
-              autogenerate: { directory: 'ai-narration-poc/development-cost' },
-            },
-          ],
-        },
-        {
           label: 'SI-Data',
           items: [
             { label: '개요', link: '/si-data/' },
@@ -69,6 +55,10 @@ export default defineConfig({
           label: '디캠프',
           items: [
             { label: '개요', link: '/dcamp/' },
+            {
+              label: '주간 보고서',
+              autogenerate: { directory: 'dcamp/reports' },
+            },
             {
               label: '관리자 매뉴얼',
               autogenerate: { directory: 'dcamp/manual' },
@@ -246,20 +236,43 @@ export default defineConfig({
           ],
         },
         {
-          label: '충남지역공동체활성화센터',
-          items: [
-            { label: '개요', link: '/clocal/' },
-            { label: '아우름 분석 및 개선 제안', link: '/clocal/01-awoorum-analysis/' },
-            { label: 'DB 플랫폼 ISP 제안', link: '/clocal/02-db-platform-isp/' },
-          ],
-        },
-        {
           label: '서울시립사진미술관 포토라이브러리',
           items: [
             { label: '개요', link: '/sema-photo/' },
             {
               label: '시민 교육 프로그램',
               autogenerate: { directory: 'sema-photo/education' },
+            },
+          ],
+        },
+        {
+          label: '아카이브',
+          collapsed: true,
+          items: [
+            { label: '아카이브 목록', link: '/archive/' },
+            {
+              label: 'AI 화면해설 PoC',
+              collapsed: true,
+              items: [
+                { label: '개요', link: '/ai-narration-poc/' },
+                {
+                  label: '시스템 구성 및 운영 비용',
+                  autogenerate: { directory: 'ai-narration-poc/system-design' },
+                },
+                {
+                  label: '개발 비용',
+                  autogenerate: { directory: 'ai-narration-poc/development-cost' },
+                },
+              ],
+            },
+            {
+              label: '충남지역공동체활성화센터',
+              collapsed: true,
+              items: [
+                { label: '개요', link: '/clocal/' },
+                { label: '아우름 분석 및 개선 제안', link: '/clocal/01-awoorum-analysis/' },
+                { label: 'DB 플랫폼 ISP 제안', link: '/clocal/02-db-platform-isp/' },
+              ],
             },
           ],
         },

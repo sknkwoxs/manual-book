@@ -15,6 +15,9 @@ const projectPrefix = pathParts[0] || '';
 // 홈페이지인 경우 사이드바 비움
 const isHomePage = currentPath === '/' || currentPath === '';
 
+// 아카이브 목록 페이지인 경우 사이드바 비움
+const isArchiveListPage = currentPath === '/archive/' || currentPath === '/archive';
+
 // Starlight의 원본 sidebar 가져오기
 const originalSidebar = Astro.locals.starlightRoute?.sidebar || [];
 
@@ -32,16 +35,40 @@ const getProjectFromItem = (item: any): string | null => {
   return null;
 };
 
+// 아카이브 그룹 내에서 특정 프로젝트의 사이드바 항목 찾기
+const findProjectInArchive = (sidebar: any[], projectPrefix: string): any[] => {
+  for (const group of sidebar) {
+    // 아카이브 그룹 찾기 (첫 링크가 /archive/인 그룹)
+    const firstLink = getProjectFromItem(group);
+    if (firstLink === 'archive' && group.entries) {
+      // 아카이브 그룹 내에서 해당 프로젝트 찾기
+      for (const entry of group.entries) {
+        const entryProject = getProjectFromItem(entry);
+        if (entryProject === projectPrefix) {
+          return [entry];
+        }
+      }
+    }
+  }
+  return [];
+};
+
 // sidebar 항목 필터링
 let filteredSidebar = originalSidebar;
 
-if (isHomePage) {
+if (isHomePage || isArchiveListPage) {
   filteredSidebar = [];
 } else if (projectPrefix) {
+  // 먼저 최상위에서 찾기
   filteredSidebar = originalSidebar.filter((group: any) => {
     const groupProject = getProjectFromItem(group);
     return groupProject === projectPrefix;
   });
+  
+  // 최상위에서 못 찾으면 아카이브 그룹 내에서 찾기
+  if (filteredSidebar.length === 0) {
+    filteredSidebar = findProjectInArchive(originalSidebar, projectPrefix);
+  }
 }
 ---
 

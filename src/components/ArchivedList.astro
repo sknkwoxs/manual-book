@@ -4,41 +4,27 @@ import { getCollection } from 'astro:content';
 // Get all docs entries
 const allDocs = await getCollection('docs');
 
-// Starlight uses flat IDs like "si-data" for index pages
-// Find project index files - these are direct project folder indexes (exclude archived)
-const projectIndexes = allDocs.filter(doc => {
+// Find archived project index files
+const archivedProjects = allDocs.filter(doc => {
   const parts = doc.id.split('/');
-  // ID format: "si-data" (for si-data/index.md)
-  // Exclude the root index and archive
-  if (doc.id === '' || doc.id === 'index' || doc.id === 'archive') return false;
-  // If it's a single segment (like "si-data"), it's a project index
-  if (parts.length === 1 && doc.id !== 'index') {
-    // Exclude archived projects
-    return doc.data.archived !== true;
+  // Single segment IDs are project indexes
+  if (parts.length === 1 && doc.id !== 'index' && doc.id !== 'archive') {
+    return doc.data.archived === true;
   }
   return false;
 });
 
 // Extract project info and sort by name
-const projects = projectIndexes
+const projects = archivedProjects
   .map(doc => ({
     slug: doc.id,
     name: doc.data.title || doc.id,
     description: doc.data.description || '',
   }))
   .sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-
-// Check if there are any archived projects
-const hasArchivedProjects = allDocs.some(doc => {
-  const parts = doc.id.split('/');
-  if (parts.length === 1 && doc.id !== 'index' && doc.id !== 'archive') {
-    return doc.data.archived === true;
-  }
-  return false;
-});
 ---
 
-<div class="project-list">
+<div class="archived-list">
   {projects.length > 0 ? (
     <ul class="project-items">
       {projects.map((project) => (
@@ -46,7 +32,9 @@ const hasArchivedProjects = allDocs.some(doc => {
           <a href={`/${project.slug}/`} class="project-link">
             <span class="project-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                <path d="M21 8v13H3V8"></path>
+                <path d="M1 3h22v5H1z"></path>
+                <path d="M10 12h4"></path>
               </svg>
             </span>
             <span class="project-info">
@@ -65,30 +53,12 @@ const hasArchivedProjects = allDocs.some(doc => {
       ))}
     </ul>
   ) : (
-    <p class="no-projects">등록된 프로젝트가 없습니다.</p>
-  )}
-
-  {hasArchivedProjects && (
-    <a href="/archive/" class="archive-link">
-      <span class="archive-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 8v13H3V8"></path>
-          <path d="M1 3h22v5H1z"></path>
-          <path d="M10 12h4"></path>
-        </svg>
-      </span>
-      <span>아카이브 프로젝트 보기</span>
-      <span class="archive-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 18l6-6-6-6"></path>
-        </svg>
-      </span>
-    </a>
+    <p class="no-projects">아카이브된 프로젝트가 없습니다.</p>
   )}
 </div>
 
 <style>
-  .project-list {
+  .archived-list {
     margin-top: 1.5rem;
   }
 
@@ -135,7 +105,7 @@ const hasArchivedProjects = allDocs.some(doc => {
     height: 40px;
     border-radius: 8px;
     background: var(--sl-color-gray-6);
-    color: var(--sl-color-text);
+    color: var(--sl-color-gray-3);
     flex-shrink: 0;
   }
 
@@ -183,41 +153,5 @@ const hasArchivedProjects = allDocs.some(doc => {
     font-style: italic;
     text-align: center;
     padding: 2rem;
-  }
-
-  .archive-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    border: 1px dashed var(--sl-color-gray-5);
-    background: transparent;
-    color: var(--sl-color-gray-2);
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-  }
-
-  .archive-link:hover {
-    border-color: var(--sl-color-gray-4);
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-text);
-  }
-
-  .archive-icon {
-    display: flex;
-    align-items: center;
-  }
-
-  .archive-arrow {
-    display: flex;
-    align-items: center;
-    transition: transform 0.15s ease;
-  }
-
-  .archive-link:hover .archive-arrow {
-    transform: translateX(2px);
   }
 </style>
