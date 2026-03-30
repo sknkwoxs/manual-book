@@ -92,8 +92,25 @@ export default defineConfig({
                 { label: '이해관계자 인터뷰', link: '/goodthinking-isp/02-analysis/interview/' },
                 { label: '요구사항 분석', link: '/goodthinking-isp/02-analysis/requirements/' },
                 {
-                  label: '관련 회의록 및 인터뷰 자료',
-                  autogenerate: { directory: 'goodthinking-isp/02-analysis/meeting-notes' },
+                  label: '인터뷰 결과',
+                  items: [
+                    { label: '개요', link: '/goodthinking-isp/02-analysis/meeting-notes/' },
+                    { label: '킥오프 회의 안건', link: '/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda/' },
+                    { label: '정기구독팀', link: '/goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/' },
+                    { label: '편집팀', link: '/goodthinking-isp/02-analysis/meeting-notes/editing-team-interview/' },
+                    { label: '경영지원팀', link: '/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/' },
+                    { label: '외주콜센터', link: '/goodthinking-isp/02-analysis/meeting-notes/call-center-interview/' },
+                    { label: '영업추진팀 (안건)', link: '/goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/' },
+                  ],
+                },
+                {
+                  label: '기능요건 정리',
+                  items: [
+                    { label: '정기구독팀', link: '/goodthinking-isp/02-analysis/meeting-notes/subscription-team-requirements/' },
+                    { label: '편집팀', link: '/goodthinking-isp/02-analysis/meeting-notes/editing-team-requirements/' },
+                    { label: '경영지원팀', link: '/goodthinking-isp/02-analysis/meeting-notes/management-support-team-requirements/' },
+                    { label: '외주콜센터', link: '/goodthinking-isp/02-analysis/meeting-notes/call-center-requirements/' },
+                  ],
                 },
               ],
             },
