@@ -173,7 +173,7 @@ body {
   min-width: 100% !important;
   max-width: 100% !important;
   display: table !important;
-  table-layout: fixed !important;
+  table-layout: auto !important;
   border-collapse: separate;
   border-spacing: 0;
   margin: 1.5rem 0;
@@ -271,35 +271,6 @@ body {
 
 :root[data-theme='dark'] .sl-markdown-content tbody td {
   border-bottom-color: #393a3e;
-}
-
-/* 4열 체크리스트 테이블 (연번, 점검내용, 점검결과, 비고) */
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) {
-  table-layout: auto !important;
-}
-
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(1),
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(1) {
-  width: 5%;
-  min-width: 50px;
-  text-align: center;
-}
-
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(2),
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(2) {
-  width: 40%;
-}
-
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(3),
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(3) {
-  width: 10%;
-  min-width: 80px;
-  text-align: center;
-}
-
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) th:nth-child(4),
-.sl-markdown-content table:has(th:nth-child(4)):not(:has(th:nth-child(5))) td:nth-child(4) {
-  width: 45%;
 }
 
 /* -----------------------------------------
