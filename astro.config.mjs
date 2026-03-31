@@ -77,7 +77,6 @@ export default defineConfig({
           label: '좋은생각 ISP',
           items: [
             { label: '개요', link: '/goodthinking-isp/' },
-            { label: '📊 엔티티 관계도', link: '/goodthinking-isp/entity-map/' },
             { label: '추진 일정', link: '/goodthinking-isp/schedule/' },
             {
               label: '1. 프로젝트 개요',
@@ -87,6 +86,7 @@ export default defineConfig({
               label: '2. 현황 분석',
               items: [
                 { label: '개요', link: '/goodthinking-isp/02-analysis/' },
+                { label: '📊 엔티티 관계도', link: '/goodthinking-isp/02-analysis/entity-map/' },
                 { label: '조사 가이드 및 주의사항', link: '/goodthinking-isp/02-analysis/investigation-guide/' },
                 { label: '시스템 정밀진단', link: '/goodthinking-isp/02-analysis/system-diagnosis/' },
                 { label: '업무 분석', link: '/goodthinking-isp/02-analysis/business-analysis/' },
