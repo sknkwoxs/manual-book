@@ -117,6 +117,43 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 다큐멘탈리스트, DB 총괄관리자 모두 노트 작성 및 확인이 가능합니다.
 :::
 
+### 미지원 필드
+
+Moderation Notes는 **텍스트 기반 필드**에서만 사용할 수 있습니다. 다음 필드 유형에서는 텍스트 선택이 되지 않아 노트 기능을 사용할 수 없습니다.
+
+| 미지원 필드 유형 | 예시 |
+|-----------------|------|
+| 숫자 필드 | Publication Year, Page 등 |
+| 날짜 필드 | Publication Date 등 |
+| 이미지/파일 | Cover Image, PDF 첨부파일 등 |
+| 드롭다운/체크박스 | Language, Content Type 등 |
+
+미지원 필드에 대한 검토 의견은 **Revision log message**를 활용해 주세요.
+
+### Revision log message 활용
+
+미지원 필드에 대한 검토 의견이나 수정 요청은 **Revision log message**에 남길 수 있습니다.
+
+#### 작성 방법
+
+1. 콘텐츠 **Edit** 화면으로 이동
+2. 우측 사이드바 상단의 **새 개정본 만들기** 토글이 켜져 있는지 확인
+3. **개정본 로그 메시지** 입력란에 검토 의견 작성
+4. **Save** 버튼 클릭
+
+#### 확인 방법
+
+1. 콘텐츠 View 화면에서 우측 상단 **더보기 메뉴(⋮)** 클릭
+2. **Revisions** 선택
+3. 각 개정본의 로그 메시지 확인
+
+:::tip[Moderation Notes vs Revision log]
+- **Moderation Notes**: 특정 텍스트에 대한 인라인 코멘트, 담당자 지정 및 이메일 알림 가능
+- **Revision log message**: 전체 수정 사항에 대한 요약 기록, 개정본 이력에 남음
+
+텍스트 필드는 Moderation Notes를, 그 외 필드는 Revision log message를 활용하세요.
+:::
+
 ---
 
 ## 워크플로우 화면 접근
