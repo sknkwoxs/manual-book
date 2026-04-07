@@ -101,7 +101,7 @@ export default defineConfig({
                     { label: '편집팀', link: '/goodthinking-isp/02-analysis/meeting-notes/editing-team-interview/' },
                     { label: '경영지원팀', link: '/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/' },
                     { label: '외주콜센터', link: '/goodthinking-isp/02-analysis/meeting-notes/call-center-interview/' },
-                    { label: '영업추진팀 (안건)', link: '/goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/' },
+                    { label: '영업추진팀', link: '/goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/' },
                   ],
                 },
                 {
