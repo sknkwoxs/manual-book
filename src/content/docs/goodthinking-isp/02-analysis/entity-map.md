@@ -23,25 +23,30 @@ flowchart LR
         MGMT["경영지원팀<br/><small>송윤경 · 김나현</small>"]
         EDIT_M["월간지팀<br/><small>이민애 편집장 外</small>"]
         EDIT_B["단행본팀<br/><small>강시현</small>"]
-        CHERRY["앵두아트프로젝트"]
         CALL["외주 콜센터<br/><small>더아이앤오 ~4명</small>"]
     end
 
     %% ── 시스템 레이어 (중앙 컬럼) ──
     subgraph SYS["💻 시스템"]
         direction TB
-        CS["CS System<br/><small>XPlatform / MSSQL 2008<br/>86화면</small>"]
-        CMS["CMS<br/><small>기사관리</small>"]
-        ADMIN["홈페이지 Admin<br/><small>Node.js</small>"]
-        NICE["나이스페이 PG<br/><small>4~5 계정</small>"]
-        PLAY["Playauto<br/><small>외부몰 연동</small>"]
-        ERP["위하고 ERP"]
-        KORYO["고려출판물류<br/><small>단행본 출고</small>"]
-        CJ["CJ대한통운"]
-        POST["우체국"]
-        NAS["NAS"]
-        BANK["신한 인사이트 뱅크"]
-        CTI["서울정보시스템 CTI<br/><small>⚠️ 중단</small>"]
+        subgraph SYS_INT["🏠 내부 시스템"]
+            direction TB
+            CS["CS System<br/><small>XPlatform / MSSQL 2008<br/>86화면</small>"]
+            ADMIN["홈페이지 Admin<br/><small>Node.js</small>"]
+            CMS["CMS<br/><small>기사관리</small>"]
+            ERP["위하고 ERP"]
+        end
+        subgraph SYS_EXT["🌐 외부 시스템"]
+            direction TB
+            NICE["나이스페이 PG<br/><small>4~5 계정</small>"]
+            PLAY["Playauto<br/><small>외부몰 연동</small>"]
+            KORYO["고려출판물류<br/><small>단행본 출고</small>"]
+            CJ["CJ대한통운"]
+            POST["우체국"]
+            NAS["NAS"]
+            BANK["신한 인사이트 뱅크"]
+            CTI["서울정보시스템 CTI<br/><small>⚠️ 중단</small>"]
+        end
     end
 
     %% ── 업무 레이어 (우측 컬럼) ──
@@ -51,12 +56,12 @@ flowchart LR
         P_SALES["외부몰 판매<br/><small>주문수집·재고·CS</small>"]
         P_MGMT["경영관리<br/><small>회계·인사·입출금</small>"]
         P_EDIT["콘텐츠 제작<br/><small>기사작성·편집·인쇄</small>"]
-        P_CHERRY["앵두 제품관리<br/><small>상품등록·배송</small>"]
         P_CALL["인바운드 CS<br/><small>수신·상담·처리</small>"]
     end
 
     %% ── 조직 → 시스템 ──
     SUB -->|"주력"| CS
+    SUB --> ERP
     SUB --> NICE
     SUB --> POST
     SUB --> CJ
@@ -75,10 +80,6 @@ flowchart LR
     EDIT_B --> CMS
     EDIT_B --> NAS
 
-    CHERRY --> ADMIN
-    CHERRY --> PLAY
-    CHERRY --> CJ
-
     CALL -->|"VPN"| CS
     CALL --> CTI
 
@@ -88,20 +89,223 @@ flowchart LR
     CS -.-> P_CALL
     KORYO -.-> P_SALES
     CMS -.-> P_EDIT
-    ADMIN -.-> P_CHERRY
     PLAY -.-> P_SALES
-    PLAY -.-> P_CHERRY
 
     %% ── 스타일 ──
     style ORG fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-    style SYS fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS fill:#fefce8,stroke:#eab308,stroke-width:2px
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
     style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
     style CTI fill:#fee2e2,stroke:#ef4444,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ---
 
-## 2. 시스템 간 연동 관계
+## 2. 팀별 조감도
+
+각 팀이 사용하는 시스템과 수행하는 업무만 추출한 개별 뷰입니다.
+
+### 2-1. 정기구독팀
+
+> 28단계 프로세스 · CS System 주력 · 🔴 수기 가입접수, 엑셀 배송 매칭, 수기 해지
+
+```mermaid
+flowchart LR
+    SUB["🏢 정기구독팀<br/><small>정황규 · 어은진</small>"]
+
+    subgraph SYS_INT["🏠 내부"]
+        CS["CS System<br/><small>주력 · 86화면</small>"]
+    end
+    subgraph SYS_EXT["🌐 외부"]
+        NICE["나이스페이 PG<br/><small>4~5 계정</small>"]
+        POST["우체국"]
+        CJ["CJ대한통운"]
+    end
+
+    subgraph PROC["📋 업무"]
+        P1["신규 가입접수<br/><small>🔴 전화→CS 수기입력</small>"]
+        P2["구독 해지<br/><small>🔴 전화→CS 수기삭제</small>"]
+        P3["배송 관리<br/><small>🔴 엑셀↔우체국·CJ 매칭</small>"]
+        P4["결제·입금 처리"]
+        P5["선물·재발송 관리"]
+    end
+
+    SUB -->|"주력"| CS
+    SUB --> NICE
+    SUB --> POST
+    SUB --> CJ
+    CS -.-> P1
+    CS -.-> P2
+    CS -.-> P4
+    POST -.-> P3
+    CJ -.-> P3
+    CS -.-> P5
+
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
+    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style SUB fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+```
+
+### 2-2. 영업추진팀
+
+> 10건 수작업·병목 · 고려출판물류+위하고 주력 · CS 시스템은 카드결제·현금영수증만
+
+```mermaid
+flowchart LR
+    SALES["🏢 영업추진팀<br/><small>이성수 · 권지은</small>"]
+
+    subgraph SYS_INT["🏠 내부"]
+        CS["CS System<br/><small>카드결제만</small>"]
+        ERP["위하고 ERP<br/><small>주력</small>"]
+    end
+    subgraph SYS_EXT["🌐 외부"]
+        KORYO["고려출판물류<br/><small>주력 · 단행본 출고</small>"]
+        CJ["CJ대한통운"]
+    end
+
+    subgraph PROC["📋 업무"]
+        P1["단행본 출고<br/><small>🔴 고려→위하고 이중입력</small>"]
+        P2["입금 관리<br/><small>🔴 삼중입력 (엑셀→관리→위하고)</small>"]
+        P3["재고 관리<br/><small>🔴 통장내역 수작업 대조</small>"]
+        P4["다량특판<br/><small>🟡 개인엑셀 관리</small>"]
+    end
+
+    SALES -->|"카드결제만"| CS
+    SALES -->|"주력"| KORYO
+    SALES -->|"주력"| ERP
+    SALES --> CJ
+    KORYO -.-> P1
+    ERP -.-> P2
+    ERP -.-> P3
+    CS -.-> P4
+
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
+    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style SALES fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+```
+
+### 2-3. 경영지원팀
+
+> 8단계 프로세스 · CS System + 위하고 + 신한뱅크 · 🔴 매출 수기 대사, 입출금 수기 확인
+
+```mermaid
+flowchart LR
+    MGMT["🏢 경영지원팀<br/><small>송윤경 · 김나현</small>"]
+
+    subgraph SYS_INT["🏠 내부"]
+        CS["CS System<br/><small>주력</small>"]
+        ERP["위하고 ERP"]
+    end
+    subgraph SYS_EXT["🌐 외부"]
+        BANK["신한 인사이트 뱅크"]
+    end
+
+    subgraph PROC["📋 업무"]
+        P1["매출 관리<br/><small>🔴 CS↔ERP 수기 대사</small>"]
+        P2["입출금 확인<br/><small>🔴 신한뱅크→엑셀→CS</small>"]
+        P3["급여 산출<br/><small>🟡 수기 산출</small>"]
+        P4["선수수익 관리"]
+    end
+
+    MGMT -->|"주력"| CS
+    MGMT --> ERP
+    MGMT --> BANK
+    CS -.-> P1
+    BANK -.-> P2
+    ERP -.-> P3
+    CS -.-> P4
+
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
+    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style MGMT fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+```
+
+### 2-4. 편집실 (월간지 + 단행본)
+
+> 5단계 프로세스 · CMS + NAS 중심 · 🟡 기사 상태 수기 추적, 인쇄 교정 메일 수작업
+
+```mermaid
+flowchart LR
+    EDIT_M["🏢 월간지팀<br/><small>이민애 편집장 外</small>"]
+    EDIT_B["🏢 단행본팀<br/><small>강시현</small>"]
+
+    subgraph SYS_INT["🏠 내부"]
+        CMS["CMS<br/><small>기사관리</small>"]
+        ADMIN["홈페이지 Admin<br/><small>Node.js</small>"]
+    end
+    subgraph SYS_EXT["🌐 외부"]
+        NAS["NAS<br/><small>편집 원고·이미지</small>"]
+    end
+
+    subgraph PROC["📋 업무"]
+        P1["기사 작성·편집<br/><small>🟡 상태 수기 추적</small>"]
+        P2["인쇄·교정<br/><small>🟡 교정 메일 수작업</small>"]
+        P3["웹 발행"]
+    end
+
+    EDIT_M --> CMS
+    EDIT_M --> NAS
+    EDIT_B --> CMS
+    EDIT_B --> NAS
+    CMS -.-> P1
+    NAS -.-> P2
+    CMS -->|"기사 발행"| ADMIN
+    ADMIN -.-> P3
+
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
+    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style EDIT_M fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+    style EDIT_B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+```
+
+### 2-5. 외주 콜센터 (더아이앤오)
+
+> VPN으로 CS System 접속 · 🔴 VPN 끊김 시 업무 중단, CTI 중단 → 수기 콜 로그
+
+```mermaid
+flowchart LR
+    CALL["🏢 외주 콜센터<br/><small>더아이앤오 ~4명</small>"]
+
+    subgraph SYS_INT["🏠 내부"]
+        CS["CS System<br/><small>VPN 접속</small>"]
+    end
+    subgraph SYS_EXT["🌐 외부"]
+        CTI["서울정보시스템 CTI<br/><small>⚠️ 중단</small>"]
+        LG["LG유플러스<br/><small>인바운드 시스템</small>"]
+        AUTO["오토콜 시스템<br/><small>OB용</small>"]
+    end
+
+    subgraph PROC["📋 업무"]
+        P1["인바운드 상담<br/><small>🔴 CTI 중단→수기 번호 검색</small>"]
+        P2["아웃바운드 콜<br/><small>구독만료·연장 안내</small>"]
+        P3["상담 이력 기록<br/><small>🟡 CS + 엑셀 이중기록</small>"]
+        P4["리포트 작성<br/><small>데일리·위클리·먼슬리</small>"]
+    end
+
+    CALL -->|"VPN"| CS
+    CALL --> CTI
+    CALL --> LG
+    CALL --> AUTO
+    CS -.-> P1
+    AUTO -.-> P2
+    CS -.-> P3
+    LG -.-> P4
+
+    style SYS_INT fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
+    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style CALL fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+    style CTI fill:#fee2e2,stroke:#ef4444,stroke-width:2px,stroke-dasharray: 5 5
+```
+
+---
+
+## 3. 시스템 간 연동 관계
 
 내부 시스템과 외부 시스템 간의 데이터 흐름을 보여줍니다.
 
@@ -109,32 +313,35 @@ flowchart LR
 flowchart LR
     subgraph INTERNAL["내부 시스템"]
         CS["CS System<br/><small>MSSQL 2008</small>"]
-        CMS["CMS"]
-        ADMIN["홈페이지 Admin"]
+        CMS["CMS<br/><small>기사관리</small>"]
+        ADMIN["홈페이지 Admin<br/><small>Node.js</small>"]
+        ERP["위하고 ERP<br/><small>회계·재고</small>"]
     end
 
     subgraph EXTERNAL["외부 연동"]
-        NICE["나이스페이 PG"]
-        PLAY["Playauto"]
-        ERP["위하고 ERP"]
-        KORYO["고려출판물류"]
+        NICE["나이스페이 PG<br/><small>4~5 계정</small>"]
+        PLAY["Playauto<br/><small>외부몰 연동</small>"]
+        KORYO["고려출판물류<br/><small>단행본 출고</small>"]
         CJ["CJ대한통운"]
         POST["우체국"]
         BANK["신한 인사이트 뱅크"]
-        SETTLE["금융결제원"]
     end
 
-    CS <-->|"결제 처리"| NICE
-    CS <-->|"주문 수집·재고"| PLAY
-    CS -->|"회계 데이터"| ERP
-    CS -->|"배송 접수"| CJ
-    CS -->|"배송 접수"| POST
-    CS -->|"CMS 출금"| SETTLE
-    ERP <-->|"계좌 조회"| BANK
+    %% CS System 중심 연동
+    CS <-->|"결제·환불 처리"| NICE
+    CS <-->|"주문 수집·재고 동기화"| PLAY
+    CS <-->|"매출 전송 · 재고 참조"| ERP
+    CS -->|"배송 접수·송장"| CJ
+    CS -->|"배송 접수·송장"| POST
+
+    %% ERP 연동
+    ERP <-->|"계좌 조회·입출금"| BANK
     KORYO -->|"단행본 출고"| CJ
-    KORYO -->|"재고 데이터"| ERP
+    KORYO -->|"출고·재고 데이터"| ERP
+
+    %% 콘텐츠 시스템 연동
     CMS -->|"기사 발행"| ADMIN
-    ADMIN -->|"구독 신청"| CS
+    ADMIN -->|"구독 신청 접수"| CS
 
     style INTERNAL fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
     style EXTERNAL fill:#fff7ed,stroke:#f97316,stroke-width:2px
@@ -142,7 +349,7 @@ flowchart LR
 
 ---
 
-## 3. 수작업 병목 지도
+## 4. 수작업 병목 지도
 
 현행 업무에서 식별된 **56건의 수작업** 중 핵심 병목을 팀별로 표시합니다.
 빨간색 항목이 개선 우선순위가 높은 병목 구간입니다.
@@ -191,7 +398,7 @@ flowchart TB
 
 ---
 
-## 4. 데이터베이스 구조 개요
+## 5. 데이터베이스 구조 개요
 
 CS System의 MSSQL 2008 데이터베이스 151개 테이블 구성을 보여줍니다.
 
@@ -202,7 +409,7 @@ flowchart TB
         subgraph CS_DB["CS 데이터베이스 — 75 tables"]
             T_MEM["회원 테이블군<br/><small>회원·구독·결제이력</small>"]
             T_ORD["주문 테이블군<br/><small>주문·배송·반품</small>"]
-            T_PRD["상품 테이블군<br/><small>월간지·단행본·앵두</small>"]
+            T_PRD["상품 테이블군<br/><small>월간지·단행본</small>"]
             T_FIN["정산 테이블군<br/><small>매출·입금·미납</small>"]
             T_CS["상담 테이블군<br/><small>인바운드·아웃바운드</small>"]
         end
@@ -240,7 +447,7 @@ flowchart TB
 
 ---
 
-## 5. 인터랙티브 네트워크 그래프
+## 6. 인터랙티브 네트워크 그래프
 
 위 정적 다이어그램을 **클릭·드래그·줌** 가능한 네트워크로 탐색합니다.
 노드를 클릭하면 상세 정보가 표시되고, 상단 필터로 레이어별 표시를 제어할 수 있습니다.
@@ -278,18 +485,17 @@ flowchart TB
       { id: 'mgmt', label: '경영지원팀', group: 'org', title: '송윤경 · 김나현\n주력: CS System\n연동: 위하고 ERP, 신한뱅크', info: '<strong>경영지원팀</strong> (송윤경, 김나현)<br/>8단계 프로세스 · 주력 시스템: CS System<br/>연동: 위하고 ERP, 신한 인사이트 뱅크' },
       { id: 'edit_m', label: '월간지팀', group: 'org', title: '이민애 편집장 外\n시스템: CMS, NAS', info: '<strong>월간지팀</strong> (이민애 편집장 外)<br/>편집실 · 시스템: CMS (기사관리), NAS' },
       { id: 'edit_b', label: '단행본팀', group: 'org', title: '강시현\n시스템: CMS, NAS', info: '<strong>단행본팀</strong> (강시현)<br/>편집실 · 시스템: CMS (기사관리), NAS' },
-      { id: 'cherry', label: '앵두아트프로젝트', group: 'org', title: '홈페이지 Admin, Playauto, CJ', info: '<strong>앵두아트프로젝트</strong><br/>시스템: 홈페이지 Admin, Playauto, CJ대한통운' },
       { id: 'call', label: '외주 콜센터', group: 'org', title: '더아이앤오 ~4명\nVPN 접속 · CS System', info: '<strong>외주 콜센터</strong> (더아이앤오 ~4명)<br/>VPN으로 CS System 접속<br/>⚠️ CTI 중단 상태 → 수기 콜 로그' },
 
       // 시스템 (sys)
       { id: 'cs', label: 'CS System', group: 'sys', title: 'XPlatform / MSSQL 2008\n86화면 · 핵심 시스템', info: '<strong>CS System</strong><br/>XPlatform 클라이언트 / MSSQL 2008<br/>86화면 · 56건 비즈니스 로직 (SP 기반)<br/>전 부서 사용 핵심 시스템', font: { size: 15, bold: true }, borderWidth: 4, size: 25, color: { background: '#fde68a', border: '#d97706' } },
       { id: 'cms', label: 'CMS', group: 'sys', title: '기사 관리 시스템', info: '<strong>CMS</strong> (기사관리)<br/>편집실에서 기사 작성·편집·발행<br/>홈페이지 Admin으로 기사 발행 연동' },
-      { id: 'admin', label: '홈페이지 Admin', group: 'sys', title: 'Node.js 기반', info: '<strong>홈페이지 Admin</strong> (Node.js)<br/>앵두아트 상품 관리·구독 신청 접수<br/>CMS에서 기사 수신 → 웹 발행' },
+      { id: 'admin', label: '홈페이지 Admin', group: 'sys', title: 'Node.js 기반', info: '<strong>홈페이지 Admin</strong> (Node.js)<br/>상품 관리·구독 신청 접수<br/>CMS에서 기사 수신 → 웹 발행' },
       { id: 'nice', label: '나이스페이 PG', group: 'sys', title: '4~5 계정 · 결제 처리', info: '<strong>나이스페이 PG</strong><br/>4~5개 결제 계정 운영<br/>CS System과 결제 처리 연동' },
       { id: 'play', label: 'Playauto', group: 'sys', title: '외부몰 연동 · 10개 몰', info: '<strong>Playauto</strong> (외부몰 연동)<br/>쿠팡·네이버 등 10개 외부몰<br/>주문 수집 · 재고 동기화' },
       { id: 'erp', label: '위하고 ERP', group: 'sys', title: '회계 · 인사 관리', info: '<strong>위하고 ERP</strong><br/>회계 데이터 관리<br/>CS System → ERP 매출 전송<br/>신한 인사이트 뱅크 계좌 조회 연동<br/>영업추진팀 핵심 시스템' },
       { id: 'koryo', label: '고려출판물류', group: 'sys', title: '단행본 출고 시스템', info: '<strong>고려출판물류 시스템</strong><br/>단행본 출고 관리 (권지은 과장)<br/>예스24·알라딘·교보문고 SCM 연동<br/>영업추진팀 핵심 시스템' },
-      { id: 'cj', label: 'CJ대한통운', group: 'sys', title: '배송 접수', info: '<strong>CJ대한통운</strong><br/>배송 접수 · 송장 관리<br/>정기구독팀·영업추진팀·앵두 공통 사용' },
+      { id: 'cj', label: 'CJ대한통운', group: 'sys', title: '배송 접수', info: '<strong>CJ대한통운</strong><br/>배송 접수 · 송장 관리<br/>정기구독팀·영업추진팀 공통 사용' },
       { id: 'post', label: '우체국', group: 'sys', title: '배송 접수', info: '<strong>우체국</strong><br/>배송 접수 (월간지 등)<br/>정기구독팀 주 사용' },
       { id: 'nas', label: 'NAS', group: 'sys', title: '파일 스토리지', info: '<strong>NAS</strong><br/>편집 원고·이미지 파일 저장소<br/>편집실 공유 스토리지' },
       { id: 'bank', label: '신한 인사이트 뱅크', group: 'sys', title: '계좌 조회 · 입출금', info: '<strong>신한 인사이트 뱅크</strong><br/>계좌 조회 · 입출금 확인<br/>위하고 ERP와 연동' },
@@ -300,7 +506,6 @@ flowchart TB
       { id: 'p_sales', label: '외부몰 판매', group: 'proc', title: '단행본·총판·다량특판\n🔴 이중입력, 수작업대조', info: '<strong>외부몰 판매 / 단행본 유통</strong><br/>단행본 출고 · 총판 관리 · 다량 특판<br/>🔴 핵심 병목: 고려출판물류→위하고 이중입력, 입금내역 삼중입력, 통장내역 수작업 대조' },
       { id: 'p_mgmt', label: '경영관리', group: 'proc', title: '회계·인사·입출금\n🔴 매출수기대사, 입출금수기', info: '<strong>경영관리</strong><br/>회계 · 인사 · 입출금 관리<br/>🔴 핵심 병목: 매출 수기 대사 (CS↔ERP), 입출금 수기 확인' },
       { id: 'p_edit', label: '콘텐츠 제작', group: 'proc', title: '기사작성·편집·인쇄\n🟡 상태수기추적, 교정메일수작업', info: '<strong>콘텐츠 제작</strong><br/>기사 작성 · 편집 · 인쇄<br/>🟡 병목: 기사 상태 수기 추적, 인쇄 교정 메일 수작업' },
-      { id: 'p_cherry', label: '앵두 제품관리', group: 'proc', title: '상품등록·배송', info: '<strong>앵두 제품관리</strong><br/>상품 등록 · 배송 처리<br/>홈페이지 Admin + Playauto 이용' },
       { id: 'p_call', label: '인바운드 CS', group: 'proc', title: '수신·상담·처리\n🔴 VPN끊김, CTI중단', info: '<strong>인바운드 CS</strong><br/>수신 · 상담 · 처리<br/>🔴 핵심 병목: VPN 끊김 시 업무 중단, CTI 중단 → 수기 콜 로그' }
     ];
 
@@ -326,10 +531,6 @@ flowchart TB
       { id: 'e13', from: 'edit_b', to: 'cms', color: { color: '#93c5fd' } },
       { id: 'e14', from: 'edit_b', to: 'nas', color: { color: '#93c5fd' } },
 
-      { id: 'e15', from: 'cherry', to: 'admin', color: { color: '#93c5fd' } },
-      { id: 'e16', from: 'cherry', to: 'play', color: { color: '#93c5fd' } },
-      { id: 'e17', from: 'cherry', to: 'cj', color: { color: '#93c5fd' } },
-
       { id: 'e18', from: 'call', to: 'cs', label: 'VPN', color: { color: '#3b82f6' }, width: 2 },
       { id: 'e19', from: 'call', to: 'cti', color: { color: '#ef4444' }, dashes: true },
 
@@ -339,9 +540,7 @@ flowchart TB
       { id: 'e22', from: 'cs', to: 'p_mgmt', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e23', from: 'cs', to: 'p_call', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e24', from: 'cms', to: 'p_edit', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
-      { id: 'e25', from: 'admin', to: 'p_cherry', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e26', from: 'play', to: 'p_sales', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
-      { id: 'e27', from: 'play', to: 'p_cherry', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
 
       // 시스템 간 연동
       { id: 'e28', from: 'cs', to: 'nice', label: '결제', color: { color: '#f59e0b' }, dashes: [5, 5] },
