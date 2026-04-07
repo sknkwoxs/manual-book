@@ -107,7 +107,7 @@ export default defineConfig({
                 {
                   label: '기능요건 정리',
                   items: [
-                    { label: 'CS 시스템 (32건)', link: '/goodthinking-isp/02-analysis/meeting-notes/cs-system-requirements/' },
+                    { label: 'CS 시스템 (38건)', link: '/goodthinking-isp/02-analysis/meeting-notes/cs-system-requirements/' },
                     { label: '어드민·CMS (15건)', link: '/goodthinking-isp/02-analysis/meeting-notes/admin-cms-requirements/' },
                     { label: '기타 (2건)', link: '/goodthinking-isp/02-analysis/meeting-notes/etc-requirements/' },
                   ],

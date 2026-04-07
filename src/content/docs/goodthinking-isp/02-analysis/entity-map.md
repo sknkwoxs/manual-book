@@ -36,6 +36,7 @@ flowchart LR
         NICE["나이스페이 PG<br/><small>4~5 계정</small>"]
         PLAY["Playauto<br/><small>외부몰 연동</small>"]
         ERP["위하고 ERP"]
+        KORYO["고려출판물류<br/><small>단행본 출고</small>"]
         CJ["CJ대한통운"]
         POST["우체국"]
         NAS["NAS"]
@@ -60,8 +61,9 @@ flowchart LR
     SUB --> POST
     SUB --> CJ
 
-    SALES -->|"주력"| CS
-    SALES --> PLAY
+    SALES -->|"카드결제만"| CS
+    SALES -->|"주력"| KORYO
+    SALES -->|"주력"| ERP
     SALES --> CJ
 
     MGMT -->|"주력"| CS
@@ -82,9 +84,9 @@ flowchart LR
 
     %% ── 시스템 → 업무 ──
     CS -.-> P_SUB
-    CS -.-> P_SALES
     CS -.-> P_MGMT
     CS -.-> P_CALL
+    KORYO -.-> P_SALES
     CMS -.-> P_EDIT
     ADMIN -.-> P_CHERRY
     PLAY -.-> P_SALES
@@ -115,6 +117,7 @@ flowchart LR
         NICE["나이스페이 PG"]
         PLAY["Playauto"]
         ERP["위하고 ERP"]
+        KORYO["고려출판물류"]
         CJ["CJ대한통운"]
         POST["우체국"]
         BANK["신한 인사이트 뱅크"]
@@ -128,6 +131,8 @@ flowchart LR
     CS -->|"배송 접수"| POST
     CS -->|"CMS 출금"| SETTLE
     ERP <-->|"계좌 조회"| BANK
+    KORYO -->|"단행본 출고"| CJ
+    KORYO -->|"재고 데이터"| ERP
     CMS -->|"기사 발행"| ADMIN
     ADMIN -->|"구독 신청"| CS
 
@@ -139,7 +144,7 @@ flowchart LR
 
 ## 3. 수작업 병목 지도
 
-현행 업무에서 식별된 **49건의 수작업** 중 핵심 병목 20건을 팀별로 표시합니다.
+현행 업무에서 식별된 **56건의 수작업** 중 핵심 병목을 팀별로 표시합니다.
 빨간색 항목이 개선 우선순위가 높은 병목 구간입니다.
 
 ```mermaid
@@ -152,10 +157,12 @@ flowchart TB
         S5["🟡 미납 수기 확인"]
     end
 
-    subgraph SALES_TEAM["영업추진팀 — 5단계 프로세스"]
-        L1["🔴 Playauto 주문 수기 확인<br/><small>10개 외부몰 개별 확인</small>"]
-        L2["🔴 재고 수기 동기화<br/><small>CS↔Playauto 불일치</small>"]
-        L3["🟡 CS 미반영 주문 수기입력"]
+    subgraph SALES_TEAM["영업추진팀 — 10건 수작업·병목"]
+        L1["🔴 고려출판물류→위하고 이중입력<br/><small>단행본 출고·매출 매일</small>"]
+        L2["🔴 입금내역 삼중입력<br/><small>엑셀→관리용→위하고 수금</small>"]
+        L3["🔴 통장내역 수작업 대조<br/><small>미수금 확인 수시</small>"]
+        L4["🟡 다량특판 개인엑셀 관리<br/><small>출고량·단가·입금여부</small>"]
+        L5["🟡 편집팀 인쇄완료 수동확인"]
     end
 
     subgraph MGMT_TEAM["경영지원팀 — 8단계 프로세스"]
@@ -267,7 +274,7 @@ flowchart TB
     var allNodes = [
       // 조직 (org)
       { id: 'sub', label: '정기구독팀', group: 'org', title: '정황규 · 어은진\n주력: CS System\n연동: 나이스페이, 우체국, CJ', info: '<strong>정기구독팀</strong> (정황규, 어은진)<br/>28단계 프로세스 · 주력 시스템: CS System<br/>연동: 나이스페이 PG, 우체국, CJ대한통운' },
-      { id: 'sales', label: '영업추진팀', group: 'org', title: '이성수 · 권지은\n주력: CS System\n연동: Playauto, CJ', info: '<strong>영업추진팀</strong> (이성수, 권지은)<br/>5단계 프로세스 · 주력 시스템: CS System<br/>연동: Playauto (외부몰 10개), CJ대한통운' },
+      { id: 'sales', label: '영업추진팀', group: 'org', title: '이성수 · 권지은\n주력: 고려출판물류, 위하고, 엑셀\nCS 시스템은 카드결제만', info: '<strong>영업추진팀</strong> (이성수, 권지은)<br/>10건 수작업·병목 · 주력 시스템: 고려출판물류, 위하고, 엑셀<br/>CS 시스템은 카드결제·현금영수증 발행 외 미사용' },
       { id: 'mgmt', label: '경영지원팀', group: 'org', title: '송윤경 · 김나현\n주력: CS System\n연동: 위하고 ERP, 신한뱅크', info: '<strong>경영지원팀</strong> (송윤경, 김나현)<br/>8단계 프로세스 · 주력 시스템: CS System<br/>연동: 위하고 ERP, 신한 인사이트 뱅크' },
       { id: 'edit_m', label: '월간지팀', group: 'org', title: '이민애 편집장 外\n시스템: CMS, NAS', info: '<strong>월간지팀</strong> (이민애 편집장 外)<br/>편집실 · 시스템: CMS (기사관리), NAS' },
       { id: 'edit_b', label: '단행본팀', group: 'org', title: '강시현\n시스템: CMS, NAS', info: '<strong>단행본팀</strong> (강시현)<br/>편집실 · 시스템: CMS (기사관리), NAS' },
@@ -280,7 +287,8 @@ flowchart TB
       { id: 'admin', label: '홈페이지 Admin', group: 'sys', title: 'Node.js 기반', info: '<strong>홈페이지 Admin</strong> (Node.js)<br/>앵두아트 상품 관리·구독 신청 접수<br/>CMS에서 기사 수신 → 웹 발행' },
       { id: 'nice', label: '나이스페이 PG', group: 'sys', title: '4~5 계정 · 결제 처리', info: '<strong>나이스페이 PG</strong><br/>4~5개 결제 계정 운영<br/>CS System과 결제 처리 연동' },
       { id: 'play', label: 'Playauto', group: 'sys', title: '외부몰 연동 · 10개 몰', info: '<strong>Playauto</strong> (외부몰 연동)<br/>쿠팡·네이버 등 10개 외부몰<br/>주문 수집 · 재고 동기화' },
-      { id: 'erp', label: '위하고 ERP', group: 'sys', title: '회계 · 인사 관리', info: '<strong>위하고 ERP</strong><br/>회계 데이터 관리<br/>CS System → ERP 매출 전송<br/>신한 인사이트 뱅크 계좌 조회 연동' },
+      { id: 'erp', label: '위하고 ERP', group: 'sys', title: '회계 · 인사 관리', info: '<strong>위하고 ERP</strong><br/>회계 데이터 관리<br/>CS System → ERP 매출 전송<br/>신한 인사이트 뱅크 계좌 조회 연동<br/>영업추진팀 핵심 시스템' },
+      { id: 'koryo', label: '고려출판물류', group: 'sys', title: '단행본 출고 시스템', info: '<strong>고려출판물류 시스템</strong><br/>단행본 출고 관리 (권지은 과장)<br/>예스24·알라딘·교보문고 SCM 연동<br/>영업추진팀 핵심 시스템' },
       { id: 'cj', label: 'CJ대한통운', group: 'sys', title: '배송 접수', info: '<strong>CJ대한통운</strong><br/>배송 접수 · 송장 관리<br/>정기구독팀·영업추진팀·앵두 공통 사용' },
       { id: 'post', label: '우체국', group: 'sys', title: '배송 접수', info: '<strong>우체국</strong><br/>배송 접수 (월간지 등)<br/>정기구독팀 주 사용' },
       { id: 'nas', label: 'NAS', group: 'sys', title: '파일 스토리지', info: '<strong>NAS</strong><br/>편집 원고·이미지 파일 저장소<br/>편집실 공유 스토리지' },
@@ -289,7 +297,7 @@ flowchart TB
 
       // 업무 프로세스 (proc)
       { id: 'p_sub', label: '정기구독 관리', group: 'proc', title: '신규가입·해지·배송\n🔴 수기가입, 엑셀배송, 수기해지', info: '<strong>정기구독 관리</strong><br/>신규가입 · 해지 · 배송 처리<br/>🔴 핵심 병목: 수기 가입접수, 엑셀 배송 매칭, 수기 해지' },
-      { id: 'p_sales', label: '외부몰 판매', group: 'proc', title: '주문수집·재고·CS\n🔴 수기주문확인, 재고불일치', info: '<strong>외부몰 판매</strong><br/>주문 수집 · 재고 관리 · CS<br/>🔴 핵심 병목: Playauto 주문 수기 확인, 재고 수기 동기화' },
+      { id: 'p_sales', label: '외부몰 판매', group: 'proc', title: '단행본·총판·다량특판\n🔴 이중입력, 수작업대조', info: '<strong>외부몰 판매 / 단행본 유통</strong><br/>단행본 출고 · 총판 관리 · 다량 특판<br/>🔴 핵심 병목: 고려출판물류→위하고 이중입력, 입금내역 삼중입력, 통장내역 수작업 대조' },
       { id: 'p_mgmt', label: '경영관리', group: 'proc', title: '회계·인사·입출금\n🔴 매출수기대사, 입출금수기', info: '<strong>경영관리</strong><br/>회계 · 인사 · 입출금 관리<br/>🔴 핵심 병목: 매출 수기 대사 (CS↔ERP), 입출금 수기 확인' },
       { id: 'p_edit', label: '콘텐츠 제작', group: 'proc', title: '기사작성·편집·인쇄\n🟡 상태수기추적, 교정메일수작업', info: '<strong>콘텐츠 제작</strong><br/>기사 작성 · 편집 · 인쇄<br/>🟡 병목: 기사 상태 수기 추적, 인쇄 교정 메일 수작업' },
       { id: 'p_cherry', label: '앵두 제품관리', group: 'proc', title: '상품등록·배송', info: '<strong>앵두 제품관리</strong><br/>상품 등록 · 배송 처리<br/>홈페이지 Admin + Playauto 이용' },
@@ -304,8 +312,9 @@ flowchart TB
       { id: 'e3', from: 'sub', to: 'post', color: { color: '#93c5fd' } },
       { id: 'e4', from: 'sub', to: 'cj', color: { color: '#93c5fd' } },
 
-      { id: 'e5', from: 'sales', to: 'cs', label: '주력', color: { color: '#3b82f6' }, width: 2 },
-      { id: 'e6', from: 'sales', to: 'play', color: { color: '#93c5fd' } },
+      { id: 'e5', from: 'sales', to: 'cs', label: '카드결제만', color: { color: '#a3a3a3' } },
+      { id: 'e5b', from: 'sales', to: 'koryo', label: '주력', color: { color: '#3b82f6' }, width: 2 },
+      { id: 'e5c', from: 'sales', to: 'erp', label: '주력', color: { color: '#3b82f6' }, width: 2 },
       { id: 'e7', from: 'sales', to: 'cj', color: { color: '#93c5fd' } },
 
       { id: 'e8', from: 'mgmt', to: 'cs', label: '주력', color: { color: '#3b82f6' }, width: 2 },
@@ -326,7 +335,7 @@ flowchart TB
 
       // 시스템 → 업무 (점선)
       { id: 'e20', from: 'cs', to: 'p_sub', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
-      { id: 'e21', from: 'cs', to: 'p_sales', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
+      { id: 'e21', from: 'koryo', to: 'p_sales', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e22', from: 'cs', to: 'p_mgmt', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e23', from: 'cs', to: 'p_call', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
       { id: 'e24', from: 'cms', to: 'p_edit', dashes: true, color: { color: '#a3a3a3' }, arrows: { to: { scaleFactor: 0.5 } } },
