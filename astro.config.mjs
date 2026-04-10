@@ -220,6 +220,7 @@ export default defineConfig({
                     { label: '이벤트(Events)', link: '/gced/manual/03-content-management/02-events/' },
                     { label: '뉴스(News)', link: '/gced/manual/03-content-management/03-news/' },
                     { label: '유용한 링크(Useful Links)', link: '/gced/manual/03-content-management/04-useful-links/' },
+                    { label: '파일 관리', link: '/gced/manual/03-content-management/05-files/' },
                   ],
                 },
                 { label: '택소노미 관리', link: '/gced/manual/04-taxonomy/' },

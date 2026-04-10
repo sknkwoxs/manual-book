@@ -31,6 +31,7 @@ GCED Clearinghouse 웹사이트 관리자 시스템 사용 매뉴얼입니다.
    - [Events](./03-content-management/02-events) 관리
    - [News](./03-content-management/03-news) 관리
    - [Useful Links](./03-content-management/04-useful-links) 관리
+   - [Files](./03-content-management/05-files) 관리
 
 4. [택소노미 관리](./04-taxonomy)
    - Keywords 관리

@@ -20,6 +20,7 @@ sidebar:
 | [Events](./02-events) | Board > Events | Administrator | 행사/이벤트 |
 | [News](./03-news) | Board > News | Administrator | 뉴스 |
 | [Useful Links](./04-useful-links) | Board > Useful Links | Administrator | 외부 링크 |
+| [파일 관리](./05-files) | Content > Files | Administrator | 업로드된 파일 관리 |
 
 ---
 
