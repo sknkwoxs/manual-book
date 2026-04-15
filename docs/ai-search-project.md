@@ -1,332 +1,234 @@
-# 매뉴얼북 AI 검색 기능 도입 프로젝트
+# 매뉴얼북 AI 검색 — 구축 및 운영 가이드
 
 > 관련 이슈: [sknkwoxs/extras#99](https://github.com/sknkwoxs/extras/issues/99)
+> 최종 업데이트: 2026-04-15
 
-## 배경
+## 개요
 
-- Cloudflare AutoRAG 서비스 출시 (2025.04 오픈 베타)
-- 매뉴얼북이 Astro Starlight + MD 기반이라 AI 검색 적용에 유리
-- 내부 서비스 우선 시범 운영 후 확대 검토
+매뉴얼북에 Cloudflare AutoRAG(AI Search) 기반의 AI 검색 기능을 도입했다.
+기존 Pagefind 키워드 검색은 유지하면서, AI 버튼을 통해 문서 기반 자연어 검색을 병행 제공한다.
+
+### 핵심 구조
+
+```
+코드 push (master)
+  ├─ Cloudflare Pages (Git 연결) → 사이트 빌드/배포 (자동)
+  └─ GitHub Actions → src/content/docs/ MD/MDX 파일을 R2 버킷에 업로드
+                            ↓
+                    AutoRAG 자동 인덱싱 (1시간 주기)
+                            ↓
+                    /api/ai-search 엔드포인트로 검색 제공
+```
+
+문서를 작성하고 push하면 **사이트 반영**과 **AI 검색 인덱싱**이 동시에 진행된다.
 
 ---
 
-## 현재 상태
+## 기술 스택
 
-### 기존 검색 기능
-- **Pagefind 활성화**: Starlight 기본 내장 검색 (자동 활성화)
-- **검색 설정**: `astro.config.mjs`에 명시적 설정 없음 (기본값 사용)
-- **인덱싱**: 빌드 시 `/dist/pagefind/`에 자동 생성
-- **UI**: Starlight 기본 검색 UI 사용 중
-
-### 기술 스택
-- Astro v5.17 + Starlight v0.37
-- astro-mermaid 다이어그램 지원
-- Cloudflare Pages 배포
+| 구성 요소 | 기술 | 역할 |
+|----------|------|------|
+| 문서 사이트 | Astro v5.17 + Starlight v0.37 | 정적 문서 사이트 |
+| 기본 검색 | Pagefind | 키워드 기반 검색 (Starlight 내장) |
+| AI 검색 | Cloudflare AutoRAG (AI Search 베타) | 자연어 RAG 검색 |
+| 문서 저장소 | Cloudflare R2 (`manual-book-content`) | AutoRAG 인덱싱 데이터 소스 |
+| 배포 | Cloudflare Pages (Git 연결) | 빌드/배포 자동화 |
+| R2 업로드 | GitHub Actions | MD/MDX 파일 R2 동기화 |
 
 ---
 
-## 검토 대상 솔루션
+## 파일 구조
 
-### 1. Cloudflare AutoRAG (AI Search)
-
-완전 관리형 RAG 파이프라인. 2025년 4월 오픈 베타.
-
-#### 작동 방식
 ```
-데이터 소스 (R2/웹사이트)
-    ↓
-자동 크롤링 → MD 변환 → 청킹 → 임베딩
-    ↓
-Vectorize DB 저장
-    ↓
-쿼리 → 벡터 검색 → LLM 응답 생성
+manual-book/
+├── astro.config.mjs              # Cloudflare adapter, Search 컴포넌트 오버라이드
+├── wrangler.toml                 # Cloudflare 로컬 개발 설정
+├── .github/workflows/
+│   └── deploy.yml                # R2 업로드 워크플로우
+├── src/
+│   ├── components/
+│   │   └── Search.astro          # 검색 UI (일반 Pagefind + AI 토글)
+│   └── pages/api/
+│       └── ai-search.ts          # AutoRAG API 엔드포인트
+└── docs/
+    └── ai-search-project.md      # 이 문서
 ```
-
-#### 특징
-| 항목 | 내용 |
-|------|------|
-| 데이터 소스 | R2 버킷 / 웹사이트 크롤링 |
-| 인덱싱 주기 | 6시간마다 자동 |
-| 파일 제한 | 10만 개, 4MB/파일 |
-| 지원 형식 | MD, MDX, TXT, PDF, DOCX, HTML, 이미지 등 |
-
-#### 가격
-- AutoRAG 자체: **오픈 베타 무료**
-- 내부 서비스 과금:
-  - R2: 10GB/월 무료
-  - Vectorize: 3천만 쿼리 차원/월 무료
-  - Workers AI: 10,000 뉴런/일 무료
-- **소규모 문서 사이트는 무료 티어 내 운영 가능**
-
-#### Astro 연동
-1. 웹사이트 크롤링 방식 (권장)
-   - Dashboard → AI → AI Search → Website 데이터 소스 추가
-   - 빌드 파이프라인 불필요
-2. R2 버킷 방식
-   - 빌드 결과물 R2 업로드 → 인덱싱
-
-#### 장점
-- 인프라 구축 불필요
-- Cloudflare 생태계와 통합
-- 자동 재인덱싱
-
-#### 단점
-- 커스텀 청킹/임베딩 모델 불가
-- Cloudflare 락인
-- 오픈 베타 불안정성
 
 ---
 
-### 2. Algolia DocSearch
+## Cloudflare 리소스 구성
 
-관리형 검색 서비스. 오픈소스 문서 사이트 무료 프로그램 제공.
+### 계정 정보
 
-#### 특징
-| 항목 | 내용 |
-|------|------|
-| 검색 방식 | 키워드 + AI (NeuralSearch는 Elevate 플랜만) |
-| 크롤링 | 주 1회 자동 |
-| 무료 조건 | 오픈소스/기술 블로그/공개 문서 |
+- **계정**: sknk-dev
+- **Account ID**: `a401d577dea602e601c084e944535d50`
+- **Pages 프로젝트**: `manual-book` (Git 연결: `sknkwoxs/manual-book`)
+- **도메인**: `manual.skunkworks.co.kr`, `manual-book.pages.dev`
 
-#### 가격
-| 플랜 | 비용 | 검색 요청 | AI 기능 |
-|------|------|-----------|---------|
-| Build | 무료 | 10K/월 | 테스트만 |
-| Grow | 종량제 | +$0.50/1K | X |
-| Elevate | ~$50K/년 | 커스텀 | NeuralSearch |
+### R2 버킷
 
-#### Starlight 연동
-```bash
-npm install @astrojs/starlight-docsearch
-```
+- **이름**: `manual-book-content`
+- **용도**: AutoRAG 인덱싱용 마크다운 파일 저장
+- **파일 구조**: `docs/` 하위에 `src/content/docs/`의 MD/MDX 파일이 미러링됨
 
-```javascript
-// astro.config.mjs
-import starlightDocSearch from '@astrojs/starlight-docsearch';
+### AI Search (AutoRAG)
 
-starlight({
-  plugins: [
-    starlightDocSearch({
-      appId: 'YOUR_APP_ID',
-      apiKey: 'YOUR_SEARCH_API_KEY',
-      indexName: 'YOUR_INDEX_NAME',
-    }),
-  ],
-})
-```
+- **인스턴스**: `manual-book-rag`
+- **데이터 소스**: R2 → `manual-book-content`
+- **인덱싱 주기**: 1시간 (설정에서 변경 가능, 기본값 6시간)
+- **임베딩 모델**: `@cf/qwen/qwen3-embedding-0.6b` (기본값)
+- **생성 모델**: `@cf/meta/llama-3.3-70b-instruct-fp8-fast` (스마트 기본값)
+- **청크 크기**: 1024 토큰
+- **벡터 DB**: `ai-search-manual-book-rag`
 
-#### 장점
-- Starlight 공식 플러그인
-- 즉시 배포 가능
-- DocSearch 무료 프로그램
+### Pages 바인딩
 
-#### 단점
-- NeuralSearch(AI)는 $50K/년 플랜만
-- 트래픽 증가 시 비용 급증
-- 벤더 락인
+Pages 프로젝트 → 설정 → 바인딩:
 
----
+| 유형 | 이름 | 값 |
+|------|------|-----|
+| R2 버킷 | `MANUAL_BOOK_BUCKET` | `manual-book-content` |
+| Workers AI | `AI` | Workers AI 카탈로그 |
 
-### 3. QMD (로컬 AI 검색)
+### Pages 환경변수
 
-Shopify CEO Tobi Lütke가 만든 로컬 마크다운 검색 엔진.
+Pages 프로젝트 → 설정 → 변수 및 암호:
 
-> 이슈에서 언급된 "topi"는 **QMD**의 오기로 추정
-
-#### 작동 방식
-```
-BM25 (키워드) + Vector Search (의미) + LLM Re-ranking
-    ↓
-하이브리드 검색 결과
-```
-
-#### 특징
-| 항목 | 내용 |
-|------|------|
-| 실행 환경 | 완전 로컬 (Node.js >= 22) |
-| 모델 | ~2GB 자동 다운로드 |
-| 인터페이스 | CLI / SDK / HTTP MCP 서버 |
-| 지원 형식 | MD 최적화, 코드 파일 AST 청킹 |
-
-#### 설치 및 사용
-```bash
-npm install -g @tobilu/qmd
-
-# 컬렉션 추가
-qmd collection add . --name manual-book --mask "**/*.md"
-
-# 임베딩 생성
-qmd embed
-
-# 검색
-qmd query "인증 흐름"
-```
-
-#### Astro 연동
-```typescript
-// src/pages/api/search.ts
-import { createStore } from '@tobilu/qmd';
-
-export async function GET({ url }) {
-  const query = url.searchParams.get('q');
-  const store = await createStore({ dbPath: './qmd-index.sqlite' });
-  const results = await store.search({ query, limit: 10 });
-  await store.close();
-  return new Response(JSON.stringify(results));
-}
-```
-
-#### 장점
-- 완전 무료
-- 프라이버시 보장 (데이터 외부 전송 없음)
-- 오프라인 작동
-- AI 에이전트 토큰 비용 90% 절감
-
-#### 단점
-- 웹 UI 없음 (직접 구현 필요)
-- 서버 사이드 전용 (브라우저 실행 불가)
-- 대규모 실시간 검색 부적합
-
----
-
-## 비교 분석
-
-| 항목 | AutoRAG | Algolia | QMD |
-|------|---------|---------|-----|
-| **비용** | 무료 (베타) | 종량제/$50K+ | 무료 |
-| **AI 검색** | O | Elevate만 | O |
-| **설정 난이도** | 낮음 | 낮음 | 중간 |
-| **커스터마이징** | 제한적 | 제한적 | 자유 |
-| **프라이버시** | 클라우드 | 클라우드 | 로컬 |
-| **Starlight 연동** | 수동 구현 | 공식 플러그인 | 수동 구현 |
-| **적합 규모** | 중소 | 중대 | 소 |
-
----
-
-## 권장 방향
-
-### 1단계: AutoRAG 시범 적용 (권장)
-
-**이유**:
-- 매뉴얼북이 이미 Cloudflare Pages 배포 중
-- 무료 티어로 소규모 문서 사이트 운영 가능
-- 웹사이트 크롤링 방식으로 빌드 파이프라인 변경 없음
-- AI 검색 + 요약 기능 기본 제공
-
-**구현 계획**:
-1. Cloudflare Dashboard에서 AI Search 생성
-2. 매뉴얼북 도메인 크롤링 설정
-3. API 엔드포인트로 검색 UI 구현
-4. 기존 Pagefind와 병행 운영 (A/B 비교)
-
-### 2단계: 평가 후 확장 결정
-
-- 사용량/만족도 기준 6개월 운영
-- 문제 시 QMD 로컬 방식 전환 검토
-- 대규모 확장 필요 시 Algolia Elevate 검토
-
----
-
-## 구현 TODO
-
-- [x] Cloudflare Pages 배포 설정 (`wrangler.toml`)
-- [x] 검색 API 엔드포인트 구현 (`/api/ai-search`)
-- [x] 검색 UI 컴포넌트 개발 (일반/AI 모드 토글)
-- [x] GitHub Actions 워크플로우 (R2 업로드 + Pages 배포)
-- [ ] **Cloudflare 설정** (아래 가이드 참조)
-- [ ] 내부 테스트 및 피드백 수집
-
----
-
-## Cloudflare 설정 가이드
-
-배포 전 Cloudflare Dashboard에서 다음 리소스를 생성해야 합니다.
-
-### 1. R2 버킷 생성
-
-1. Cloudflare Dashboard → R2 Object Storage
-2. "Create bucket" 클릭
-3. 버킷 이름: `manual-book-content`
-4. 위치: 자동 (또는 아시아 선택)
-
-### 2. AI Search (AutoRAG) 인스턴스 생성
-
-1. Cloudflare Dashboard → AI → AI Search
-2. "Create" 클릭
-3. 설정:
-   - Name: `manual-book-rag`
-   - Data source: R2 bucket → `manual-book-content`
-   - Indexing path: `/docs` (MD 파일 경로)
-
-### 3. Cloudflare Pages 프로젝트 생성
-
-1. Cloudflare Dashboard → Workers & Pages → Pages
-2. "Create" → "Connect to Git"
-3. GitHub 연결 → `manual-book` 저장소 선택
-4. 빌드 설정:
-   - Framework preset: Astro
-   - Build command: `npm run build`
-   - Build output: `dist`
-
-### 4. GitHub Secrets 설정
-
-GitHub 저장소 → Settings → Secrets and variables → Actions:
-
-| Secret 이름 | 값 |
-|-------------|-----|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API 토큰 (Edit Workers 권한 필요) |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 계정 ID |
-
-**API 토큰 생성**:
-1. Cloudflare Dashboard → My Profile → API Tokens
-2. "Create Token" → "Edit Cloudflare Workers" 템플릿
-3. 권한 추가: R2 Storage (Edit), Pages (Edit)
-
-### 5. 바인딩 설정 (Pages Functions)
-
-Pages 프로젝트 → Settings → Functions → Bindings:
-
-| Type | Variable name | Resource |
-|------|---------------|----------|
-| R2 bucket | `MANUAL_BOOK_BUCKET` | `manual-book-content` |
-| Workers AI | `AI` | Workers AI |
-
-Environment variables:
-
-| Name | Value |
-|------|-------|
+| 이름 | 값 |
+|------|-----|
 | `AUTORAG_NAME` | `manual-book-rag` |
 
 ---
 
-## 구현 파일 구조
+## GitHub 설정
+
+### Secrets (Settings → Secrets and variables → Actions)
+
+| Secret | 설명 |
+|--------|------|
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API 토큰 |
+| `CLOUDFLARE_ACCOUNT_ID` | `a401d577dea602e601c084e944535d50` |
+
+### API 토큰 권한
+
+토큰 이름: `manual-book-rag` (Cloudflare 내 프로필 → API 토큰)
+
+필요 권한:
+- 계정 > Cloudflare Pages > 편집
+- 계정 > Workers R2 저장 공간 > 편집
+- 계정 > Workers 스크립트 > 편집
+- 계정 > Workers AI > 읽기 (있으면)
+
+계정 리소스: `sknk-dev` 포함
+
+### R2 업로드 워크플로우 (`.github/workflows/deploy.yml`)
+
+- **트리거**: `src/content/docs/**` 경로 변경 시 자동 실행, 또는 수동(workflow_dispatch)
+- **동작**: MD/MDX 파일을 개별적으로 R2에 업로드 (`--remote` 플래그 필수)
+- **주의**: `wrangler r2 object put`은 단일 파일만 지원하므로 for 루프로 처리
+
+---
+
+## 검색 UI 동작
+
+### 모드
+
+1. **일반 검색** (Pagefind): 기존 Starlight 검색 아이콘 클릭
+2. **AI 검색**: 검색 영역 옆 `AI` 버튼 클릭 → 대화형 검색 다이얼로그
+
+### AI 검색 흐름
 
 ```
-manual-book/
-├── wrangler.toml              # Cloudflare 설정
-├── .github/workflows/
-│   └── deploy.yml             # CI/CD (R2 + Pages)
-├── src/
-│   ├── components/
-│   │   └── Search.astro       # 검색 UI (일반 + AI 토글)
-│   └── pages/api/
-│       └── ai-search.ts       # AI 검색 API 엔드포인트
-└── docs/
-    └── ai-search-project.md   # 이 문서
+사용자 질문 입력
+  → POST /api/ai-search { query: "..." }
+    → runtime.env.AI.autorag("manual-book-rag").aiSearch(...)
+      → AutoRAG가 R2 문서에서 관련 내용 검색
+      → LLM이 검색 결과 기반으로 답변 생성
+  ← { answer: "...", sources: [...] }
+→ UI에 답변 + 참고 문서 링크 표시
 ```
 
 ---
 
-## 참고 자료
+## 운영 가이드
 
-### AutoRAG
-- [Cloudflare AI Search 문서](https://developers.cloudflare.com/ai-search/)
-- [AutoRAG 발표 블로그](https://blog.cloudflare.com/introducing-autorag-on-cloudflare/)
+### 문서 추가/수정 후
 
-### Algolia
-- [DocSearch 신청](https://dashboard.algolia.com/users/sign_up?selected_plan=docsearch)
-- [Starlight DocSearch 플러그인](https://starlight.astro.build/guides/site-search/#algolia-docsearch)
+1. `src/content/docs/`에 MD/MDX 파일 추가/수정
+2. Git push → Cloudflare Pages 자동 배포 + GitHub Actions R2 업로드
+3. AutoRAG가 1시간 내 자동 인덱싱 (또는 대시보드에서 수동 동기화)
 
-### QMD
-- [GitHub: tobi/qmd](https://github.com/tobi/qmd)
-- [QMD + AI 에이전트 활용](https://www.heyuan110.com/posts/ai/2026-03-25-qmd-local-search-ai-agent-memory/)
+### 수동 동기화
+
+Cloudflare Dashboard → AI → AI Search → `manual-book-rag` → `↻ 동기화` 클릭
+
+### 수동 R2 업로드
+
+GitHub → Actions → "Upload docs to R2 for AutoRAG" → "Run workflow" 클릭
+
+### AI 검색 품질 조정
+
+대시보드 → AI Search → `manual-book-rag` → 설정:
+
+- **생성 모델**: 한국어 품질이 중요하면 `Qwen3 30B` 또는 `Llama 3.3 70B` 비교 테스트
+- **청크 크기**: 기본 1024 토큰. 늘리면 더 넓은 맥락 제공, 줄이면 정밀도 향상
+- **일치 임계값**: 기본 0.4. 낮추면 더 많은 소스 참고, 높이면 정밀도 향상
+- **인덱싱 주기**: 현재 1시간. 필요에 따라 조정
+
+### 인덱싱 오류 확인
+
+대시보드 → AI Search → `manual-book-rag` → 개요:
+- "오류" 항목에 실패한 파일 수 표시
+- "인덱스 로그"에서 개별 파일 오류 확인 가능
+
+---
+
+## 비용
+
+현재 모두 무료 티어 범위 내:
+
+| 서비스 | 무료 한도 | 현재 사용량 |
+|--------|----------|-----------|
+| AutoRAG (AI Search) | 오픈 베타 무료 | 227 문서 |
+| R2 저장소 | 10GB/월 | 수 MB |
+| Workers AI | 10,000 뉴런/일 | 소량 |
+| Cloudflare Pages | 500 빌드/월, 무제한 요청 | 소량 |
+
+---
+
+## 트러블슈팅 기록
+
+### R2 업로드는 성공하는데 버킷이 비어있음
+
+`wrangler r2 object put` 명령에 `--remote` 플래그가 없으면 로컬 에뮬레이터에 업로드된다.
+반드시 `--remote` 포함.
+
+### `The specified bucket does not exist` 에러
+
+GitHub Secret `CLOUDFLARE_ACCOUNT_ID` 값이 잘못되었거나 비어있음.
+`a401d577dea602e601c084e944535d50` (sknk-dev 계정)으로 정확히 설정.
+
+### `More than one account available` 에러
+
+API 토큰이 여러 계정에 접근 가능할 때 발생.
+`CLOUDFLARE_ACCOUNT_ID` 환경변수를 반드시 설정.
+
+### Pages 배포 `Could not route to /pages/projects/manual-book` (7003)
+
+- Pages 프로젝트가 Git 연결 방식이면 `wrangler pages deploy` (Direct Upload) 불가
+- 현재 구조: Cloudflare Pages Git 연결로 자동 배포, GitHub Actions는 R2 업로드만 담당
+
+### AI 검색이 일반 지식으로만 답변
+
+- AutoRAG 인덱싱이 완료되었는지 확인 (대시보드 → 인덱스팀 수 > 0)
+- 질문이 너무 일반적이면 문서 맥락을 활용하지 못할 수 있음
+- 문서에 실제로 있는 구체적 내용으로 질문
+
+---
+
+## 향후 개선 사항
+
+- [ ] AI 검색 응답에 스트리밍 지원 (`stream: true` 이미 코드에 구현됨)
+- [ ] 검색 품질 모니터링 및 모델 비교 테스트
+- [ ] AutoRAG 베타 종료 후 비용 재검토
+- [ ] 필요 시 QMD(로컬 AI 검색) 또는 Algolia 전환 검토
