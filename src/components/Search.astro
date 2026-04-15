@@ -383,10 +383,68 @@ import Default from '@astrojs/starlight/components/Search.astro';
   });
 
   function formatAnswer(text: string): string {
+    // 마크다운 → HTML 변환
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+
+    for (const line of lines) {
+      let processed = line;
+
+      // 헤딩
+      if (/^### (.+)/.test(processed)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<h4>${processed.replace(/^### /, '')}</h4>`;
+        continue;
+      }
+      if (/^## (.+)/.test(processed)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<h3>${processed.replace(/^## /, '')}</h3>`;
+        continue;
+      }
+      if (/^# (.+)/.test(processed)) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<h3>${processed.replace(/^# /, '')}</h3>`;
+        continue;
+      }
+
+      // 리스트
+      if (/^[\-\*] (.+)/.test(processed)) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${inlineFormat(processed.replace(/^[\-\*] /, ''))}</li>`;
+        continue;
+      }
+      if (/^\d+\.\s+(.+)/.test(processed)) {
+        if (!inList) { html += '<ol>'; inList = true; }
+        html += `<li>${inlineFormat(processed.replace(/^\d+\.\s+/, ''))}</li>`;
+        continue;
+      }
+
+      // 리스트 종료
+      if (inList && processed.trim() === '') {
+        html += inList ? (html.includes('<ol>') ? '</ol>' : '</ul>') : '';
+        inList = false;
+        continue;
+      }
+
+      // 빈 줄
+      if (processed.trim() === '') continue;
+
+      // 일반 단락
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<p>${inlineFormat(processed)}</p>`;
+    }
+
+    if (inList) html += '</ul>';
+    return html;
+  }
+
+  function inlineFormat(text: string): string {
     return text
-      .split('\n\n')
-      .map(p => `<p>${p}</p>`)
-      .join('');
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/`(.+?)`/g, '<code>$1</code>')
+      .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
   }
 
   function getDocUrl(filename: string): string {
