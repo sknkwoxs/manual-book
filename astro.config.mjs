@@ -1,11 +1,16 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
+import cloudflare from '@astrojs/cloudflare';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://manual.skunkworks.co.kr',
   base: '/',
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
   integrations: [
     mermaid(),
     starlight({
@@ -17,6 +22,7 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
         Pagination: './src/components/Pagination.astro',
         SiteTitle: './src/components/SiteTitle.astro',
+        Search: './src/components/Search.astro',
       },
       defaultLocale: 'root',
       locales: {
