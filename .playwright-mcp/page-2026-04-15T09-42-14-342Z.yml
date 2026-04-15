@@ -1,0 +1,40 @@
+- generic [ref=e2]:
+  - img
+  - img: 좋은생각 CS 시스템 웹 전환 ISP
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 3
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 4
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 5
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 6
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 7
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 8
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 9
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 10
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 11
+  - img [ref=e58]:
+    - generic [ref=e60]:
+      - heading "5-3. 해결방안 ③ 병목 기능 개선 및 단계적 전략 좋은생각 CS 시스템 웹 전환 ISP" [level=1] [ref=e61]
+      - blockquote [ref=e62]:
+        - paragraph [ref=e63]:
+          - text: 이번 분석을 통해
+          - strong [ref=e64]: CS 시스템과 어드민&CMS를 한 번에 완전 통합하는 것은 현실적으로 어렵다
+          - text: 는 점이 확인되었습니다.
+      - heading "주요 개선 방향" [level=3] [ref=e65]
+      - list [ref=e66]:
+        - listitem [ref=e67]: 통합 회원 조회 및 중복 식별 기능
+        - listitem [ref=e68]: 상담/구독/결제/발송 이력 통합 화면
+        - listitem [ref=e69]: 자주 쓰는 기능의 전면 배치
+        - listitem [ref=e70]: 일괄 처리 기능 강화
+        - listitem [ref=e71]: 권한 세분화
+        - listitem [ref=e72]: 검색 정확도 개선
+        - listitem [ref=e73]: 예외 건 관리 기능 보강
+      - generic [ref=e74]:
+        - img "diagram" [ref=e75]
+        - generic [ref=e76]: 1단계와 2단계의 역할 분리 및 추진 방향
+      - text: "12"
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 13
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 14
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 15
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 16
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 17
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 18
+  - img: 좋은생각 CS 시스템 웹 전환 ISP 19

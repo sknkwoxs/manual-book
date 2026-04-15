@@ -1,0 +1,56 @@
+- generic [ref=e2]:
+  - img
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 3
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 4
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 5
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 6
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 7
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 8
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 9
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 10
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 11
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 12
+  - img [ref=e56]:
+    - generic [ref=e58]:
+      - heading "6. 메뉴 분석 사업명 | 좋은생각 CS 시스템 웹 전환 ISP" [level=1] [ref=e59]
+      - blockquote [ref=e60]:
+        - paragraph [ref=e61]:
+          - text: 메뉴 수를 유지하는 것이 아니라,
+          - strong [ref=e62]: 업무 흐름을 살리는 메뉴 구조
+          - text: 가 중요합니다.
+      - heading "분석 결과 요약" [level=3] [ref=e63]
+      - table [ref=e64]:
+        - rowgroup [ref=e65]:
+          - row "구분 수량" [ref=e66]:
+            - columnheader "구분" [ref=e67]
+            - columnheader "수량" [ref=e68]
+        - rowgroup [ref=e69]:
+          - row "전체 메뉴 수 109개" [ref=e70]:
+            - cell "전체 메뉴 수" [ref=e71]
+            - cell "109개" [ref=e72]
+          - row "존치 42개" [ref=e73]:
+            - cell "존치" [ref=e74]
+            - cell "42개" [ref=e75]
+          - row "통합 7개" [ref=e76]:
+            - cell "통합" [ref=e77]
+            - cell "7개" [ref=e78]
+          - row "폐기 후보 58개" [ref=e79]:
+            - cell "폐기 후보" [ref=e80]
+            - cell "58개" [ref=e81]
+          - row "미확정 2개" [ref=e82]:
+            - cell "미확정" [ref=e83]
+            - cell "2개" [ref=e84]
+      - heading "핵심 인사이트" [level=3] [ref=e85]
+      - list [ref=e86]:
+        - listitem [ref=e87]: 전체 메뉴의 절반 이상이 실제 업무에서 거의 사용되지 않음
+        - listitem [ref=e88]: 실제 적극 사용 메뉴는 제한적이며, 핵심 기능은 특정 메뉴에 집중됨
+        - listitem [ref=e89]: 회원현황 등 일부 메뉴가 여러 기능을 대체 수행하고 있음
+        - listitem [ref=e90]: 영업관리 탭은 권한 문제와 실제 미사용이 혼재되어 재설계 필요
+      - text: "13"
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 14
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 15
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 16
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 17
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 18
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 19

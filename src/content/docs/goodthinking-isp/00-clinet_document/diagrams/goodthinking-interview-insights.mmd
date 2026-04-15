@@ -1,0 +1,19 @@
+%%{init: {'theme':'base','themeVariables': {'fontFamily':'Noto Sans KR, Pretendard, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#111111','primaryBorderColor':'#111111','lineColor':'#111111','tertiaryColor':'#FFFFFF'}}}%%
+graph TD
+    A[정기구독팀]
+    B[경영지원팀]
+    C[편집팀]
+    D[외주 콜센터]
+    E[영업추진팀]
+    F[공통 문제 도출]
+
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+
+    F --> G[엑셀 수작업]
+    F --> H[중복 입력]
+    F --> I[검색 / 조회 불편]
+    F --> J[권한 / 연계 한계]

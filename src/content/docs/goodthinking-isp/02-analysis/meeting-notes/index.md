@@ -39,6 +39,6 @@ description: 킥오프 회의록, 인터뷰 기록 등 현황 분석 관련 회�
 
 | 분류 | 기능요건 수 | 문서 |
 |------|:----------:|------|
-| CS 시스템 | 32건 | [기능요건 — CS 시스템](./cs-system-requirements) |
-| 어드민·CMS | 15건 | [기능요건 — 어드민/CMS](./admin-cms-requirements) |
+| CS 시스템 | 25건 | [기능요건 — CS 시스템](./cs-system-requirements) |
+| 어드민·CMS | 11건 | [기능요건 — 어드민/CMS](./admin-cms-requirements) |
 | 기타 (시스템 아키텍처·ERP) | 2건 | [기능요건 — 기타](./etc-requirements) |
