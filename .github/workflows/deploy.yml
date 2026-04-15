@@ -23,5 +23,5 @@ jobs:
           for file in $(find ./src/content/docs -name "*.md" -o -name "*.mdx"); do
             key="docs/${file#./src/content/docs/}"
             echo "Uploading $file to $key"
-            wrangler r2 object put "manual-book-content/$key" --file "$file"
+            wrangler r2 object put "manual-book-content/$key" --file "$file" --remote
           done
