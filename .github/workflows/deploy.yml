@@ -1,32 +1,18 @@
-name: Deploy to Cloudflare Pages
+name: Upload docs to R2 for AutoRAG
 
 on:
   push:
     branches: [master]
+    paths:
+      - 'src/content/docs/**'
   workflow_dispatch:
 
-concurrency:
-  group: "cloudflare-pages"
-  cancel-in-progress: false
-
 jobs:
-  build-and-deploy:
+  upload-to-r2:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build with Astro
-        run: npm run build
 
       - name: Upload MD files to R2 (for AutoRAG indexing)
         env:
@@ -39,9 +25,3 @@ jobs:
             echo "Uploading $file to $key"
             wrangler r2 object put "manual-book-content/$key" --file "$file"
           done
-
-      - name: Deploy to Cloudflare Pages
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx wrangler pages deploy ./dist --project-name=manual-book
