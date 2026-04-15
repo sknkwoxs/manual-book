@@ -29,11 +29,16 @@ jobs:
         run: npm run build
 
       - name: Upload MD files to R2 (for AutoRAG indexing)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put manual-book-content/docs --file ./src/content/docs --recursive
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npm install -g wrangler
+          for file in $(find ./src/content/docs -name "*.md" -o -name "*.mdx"); do
+            key="docs/${file#./src/content/docs/}"
+            echo "Uploading $file to $key"
+            wrangler r2 object put "manual-book-content/$key" --file "$file"
+          done
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
