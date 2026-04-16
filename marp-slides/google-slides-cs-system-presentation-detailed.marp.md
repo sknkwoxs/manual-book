@@ -232,10 +232,28 @@ style: |
     border: none;
   }
 
+  table.table-center {
+    width: 85% !important;
+    margin: 0 auto 16px !important;
+    font-size: 16px !important;
+  }
+
+  table.table-center th {
+    padding: 14px 18px !important;
+    font-size: 16px !important;
+  }
+
+  table.table-center td {
+    padding: 10px 18px !important;
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+  }
+
   th {
     background: #000000;
     color: #ffffff;
     border: none;
+    border-right: 1px solid rgba(255,255,255,0.15);
     text-align: left;
     padding: 10px 14px;
     font-weight: 700;
@@ -244,22 +262,24 @@ style: |
   }
 
   th:last-child {
-    border-right: 0;
+    border-right: 1px solid rgba(255,255,255,0.15);
   }
 
   td {
     border: none;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
     padding: 10px 14px;
     vertical-align: top;
     font-size: 14px;
   }
 
   td:last-child {
-    border-right: 0;
+    border-right: 1px solid var(--line);
   }
 
   tr:last-child td {
-    border-bottom: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   tr:nth-child(even) td {
@@ -297,7 +317,7 @@ style: |
     background: transparent;
     border: 0;
     font-size: 13px;
-    margin-bottom: 14px;
+    margin-bottom: 22px;
     letter-spacing: 0.03em;
     color: rgba(255,255,255,0.7);
   }
@@ -326,9 +346,9 @@ style: |
 
   .twocol {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: 26px;
-    align-items: start;
+    align-items: end;
     margin-top: 0;
   }
 
@@ -421,10 +441,14 @@ style: |
   /* twocol 안의 diagram-wrap: max-width 해제, 높이 제한 */
   .twocol .diagram-wrap {
     max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   .twocol img.diagram {
-    max-height: 420px;
+    max-height: 480px;
   }
 
   .diagram-caption {
@@ -486,7 +510,7 @@ style: |
     width: 180px;
     height: auto;
     filter: invert(1) brightness(2.4);
-    margin: 0 0 28px;
+    margin: 0 0 36px;
   }
 
   .cover-h1 {
@@ -495,7 +519,7 @@ style: |
     line-height: 1.2 !important;
     letter-spacing: -0.02em !important;
     color: #ffffff !important;
-    margin: 12px 0 12px !important;
+    margin: 16px 0 20px !important;
     padding: 0 !important;
     border: none !important;
   }
@@ -512,7 +536,7 @@ style: |
     font-size: 14px;
     line-height: 1.75;
     color: rgba(255,255,255,0.82);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 
   .cover-tagline strong {
@@ -524,7 +548,7 @@ style: |
     width: 40px;
     height: 2px;
     background: rgba(255,255,255,0.5);
-    margin-bottom: 20px;
+    margin-bottom: 28px;
   }
 
   .cover-meta {
@@ -773,7 +797,7 @@ style: |
 
 # 목차
 
-> 이번 발표는 현행 진단 → 병목 구조 파악 → 해결방안 → 이행 방향 순으로 진행됩니다.
+> 이번 발표는 **현행 진단 → 병목 구조 파악 → 해결방안 → 이행 방향** 순으로 진행됩니다.
 
 <div class="toc-grid">
   <div class="toc-item"><span class="toc-num">1</span><span class="toc-text">프로젝트 개요</span></div>
@@ -818,10 +842,24 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 - 이번 ISP는 실제 구축이 가능한 **목표 모델, 기능 우선순위, 이행 계획, RFP 기준**을 정리하는 단계입니다.
 
 ### 핵심 목표
-<span class="chip">웹 전환</span>
-<span class="chip">데이터 통합</span>
-<span class="chip">수작업 축소</span>
-<span class="chip">RFP 기준 수립</span>
+<div class="cards" style="grid-template-columns: repeat(4, 1fr); margin-top: 14px;">
+  <div class="card" style="min-height: auto;">
+    <strong>웹 전환</strong>
+    C/S → 웹 기반 전환
+  </div>
+  <div class="card" style="min-height: auto;">
+    <strong>데이터 통합</strong>
+    분산 데이터 연결
+  </div>
+  <div class="card" style="min-height: auto;">
+    <strong>수작업 축소</strong>
+    반복 수작업 감소
+  </div>
+  <div class="card" style="min-height: auto;">
+    <strong>RFP 기준 수립</strong>
+    구축 발주 기준 마련
+  </div>
+</div>
 
 ---
 
@@ -876,7 +914,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 ### 공통 확인 사항
 - 시스템 간 데이터가 이어지지 않아 중간 작업이 많음
-- 엑셀 가공, 수동 업로드, 육안 검수 비중이 높음
+- 엑셀 가공, 수동 업로드, 육안 검수 비중이 높음 → 많은 시간 소요
 - 검색, 조회, 권한, 이력 확인 기능의 불편이 반복적으로 제기됨
 - 부서별 사용하는 시스템 목적이 달라 단일 통합 접근에 한계가 있음
 
@@ -898,7 +936,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 # 4. 현행 시스템의 한계
 
-> 현재 구조는 기능 부족의 문제가 아니라, **유동적으로 변하는 업무 흐름을 시스템이 지원하지 못하고 있는 구조적 문제**입니다.
+> 현재 구조는 기능 부족의 문제가 아니라, **유동적으로 변하는 업무 흐름을 시스템이 지원하지 못하고 있는<br>구조적 문제**입니다.
 
 ### 주요 한계
 - **레거시 구조**: 로컬 설치형 C/S 시스템 중심으로 운영되어 접근성과 확장성이 낮음
@@ -908,13 +946,18 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 - **업무 비효율**: 같은 업무를 여러 화면과 여러 시스템에서 나눠 처리하고 있음
 - **운영지원 부족**: 업무 흐름의 변화에 따른 시스템 운영지원 서비스 미흡
 
+<div style="margin-top: 32px; text-align: center; font-weight: 700; font-size: 18px;">
 사람이 시스템 사이를 연결하고 있는 구조는 더 이상 지속 가능하지 않습니다.
+</div>
 
 ---
 
 # 5. CS 시스템 핵심 병목현상 및 해결방안
 
 > 병목은 특정 기능 하나가 아니라, **입력-조회-처리-후속관리 전체 흐름에 걸쳐 누적**되어 있습니다.
+
+<div class="twocol">
+<div>
 
 ### 핵심 병목
 1. 주문 수집 후 시스템 등록까지 엑셀 수작업 발생
@@ -923,13 +966,24 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 4. 정산/리포트/후속 처리를 위한 별도 수기 작업 반복
 5. 자주 쓰는 메뉴가 분산되어 있어 업무 흐름이 끊김
 
+</div>
+<div>
+
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-bottlenecks.svg" alt="diagram" style="display:block;max-width:100%;max-height:300px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-bottlenecks.svg" alt="diagram" style="display:block;max-width:100%;max-height:480px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">주문 수집부터 후속 처리까지 이어지는 병목 흐름</div>
 
 </div>
+
+</div>
+</div>
+
+### 해결방안 요약
+1. **웹 전환** — 로컬 C/S 구조를 웹 기반으로 전환하여 접근성·확장성 확보
+2. **템플릿 시스템** — 업·다운로드 표준화로 엑셀 수작업·외부 양식 재가공 해소
+3. **단계적 전략** — CS 시스템 우선 개선 후, 어드민/CMS는 2단계로 분리 추진
 
 ---
 
@@ -937,7 +991,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > CS 시스템 웹 전환은 선택 기능이 아니라, **이후 개선을 가능하게 하는 전제 조건**입니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start; font-size: 14px;">
 <div>
 
 ### 기대 효과
@@ -946,8 +1000,10 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 - 중앙 통합 관리 및 유지보수 용이
 - 권한 및 접속 이력 관리 강화
 
+
 ### 왜 필요한가
-현재 C/S 구조는 기능을 조금 보완한다고 해결되는 단계가 아닙니다. 웹 전환을 통해서만 향후 데이터 통합, 자동화, 권한 관리, 화면 재구성의 기반을 만들 수 있습니다.
+현재 C/S 구조(로컬 설치 기반)는 부분 보완으로 해결할 수 있는 단계를 넘었습니다.
+웹 전환을 통해 향후 데이터 통합, 자동화, 권한 관리, 화면 재구성의 기반을 <br>만들 수 있습니다.
 
 </div>
 <div>
@@ -974,14 +1030,15 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 ### 필요 배경
 - 외부 플랫폼마다 요구하는 데이터(엑셀) 양식이 다름
-- 담당자가 열 순서, 주소 분리, 항목명을 수작업으로 맞추고 있음
+→ 담당자가 열 순서, 주소 분리, 항목명 등 양식을 수작업으로 맞추고 있음
 - 동일 데이터도 목적에 따라 여러 번 재가공되고 있음
+→ 예: CS에서 추출한 엑셀을 위하고 정산용으로 데이터 양식을 편집해 재업로드
 
 ### 도입 방향
 - 회원/주문/발송/정산용 출력 템플릿 저장
 - 외부 시스템 업로드용 컬럼 매핑 기능 제공
 - 자주 쓰는 양식 재사용
-- 업로드 오류 보정 기능 제공
+- 업로드 오류 보정 기능 제공 (콤마(,)나 띄워쓰기 오류 등)
 
 <!-- TODO: (이미지 보안) 템플릿 저장 기능에 대한 예시 이미지가 필요합니다 -->
 
@@ -1003,15 +1060,17 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 # 5-3. 해결방안 ③ 병목 기능 개선 및 단계적 전략
 
-> 이번 분석을 통해 **CS 시스템과 어드민&CMS를 한 번에 완전 통합하는 것은 현실적으로 어렵다**는 점이 확인되었습니다.
+> 이번 분석을 통해 **CS 시스템과 어드민&CMS를 한 번에 통합하는 것은 현실적으로 어렵다**는 점을 확인하였습니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: center;">
 <div>
 
 ### 이유
 - CS 시스템과 어드민&CMS는 시스템의 목적과 업무 흐름이 다름
-  - CS 시스템: 좋은생각의 정기구독자 관리
-  - 어드민&CMS: 좋은생각의 원고 관리 (이 두 시스템은 향후 통합하는 것을 제안)
+  - CS 시스템: 고객 생애주기 전반을 관리하는 운영 시스템
+  (가입→구독→결제→발송→상담→해지)
+  - 어드민&CMS: 원고 생애주기 전반을 관리하는 콘텐츠 운영 시스템
+  (수집→편집→검수→채택→게시, 이 두 시스템은 향후 통합하는 것을 제안)
 
 ### CS 시스템 주요 개선 방향
 - 통합 회원 조회 및 중복 식별 기능
@@ -1042,6 +1101,9 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 메뉴 수를 유지하는 것이 아니라, **업무 흐름을 살리는 메뉴 구조**가 중요합니다.
 
+<div class="twocol" style="align-items: start;">
+<div>
+
 ### 분석 결과 요약
 
 | 대분류 | 메뉴 수 | 존치 | 통합 | 폐기 후보 | 미확정 |
@@ -1054,28 +1116,41 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 | 영업관리 | 17 | 2 | 0 | 15 | 0 |
 | **합계** | **109** | **42** | **7** | **58** | **2** |
 
+</div>
+<div>
+
+### 개요
+- CS시스템 내 5개 대분류 109개 메뉴의 부서별 사용 현황 조사
+- 4개 부서(정기구독팀, 콜센터, 경영지원팀, 영업추진팀) 교차 분석
+- 메뉴별 존치/통합/폐기 판정 및 근거
+
 ### 핵심 인사이트
 - 전체 메뉴의 절반 이상이 실제 업무에서 거의 사용되지 않음
 - 실제 적극 사용 메뉴는 제한적이며, 핵심 기능은 특정 메뉴에 집중됨
 - 회원현황 등 일부 메뉴가 여러 기능을 대체 수행하고 있음
 - 영업관리 탭은 권한 문제와 실제 미사용이 혼재되어 재설계 필요
 
+</div>
+</div>
+
 ---
 
 # 7. 기능요건 정리
 
-> 기능요건의 핵심은 "기능을 많이 넣는 것"이 아니라, **현업이 가장 자주 반복하는 업무를 끊김 없이 처리할 수 있도록 만드는 것**입니다.
+> 기능요건의 핵심은 "기능을 많이 넣는 것"이 아니라, **현업이 가장 자주 반복하는 업무를 끊김 없이 처리할 수 있도록<br>만드는 것**입니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start; line-height: 1.9;">
 <div>
 
-#### 1) 회원 관리
+<h4 style="margin-top:0;">1) 회원 관리</h4>
+
 - 통합 회원 조회
-- 중복 회원 식별
+- 중복 회원 식별 및 계정 통폐합
 - 회원정보 수정 이력 확인
 - 권한별 고객정보 노출 제어
 
-#### 2) 주문/구독 관리
+<h4 style="margin-top:18px;">2) 주문/구독 관리</h4>
+
 - 주문 및 구독 현황 통합 조회
 - 상태 변경 및 이력 관리
 - 일괄 등록/처리 기능
@@ -1084,19 +1159,23 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 </div>
 <div>
 
-#### 3) 상담/이력 관리
+<h4 style="margin-top:0;">3) 상담/이력 관리</h4>
+
 - 상담 이력 통합 기록
 - 고객 상세 화면에서 전체 이력 확인
 - 처리 상태 및 후속 조치 관리
 
-#### 4) 데이터 활용 기능
+<h4 style="margin-top:18px;">4) 데이터 활용 기능</h4>
+
 - 업로드/다운로드 템플릿
 - 자주 쓰는 양식 저장
 - 외부 시스템 양식 대응
 
-<div class="req-chips">
-<span class="chip">개인정보 자동 파기</span><span class="chip">권한 제어 세분화</span><span class="chip">엑셀 양식 표준화</span><span class="chip">회원 계정 통폐합</span><span class="chip">유연한 주소 검색</span>
-</div>
+<h4 style="margin-top:18px;">5) 인터뷰간 도출된 요건</h4>
+
+- 개인정보 자동 파기
+- 엑셀 양식 표준화
+- 유연한 주소 검색
 
 </div>
 </div>
@@ -1109,7 +1188,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <!-- TODO: (UX 방향) 기존 UX 질서를 지키면서 부서/권한 정리, 데이터 템플릿 활용성을 보여주는 UX 목업(안)으로 교체 필요. 고객이 새로운 학습을 강요받지 않는 방향으로 설계. -->
 
-<div class="twocol">
+<div class="twocol" style="align-items: start;">
 <div>
 
 #### 고객 360도 화면
@@ -1143,7 +1222,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 좋은생각의 차세대 운영체계는 **CS 시스템 중심의 목표 모델 설계와 단계적 이행 계획**을 기반으로 추진되어야 합니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start;">
 <div>
 
 #### 1단계
@@ -1152,7 +1231,8 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 - 메뉴 재구성 및 UX 설계
 - 이행 계획 및 RFP 구체화
 
-#### 2단계
+<h4 style="margin-top:24px;">2단계</h4>
+
 - 어드민/CMS 고도화 검토
 - 콘텐츠 운영 및 편집 기능 구조 개선
 - 필요한 범위 내 연계 강화
@@ -1177,15 +1257,25 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 좋은생각의 디지털 전환은 효율 개선을 넘어서, **운영 안정성과 데이터 활용 기반을 확보하는 일**입니다.
 
-### 기대 효과
-- 수작업 및 엑셀 의존도 감소
-- 고객 응대 속도 향상
-- 데이터 활용성과 운영 안정성 확보
-- 시스템 목적별 역할 분리 명확화
-- 향후 어드민/CMS 및 AI 확장 기반 확보
+<div style="width: calc(100% + 112px); margin-left: -56px; display:flex; justify-content:center;">
 
-### 한 줄 정리
-CS 시스템 우선 전환은 가장 큰 병목을 먼저 풀면서도, 이후 확장을 위한 기반을 함께 만드는 전략입니다.
+<table class="table-center" style="width:90% !important;">
+<thead>
+<tr><th>구분</th><th>Before (현재)</th><th>After (전환 후)</th></tr>
+</thead>
+<tbody>
+<tr><td>수작업 및 엑셀 의존도</td><td>엑셀 수작업 가공·대조, 반복 오류 발생</td><td>템플릿 기반 업·다운로드로 수작업 <b>50% 이상 감소</b></td></tr>
+<tr><td>고객 응대 속도</td><td>3~5개 화면 이동, 응대 지연</td><td>고객 360도 <b>단일 화면</b> 응대</td></tr>
+<tr><td>데이터 활용성·운영 안정성</td><td>109개 메뉴 중 절반 미사용, 데이터 분산</td><td><b>42개 존치 + 7개 통합</b>, 데이터 일원화</td></tr>
+<tr><td>시스템 역할 분리</td><td>CS·어드민·CMS 경계 불명확</td><td>목적별 시스템 <b>역할 명확화</b></td></tr>
+<tr><td>확장 기반 확보</td><td>레거시 구조로 기능 추가 어려움</td><td>어드민/CMS 고도화 및 <b>AI 확장 기반</b> 마련</td></tr>
+</tbody>
+</table>
+
+</div>
+
+<h3 style="font-size:20px;">한 줄 정리</h3>
+<p style="font-size:18px;">CS 시스템 우선 전환은 <b>가장 큰 병목을 먼저 풀면서</b>도, 이후 <b>확장을 위한 기반</b>을 함께 만드는 전략입니다.</p>
 
 ---
 
