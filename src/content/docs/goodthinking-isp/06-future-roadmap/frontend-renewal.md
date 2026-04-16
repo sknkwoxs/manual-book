@@ -151,7 +151,7 @@ graph TD
 | CMS 연동 | 통합 DB API (NestJS) | 현행 CMS 13t(ptcms_*) 통합 관리자 시스템 API 경유 |
 
 :::note[ISP 연계]
-홈페이지 프론트엔드는 [웹 시스템 아키텍처](/goodthinking-isp/03-design/web-architecture/)의 "홈페이지 SPA" 레이어에 해당합니다. 관리자 시스템과 동일한 NestJS 백엔드 API를 공유하되, 코드베이스는 분리합니다.
+홈페이지 프론트엔드는 [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/)의 "홈페이지 SPA" 레이어에 해당합니다. 관리자 시스템과 동일한 NestJS 백엔드 API를 공유하되, 코드베이스는 분리합니다.
 :::
 
 ### 단계별 구현

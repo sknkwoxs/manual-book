@@ -535,7 +535,7 @@ graph TD
 | 수작업 12건 (일 6.5\~9h) | 자동화 (일 1h 미만 목표) | 인력 재배치 가능 |
 | 151 테이블 분산 | \~30\~40 테이블 통합 설계 | 데이터 모델 정규화 |
 
-> 상세 설계는 [목표 모델 설계 (TO-BE Design)](/goodthinking-isp/03-design/) 섹션 참조
+> 상세 설계는 [목표 모델 설계 (TO-BE Design)](/goodthinking-isp/04-design/) 섹션 참조
 
 ---
 

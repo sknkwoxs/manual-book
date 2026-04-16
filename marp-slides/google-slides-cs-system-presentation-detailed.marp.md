@@ -229,13 +229,13 @@ style: |
     border-collapse: collapse;
     width: 100%;
     margin: 0 0 16px;
-    border: 1px solid #000000;
+    border: none;
   }
 
   th {
     background: #000000;
     color: #ffffff;
-    border-right: 1px solid rgba(255,255,255,0.15);
+    border: none;
     text-align: left;
     padding: 10px 14px;
     font-weight: 700;
@@ -248,8 +248,7 @@ style: |
   }
 
   td {
-    border-bottom: 1px solid #e8ebef;
-    border-right: 1px solid #e8ebef;
+    border: none;
     padding: 10px 14px;
     vertical-align: top;
     font-size: 14px;

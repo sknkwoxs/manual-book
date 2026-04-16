@@ -201,10 +201,10 @@ timeline
 
 | 선행 작업 | ISP 산출물 참조 | 상태 |
 |----------|----------------|:----:|
-| On-Prem ↔ AWS DB 통합 이관 | [데이터 통합 설계](/goodthinking-isp/03-design/data-integration/) | 1단계 |
-| CMS 콘텐츠 DB 통합 | [마이그레이션 계획](/goodthinking-isp/04-implementation/migration-plan/) | 1단계 |
-| 통합 인증(JWT RBAC) 구축 | [웹 아키텍처 설계](/goodthinking-isp/03-design/web-architecture/) | 1단계 |
-| REST API 기반 콘텐츠 조회 | [웹 아키텍처 설계](/goodthinking-isp/03-design/web-architecture/) | 1단계 |
+| On-Prem ↔ AWS DB 통합 이관 | [데이터 통합 설계](/goodthinking-isp/04-design/data-integration/) | 1단계 |
+| CMS 콘텐츠 DB 통합 | [마이그레이션 계획](/goodthinking-isp/05-implementation/migration-plan/) | 1단계 |
+| 통합 인증(JWT RBAC) 구축 | [웹 아키텍처 설계](/goodthinking-isp/04-design/web-architecture/) | 1단계 |
+| REST API 기반 콘텐츠 조회 | [웹 아키텍처 설계](/goodthinking-isp/04-design/web-architecture/) | 1단계 |
 
 ### 활용 가능한 현행 데이터
 

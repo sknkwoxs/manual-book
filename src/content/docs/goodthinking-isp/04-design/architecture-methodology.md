@@ -154,7 +154,7 @@ graph TD
 ### 품질 속성 시나리오 예시
 
 :::note[좋은생각 적용]
-아래 예시를 좋은생각사람들 시스템에 맞게 구체화한 전체 시나리오는 [품질 속성 시나리오](/goodthinking-isp/03-design/quality-scenarios/)를 참조하세요. 17개 시나리오가 6개 품질 속성에 걸쳐 정의되어 있습니다.
+아래 예시를 좋은생각사람들 시스템에 맞게 구체화한 전체 시나리오는 [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/)를 참조하세요. 17개 시나리오가 6개 품질 속성에 걸쳐 정의되어 있습니다.
 :::
 
 | 요소 | 성능 시나리오 예시 (좋은생각) |
@@ -280,9 +280,9 @@ ATAM의 경량화 버전 (총 4\~6시간)
 
 | 단계 | 방법론 | ISP 산출물 | 상태 | 비고 |
 |:---|:---|:---|:---:|:---|
-| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/03-design/quality-scenarios/) | 90% | 17개 시나리오, 6개 품질 속성 |
-| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/03-design/utility-tree/) | 90% | 품질 속성별 우선순위, Tradeoff 분석 |
-| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/03-design/web-architecture/) | 80% | 12모듈, NestJS+React+MSSQL |
+| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | 90% | 17개 시나리오, 6개 품질 속성 |
+| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | 90% | 품질 속성별 우선순위, Tradeoff 분석 |
+| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | 80% | 12모듈, NestJS+React+MSSQL |
 | 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | 80% | 비용/리스크/기술 Tradeoff |
 
 ### 방법론 적용 상세
