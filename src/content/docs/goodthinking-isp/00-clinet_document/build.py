@@ -4,7 +4,8 @@ import subprocess
 from pathlib import Path
 
 BASE = Path(__file__).parent
-MD = BASE / "google-slides-cs-system-presentation-detailed.marp.md"
+ROOT = Path(__file__).resolve().parents[5]
+MD = ROOT / "marp-slides" / "google-slides-cs-system-presentation-detailed.marp.md"
 HTML = BASE / "google-slides-cs-system-presentation-detailed.html"
 PDF  = BASE / "google-slides-cs-system-presentation-detailed.pdf"
 PPTX = BASE / "google-slides-cs-system-presentation-detailed.pptx"
