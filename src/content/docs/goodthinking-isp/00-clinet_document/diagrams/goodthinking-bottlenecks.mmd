@@ -1,0 +1,12 @@
+%%{init: {'theme':'base','themeVariables': {'fontFamily':'Noto Sans KR, Pretendard, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#111111','primaryBorderColor':'#111111','lineColor':'#111111','tertiaryColor':'#FFFFFF'}}}%%
+flowchart LR
+    A[주문 수집] --> B[엑셀 가공]
+    B --> C[CS 시스템 등록]
+    C --> D[조회 / 상담 / 수정]
+    D --> E[정산 / 리포트 / 후속처리]
+
+    B:::bad
+    C:::bad
+    E:::bad
+
+    classDef bad fill:#ffe5e5,stroke:#d95c5c,stroke-width:2px;

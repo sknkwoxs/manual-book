@@ -1,0 +1,14 @@
+%%{init: {'theme':'base','themeVariables': {'fontFamily':'Noto Sans KR, Pretendard, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#111111','primaryBorderColor':'#111111','lineColor':'#111111','tertiaryColor':'#FFFFFF'}}}%%
+flowchart LR
+    CS[레거시 CS 시스템]
+    HOME[홈페이지 / 어드민]
+    CMS[CMS]
+    EXT[외부몰 / Playauto]
+    ERP[WEHAGO / 정산]
+
+    CS -. 수동 Excel .- HOME
+    CS -. 수동 권한 처리 .- CMS
+    EXT -. 다운로드 / 업로드 .- CS
+    EXT -. 다운로드 / 업로드 .- HOME
+    HOME -. 재가공 .- ERP
+    CS -. 별도 추출 .- ERP

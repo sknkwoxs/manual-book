@@ -30,18 +30,22 @@ description: 좋은생각 CS 시스템 개선 및 데이터 통합을 위한 정
 ### [2. 현황 분석 (AS-IS Analysis)](/goodthinking-isp/02-analysis/)
 - 시스템 정밀진단 (역공학)
 - 업무 분석 (워크 쉐도잉)
-- 요구사항 분석
 
-### [3. 목표 모델 설계 (TO-BE Design)](/goodthinking-isp/03-design/)
+### 3. 기능요건 도출
+- 기능 요구사항 (87건, 11개 모듈)
+- 비기능 요구사항 (성능/보안/가용성)
+- UI/UX 개선 요구사항
+
+### [4. 목표 모델 설계 (TO-BE Design)](/goodthinking-isp/04-design/)
 - Web 시스템 아키텍처
 - 데이터 통합 모델 (ERD)
 - 자동화 프로세스 (BPR)
 
-### [4. 이행 계획 (Implementation Plan)](/goodthinking-isp/04-implementation/)
+### [5. 이행 계획 (Implementation Plan)](/goodthinking-isp/05-implementation/)
 - 마이그레이션 계획
 - 발주 지원 (RFP)
 
-### [5. 향후 확장 로드맵](/goodthinking-isp/05-future-roadmap/)
+### [6. 향후 확장 로드맵](/goodthinking-isp/06-future-roadmap/)
 - 프론트엔드 리뉴얼
 - AI 기술 도입
 - 디지털 아카이브
