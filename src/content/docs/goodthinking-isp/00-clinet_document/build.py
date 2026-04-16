@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import base64
 import re
 import subprocess
 from pathlib import Path
@@ -91,9 +92,18 @@ def build_html():
 
 def rebuild_slide12_layout(content: str) -> str:
 
-    SLIDE12_NEW = """<div class="twocol" style="align-items:center;margin-top:0;">
+    SLIDE12_NEW = """<div class="twocol" style="align-items:start;margin-top:0;">
 <div>
-<h3 id="%EC%A3%BC%EC%9A%94-%EA%B0%9C%EC%84%A0-%EB%B0%A9%ED%96%A5">주요 개선 방향</h3>
+<h3 id="reason">이유</h3>
+<ul>
+<li>CS 시스템과 어드민&amp;CMS는 시스템의 목적과 업무 흐름이 다름
+<ul>
+<li>CS 시스템: 좋은생각의 정기구독자 관리</li>
+<li>어드민&amp;CMS: 좋은생각의 원고 관리 (이 두 시스템은 향후 통합하는 것을 제안)</li>
+</ul>
+</li>
+</ul>
+<h3 id="%EC%A3%BC%EC%9A%94-%EA%B0%9C%EC%84%A0-%EB%B0%A9%ED%96%A5">CS 시스템 주요 개선 방향</h3>
 <ul>
 <li>통합 회원 조회 및 중복 식별 기능</li>
 <li>상담/구독/결제/발송 이력 통합 화면</li>
@@ -112,7 +122,7 @@ def rebuild_slide12_layout(content: str) -> str:
 
     pattern = re.compile(
         r'(<section[^>]*data-marpit-pagination="12"[^>]*>.*?<blockquote>.*?</blockquote>\s*)'
-        r'(<h3[^>]*>주요 개선 방향</h3>.*?</div>\s*)'
+        r'(.*?)'
         r'(</section>)',
         re.DOTALL
     )
@@ -126,12 +136,20 @@ def rebuild_slide12_layout(content: str) -> str:
     return new_content
 
 
-def rebuild_cover_layout(content: str) -> str:
+def get_logo_data_uri() -> str:
+    logo_path = ROOT / "public" / "skunkworks-logo.png"
+    data = base64.b64encode(logo_path.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{data}"
 
-    COVER_NEW = """<div class="cover-project">좋은생각 CS 시스템 웹 전환 ISP</div>
+
+def rebuild_cover_layout(content: str) -> str:
+    logo_src = get_logo_data_uri()
+
+    COVER_NEW = f"""<div class="cover-project">좋은생각 CS 시스템 웹 전환 ISP</div>
 <div class="cover-layout">
   <div class="cover-left">
-    <img src="/skunkworks-logo.png" alt="Skunkworks Studio" class="cover-logo" />
+    <img src="{logo_src}" alt="Skunkworks Studio" class="cover-logo" />
+    <div class="kicker">GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION</div>
     <div class="cover-h1">좋은생각 CS 시스템<br>웹 전환 ISP</div>
     <div class="cover-sub">현행 시스템 분석 및 CS 중심 목표 모델 제안</div>
   </div>
