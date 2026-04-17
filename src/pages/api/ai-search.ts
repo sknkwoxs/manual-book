@@ -2,6 +2,11 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+// Upper bounds for user-supplied input. The AI backend is an expensive
+// resource, so we cap request size and query length to avoid abuse.
+const MAX_BODY_BYTES = 8 * 1024; // 8 KB
+const MAX_QUERY_LENGTH = 1000;
+
 interface AISearchRequest {
   query: string;
   stream?: boolean;
@@ -18,39 +23,62 @@ interface AISearchResponse {
   sources: SearchResult[];
 }
 
+const JSON_HEADERS = { 'Content-Type': 'application/json' } as const;
+
+function jsonError(status: number, error: string, message?: string): Response {
+  const body: Record<string, string> = { error };
+  if (message) body.message = message;
+  return new Response(JSON.stringify(body), { status, headers: JSON_HEADERS });
+}
+
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const body: AISearchRequest = await request.json();
-    
-    if (!body.query || body.query.trim().length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'Query is required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+    // Reject oversized request bodies early (defense against large payload DoS).
+    const contentLength = Number(request.headers.get('content-length') ?? '0');
+    if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+      return jsonError(413, 'Payload too large');
+    }
+
+    let body: AISearchRequest;
+    try {
+      body = (await request.json()) as AISearchRequest;
+    } catch {
+      return jsonError(400, 'Invalid JSON body');
+    }
+
+    if (!body || typeof body.query !== 'string') {
+      return jsonError(400, 'Query is required');
+    }
+
+    const query = body.query.trim();
+    if (query.length === 0) {
+      return jsonError(400, 'Query is required');
+    }
+    if (query.length > MAX_QUERY_LENGTH) {
+      return jsonError(400, 'Query too long');
+    }
+
+    const runtime = (locals as { runtime?: { env?: Record<string, unknown> } }).runtime;
+    const env = runtime?.env as { AI?: any; AUTORAG_NAME?: string } | undefined;
+    if (!env?.AI) {
+      return jsonError(
+        503,
+        'AI binding not available',
+        'AutoRAG is not configured. Please set up Cloudflare AI binding.',
       );
     }
 
-    const runtime = (locals as any).runtime;
-    if (!runtime?.env?.AI) {
-      return new Response(
-        JSON.stringify({ 
-          error: 'AI binding not available',
-          message: 'AutoRAG is not configured. Please set up Cloudflare AI binding.'
-        }),
-        { status: 503, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+    const autoragName = env.AUTORAG_NAME || 'manual-book-rag';
 
-    const autoragName = runtime.env.AUTORAG_NAME || 'manual-book-rag';
-    
-    if (body.stream) {
-      const streamResult = await runtime.env.AI
+    if (body.stream === true) {
+      const streamResult = await env.AI
         .autorag(autoragName)
         .aiSearch({
-          query: body.query,
+          query,
           stream: true,
           rewrite_query: true,
         });
-      
+
       return new Response(streamResult, {
         headers: {
           'Content-Type': 'text/event-stream',
@@ -60,35 +88,33 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const result = await runtime.env.AI
+    const result = await env.AI
       .autorag(autoragName)
       .aiSearch({
-        query: body.query,
+        query,
         rewrite_query: true,
       });
 
     const response: AISearchResponse = {
-      answer: result.response || '',
-      sources: (result.data || []).map((item: any) => ({
-        content: item.content || '',
-        filename: item.filename || '',
-        score: item.score || 0,
-      })),
+      answer: typeof result?.response === 'string' ? result.response : '',
+      sources: Array.isArray(result?.data)
+        ? result.data.map((item: any) => ({
+            content: typeof item?.content === 'string' ? item.content : '',
+            filename: typeof item?.filename === 'string' ? item.filename : '',
+            score: typeof item?.score === 'number' ? item.score : 0,
+          }))
+        : [],
     };
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: JSON_HEADERS,
     });
 
   } catch (error) {
+    // Log full error server-side; return a generic message to clients so we
+    // don't leak internal details, stack traces, or upstream provider errors.
     console.error('AI Search error:', error);
-    return new Response(
-      JSON.stringify({ 
-        error: 'Search failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return jsonError(500, 'Search failed', 'An internal error occurred.');
   }
 };
