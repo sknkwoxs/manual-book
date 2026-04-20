@@ -1,11 +1,16 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
+import cloudflare from '@astrojs/cloudflare';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://manual.skunkworks.co.kr',
   base: '/',
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
   integrations: [
     mermaid(),
     starlight({
@@ -17,6 +22,7 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
         Pagination: './src/components/Pagination.astro',
         SiteTitle: './src/components/SiteTitle.astro',
+        Search: './src/components/Search.astro',
       },
       defaultLocale: 'root',
       locales: {
@@ -244,6 +250,7 @@ export default defineConfig({
                     { label: '이벤트(Events)', link: '/gced/manual/03-content-management/02-events/' },
                     { label: '뉴스(News)', link: '/gced/manual/03-content-management/03-news/' },
                     { label: '유용한 링크(Useful Links)', link: '/gced/manual/03-content-management/04-useful-links/' },
+                    { label: '파일 관리', link: '/gced/manual/03-content-management/05-files/' },
                   ],
                 },
                 { label: '택소노미 관리', link: '/gced/manual/04-taxonomy/' },

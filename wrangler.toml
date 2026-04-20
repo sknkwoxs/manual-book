@@ -1,0 +1,22 @@
+# Cloudflare Pages + AutoRAG 설정
+# 참고: https://developers.cloudflare.com/pages/framework-guides/astro/
+
+name = "manual-book"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Pages 설정
+pages_build_output_dir = "./dist"
+
+# R2 버킷 바인딩 (AutoRAG 데이터 소스용)
+[[r2_buckets]]
+binding = "MANUAL_BOOK_BUCKET"
+bucket_name = "manual-book-content"
+
+# AI 바인딩 (AutoRAG 쿼리용)
+[ai]
+binding = "AI"
+
+# 환경 변수 (AutoRAG 인스턴스명)
+[vars]
+AUTORAG_NAME = "manual-book-rag"
