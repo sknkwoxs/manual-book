@@ -282,7 +282,7 @@ ATAM의 경량화 버전 (총 4\~6시간)
 |:---|:---|:---|:---:|:---|
 | ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | 90% | 17개 시나리오, 6개 품질 속성 |
 | 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | 90% | 품질 속성별 우선순위, Tradeoff 분석 |
-| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | 80% | 12모듈, NestJS+React+MSSQL |
+| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | 80% | 12모듈, NestJS+React+PostgreSQL |
 | 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | 80% | 비용/리스크/기술 Tradeoff |
 
 ### 방법론 적용 상세
@@ -318,11 +318,11 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 |:---|:---|
 | ① 책임 할당 | 12개 도메인 모듈 (대시보드\~시스템 관리), 각 모듈에 DB 테이블/SP 매핑 |
 | ② 조정 모델 | RESTful API (동기) + BullMQ (비동기 배치), 트리거 → 이벤트 핸들러 전환 |
-| ③ 데이터 모델 | MSSQL 통합 스키마 \~100t, PT_Customer 허브 엔티티, TypeORM 엔티티 매핑 |
+| ③ 데이터 모델 | PostgreSQL 통합 스키마 \~100t, PT_Customer 허브 엔티티, TypeORM 엔티티 매핑 |
 | ④ 요소간 매핑 | 모듈 의존 관계 (고객→구독→주문→결제/배송), API Gateway 라우팅 |
 | ⑤ 자원 관리 | Redis 캐시 (세션, 빈번 조회), S3 파일 스토리지, DB 커넥션 풀 |
 | ⑥ 바인딩 시간 | 환경별 설정 (Dev/Staging/Prod), 코드 마스터 런타임 로딩 |
-| ⑦ 기술 선택 | NestJS (백엔드) + React/Ant Design (프론트) + MSSQL (AWS RDS) |
+| ⑦ 기술 선택 | NestJS (백엔드) + React/Ant Design (프론트) + PostgreSQL (AWS RDS) |
 
 #### LAE → Tradeoff 분석 (utility-tree.md)
 
@@ -330,7 +330,7 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 
 | Tradeoff 항목 | 선택 | 근거 |
 |:---|:---|:---|
-| MSSQL 유지 vs PostgreSQL | MSSQL 유지 (1단계) | 이관 리스크 최소화, 49개 로직 일부 재활용 |
+| MSSQL 유지 vs PostgreSQL | PostgreSQL 전환 | 라이선스 비용 제거 (DB 비용 63~74% 절감), 오픈소스 생태계, 49개 SP/Trigger/Function은 애플리케이션 코드로 전환 |
 | 모놀리식 vs MSA | 모놀리식 (NestJS 모듈) | 15명 규모에 MSA 오버 엔지니어링, 점진적 분리 가능 |
 | ECS Fargate vs K8s | ECS Fargate 또는 EC2 | K8s 운영 비용/복잡도 > 이점 (월 \~$73 절감) |
 | 자체 인프라 vs AWS 전면 이전 | AWS 전면 이전 | On-Prem MSSQL 유지 비용 > RDS 비용, VPN 취약점 해소 |
@@ -362,3 +362,4 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 |------|--------|----------|
 | 2026-02-26 | - | 초안 작성 (방법론 이론 정리) |
 | 2026-03-03 | 김명직 | 좋은생각 ISP 적용 결과 반영: QAW→17개 시나리오 연결, ADD→12모듈 체크리스트 매핑, LAE→Tradeoff 4건, 시나리오 예시 좋은생각 맥락으로 구체화, 일정 실적 반영 |
+| 2026-04-20 | 김명직 | Tradeoff 결정 변경: MSSQL 유지 → PostgreSQL 전환, ADD 기술 선택 반영 |
