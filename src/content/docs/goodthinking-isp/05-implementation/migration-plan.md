@@ -146,7 +146,7 @@ def map_customer_type(code):
 ### 3. Load (적재)
 
 ```sql
--- TO-BE 통합 DB에 데이터 적재 (PostgreSQL 예시)
+-- TO-BE 통합 DB에 데이터 적재 (PostgreSQL — AWS RDS)
 INSERT INTO customers (
     customer_code, name, phone, mobile, email, 
     customer_type, is_subscriber, created_at
@@ -183,7 +183,7 @@ SELECT COUNT(*) AS cnt, SUM(Finance_AMT) AS total_amt
 FROM PT_Finance 
 WHERE YEAR(Finance_DT) = 2024 AND Finance_Type IN ('입금','카드');
 
--- TO-BE (통합 DB)
+-- TO-BE (통합 DB — PostgreSQL RDS)
 SELECT COUNT(*) AS cnt, SUM(amount) AS total_amt 
 FROM payments 
 WHERE EXTRACT(YEAR FROM payment_date) = 2024 
@@ -278,3 +278,4 @@ flowchart LR
 | 2026-02-26 | - | 초안 작성 (템플릿) |
 | 2026-03-03 | 김명직 | 이관 대상 8건 상세화, 테이블 매핑 17건, 필드 매핑 7건 추가 |
 | 2026-03-03 | 김명직 | ETL 예시 실제 PT_Customer 필드명으로 수정, 검증 SQL 보강 |
+| 2026-04-20 | 김명직 | Load/검증 SQL을 PostgreSQL 구문으로 확정 (MSSQL→PostgreSQL 전환 결정 반영) |
