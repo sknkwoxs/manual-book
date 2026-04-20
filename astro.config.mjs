@@ -179,6 +179,27 @@ export default defineConfig({
           autogenerate: { directory: 'samhwa-rebranding' },
         },
         {
+          label: 'SP100주년 뮤지엄',
+          items: [
+            { label: '개요', link: '/samhwa-musuem/' },
+            {
+              label: '관리자 매뉴얼',
+              items: [
+                { label: '시스템 개요', link: '/samhwa-musuem/manual/01-system-overview/' },
+                {
+                  label: '이벤트 관리',
+                  autogenerate: { directory: 'samhwa-musuem/manual/event-management' },
+                },
+                { label: '갤러리 관리', link: '/samhwa-musuem/manual/02-gallery-management/' },
+              ],
+            },
+            {
+              label: '개발 명세서',
+              autogenerate: { directory: 'samhwa-musuem/specification' },
+            },
+          ],
+        },
+        {
           label: 'BreezeBio',
           items: [
             { label: '개요', link: '/breezebio/' },
