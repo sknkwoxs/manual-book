@@ -97,7 +97,6 @@ export default defineConfig({
                 { label: '시스템 정밀진단', link: '/goodthinking-isp/02-analysis/system-diagnosis/' },
                 { label: '업무 분석', link: '/goodthinking-isp/02-analysis/business-analysis/' },
                 { label: '이해관계자 인터뷰', link: '/goodthinking-isp/02-analysis/interview/' },
-                { label: '요구사항 분석', link: '/goodthinking-isp/02-analysis/requirements/' },
                 {
                   label: '인터뷰 결과',
                   items: [
@@ -111,7 +110,7 @@ export default defineConfig({
                   ],
                 },
                 {
-                  label: '기능요건 정리',
+                  label: '요구사항 정리',
                   items: [
                     { label: 'CS 시스템 (25건)', link: '/goodthinking-isp/02-analysis/meeting-notes/cs-system-requirements/' },
                     { label: '어드민·CMS (11건)', link: '/goodthinking-isp/02-analysis/meeting-notes/admin-cms-requirements/' },
@@ -128,16 +127,20 @@ export default defineConfig({
               ],
             },
             {
-              label: '3. 목표 모델 설계',
-              autogenerate: { directory: 'goodthinking-isp/03-design' },
+              label: '3. 기능요건 도출',
+              autogenerate: { directory: 'goodthinking-isp/03-requirements' },
             },
             {
-              label: '4. 이행 계획',
-              autogenerate: { directory: 'goodthinking-isp/04-implementation' },
+              label: '4. 목표 모델 설계',
+              autogenerate: { directory: 'goodthinking-isp/04-design' },
             },
             {
-              label: '5. 향후 확장 로드맵',
-              autogenerate: { directory: 'goodthinking-isp/05-future-roadmap' },
+              label: '5. 이행 계획',
+              autogenerate: { directory: 'goodthinking-isp/05-implementation' },
+            },
+            {
+              label: '6. 향후 확장 로드맵',
+              autogenerate: { directory: 'goodthinking-isp/06-future-roadmap' },
             },
             {
               label: '부록',

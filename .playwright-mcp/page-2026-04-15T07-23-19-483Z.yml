@@ -1,0 +1,41 @@
+- generic [ref=e2]:
+  - img [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP
+      - img "Skunkworks Studio" [ref=e7]
+      - generic [ref=e8]: GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION
+      - heading "좋은생각 CS 시스템 웹 전환 ISP" [level=1] [ref=e9]
+      - heading "현행 시스템 분석 및 CS 중심 목표 모델 제안" [level=2] [ref=e10]
+      - generic [ref=e12]:
+        - text: 좋은생각의 디지털 전환은 “모든 시스템의 동시 통합”이 아니라,
+        - strong [ref=e13]: 운영 병목이 가장 큰 CS 시스템부터 우선 개선하는 전략
+        - text: 에서 시작해야 합니다.
+      - generic [ref=e14]:
+        - text: 수행 · 스컹크웍스스튜디오
+        - text: 기간 · 2026.03 ~ 2026.05
+        - text: 대상 · 좋은생각사람들
+      - generic [ref=e15]: Marp detailed presentation version
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 2
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 3
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 4
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 5
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 6
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 7
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 8
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 9
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 10
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 11
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 12
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 13
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 14
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 15
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 16
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 17
+  - img: 사업명 | 좋은생각 CS 시스템 웹 전환 ISP 18
+  - generic [ref=e16]:
+    - button "Previous slide" [disabled] [ref=e17]
+    - generic: Page 1 of 18
+    - button "Next slide" [ref=e18] [cursor=pointer]
+    - button "Toggle fullscreen" [ref=e19] [cursor=pointer]
+    - button "Toggle overview view" [ref=e20] [cursor=pointer]
+    - button "Open presenter view" [ref=e21] [cursor=pointer]
