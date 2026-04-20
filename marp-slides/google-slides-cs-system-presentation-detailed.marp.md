@@ -778,7 +778,7 @@ style: |
 <!-- _class: lead -->
 <!-- _paginate: false -->
 <div class="cover-project">좋은생각 CS 시스템 웹 전환 ISP</div>
-<div class="cover-layout"><div class="cover-left"><img src="../../../../../public/skunkworks-logo.png" alt="Skunkworks Studio" class="cover-logo" /><div class="kicker">GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION</div><div class="cover-h1">좋은생각 CS 시스템<br>웹 전환 ISP</div><div class="cover-sub">현행 시스템 분석 및 CS 중심 목표 모델 제안</div></div><div class="cover-right"><div class="cover-tagline">좋은생각의 디지털 전환은<br>"모든 시스템의 동시 통합"이 아니라,<br><strong>운영 병목이 가장 큰 CS 시스템부터<br>우선 개선하는 전략</strong>에서 시작해야 합니다.</div><div class="cover-rule-h"></div><div class="cover-meta">수행 · 스컹크웍스스튜디오<br>기간 · 2026.03 ~ 2026.05<br>대상 · 좋은생각사람들</div></div></div>
+<div class="cover-layout"><div class="cover-left"><img src="../public/skunkworks-logo.png" alt="Skunkworks Studio" class="cover-logo" /><div class="kicker">GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION</div><div class="cover-h1">좋은생각 CS 시스템<br>웹 전환 ISP</div><div class="cover-sub">현행 시스템 분석 및 CS 중심 목표 모델 제안</div></div><div class="cover-right"><div class="cover-tagline">좋은생각의 디지털 전환은<br>"모든 시스템의 동시 통합"이 아니라,<br><strong>운영 병목이 가장 큰 CS 시스템부터<br>우선 개선하는 전략</strong>에서 시작해야 합니다.</div><div class="cover-rule-h"></div><div class="cover-meta">수행 · 스컹크웍스스튜디오<br>기간 · 2026.03 ~ 2026.05<br>대상 · 좋은생각사람들</div></div></div>
 
 ---
 
@@ -887,7 +887,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-current-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-current-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">현행 시스템 연결 구조 / 수동 연결 지점 표시</div>
 
@@ -923,7 +923,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-interview-insights.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-interview-insights.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">부서 인터뷰 결과가 공통 문제군으로 수렴되는 구조</div>
 
@@ -971,7 +971,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-bottlenecks.svg" alt="diagram" style="display:block;max-width:100%;max-height:480px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-bottlenecks.svg" alt="diagram" style="display:block;max-width:100%;max-height:480px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">주문 수집부터 후속 처리까지 이어지는 병목 흐름</div>
 
@@ -1010,7 +1010,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-web-transition.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-web-transition.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">웹 전환 이후 확보되는 운영 기반</div>
 
@@ -1047,7 +1047,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-template-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-template-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">하나의 CS 데이터에서 다양한 외부 서식으로 분기</div>
 
@@ -1086,7 +1086,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-phased-strategy.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-phased-strategy.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">1단계와 2단계의 역할 분리 및 추진 방향</div>
 
@@ -1207,7 +1207,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-ux-wireframe.svg" alt="UX wireframe" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-ux-wireframe.svg" alt="UX wireframe" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">고객 360도 화면 기반 UX 구조 예시</div>
 
@@ -1242,7 +1242,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="./diagrams/goodthinking-roadmap.svg" alt="단계별 로드맵" style="display:block;max-width:88%;max-height:360px;margin:0 auto;object-fit:contain;" />
+<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-roadmap.svg" alt="단계별 로드맵" style="display:block;max-width:88%;max-height:360px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">CS 중심 추진 이후 어드민/CMS 고도화로 이어지는 단계별 로드맵</div>
 
