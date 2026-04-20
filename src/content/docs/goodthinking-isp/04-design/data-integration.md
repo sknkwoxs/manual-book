@@ -16,29 +16,37 @@ description: 통합 DB 스키마(ERD) 설계
 ```mermaid
 graph LR
     subgraph ASIS["AS-IS: 분산된 데이터"]
-        A1["CS DB<br/>MSSQL"]
-        A2["자사몰 DB"]
+        A1["CS DB<br/>On-Prem MSSQL"]
+        A2["자사몰 DB<br/>AWS MySQL"]
         A3["외부몰<br/>API"]
+        A4["CMS DB<br/>별도 운영"]
     end
     
     ETL["ETL/동기화"]
     
     subgraph TOBE["TO-BE: 통합 데이터"]
-        B1["통합 DB<br/>PostgreSQL"]
+        B1["통합 DB<br/>MSSQL (AWS RDS)"]
         B2["• 고객 마스터"]
         B3["• 주문 통합"]
         B4["• CS 이력"]
         B5["• 구독 정보"]
+        B6["• 결제/정산"]
+        B7["• 배송 관리"]
+        B8["• 선물/재고"]
     end
     
     A1 --> ETL
     A2 --> ETL
     A3 --> ETL
+    A4 --> ETL
     ETL --> B1
     B1 --> B2
     B1 --> B3
     B1 --> B4
     B1 --> B5
+    B1 --> B6
+    B1 --> B7
+    B1 --> B8
 ```
 
 ---
@@ -60,17 +68,53 @@ graph LR
         OrderItem["OrderItem<br/>주문상세<br/>---<br/>PK: id<br/>FK: 주문id<br/>상품명, 수량<br/>금액"]
     end
     
+    subgraph Delivery_Domain["배송 도메인"]
+        Delivery["Delivery<br/>배송<br/>---<br/>PK: id<br/>FK: 주문id<br/>택배사, 송장번호<br/>상태, 배송일"]
+        RegularSend["RegularSend<br/>정기발송<br/>---<br/>PK: id<br/>발송월, 대상수<br/>상태"]
+    end
+    
+    subgraph Payment_Domain["결제/정산 도메인"]
+        Payment["Payment<br/>결제<br/>---<br/>PK: id<br/>FK: 주문id<br/>결제수단, 금액<br/>PG거래번호"]
+        Settlement["Settlement<br/>정산<br/>---<br/>PK: id<br/>정산기간, 매출액<br/>수수료, 정산액"]
+        DeferIncome["DeferIncome<br/>이연수익<br/>---<br/>PK: id<br/>FK: 구독id<br/>인식월, 금액"]
+    end
+    
     subgraph CS_Domain["CS 도메인"]
         CsTicket["CsTicket<br/>CS문의<br/>---<br/>PK: id<br/>FK: 고객id<br/>유형, 제목<br/>상태, 담당자"]
         CsHistory["CsHistory<br/>처리이력<br/>---<br/>PK: id<br/>FK: 티켓id<br/>처리자, 내용<br/>처리일시"]
     end
     
+    subgraph Gift_Domain["선물 도메인"]
+        Gift["Gift<br/>선물<br/>---<br/>PK: id<br/>FK: 주문id<br/>발송인, 수신인<br/>메시지, 상태"]
+        GiftStock["GiftStock<br/>선물재고<br/>---<br/>PK: id<br/>상품명, 수량<br/>입출고이력"]
+    end
+    
+    subgraph Inventory_Domain["재고/도서 도메인"]
+        Book["Book<br/>도서<br/>---<br/>PK: id<br/>도서명, 호수<br/>발행일"]
+        Stock["Stock<br/>재고<br/>---<br/>PK: id<br/>FK: 도서id<br/>수량, 위치"]
+    end
+    
+    subgraph System_Domain["시스템 관리 도메인"]
+        User["User<br/>관리자<br/>---<br/>PK: id<br/>아이디, 역할<br/>권한"]
+        AuditLog["AuditLog<br/>감사로그<br/>---<br/>PK: id<br/>사용자, 액션<br/>대상, 일시"]
+        CodeMaster["CodeMaster<br/>코드마스터<br/>---<br/>PK: id<br/>그룹, 코드<br/>코드명"]
+    end
+    
     Customer <--> Subscription
     Subscription <--> CmsAccess
+    Subscription <--> DeferIncome
     Customer <--> Order
     Order <--> OrderItem
+    Order <--> Payment
+    Order <--> Delivery
+    Order <--> Gift
     Customer <--> CsTicket
     CsTicket <--> CsHistory
+    Gift <--> GiftStock
+    Book <--> Stock
+    RegularSend -.-> Delivery
+    Payment -.-> Settlement
+    User -.-> AuditLog
 ```
 
 ---
@@ -81,44 +125,44 @@ graph LR
 
 | 컬럼명 | 타입 | 필수 | 설명 |
 |--------|------|:----:|------|
-| id | BIGSERIAL | PK | 고객 ID |
-| customer_code | VARCHAR(20) | UK | 고객 코드 |
-| name | VARCHAR(100) | Y | 이름 |
+| id | BIGINT IDENTITY(1,1) | PK | 고객 ID |
+| customer_code | NVARCHAR(20) | UK | 고객 코드 |
+| name | NVARCHAR(100) | Y | 이름 |
 | phone | VARCHAR(20) | Y | 연락처 |
 | email | VARCHAR(100) | | 이메일 |
-| address | TEXT | | 주소 |
-| grade | VARCHAR(20) | | 등급 |
+| address | NVARCHAR(MAX) | | 주소 |
+| grade | NVARCHAR(20) | | 등급 |
 | primary_channel | VARCHAR(20) | | 최초 유입 채널 |
-| created_at | TIMESTAMP | Y | 생성일시 |
-| updated_at | TIMESTAMP | Y | 수정일시 |
+| created_at | DATETIME2 | Y | 생성일시 |
+| updated_at | DATETIME2 | Y | 수정일시 |
 
 ### 2. Subscription (구독)
 
 | 컬럼명 | 타입 | 필수 | 설명 |
 |--------|------|:----:|------|
-| id | BIGSERIAL | PK | 구독 ID |
+| id | BIGINT IDENTITY(1,1) | PK | 구독 ID |
 | customer_id | BIGINT | FK | 고객 ID |
-| product_type | VARCHAR(50) | Y | 상품 유형 |
+| product_type | NVARCHAR(50) | Y | 상품 유형 |
 | start_date | DATE | Y | 시작일 |
 | end_date | DATE | Y | 종료일 |
 | status | VARCHAR(20) | Y | 상태 |
 | channel | VARCHAR(20) | Y | 가입 채널 |
-| created_at | TIMESTAMP | Y | 생성일시 |
+| created_at | DATETIME2 | Y | 생성일시 |
 
 ### 3. Order (주문)
 
 | 컬럼명 | 타입 | 필수 | 설명 |
 |--------|------|:----:|------|
-| id | BIGSERIAL | PK | 주문 ID |
+| id | BIGINT IDENTITY(1,1) | PK | 주문 ID |
 | order_code | VARCHAR(30) | UK | 주문 코드 |
 | customer_id | BIGINT | FK | 고객 ID |
 | channel | VARCHAR(20) | Y | 주문 채널 |
-| order_date | TIMESTAMP | Y | 주문일시 |
+| order_date | DATETIME2 | Y | 주문일시 |
 | total_amount | DECIMAL(12,2) | Y | 총금액 |
 | payment_status | VARCHAR(20) | Y | 결제상태 |
 | delivery_status | VARCHAR(20) | | 배송상태 |
 | external_order_id | VARCHAR(50) | | 외부 주문번호 |
-| created_at | TIMESTAMP | Y | 생성일시 |
+| created_at | DATETIME2 | Y | 생성일시 |
 
 ---
 
@@ -130,9 +174,13 @@ graph LR
 |--------|------|-----|
 | 주문채널 | CHANNEL | OWN_MALL, NAVER, COUPANG, SPONSOR |
 | 결제상태 | PAY_STATUS | PENDING, PAID, REFUNDED, CANCELLED |
-| 배송상태 | DELIV_STATUS | READY, SHIPPED, DELIVERED |
-| 구독상태 | SUBS_STATUS | ACTIVE, EXPIRED, CANCELLED |
-| CS유형 | CS_TYPE | INQUIRY, COMPLAINT, REFUND, ETC |
+| 결제수단 | PAY_METHOD | CREDIT_CARD, BANK_TRANSFER, GIRO, VIRTUAL_ACCOUNT |
+| 배송상태 | DELIV_STATUS | READY, SHIPPED, IN_TRANSIT, DELIVERED, RETURNED |
+| 배송사 | CARRIER | POST_OFFICE, CJ_LOGISTICS |
+| 구독상태 | SUBS_STATUS | ACTIVE, EXPIRED, CANCELLED, SUSPENDED |
+| CS유형 | CS_TYPE | INQUIRY, COMPLAINT, REFUND, SUBSCRIPTION, DELIVERY, ETC |
+| 선물상태 | GIFT_STATUS | ORDERED, SHIPPED, DELIVERED, CANCELLED |
+| 사용자역할 | USER_ROLE | SUPER_ADMIN, ADMIN, CS_AGENT, OPERATOR, CALLCENTER |
 
 ### 데이터 정제 규칙
 
@@ -188,15 +236,15 @@ graph LR
 ```mermaid
 graph LR
     A["통합 DB"]
-    B["권한 변경"]
-    C["CMS API"]
-    D["CMS DB"]
-    E["상태 동기화"]
+    B["권한 대상<br/>Excel 생성"]
+    C["담당자<br/>다운로드"]
+    D["CMS에서<br/>일괄 처리"]
+    E["처리 결과<br/>확인/기록"]
     
-    A -->|권한 변경| B
+    A -->|권한 변경 발생| B
     B --> C
     C --> D
-    D -->|상태 동기화| E
+    D -->|결과 확인| E
     E --> A
 ```
 
@@ -206,11 +254,15 @@ graph LR
 
 ### 데이터 매핑
 
-| AS-IS (MSSQL) | TO-BE (PostgreSQL) | 변환 규칙 |
-|---------------|-------------------|----------|
-| (분석 후 작성) | customer | |
-| | subscription | |
-| | order | |
+| AS-IS (On-Prem MSSQL + AWS MySQL) | TO-BE (AWS RDS for SQL Server 통합) | 변환 규칙 |
+|-----------------------------------|-------------------------------------|----------|
+| PT_Customer (On-Prem, 48컬럼) | customer | 컬럼 정리, 정규화 |
+| PT_Subscribe (On-Prem) | subscription | 구독 유형별 분리 |
+| PTM_Orders / PT_Finance (혼재) | order + payment | 주문-결제 분리 |
+| PT_Councel_History (On-Prem) | cs_ticket + cs_history | 티켓-이력 분리 |
+| PTM_ShippingInfos + PT_SendHistory | delivery | 배송 통합 |
+| PT_GiftStock + PT_Stock | gift + stock | 선물-재고 분리 |
+| 홈페이지 DB (AWS MySQL 63t) | 통합 DB로 이관 | 고객 매칭 후 이관 |
 
 ### 중복 데이터 처리
 
@@ -224,3 +276,5 @@ graph LR
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
 | YYYY-MM-DD | - | 초안 작성 |
+| 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: DB 엔진 PostgreSQL→MSSQL(AWS RDS) 통일, 데이터타입 MSSQL 표준으로 전환 (BIGINT IDENTITY, DATETIME2, NVARCHAR), ERD 4도메인→11도메인 확장 (배송/결제정산/선물/재고도서/시스템관리 추가), 마이그레이션 매핑 테이블 구체화 (On-Prem MSSQL+AWS MySQL→AWS RDS 통합), 코드 표준 확장 (결제수단/배송사/선물상태/사용자역할 추가) |
+| 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: CMS 연동 Mermaid를 API 기반→Excel 기반 흐름으로 수정 |
