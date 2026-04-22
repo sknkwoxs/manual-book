@@ -64,7 +64,7 @@ graph TB
     
     APIGateway -->|API| Channel["외부 채널(네이버 등)"]
     APIGateway -->|API| PG["결제 PG(나이스페이)"]
-    APIGateway -->|Excel| CMS["CMS(권한 — Excel 기반)"]
+    APIGateway -->|Excel| CMS["좋은생각 CMS<br/>(구독자 열람 권한<br/>Excel 전달)"]
 ```
 
 ### 목표별 실현 방안
@@ -93,7 +93,7 @@ graph TB
 |------|----------|
 | **주문 수집** | Playauto 경유 외부몰 API 자동 수집 (현행 유지) + Excel 업로드 |
 | **자동 입력** | 수집된 주문 데이터 자동 DB 저장, Excel 업로드 파싱 |
-| **CMS 권한** | 결제 완료 시 CMS 권한 대상 Excel 내보내기 → CMS 일괄 처리 |
+| **CMS 권한** | 결제 완료 시 CMS 구독자 열람 권한 대상 Excel 내보내기 → 좋은생각 CMS 일괄 처리 |
 | **배송 연동** | 택배사 API 자동 연동 (계약 기반, 현행 유지) |
 | **ERP 연동** | 위하고 업로드용 Excel 자동 생성 (API 미제공) |
 

@@ -15,16 +15,15 @@ description: 통합 DB 스키마(ERD) 설계
 
 ```mermaid
 graph LR
-    subgraph ASIS["AS-IS: 분산된 데이터"]
+    subgraph ASIS["AS-IS: 분산된 고객 데이터"]
         A1["CS DB<br/>On-Prem MSSQL"]
         A2["자사몰 DB<br/>AWS MySQL"]
         A3["외부몰<br/>API"]
-        A4["CMS DB<br/>별도 운영"]
     end
     
     ETL["ETL/동기화"]
     
-    subgraph TOBE["TO-BE: 통합 데이터"]
+    subgraph TOBE["TO-BE: 통합 고객 데이터"]
         B1["통합 DB<br/>MSSQL (AWS RDS)"]
         B2["• 고객 마스터"]
         B3["• 주문 통합"]
@@ -35,10 +34,13 @@ graph LR
         B8["• 선물/재고"]
     end
     
+    subgraph CMS_SEPARATE["별도 운영 (통합 범위 외)"]
+        C1["좋은생각 CMS DB<br/>원고 아카이브 13t<br/>(ptcms_*)"]
+    end
+    
     A1 --> ETL
     A2 --> ETL
     A3 --> ETL
-    A4 --> ETL
     ETL --> B1
     B1 --> B2
     B1 --> B3
@@ -47,6 +49,8 @@ graph LR
     B1 --> B6
     B1 --> B7
     B1 --> B8
+    
+    B1 -.->|구독자 열람 권한<br/>대상 목록 Excel 전달| C1
 ```
 
 ---
@@ -231,17 +235,19 @@ graph LR
     F --> G
 ```
 
-### 3. CMS 연동
+### 3. 좋은생각 CMS 연동 (구독자 열람 권한 — Excel 기반)
+
+> **좋은생각 CMS**는 월간지 발행 원고를 아카이브하고 참고하기 위한 시스템으로, CS 시스템과는 **목적이 다르며 분리 운영**됩니다. CS 시스템에서 CMS로의 유일한 접점은 **구독자 열람 권한 대상 목록 전달**(Excel)이며, 데이터 통합 대상이 아닙니다.
 
 ```mermaid
 graph LR
-    A["통합 DB"]
-    B["권한 대상<br/>Excel 생성"]
+    A["통합 DB<br/>(고객/구독 정보)"]
+    B["구독자 열람 권한<br/>대상 Excel 생성"]
     C["담당자<br/>다운로드"]
-    D["CMS에서<br/>일괄 처리"]
+    D["좋은생각 CMS에서<br/>열람 권한 일괄 처리"]
     E["처리 결과<br/>확인/기록"]
     
-    A -->|권한 변경 발생| B
+    A -->|구독 생성/만료 발생| B
     B --> C
     C --> D
     D -->|결과 확인| E
@@ -264,6 +270,8 @@ graph LR
 | PT_GiftStock + PT_Stock | gift + stock | 선물-재고 분리 |
 | 홈페이지 DB (AWS MySQL 63t) | 통합 DB로 이관 | 고객 매칭 후 이관 |
 
+> **참고**: 좋은생각 CMS DB (ptcms_* 13t)는 원고 아카이브 전용으로, CS 통합 DB 이관 범위에 포함되지 않습니다. CMS 데이터 통합은 웹사이트 Admin과의 2단계 과제입니다.
+
 ### 중복 데이터 처리
 
 - 고객: 연락처 + 이름 기준 매칭
@@ -278,3 +286,4 @@ graph LR
 | YYYY-MM-DD | - | 초안 작성 |
 | 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: DB 엔진 PostgreSQL→MSSQL(AWS RDS) 통일, 데이터타입 MSSQL 표준으로 전환 (BIGINT IDENTITY, DATETIME2, NVARCHAR), ERD 4도메인→11도메인 확장 (배송/결제정산/선물/재고도서/시스템관리 추가), 마이그레이션 매핑 테이블 구체화 (On-Prem MSSQL+AWS MySQL→AWS RDS 통합), 코드 표준 확장 (결제수단/배송사/선물상태/사용자역할 추가) |
 | 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: CMS 연동 Mermaid를 API 기반→Excel 기반 흐름으로 수정 |
+| 2026-04-20 | ISP팀 | CMS 개념 보정: AS-IS 다이어그램에서 CMS DB(ptcms_* 13t)를 CS 통합 DB 범위에서 분리, CMS 연동 섹션에 좋은생각 CMS 용도(원고 아카이브) 명시, 마이그레이션 범위에서 CMS 제외 명시 |
