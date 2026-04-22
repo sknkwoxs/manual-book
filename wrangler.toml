@@ -2,7 +2,7 @@
 # 참고: https://developers.cloudflare.com/pages/framework-guides/astro/
 
 name = "manual-book"
-account_id = "a401d577dea602e601c084e944535d50"  # sknk-dev
+# account_id는 Pages에서 지원하지 않으므로 환경변수(CLOUDFLARE_ACCOUNT_ID)로 설정
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
 
