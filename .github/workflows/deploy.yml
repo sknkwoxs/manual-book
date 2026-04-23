@@ -20,8 +20,25 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           npm install -g wrangler
+          failed=""
           for file in $(find ./src/content/docs -name "*.md" -o -name "*.mdx"); do
             key="docs/${file#./src/content/docs/}"
             echo "Uploading $file to $key"
-            wrangler r2 object put "manual-book-content/$key" --file "$file" --remote
+            success=false
+            for attempt in 1 2 3; do
+              if wrangler r2 object put "manual-book-content/$key" --file "$file" --remote; then
+                success=true
+                break
+              fi
+              echo "  Attempt $attempt failed, retrying in $((attempt * 5))s..."
+              sleep $((attempt * 5))
+            done
+            if [ "$success" = false ]; then
+              echo "::error::Failed to upload $key after 3 attempts"
+              failed="$failed $key"
+            fi
           done
+          if [ -n "$failed" ]; then
+            echo "::error::Failed uploads:$failed"
+            exit 1
+          fi
