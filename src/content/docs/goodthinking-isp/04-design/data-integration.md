@@ -30,7 +30,7 @@ graph LR
     subgraph ASIS["AS-IS: 분산된 데이터"]
         A1["CS DB<br/>MSSQL"]
         A2["자사몰 DB"]
-        A3["외부몰<br/>API"]
+        A3["외부몰<br/>Excel 업로드"]
     end
     
     ETL["ETL/동기화"]
@@ -164,46 +164,46 @@ graph LR
 ```mermaid
 graph LR
     A["자사몰 DB"]
-    B["API/DB Link"]
+    B["내부 DB 직접 연동"]
     C["동기화 서비스"]
     D["변경 이벤트 발행"]
     E["통합 DB"]
     
-    A -->|API/DB Link| B
+    A -->|내부 DB 직접 연동| B
     B --> C
     C --> D
     D --> E
 ```
 
-### 2. 외부몰 연동
+### 2. 외부몰 연동 (Excel 기반)
 
 ```mermaid
 graph LR
     A["네이버"]
     B["쿠팡"]
     C["11번가"]
-    D["API 수집"]
-    E["수집 서비스"]
-    F["주기적 폴링/<br/>Webhook"]
+    D["Playauto 경유<br/>Excel 다운로드"]
+    E["파싱 서비스"]
+    F["Excel 업로드<br/>자동 파싱/검증"]
     G["통합 DB"]
     
-    A -->|API 수집| D
-    B -->|API 수집| D
-    C -->|API 수집| D
-    D --> E
+    A -->|Playauto 경유| D
+    B -->|Playauto 경유| D
+    C -->|Playauto 경유| D
+    D -->|담당자 업로드| E
     E --> F
     F --> G
 ```
 
-### 3. CMS 연동
+### 3. CMS 연동 (Excel 기반)
 
 ```mermaid
 graph LR
     A["통합 DB"]
-    B["권한 변경"]
-    C["CMS API"]
-    D["CMS DB"]
-    E["상태 동기화"]
+    B["권한 대상 추출"]
+    C["CMS 권한 Excel<br/>자동 생성"]
+    D["담당자<br/>CMS 일괄 처리"]
+    E["처리 결과<br/>상태 동기화"]
     
     A -->|권한 변경| B
     B --> C
@@ -398,3 +398,4 @@ graph LR
 |------|--------|----------|
 | 2026-02-23 | - | 초안 작성 (개념 모델, 테이블 정의 초안) |
 | 2026-04-23 | 김명직 | AS-IS→TO-BE 데이터 매핑 12건 작성 (고객사 제공 DB 정의서 기반), 테이블 통합 규모 산정, 중복 데이터 처리 기준 정의, ISP 단계 제한사항 명시 (최종 개발환경 미제공) |
+| 2026-04-23 | 김명직 | 외부 연동 현실성 반영: 인터뷰 기반 외부 플랫폼 API 미사용 확인 → 데이터 동기화 방안 전면 Excel 템플릿 기반으로 전환 (외부몰 API 수집 → Excel 업로드 파싱, CMS API → Excel 기반 권한 처리) |

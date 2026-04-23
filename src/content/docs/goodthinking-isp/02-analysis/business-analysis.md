@@ -462,8 +462,8 @@ graph TD
 ```mermaid
 quadrantChart
     title 병목 영향도 매트릭스 (23건)
-    x-axis 낮음 --> 높음 (빈도: 일일)
-    y-axis 낮음 --> 높음 (영향도)
+    x-axis "낮음" --> "높음 (빈도 — 일일)"
+    y-axis "낮음" --> "높음 (영향도)"
     
     ① 주문→CS: [0.9, 0.95]
     ② CMS권한: [0.9, 0.90]

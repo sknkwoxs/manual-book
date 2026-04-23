@@ -13,7 +13,7 @@ sidebar:
 
 ## 1. 전체 조감도 (TO-BE)
 
-C/S 로컬 시스템이 **웹 기반 웹 CS 시스템**으로 전환되고, 분산된 외부 시스템 연동이 **API/자동화**로 일원화됩니다.
+C/S 로컬 시스템이 **웹 기반 웹 CS 시스템**으로 전환되고, 분산된 외부 시스템 연동이 **Excel 템플릿 자동 생성/파싱 기반 자동화**로 일원화됩니다.
 
 ```mermaid
 flowchart LR
@@ -55,7 +55,7 @@ flowchart LR
             POST["우체국"]
             CJ["CJ대한통운"]
             BANK["신한뱅크"]
-            CTI_NEW["웹 CTI 🟢"]
+            CTI_NEW["웹 CTI<br/><small>⚠️ 별도 과업</small>"]
             LG["LG유플러스"]
         end
     end
@@ -95,13 +95,13 @@ flowchart LR
     ADMIN_WEB --> DB
 
     %% ── 고객 정보 템플릿 매핑 → 외부 연동 ──
-    API_GW -->|"결제 API"| NICE
-    API_GW -->|"주문 수집"| PLAY
-    API_GW -->|"송장 API"| CJ
-    API_GW -->|"발송 데이터"| POST
+    API_GW -->|"Excel 정산"| NICE
+    API_GW -->|"Excel 업로드"| PLAY
+    API_GW -->|"Excel 송장"| CJ
+    API_GW -->|"Excel 발송"| POST
     API_GW -->|"Excel 자동생성"| ERP
-    API_GW -->|"권한 연동"| CMS
-    API_GW -->|"재고 템플릿"| KORYO
+    API_GW -->|"내부 권한 연동"| CMS
+    API_GW -->|"Excel 재고"| KORYO
 
     %% ── CTI 연동 ──
     CTI_NEW -->|"웹 CTI"| ADMIN_WEB
@@ -144,10 +144,10 @@ flowchart LR
         ERP["위하고 ERP<br/><small>매출·재무</small>"]
     end
     subgraph SYS_EXT["🌐 외부"]
-        NICE["나이스페이<br/><small>통합 결제 API</small>"]
-        POST["우체국<br/><small>배송</small>"]
-        CJ["CJ대한통운<br/><small>배송 API</small>"]
-        PLAY["Playauto<br/><small>외부몰</small>"]
+        NICE["나이스페이<br/><small>Excel 정산</small>"]
+        POST["우체국<br/><small>Excel 배송</small>"]
+        CJ["CJ대한통운<br/><small>Excel 송장</small>"]
+        PLAY["Playauto<br/><small>Excel 주문</small>"]
         CMS["CMS<br/><small>열람 권한</small>"]
     end
 
@@ -159,17 +159,17 @@ flowchart LR
     P6(("⑥"))
 
     %% 업무 흐름
-    PLAY -->|"API 수집"| P1
+    PLAY -->|"Excel 파싱"| P1
     P1 -->|"자동 등록"| WEB
     P2 -->|"온라인 처리"| WEB
-    API -->|"송장 API"| CJ
-    API -->|"발송 데이터"| POST
+    API -->|"Excel 송장"| CJ
+    API -->|"Excel 발송"| POST
     P3 -->|"자동 매칭"| WEB
-    NICE -->|"결제 API"| P4
+    NICE -->|"Excel 정산"| P4
     P4 -->|"자동 전송"| WEB
     API -->|"Excel 자동생성"| ERP
     P5 -->|"원클릭"| WEB
-    API -->|"권한 자동연동"| CMS
+    API -->|"내부 권한 연동"| CMS
     P6 -->|"자동 알림"| WEB
 
     style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
@@ -185,10 +185,10 @@ flowchart LR
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
-| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">①</span> | 🔴 Playauto Excel → CS **수기입력** | 🟢 Playauto → API 자동 수집 → **자동 등록** | OM-01, SB-09 |
+| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">①</span> | 🔴 Playauto Excel → CS **수기입력** | 🟢 Playauto Excel → **자동 파싱·변환** → 자동 등록 | OM-01, SB-09 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">②</span> | 🔴 구독 해지 → CS **수기삭제** | 🟢 웹 CS 시스템에서 **온라인 등록/해지/변경** | SB-01 |
-| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">③</span> | 🔴 우체국·CJ ↔ **엑셀 수기 매칭** → ERP | 🟢 택배사 **API 자동 연동** + ERP Excel 자동생성 | DL-03, DL-05 |
-| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">④</span> | 🟢 나이스페이 승인 → ERP 매출 | 🟢 결제 API 통합 → ERP **자동 전송** | FN-01, FN-06 |
+| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">③</span> | 🔴 우체국·CJ ↔ **엑셀 수기 매칭** → ERP | 🟢 택배사 양식 Excel **자동 생성** + 송장 Excel **자동 파싱** | DL-03, DL-05 |
+| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">④</span> | 🟢 나이스페이 승인 → ERP 매출 | 🟢 나이스페이 정산 Excel **자동 파싱** → ERP Excel **자동 생성** | FN-01, FN-06 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">⑤</span> | 🟢 선물·재발송 (3~4단계 우회) | 🟢 **원클릭 선발송** 처리 | SB-06 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">⑥</span> | ❌ 만료 확인 수동 조회 / CMS 권한 수동 복사 | 🟢 **만료 예정 자동 알림** + CMS **권한 자동 연동** | SB-04, SB-05 |
 
@@ -206,7 +206,7 @@ flowchart LR
     end
     subgraph SYS_EXT["🌐 외부"]
         KORYO["고려출판물류<br/><small>단행본 출고</small>"]
-        CJ["CJ대한통운<br/><small>배송 API</small>"]
+        CJ["CJ대한통운<br/><small>Excel 송장</small>"]
         BANK["신한뱅크<br/><small>입출금 데이터</small>"]
     end
 
@@ -349,7 +349,7 @@ flowchart LR
         WEB["고객 정보 통합 모듈<br/><small>웹 기반 접속</small>"]
     end
     subgraph SYS_EXT["🌐 외부"]
-        CTI_NEW["웹 CTI<br/><small>🟢 복구</small>"]
+        CTI_NEW["웹 CTI<br/><small>⚠️ 별도 과업</small>"]
         LG["LG유플러스<br/><small>인바운드</small>"]
         AUTO["오토콜<br/><small>아웃바운드</small>"]
     end
@@ -382,7 +382,7 @@ flowchart LR
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
-| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">①</span> | 🔴 CTI 중단 → CS **수기 번호 검색** | 🟢 **웹 CTI 복구** → 전화 인입 시 고객 정보 자동 팝업 | CS-03 |
+| <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">①</span> | 🔴 CTI 중단 → CS **수기 번호 검색** | 🟡 **웹 CTI 복구** → 전화 인입 시 고객 정보 자동 팝업 **(⚠️ 별도 과업)** | CS-03 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">②</span> | 🟢 아웃바운드 콜 (오토콜) | 🟢 현행 유지 + 만료 명단 자동 추출 연동 | SB-08 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">③</span> | 🟡 CS + 엑셀 **이중기록** | 🟢 웹 CS 시스템 **단일 기록** + 메모 일괄 업로드 | CS-02, CS-07 |
 | <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#dcfce7;border:2px solid #16a34a;border-radius:50%;font-weight:700;color:#166534;">④</span> | 🟢 리포트 (외부 엑셀 집계) | 🟢 **내장 OB/IB 실적 통계** + 정산 자동화 | CS-08 |
@@ -407,7 +407,7 @@ flowchart TB
         KORYO["고려출판물류"]
         BANK["신한뱅크"]
         LG["LG유플러스"]
-        CTI["웹 CTI"]
+        CTI["웹 CTI<br/><small>⚠️ 별도 과업</small>"]
     end
 
     subgraph CORE["🌐 웹 CS 시스템"]
@@ -431,18 +431,18 @@ flowchart TB
     end
 
     %% 외부 → 웹 CS 시스템
-    NICE -->|"결제 API"| API
-    PLAY -->|"주문 수집"| API
-    CJ -->|"송장 API"| API
-    POST -->|"발송"| API
-    KORYO -->|"재고"| API
+    NICE -->|"Excel 정산"| API
+    PLAY -->|"Excel 업로드"| API
+    CJ -->|"Excel 송장"| API
+    POST -->|"Excel 발송"| API
+    KORYO -->|"Excel 재고"| API
     BANK -->|"업로드"| API
     LG -->|"인입"| CTI
     CTI -->|"팝업"| ADMIN
 
     %% 웹 CS 시스템 → 현행 유지
     API -->|"Excel 자동생성"| ERP
-    API -->|"권한 연동"| CMS
+    API -->|"내부 권한 연동"| CMS
 
     %% 콘텐츠 시스템
     NAS <-->|"원고"| HP_ADMIN
@@ -463,12 +463,12 @@ flowchart TB
 |:---:|:---|:---|:---|
 | 1 | Playauto Excel 수기입력 | 주문 자동 수집 + 일괄등록 | OM-01, SB-09 |
 | 2 | 구독 해지 수기삭제 | 통합 구독 관리 (등록/해지/변경) | SB-01 |
-| 3 | 배송 엑셀 수기 매칭 | 택배사 API 자동 연동 | DL-03, DL-05 |
+| 3 | 배송 엑셀 수기 매칭 | 택배사 양식 Excel 자동 생성 + 송장 Excel 자동 파싱 | DL-03, DL-05 |
 | 4 | CS ↔ ERP 수기 대사 | ERP용 Excel 자동생성 | FN-04 |
 | 5 | 신한뱅크 → 엑셀 → CS 수기입력 | 입금 데이터 업로드 → 자동 매칭 | FN-02 |
 | 6 | 고려출판물류 → ERP 이중입력 | 재고 템플릿 + Excel 자동생성 | BK-03 |
 | 7 | 입금 삼중입력 (엑셀→관리→위하고) | 일일 입금 자동 대조 + 미수금 현황 | FN-10 |
-| 8 | CTI 중단 → 수기 번호 검색 | 웹 CTI 복구 → 자동 팝업 | CS-03 |
+| 8 | CTI 중단 → 수기 번호 검색 | 웹 CTI 복구 → 자동 팝업 **(⚠️ 별도 과업 — 서울정보시스템 담당)** | CS-03 |
 | 9 | Admin → CMS 수동 복사·붙여넣기 | 구독 상태 → CMS 권한 자동 연동 | SB-05 |
 | 10 | 상담 이력 이중기록 (CS+엑셀) | 통합 상담 이력 + 메모 일괄 업로드 | CS-02, CS-07 |
 
@@ -478,10 +478,10 @@ flowchart TB
 |:---:|:---|:---|
 | **핵심 시스템** | C/S 로컬 설치형 (XPlatform) | 웹 기반 통합 관리 시스템 (Headless CMS + SSR 프론트엔드) |
 | **데이터베이스** | MSSQL + MySQL 분리 운영 | MariaDB 통합 DB (AWS Lightsail Managed) |
-| **외부 연동** | 수동 Excel ↔ 개별 시스템 | 고객 정보 템플릿 매핑 중심 자동 연동 |
+| **외부 연동** | 수동 Excel ↔ 개별 시스템 | Excel 템플릿 자동 생성/파싱 기반 연동 자동화 |
 | **ERP 연동** | 수기 대사 + 이중입력 | Excel 자동생성 (API 미제공으로 현실적 대안) |
-| **CMS 연동** | 수동 복사·붙여넣기 | API 기반 권한 자동 연동 |
-| **CTI** | ⚠️ 중단 (KT→LG 전환 후) | 🟢 웹 CTI 복구 |
+| **CMS 연동** | 수동 복사·붙여넣기 | 내부 시스템 간 권한 자동 연동 |
+| **CTI** | ⚠️ 중단 (KT→LG 전환 후) | ⚠️ 별도 과업 (서울정보시스템 담당, 고객 결정사항) |
 | **대시보드** | 없음 | 준실시간 KPI + 알림 + 보고서 |
 | **보안** | 로컬 네트워크 제한 | VPN + 2차 인증 + 권한 세분화 |
 

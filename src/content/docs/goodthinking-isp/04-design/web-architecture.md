@@ -35,11 +35,11 @@ graph TD
     DB["통합 DB<br/>MariaDB / MySQL"]
     Cache["캐시<br/>Redis"]
     
-    External["외부 연동 레이어"]
-    OwnMall["자사몰 API"]
-    ExtMall["외부몰 API"]
-    PG["결제PG API"]
-    Delivery["배송사 API"]
+    External["외부 연동 레이어<br/>(Excel 템플릿 기반)"]
+    OwnMall["자사몰<br/>내부 DB 직접"]
+    ExtMall["외부몰<br/>Excel 업로드"]
+    PG["결제PG<br/>Excel 정산"]
+    Delivery["배송사<br/>Excel 송장"]
     
     CS --> Users
     OP --> Users
@@ -69,7 +69,7 @@ graph TD
 
 ### Headless CMS 아키텍처 패턴
 
-백엔드를 Headless CMS로 구성하여 **Admin UI, 인증/인가, RESTful API, 배치 스케줄링** 등 공통 기능을 CMS 프레임워크에서 제공받고, 비즈니스 로직은 커스텀 모듈로 구현합니다. 프론트엔드는 SSR 프레임워크로 분리하여 CDN 엣지에서 서빙합니다.
+백엔드를 Headless CMS로 구성하여 **Admin UI, 인증/인가, RESTful API, 배치 스케줄링** 등 공통 기능을 CMS 프레임워크에서 제공받고, 비즈니스 로직은 커스텀 모듈로 구현합니다. 프론트엔드는 SSR 프레임워크로 분리하여 CDN 엣지에서 서빙합니다. 외부 시스템 연동은 API가 아닌 **Excel 템플릿 자동 생성/파싱** 방식으로 구현합니다 (현행 업무 방식과의 연속성 확보).
 
 ```mermaid
 graph LR
@@ -132,8 +132,8 @@ graph LR
 | CMS 플랫폼 | Headless CMS (Drupal, Strapi, WordPress 등) | RESTful API 자동 노출, Admin UI 기본 제공 |
 | API | RESTful API (JSON:API 또는 REST) | OpenAPI 문서화, CRUD 자동 생성 |
 | Authentication | OAuth2 + JWT Bearer Token | |
-| 비즈니스 로직 | CMS 커스텀 모듈 / 플러그인 | 구독관리, PG연동, CMS권한, 배치 처리 |
-| 배치 스케줄링 | CMS 내장 Cron + Queue 시스템 | 외부몰 주문 수집, 정산, CMS 권한 등 |
+| 비즈니스 로직 | CMS 커스텀 모듈 / 플러그인 | 구독관리, PG Excel 정산, CMS권한, 배치 처리 |
+| 배치 스케줄링 | CMS 내장 Cron + Queue 시스템 | Excel 템플릿 자동 생성, 정산 취합, CMS 권한 등 |
 
 ### Database
 
@@ -173,12 +173,12 @@ graph TD
             GT_CS["CS 상담<br/>CS Ticket"]
         end
         
-        subgraph Integration_Modules["외부 연동 모듈"]
-            GT_Marketplace["외부몰 API 연동<br/>Marketplace"]
-            GT_PG["나이스페이 PG 연동<br/>Nicepay"]
+        subgraph Integration_Modules["외부 연동 모듈 (Excel 템플릿 기반)"]
+            GT_Marketplace["외부몰 Excel 연동<br/>Marketplace"]
+            GT_PG["나이스페이 Excel 정산<br/>Nicepay"]
             GT_CMS["CMS 권한 관리<br/>CMS Access"]
-            GT_ERP["이카운트 ERP 연동<br/>Ecount"]
-            GT_Delivery_API["택배사 API 연동<br/>Shipping"]
+            GT_ERP["위하고 ERP Excel 연동<br/>WEHAGO"]
+            GT_Delivery_API["택배사 Excel 연동<br/>Shipping"]
         end
         
         subgraph Utility_Modules["유틸리티 모듈"]
@@ -235,8 +235,15 @@ GET    /api/orders?filter[channel]=NAVER&sort=-created
 
 # 커스텀 API (비즈니스 로직)
 POST   /api/v1/subscriptions/{id}/activate    # 구독 활성화 + CMS 권한 부여
-POST   /api/v1/payments/nicepay-webhook        # 나이스페이 PG Webhook 수신
-POST   /api/v1/marketplace/collect              # 외부몰 주문 수동 수집 트리거
+POST   /api/v1/excel/upload/orders             # 외부몰 주문 Excel 업로드 파싱
+POST   /api/v1/excel/upload/invoices           # 택배사 송장 Excel 업로드 파싱
+GET    /api/v1/excel/download/shipping         # 택배사 양식 배송 Excel 다운로드 (?reason=&include_pii=bool)
+GET    /api/v1/excel/download/settlement       # 나이스페이 정산 취합 Excel 다운로드
+POST   /api/v1/excel/upload/settlement         # 나이스페이 정산 Excel 업로드
+GET    /api/v1/excel/download/erp              # 위하고 ERP 양식 Excel 다운로드
+POST   /api/v1/excel/upload/inventory          # 재고 Excel 업로드 파싱
+GET    /api/v1/excel/download/customers        # 고객 목록 Excel 다운로드 (?reason=&include_pii=bool)
+GET    /api/v1/excel/download/subscriptions    # 구독자 목록 Excel 다운로드 (?reason=&include_pii=bool)
 ```
 
 ---
@@ -268,38 +275,83 @@ graph LR
 
 ### 2. 인가 (Authorization)
 
-CMS 내장 Role + Permission 시스템을 활용합니다.
+CMS 내장 Role + Permission 시스템을 활용하며, **개인정보 취급에 따른 필드 레벨 접근 통제**를 적용합니다.
 
-| 역할 | 권한 |
-|------|------|
-| 최고관리자 | 전체 기능 |
-| 관리자 | 설정 외 전체 |
-| CS담당자 | CS, 고객 조회 |
-| 운영담당자 | 주문, 배송 관리 |
-| 외부콜센터 | 고객 조회 (마스킹), CS 등록 |
+#### 역할별 접근 권한 매트릭스
+
+| 역할 | 고객 기본정보 | 개인정보 (연락처/주소/카드) | 결제/정산 | CS 이력 | 구독 관리 | Excel 내보내기 | 시스템 설정 |
+|------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 최고관리자 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ (전체) | ✅ |
+| 관리자 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ (전체) | ❌ |
+| CS담당자 | ✅ | ✅ | 조회 | ✅ | 조회 | ✅ (담당 범위) | ❌ |
+| 운영담당자 | ✅ | 마스킹 | ✅ | 조회 | ✅ | ✅ (담당 범위) | ❌ |
+| 외부콜센터 | 조회 | **마스킹** | ❌ | 등록만 | 조회 | ❌ | ❌ |
+
+#### 개인정보 필드 레벨 접근 통제
+
+| 필드 구분 | 필드 예시 | 최고관리자/관리자 | CS담당자 | 운영담당자 | 외부콜센터 |
+|-----------|----------|:---:|:---:|:---:|:---:|
+| 기본정보 | 이름, 고객번호 | 원문 | 원문 | 원문 | 원문 |
+| 연락처 | 전화번호, 이메일 | 원문 | 원문 | 뒷4자리 마스킹 | 뒷4자리 마스킹 |
+| 주소 | 배송 주소 | 원문 | 원문 | 시/구까지만 | 시/구까지만 |
+| 결제정보 | 카드번호, 계좌번호 | 앞6+뒤4자리 | 앞6+뒤4자리 | ❌ | ❌ |
+| 민감정보 | 주민등록번호 | ❌ (수집 금지) | ❌ | ❌ | ❌ |
 
 ### 3. 데이터 보안
 
 | 항목 | 정책 |
 |------|------|
 | 전송 암호화 | HTTPS (TLS 1.3) |
-| 저장 암호화 | 개인정보 필드 AES 암호화 |
+| 저장 암호화 | 개인정보 필드 AES-256 암호화 |
 | 접근 통제 | IP 화이트리스트 + Zero Trust (선택) |
-| 로그 | 모든 접근/변경 기록 (감사 로그 모듈) |
+| 로그 | 모든 접근/변경 기록 (감사 로그 모듈) — READ 포함 전수 로깅 |
 | WAF | Cloudflare WAF (OWASP Core Ruleset) |
+
+#### Excel 파일 보안 정책
+
+개인정보가 포함된 Excel 파일 추출 시, **자동 비밀번호 적용**을 필수로 합니다.
+
+| 항목 | 정책 |
+|------|------|
+| **적용 대상** | 개인정보 필드(연락처, 주소, 결제정보 등)가 1건 이상 포함된 Excel 다운로드 |
+| **비밀번호 생성** | 서버 측 랜덤 생성 (영문 대소문자 + 숫자 + 특수문자, 12자 이상) |
+| **비밀번호 전달** | 다운로드 요청자에게 시스템 내 알림(팝업)으로 1회 표시, 별도 저장 불가 |
+| **파일 암호화** | AES-128 이상 (xlsx 표준 암호화) |
+| **비밀번호 미포함 Excel** | 개인정보 미포함 데이터(매출 집계, 상품 목록 등)는 비밀번호 없이 다운로드 허용 |
+| **다운로드 사유 입력** | 100건 초과 또는 개인정보 포함 시 사유 입력 필수 |
+| **상위 승인** | 100건 초과 개인정보 포함 Excel은 상위 관리자 승인 후 다운로드 |
+
+```mermaid
+graph TD
+    A["Excel 다운로드 요청"] --> B{"개인정보<br/>포함 여부?"}
+    B -->|미포함| C["일반 Excel 다운로드"]
+    B -->|포함| D{"100건<br/>초과?"}
+    D -->|이하| E["사유 입력"]
+    D -->|초과| F["사유 입력 +<br/>상위 관리자 승인"]
+    E --> G["서버 측 비밀번호<br/>자동 생성 (12자+)"]
+    F --> G
+    G --> H["Excel 파일 암호화<br/>(AES-128)"]
+    H --> I["다운로드 +<br/>비밀번호 팝업 1회 표시"]
+    I --> J["감사 로그 기록<br/>(excel_export_log)"]
+    C --> J
+```
 
 ### 4. 감사 로그
 
-CMS 이벤트 시스템을 활용하여 모든 Entity CRUD 작업을 자동 기록합니다.
+CMS 이벤트 시스템을 활용하여 모든 Entity CRUD 작업을 자동 기록합니다. **개인정보 접근(READ 포함)은 별도 플래그로 분류**하며, **Excel 추출은 전용 로그**로 관리합니다.
+
+#### 4-1. 통합 감사 로그 (audit_log)
 
 ```sql
--- 감사 로그 예시 구조
+-- 감사 로그 구조
 audit_log (
   id,
   user_id,
   action,         -- CREATE, READ, UPDATE, DELETE
   resource,       -- 대상 테이블/기능
   resource_id,    -- 대상 레코드 ID
+  pii_flag,       -- 개인정보 접근 여부 (BOOLEAN, DEFAULT FALSE)
+  pii_fields,     -- 접근한 개인정보 필드 목록 (JSON, NULL 허용)
   old_value,      -- 변경 전 (JSON)
   new_value,      -- 변경 후 (JSON)
   ip_address,
@@ -307,6 +359,38 @@ audit_log (
   created_at
 )
 ```
+
+> **READ 로깅 정책**: 개인정보 필드가 포함된 화면 조회 시 `pii_flag = TRUE`로 기록. 목록 조회(마스킹 상태)는 로깅 제외, **상세 조회(원문 노출) 시 필수 로깅**.
+
+#### 4-2. Excel 추출 전용 로그 (excel_export_log)
+
+```sql
+-- Excel 추출 감사 로그 구조
+excel_export_log (
+  id,
+  user_id,
+  export_type,       -- GENERAL, PII_INCLUDED
+  template_name,     -- 사용된 서식 템플릿명
+  resource,          -- 추출 대상 (예: customers, subscriptions)
+  record_count,      -- 추출 건수
+  pii_included,      -- 개인정보 포함 여부 (BOOLEAN)
+  pii_fields,        -- 포함된 개인정보 필드 목록 (JSON)
+  password_applied,  -- 비밀번호 적용 여부 (BOOLEAN)
+  reason,            -- 추출 사유 (TEXT)
+  approved_by,       -- 상위 승인자 ID (NULL 허용)
+  ip_address,
+  created_at
+)
+```
+
+#### 4-3. 로그 보존 및 모니터링
+
+| 항목 | 정책 |
+|------|------|
+| 보존 기간 | audit_log: 3년, excel_export_log: 5년 |
+| 아카이빙 | 1년 경과 시 Cold Storage 이관 (Lightsail Object Storage) |
+| 모니터링 | 개인정보 대량 조회 (일 50건 초과) 시 관리자 알림 |
+| 월간 리포트 | 다운로드 현황, 개인정보 접근 통계, 이상 징후 자동 리포트 |
 
 ---
 
@@ -326,7 +410,7 @@ audit_log (
 | 비즈니스 로직 | 49개 | SP 20 + Function 14 + Trigger 15 → 애플리케이션 코드로 전환 |
 | 월 구독 발송 | ~50,000건 | 월간 정기구독 잡지 발송 |
 | 일 주문 | 50~100건 | 외부몰 연동 포함 |
-| 월 API 호출 | ~100만 건 | 관리자 CRUD + 외부몰 연동 추정 |
+| 월 API 호출 | ~100만 건 | 관리자 CRUD 추정 (외부 API 연동 없음, Excel 기반 외부 연동) |
 
 ### 네트워크/보안 아키텍처
 
@@ -510,6 +594,9 @@ gantt
 
 | 날짜 | 작성자 | 변경 내용 |
 |------|--------|----------|
-| YYYY-MM-DD | - | 초안 작성 |
+| 2026-03-18 | - | 초안 작성 |
 | 2026-04-20 | 김명직 | DB를 PostgreSQL로 확정 (MSSQL 전환), 기술 스택 확정, AWS 인프라 월간 비용 산정 추가 |
 | 2026-04-23 | 김명직 | 아키텍처 전면 개편: Headless CMS + SSR 프론트엔드 + Managed Cloud 패턴 적용. DB: MariaDB (오픈소스, Lightsail DB 호환). 인프라: AWS Lightsail + Cloudflare. |
+| 2026-04-23 | 김명직 | 외부 연동 현실성 반영: 외부 API → Excel 템플릿 기반 연동 전환, 커스텀 API에 Excel upload/download 7개 추가 |
+| 2026-04-23 | 김명직 | 인가(Authorization) 강화: 역할별 접근 권한 매트릭스 신설 (7개 기능 영역 × 5개 역할), 개인정보 필드 레벨 접근 통제 테이블 신설 |
+| 2026-04-23 | 김명직 | 개인정보 보호 모듈 강화: Excel 파일 보안 정책 (개인정보 포함 시 자동 비밀번호 AES-128), 감사 로그 스키마 확장 (pii_flag, excel_export_log), API 엔드포인트 보안 파라미터 추가 (include_pii, reason), 고객/구독자 Excel 다운로드 엔드포인트 2개 추가 |
