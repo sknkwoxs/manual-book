@@ -207,20 +207,20 @@ graph TD
 
 | 현행 로직 | 유형 | 현행 동작 | TO-BE 전환 방식 |
 |-----------|------|----------|----------------|
-| sp_PT_SubscribeCreate | SP | 구독 접수 처리 | API 엔드포인트 (POST /subscriptions) |
-| sp_PT_SubscribeCancel | SP | 구독 취소 | API 엔드포인트 (DELETE /subscriptions) |
-| sp_PT_FinanceCreate | SP | 입금 등록 | PG Webhook → 자동 Finance 생성 |
-| sp_PT_FinanceRefund | SP | 환불 처리 | API + PG 환불 API 연동 |
-| sp_PT_SendBookData | SP | 도서 발송 처리 | 스케줄러 기반 자동 발송 배치 |
-| sp_PT_NicepayProcess | SP | PG 결제 처리 | 나이스페이 Webhook 수신 → 자동 처리 |
-| sp_PT_CustomerMerge | SP | 고객 병합 | 관리자 UI + 중복 탐지 알고리즘 |
-| sp_PT_DeferIncomeCalc | SP | 선수수익 산출 | 월간 배치 + 자동 리포트 |
-| trg_Subscribe_Giro_* | Trigger (3) | 구독↔지로 자동 연동 | 이벤트 기반 처리 (구독 생성/변경/삭제 시) |
+| sp_PT_SubscribeCreate | SP | 구독 접수 처리 | RESTful API (POST /api/subscriptions) |
+| sp_PT_SubscribeCancel | SP | 구독 취소 | RESTful API (DELETE /api/subscriptions/{id}) |
+| sp_PT_FinanceCreate | SP | 입금 등록 | PG Webhook → Custom REST Resource 자동 Finance 생성 |
+| sp_PT_FinanceRefund | SP | 환불 처리 | Custom REST Resource + PG 환불 API 연동 |
+| sp_PT_SendBookData | SP | 도서 발송 처리 | CMS 스케줄러 기반 자동 발송 배치 |
+| sp_PT_NicepayProcess | SP | PG 결제 처리 | PG 연동 모듈 Webhook 수신 → 자동 처리 |
+| sp_PT_CustomerMerge | SP | 고객 병합 | CMS Admin UI + 중복 탐지 알고리즘 (Custom Module) |
+| sp_PT_DeferIncomeCalc | SP | 선수수익 산출 | CMS 스케줄러 월간 배치 + 자동 리포트 |
+| trg_Subscribe_Giro_* | Trigger (3) | 구독↔지로 자동 연동 | 이벤트 기반 처리 (Entity presave/insert/delete hook) |
 | trg_GiftSend_Stock_* | Trigger (3) | 선물↔재고 자동 연동 | 이벤트 기반 재고 관리 |
-| trg_Finance_DeferIncome | Trigger | 입금→선수수익 반영 | 결제 이벤트 → 자동 선수수익 계산 |
-| trg_Customer_Tel_Index | Trigger | 전화번호 인덱스 갱신 | DB 인덱스 자동 관리 (ORM 레벨) |
-| func_GetCustomerByTel | Function | CTI 고객 조회 | 웹 CTI → API 호출 (GET /customers?tel=) |
-| func_CalcSubscribePeriod | Function | 구독 기간 계산 | 비즈니스 로직 레이어 (서버사이드) |
+| trg_Finance_DeferIncome | Trigger | 입금→선수수익 반영 | 이벤트 기반 처리 → 자동 선수수익 계산 |
+| trg_Customer_Tel_Index | Trigger | 전화번호 인덱스 갱신 | DB 인덱스 자동 관리 |
+| func_GetCustomerByTel | Function | CTI 고객 조회 | RESTful API 필터 (GET /api/customers?filter[phone]=) |
+| func_CalcSubscribePeriod | Function | 구독 기간 계산 | 구독 관리 모듈 서비스 레이어 |
 
 ### 트리거 기반 자동화
 

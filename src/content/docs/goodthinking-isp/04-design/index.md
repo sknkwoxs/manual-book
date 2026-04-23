@@ -37,34 +37,34 @@ graph LR
 | 목표 | AS-IS 문제 | TO-BE 해결 방안 | 기대 효과 |
 |------|------------|-----------------|----------|
 | **1. C/S → Web 전환** | 로컬 PC에 설치된 XPlatform 기반 시스템 | 클라우드 기반 웹 Admin 시스템 구축 | 장소 제약 없이 업무 가능, 유지보수 용이 |
-| **2. 데이터 통합** | MSSQL + MySQL 분리, 채널별 데이터 파편화 | MSSQL 통합 DB 구축 (AWS RDS), 단일 고객 마스터 | 360° 고객 뷰, 실시간 데이터 공유 |
-| **3. 프로세스 자동화** | 주문→입력→권한부여 수작업 처리 | API 연동(현행 유지) + Excel 템플릿 간소화 | 처리 시간 단축, 오류 최소화 |
+| **2. 데이터 통합** | MSSQL + MySQL 분리, 채널별 데이터 파편화 | 통합 DB 구축, 단일 고객 마스터 | 360° 고객 뷰, 실시간 데이터 공유 |
+| **3. 프로세스 자동화** | 주문→입력→권한부여 수작업 처리 | API 연동 기반 One-Stop 자동화 | 처리 시간 단축, 오류 최소화 |
 
 ### 목표 아키텍처 개요
 
 ```mermaid
 graph TB
     User["사용자 (CS팀)"]
-    User -->|웹 브라우저| GW["AWS Cloud"]
+    User -->|웹 브라우저| CF["Cloudflare CDN + Edge"]
     
-    subgraph AWS["AWS Cloud"]
-        Admin["통합 Admin(Web)"]
-        Admin_Modules["대시보드 | 고객관리 | 구독관리 | 주문관리 | 배송관리<br/>결제/정산 | CS/상담 | 선물관리 | 재고/도서 | 통계 | 시스템관리"]
+    subgraph Infra["인프라"]
+        Frontend["SSR 프론트엔드<br/>(CDN Edge 배포)"]
+        Backend["Headless CMS 백엔드<br/>(AWS Lightsail)"]
+        Admin_Modules["고객관리 | 주문관리 | 구독관리 | CS관리 | 통계/리포트"]
         
-        DB["통합 DB"]
-        DB_Tables["고객 마스터 | 주문 이력 | 구독 정보 | CS 이력<br/>결제/정산 | 배송 | 선물 | 재고/도서 | 감사로그"]
+        DB["MariaDB<br/>(Lightsail Managed DB)"]
+        DB_Tables["고객 마스터 | 주문 이력 | 구독 정보 | CS 이력"]
         
-        APIGateway["API Gateway"]
-        
-        Admin --> Admin_Modules
-        Admin_Modules --> APIGateway
-        APIGateway --> DB
+        Frontend -->|RESTful API| Backend
+        Backend --> Admin_Modules
+        Admin_Modules --> DB
         DB --> DB_Tables
     end
     
-    APIGateway -->|API| Channel["외부 채널(네이버 등)"]
-    APIGateway -->|API| PG["결제 PG(나이스페이)"]
-    APIGateway -->|Excel| CMS["좋은생각 CMS<br/>(구독자 열람 권한<br/>Excel 전달)"]
+    CF --> Frontend
+    Backend -->|API| Channel["외부 채널(네이버 등)"]
+    Backend -->|API| PG["결제 PG(토스 등)"]
+    Backend -->|API| CMS["CMS(권한 연동)"]
 ```
 
 ### 목표별 실현 방안
@@ -73,29 +73,28 @@ graph TB
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **프론트엔드** | React + Ant Design 기반 SPA로 웹 Admin 구축 |
-| **백엔드** | NestJS 모놀리식 모듈 기반 API 서버 |
-| **인프라** | AWS 클라우드 (기존 인프라 활용) |
-| **접근성** | HTTPS 기반 보안 접속, SSO 연동 |
+| **프론트엔드** | SSR 프레임워크 + 경량 UI 프레임워크 + 유틸리티 CSS 웹 Admin 구축 |
+| **백엔드** | Headless CMS (RESTful API + 커스텀 비즈니스 모듈) |
+| **인프라** | AWS Lightsail (서버) + Cloudflare (CDN/Edge/R2) |
+| **접근성** | HTTPS (TLS 1.3), OAuth2 인증 |
 
 #### 2. 데이터 통합
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **통합 DB** | MSSQL 유지 (AWS RDS for SQL Server), 이관 리스크 최소화 |
+| **통합 DB** | MariaDB / MySQL (오픈소스, Lightsail Managed DB) |
 | **고객 마스터** | 채널별 고객 데이터 통합, 중복 제거 |
-| **데이터 마이그레이션** | On-Prem MSSQL + AWS MySQL → AWS RDS MSSQL 통합 이관 |
+| **데이터 마이그레이션** | MSSQL 데이터 → MariaDB 이관 |
 | **데이터 동기화** | 레거시 병행 운영 시 실시간 동기화 |
 
 #### 3. 프로세스 자동화
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **주문 수집** | Playauto 경유 외부몰 API 자동 수집 (현행 유지) + Excel 업로드 |
-| **자동 입력** | 수집된 주문 데이터 자동 DB 저장, Excel 업로드 파싱 |
-| **CMS 권한** | 결제 완료 시 CMS 구독자 열람 권한 대상 Excel 내보내기 → 좋은생각 CMS 일괄 처리 |
-| **배송 연동** | 택배사 API 자동 연동 (계약 기반, 현행 유지) |
-| **ERP 연동** | 위하고 업로드용 Excel 자동 생성 (API 미제공) |
+| **주문 수집** | 외부 채널 API 직접 연동 (Playauto 대체) |
+| **자동 입력** | 수집된 주문 데이터 자동 DB 저장 |
+| **CMS 권한** | 결제 완료 시 CMS API 호출하여 자동 권한 부여 |
+| **배송 연동** | 배송 정보 자동 생성 및 송장 연동 |
 
 ---
 
@@ -164,20 +163,20 @@ SW 아키텍처 설계 프로세스 및 품질 속성 기반 설계 가이드
 ## 설계 원칙
 
 ### 1. 확장성 (Scalability)
-- NestJS 모듈 기반 모놀리식 설계 (점진적 MSA 분리 가능)
-- 수평적 확장 가능한 구조 (ECS Fargate)
+- CMS 모듈 기반 설계
+- CDN Edge 배포로 글로벌 확장
 
 ### 2. 유연성 (Flexibility)
-- 모듈화된 컴포넌트
-- API 기반 연동
+- RESTful API 기반 Headless 아키텍처
+- 커스텀 모듈로 비즈니스 로직 분리
 
 ### 3. 보안성 (Security)
-- 개인정보 보호 기준 준수
-- 접근 통제 및 감사 로그
+- 개인정보 보호 기준 준수 (필드 암호화)
+- CMS Role/Permission + Cloudflare WAF
 
 ### 4. 사용성 (Usability)
-- 직관적인 UI/UX
-- 업무 효율성 중심 설계
+- 경량 인터랙티브 UI + 유틸리티 CSS
+- CMS 기본 Admin UI 병행 활용
 
 ---
 
