@@ -280,10 +280,10 @@ ATAM의 경량화 버전 (총 4\~6시간)
 
 | 단계 | 방법론 | ISP 산출물 | 상태 | 비고 |
 |:---|:---|:---|:---:|:---|
-| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | 90% | 17개 시나리오, 6개 품질 속성 |
-| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | 90% | 품질 속성별 우선순위, Tradeoff 분석 |
-| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | 80% | 12모듈, Headless CMS+SSR 프론트엔드+MariaDB |
-| 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | 80% | 비용/리스크/기술 Tradeoff |
+| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | ISP 단계 완료 | 역공학 + 인터뷰/문서 기반 17개 시나리오 도출. 개발 착수 시 최종 보정 |
+| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | ISP 단계 완료 | 역공학 + 인터뷰/문서 기반 우선순위 산정. 개발 착수 시 최종 보정 |
+| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | ISP 단계 완료 | 12모듈, Headless CMS+SSR 프론트엔드+MariaDB. 개발 착수 시 상세 설계 확정 |
+| 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | ISP 단계 완료 | 비용/리스크/기술 Tradeoff 초안. 개발 착수 시 최종 평가 |
 
 ### 방법론 적용 상세
 
@@ -347,12 +347,15 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 
 ### 향후 과제
 
-:::caution[인터뷰 미수행]
-현재 QAW 시나리오와 Utility Tree는 **DB 역공학 + 문서 분석 기반**으로 작성되었습니다.
-인터뷰 수행 후 다음 항목의 보정이 필요합니다:
-- 품질 속성 시나리오의 정량 목표값 (응답시간, 처리량 등)
-- Utility Tree 우선순위 (비즈니스 관점 검증)
-- TO-BE 아키텍처의 모듈 범위 (홈페이지 리뉴얼 포함 여부)
+:::note[ISP 단계 산출물 — 개발 과업 착수 시 최종 확정]
+본 문서의 모든 산출물은 **ISP(정보화 전략 계획) 단계**에서 DB 역공학, 인터뷰, 문서/자료 검토를 통해 도출한 것입니다.
+실제 개발 과업 착수 시 다음 항목에 대해 **최종 산출 및 보정**이 필요합니다:
+
+- **품질 속성 시나리오**: 정량 목표값 (응답시간, 처리량 등) 실측 기반 확정
+- **Utility Tree 우선순위**: 이해관계자 참여 워크샵을 통한 비즈니스 관점 최종 검증
+- **TO-BE 아키텍처 상세 설계**: 모듈 범위 확정 (홈페이지 리뉴얼 포함 여부), 기술스택 최종 선정
+- **Tradeoff 분석**: 개발 환경 구축 후 프로토타입 기반 성능/비용 실증 검증
+- **아키텍처 평가 (LAE)**: 구현 단계 진입 전 경량 ATAM 정식 수행
 :::
 
 ---
