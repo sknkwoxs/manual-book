@@ -476,8 +476,8 @@ flowchart TB
 
 | 구분 | AS-IS | TO-BE |
 |:---:|:---|:---|
-| **핵심 시스템** | C/S 로컬 설치형 (XPlatform) | 웹 기반 웹 CS 시스템 (React + NestJS) |
-| **데이터베이스** | MSSQL + MySQL 분리 운영 | AWS RDS MSSQL 통합 DB |
+| **핵심 시스템** | C/S 로컬 설치형 (XPlatform) | 웹 기반 통합 관리 시스템 (Headless CMS + SSR 프론트엔드) |
+| **데이터베이스** | MSSQL + MySQL 분리 운영 | MariaDB 통합 DB (AWS Lightsail Managed) |
 | **외부 연동** | 수동 Excel ↔ 개별 시스템 | 고객 정보 템플릿 매핑 중심 자동 연동 |
 | **ERP 연동** | 수기 대사 + 이중입력 | Excel 자동생성 (API 미제공으로 현실적 대안) |
 | **CMS 연동** | 수동 복사·붙여넣기 | API 기반 권한 자동 연동 |
