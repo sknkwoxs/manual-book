@@ -1,5 +1,5 @@
 ---
-title: 선물 관리
+title: 3.9. 선물 관리
 description: 구독 사은품 및 이벤트 선물 재고, 발송, 쿠폰 통합 관리
 sidebar:
   order: 8

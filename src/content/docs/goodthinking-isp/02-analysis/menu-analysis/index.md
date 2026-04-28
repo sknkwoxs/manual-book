@@ -1,5 +1,5 @@
 ---
-title: CS 시스템 메뉴 분석
+title: 2.6.1. 메뉴 분석
 description: 현행 CS 시스템(Tobesoft) 전체 메뉴의 부서별 사용 현황 분석 및 존치·통합·폐기 판정
 ---
 

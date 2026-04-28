@@ -1,5 +1,5 @@
 ---
-title: 목표 모델 설계 (TO-BE Design)
+title: 4.2. 목표 모델 설계
 description: 웹 기반 차세대 통합 시스템 설계
 ---
 

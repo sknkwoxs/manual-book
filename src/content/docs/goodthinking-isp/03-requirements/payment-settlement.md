@@ -1,5 +1,5 @@
 ---
-title: 결제/정산
+title: 3.7. 결제/정산
 description: PG 연동, 무통장 입금 매칭, 이연수익 계산, ERP 연동 및 매출 통계 관리를 포함한 금융 관리 요구사항입니다.
 sidebar:
   order: 6

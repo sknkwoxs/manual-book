@@ -1,5 +1,5 @@
 ---
-title: 데이터 통합 모델
+title: 4.4. 데이터 통합 모델
 description: 통합 DB 스키마(ERD) 설계
 ---
 

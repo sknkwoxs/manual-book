@@ -1,5 +1,5 @@
 ---
-title: 현황 분석 (AS-IS Analysis)
+title: 2.1. 현황 분석
 description: 좋은생각 CS 시스템의 현행 시스템 분석
 ---
 

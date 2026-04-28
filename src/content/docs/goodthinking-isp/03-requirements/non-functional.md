@@ -1,5 +1,5 @@
 ---
-title: 비기능 요구사항
+title: 3.12. 비기능 요구사항
 description: 성능, 보안, 가용성 목표 및 UI/UX 개선 표준 정의
 sidebar:
   order: 11

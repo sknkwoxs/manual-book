@@ -1,5 +1,5 @@
 ---
-title: 구독 관리
+title: 3.4. 구독 관리
 description: 정기구독의 라이프사이클을 관리하고 외부 권한 연동과 발송 자동화를 지원하는 모듈
 sidebar:
   order: 3

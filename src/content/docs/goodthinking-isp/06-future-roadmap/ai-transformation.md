@@ -1,5 +1,5 @@
 ---
-title: AI 기술 도입
+title: 6.2. AI 기술 도입
 description: 감성 분석 검색 및 AI 에디터 도입
 ---
 

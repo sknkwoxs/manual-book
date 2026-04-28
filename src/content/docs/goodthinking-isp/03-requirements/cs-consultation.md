@@ -1,5 +1,5 @@
 ---
-title: CS/상담
+title: 3.8. CS/상담
 description: 고객 문의 접수, CTI 연동, 상담 이력 관리 및 콜센터 성과 측정을 포함한 서비스 운영 요구사항입니다.
 sidebar:
   order: 7

@@ -1,5 +1,5 @@
 ---
-title: TO-BE 엔티티 조감도
+title: 4.1. 목표 모델 엔티티 조감도
 description: 기능요건을 반영한 목표 시스템의 조직·시스템·업무 전체 연계 관계
 sidebar:
   order: 7

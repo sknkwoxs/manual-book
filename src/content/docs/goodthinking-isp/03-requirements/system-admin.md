@@ -1,5 +1,5 @@
 ---
-title: 시스템 관리
+title: 3.11. 시스템 관리
 description: 사용자 계정, 권한, 공통 코드 및 법적 보안 규정 준수 관리
 sidebar:
   order: 10

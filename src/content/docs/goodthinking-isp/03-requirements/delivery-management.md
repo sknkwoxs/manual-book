@@ -1,5 +1,5 @@
 ---
-title: 배송 관리
+title: 3.6. 배송 관리
 description: 월간지 대량 발송, DM/선물 배송, 택배사 연동 및 반송 처리를 포함한 물류 관리 요구사항입니다.
 sidebar:
   order: 5

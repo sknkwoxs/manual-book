@@ -1,5 +1,5 @@
 ---
-title: 발주 지원 (RFP)
+title: 5.3. 발주 지원(RFP)
 description: 제안요청서 및 요구기능정의서 작성
 ---
 

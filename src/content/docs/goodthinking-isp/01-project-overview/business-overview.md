@@ -1,5 +1,5 @@
 ---
-title: 사업 개요
+title: 1.1. 사업 개요
 description: 좋은생각 CS 시스템 웹 전환 ISP 사업의 배경, 목적 및 기대효과
 ---
 

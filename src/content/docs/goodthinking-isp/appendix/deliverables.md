@@ -1,5 +1,5 @@
 ---
-title: 산출물 목록
+title: 7.2. 산출물 목록
 description: ISP 프로젝트 산출물 목록 및 양식
 ---
 

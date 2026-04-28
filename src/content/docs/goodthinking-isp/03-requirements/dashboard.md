@@ -1,5 +1,5 @@
 ---
-title: 대시보드
+title: 3.2. 대시보드
 description: 준실시간 주요 지표 및 업무 현황을 시각화하여 제공하는 운영 중심 대시보드
 sidebar:
   order: 1

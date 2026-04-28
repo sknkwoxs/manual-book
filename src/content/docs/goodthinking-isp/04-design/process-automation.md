@@ -1,5 +1,5 @@
 ---
-title: 자동화 프로세스 (BPR)
+title: 4.5. 자동화 프로세스
 description: One-Stop 자동화 프로세스 설계
 ---
 

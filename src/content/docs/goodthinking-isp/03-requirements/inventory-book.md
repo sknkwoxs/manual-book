@@ -1,5 +1,5 @@
 ---
-title: 재고/도서
+title: 3.10. 재고/도서
 description: 월간지, 단행본 카탈로그 및 실시간 재고 연동 관리
 sidebar:
   order: 9

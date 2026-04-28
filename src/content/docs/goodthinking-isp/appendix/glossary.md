@@ -1,5 +1,5 @@
 ---
-title: 용어 사전
+title: 7.3. 용어 사전
 description: 좋은생각 ISP 프로젝트 용어 정의
 ---
 

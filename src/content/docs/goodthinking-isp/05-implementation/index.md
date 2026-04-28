@@ -1,5 +1,5 @@
 ---
-title: 이행 계획 (Implementation Plan)
+title: 5.1. 이행 계획
 description: 마이그레이션 및 구축 계획 수립
 ---
 

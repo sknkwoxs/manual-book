@@ -1,5 +1,5 @@
 ---
-title: 프로젝트 개요
+title: 1.2. 프로젝트 개요
 description: 좋은생각 CS 시스템 웹 전환 ISP 프로젝트 개요
 ---
 
