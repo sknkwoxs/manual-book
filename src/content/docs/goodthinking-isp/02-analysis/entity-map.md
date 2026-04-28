@@ -1,5 +1,5 @@
 ---
-title: 엔티티 관계도
+title: 2.7. 엔티티 관계도
 description: 좋은생각 조직·시스템·업무 전체 연계 관계를 한눈에 조망하는 엔티티 맵
 ---
 
@@ -32,7 +32,7 @@ flowchart LR
             direction TB
             CS["CS System<br/><small>고객·구독 관리</small>"]
             ERP["위하고 ERP<br/><small>매출·재무</small>"]
-            ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"]
+            ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
             CMS["CMS<br/><small>발행 아카이브·검색</small>"]
             NAS["NAS<br/><small>원고·이미지</small>"]
         end
@@ -44,7 +44,7 @@ flowchart LR
             POST["우체국<br/><small>배송</small>"]
             CJ["CJ대한통운<br/><small>배송</small>"]
             BANK["신한뱅크<br/><small>입출금</small>"]
-            CTI["CTI<br/><small>⚠️ 중단</small>"]
+    CTI["CTI<br/><small>[주의] 중단</small>"]
             LG["LG유플러스<br/><small>인바운드</small>"]
         end
     end
@@ -153,7 +153,7 @@ flowchart LR
     style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-<small>🔴 병목 업무 · 🟢 일반 업무</small>
+<small>병목 업무 · 일반 업무</small>
 
 | 업무 | 설명 |
 |:---:|:---|
@@ -197,7 +197,7 @@ flowchart LR
     style P4 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
 ```
 
-<small>🔴 병목 업무 · 🟡 주의 업무</small>
+<small>병목 업무 · 주의 업무</small>
 
 | 업무 | 설명 |
 |:---:|:---|
@@ -240,7 +240,7 @@ flowchart LR
     style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-<small>🔴 병목 업무 · 🟡 주의 업무 · 🟢 일반 업무</small>
+<small>병목 업무 · 주의 업무 · 일반 업무</small>
 
 | 업무 | 설명 |
 |:---:|:---|
@@ -254,7 +254,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph SYS_INT["🏠 내부"]
-        ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"]
+        ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
         CMS["CMS<br/><small>발행 아카이브·검색</small>"]
         NAS["NAS<br/><small>원고·이미지 저장</small>"]
         ADMIN -->|"발행"| CMS
@@ -277,7 +277,7 @@ flowchart LR
     style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-<small>🟡 주의 업무 · 🟢 일반 업무</small>
+<small>주의 업무 · 일반 업무</small>
 
 | 업무 | 설명 |
 |:---:|:---|
@@ -293,7 +293,7 @@ flowchart LR
         CS["CS System<br/><small>VPN 접속</small>"]
     end
     subgraph SYS_EXT["🌐 외부"]
-        CTI["서울정보시스템 CTI<br/><small>⚠️ 중단</small>"]
+        CTI["서울정보시스템 CTI<br/><small>[주의] 중단</small>"]
         LG["LG유플러스<br/><small>인바운드</small>"]
         AUTO["오토콜<br/><small>아웃바운드</small>"]
     end
@@ -321,7 +321,7 @@ flowchart LR
     style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-<small>🔴 병목 업무 · 🟡 주의 업무 · 🟢 일반 업무</small>
+<small>병목 업무 · 주의 업무 · 일반 업무</small>
 
 | 업무 | 설명 |
 |:---:|:---|
@@ -341,7 +341,7 @@ flowchart LR
     subgraph INTERNAL["🏠 내부"]
         CS["CS System<br/><small>고객·구독 관리</small>"]
         ERP["위하고 ERP<br/><small>매출·재무</small>"]
-        ADMIN["홈페이지 Admin<br/><small>원고 수집·배분</small>"]
+        ADMIN["홈페이지 어드민<br/><small>원고 수집·배분</small>"]
         CMS["CMS<br/><small>발행 아카이브</small>"]
         NAS["NAS<br/><small>원고·이미지</small>"]
     end
@@ -354,7 +354,7 @@ flowchart LR
         CJ["CJ대한통운<br/><small>배송</small>"]
         BANK["신한뱅크<br/><small>입출금</small>"]
         LG["LG유플러스<br/><small>인바운드</small>"]
-        CTI["CTI<br/><small>⚠️ 중단</small>"]
+        CTI["CTI<br/><small>[중단]</small>"]
     end
 
     %% CS System 연동
@@ -409,7 +409,7 @@ flowchart TB
     T_ORD <-->|"주문"| T_SITE
     T_PRD -->|"상품"| T_CMS
 
-    NOTE["⚠️ 56건 Stored Procedure"]
+    NOTE["[주의] 56건 Stored Procedure"]
 
     style DB fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
     style CS_DB fill:#ede9fe,stroke:#8b5cf6
@@ -423,10 +423,10 @@ flowchart TB
 
 | 기호 | 의미 |
 |:---:|:---|
-| 🔴 | 병목 업무 (업무 지연·오류 발생) |
-| 🟡 | 주의 업무 (비효율적이나 운영 가능) |
-| 🟢 | 일반 업무 |
+| 상 | 병목 업무 (업무 지연·오류 발생) |
+| 중 | 주의 업무 (비효율적이나 운영 가능) |
+| 하 | 일반 업무 |
 | `→` | 데이터 흐름 (일방향) |
 | `<-->` | 데이터 동기화 (쌍방향) |
 | `-.->` | 중단/미연동 |
-| ⚠️ | 서비스 중단 또는 주의 필요 |
+| [주의] | 서비스 중단 또는 주의 필요 |

@@ -1,0 +1,917 @@
+- generic [active] [ref=e1]:
+  - link "콘텐츠로 이동" [ref=e2] [cursor=pointer]:
+    - /url: "#_top"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "좋은생각 ISP" [ref=e7] [cursor=pointer]:
+          - /url: /goodthinking-isp/
+          - generic [ref=e8]: 좋은생각 ISP
+        - generic [ref=e10]:
+          - button "검색" [ref=e12] [cursor=pointer]:
+            - img [ref=e13]
+            - generic [ref=e15]: 검색
+            - generic [ref=e16]:
+              - generic [ref=e17]: ⌘
+              - generic [ref=e18]: K
+          - button "AI 검색 열기" [ref=e19] [cursor=pointer]:
+            - img [ref=e20]
+            - generic [ref=e23]: AI
+        - generic [ref=e27]:
+          - generic [ref=e28]: 테마 선택
+          - img
+          - combobox "테마 선택" [ref=e29] [cursor=pointer]:
+            - option "어두운 테마"
+            - option "밝은 테마"
+            - option "자동" [selected]
+          - img
+      - link "SKUNKWORKS STUDIO" [ref=e30] [cursor=pointer]:
+        - /url: https://skunkworks.co.kr
+        - img "SKUNKWORKS STUDIO" [ref=e31]
+    - navigation "메인":
+      - list [ref=e35]:
+        - listitem [ref=e36]:
+          - group [ref=e37]:
+            - generic "좋은생각 ISP" [ref=e38] [cursor=pointer]:
+              - generic [ref=e39]: 좋은생각 ISP
+              - img [ref=e40]
+            - list [ref=e42]:
+              - listitem [ref=e43]:
+                - link "개요" [ref=e44] [cursor=pointer]:
+                  - /url: /goodthinking-isp/
+              - listitem [ref=e45]:
+                - link "추진 일정" [ref=e46] [cursor=pointer]:
+                  - /url: /goodthinking-isp/schedule/
+              - listitem [ref=e47]:
+                - group [ref=e48]:
+                  - generic "1. 프로젝트 개요" [ref=e49] [cursor=pointer]:
+                    - generic [ref=e50]: 1. 프로젝트 개요
+                    - img [ref=e51]
+                  - list [ref=e53]:
+                    - listitem [ref=e54]:
+                      - link "프로젝트 개요" [ref=e55] [cursor=pointer]:
+                        - /url: /goodthinking-isp/01-project-overview/
+                    - listitem [ref=e56]:
+                      - link "현황(AS-IS) 및 개선방향(TO-BE)" [ref=e57] [cursor=pointer]:
+                        - /url: /goodthinking-isp/01-project-overview/as-is-to-be/
+                    - listitem [ref=e58]:
+                      - link "사업 개요" [ref=e59] [cursor=pointer]:
+                        - /url: /goodthinking-isp/01-project-overview/business-overview/
+              - listitem [ref=e60]:
+                - group [ref=e61]:
+                  - generic "2. 현황 분석" [ref=e62] [cursor=pointer]:
+                    - generic [ref=e63]: 2. 현황 분석
+                    - img [ref=e64]
+                  - list [ref=e66]:
+                    - listitem [ref=e67]:
+                      - link "개요" [ref=e68] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/
+                    - listitem [ref=e69]:
+                      - link "📊 엔티티 관계도" [ref=e70] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/entity-map/
+                    - listitem [ref=e71]:
+                      - link "조사 가이드 및 주의사항" [ref=e72] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/investigation-guide/
+                    - listitem [ref=e73]:
+                      - link "시스템 정밀진단" [ref=e74] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/system-diagnosis/
+                    - listitem [ref=e75]:
+                      - link "업무 분석" [ref=e76] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/business-analysis/
+                    - listitem [ref=e77]:
+                      - link "이해관계자 인터뷰" [ref=e78] [cursor=pointer]:
+                        - /url: /goodthinking-isp/02-analysis/interview/
+                    - listitem [ref=e79]:
+                      - group [ref=e80]:
+                        - generic "인터뷰 결과" [ref=e81] [cursor=pointer]:
+                          - generic [ref=e82]: 인터뷰 결과
+                          - img [ref=e83]
+                        - list [ref=e85]:
+                          - listitem [ref=e86]:
+                            - link "개요" [ref=e87] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/
+                          - listitem [ref=e88]:
+                            - link "킥오프 회의 안건" [ref=e89] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda/
+                          - listitem [ref=e90]:
+                            - link "정기구독팀" [ref=e91] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/
+                          - listitem [ref=e92]:
+                            - link "편집팀" [ref=e93] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/editing-team-interview/
+                          - listitem [ref=e94]:
+                            - link "경영지원팀" [ref=e95] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/
+                          - listitem [ref=e96]:
+                            - link "외주콜센터" [ref=e97] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/call-center-interview/
+                          - listitem [ref=e98]:
+                            - link "영업추진팀" [ref=e99] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/
+                    - listitem [ref=e100]:
+                      - group [ref=e101]:
+                        - generic "요구사항 정리" [ref=e102] [cursor=pointer]:
+                          - generic [ref=e103]: 요구사항 정리
+                          - img [ref=e104]
+                        - list [ref=e106]:
+                          - listitem [ref=e107]:
+                            - link "CS 시스템 (25건)" [ref=e108] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/cs-system-requirements/
+                          - listitem [ref=e109]:
+                            - link "어드민·CMS (11건)" [ref=e110] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/admin-cms-requirements/
+                          - listitem [ref=e111]:
+                            - link "기타 (2건)" [ref=e112] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/meeting-notes/etc-requirements/
+                    - listitem [ref=e113]:
+                      - group [ref=e114]:
+                        - generic "메뉴 분석" [ref=e115] [cursor=pointer]:
+                          - generic [ref=e116]: 메뉴 분석
+                          - img [ref=e117]
+                        - list [ref=e119]:
+                          - listitem [ref=e120]:
+                            - link "개요" [ref=e121] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/menu-analysis/
+                          - listitem [ref=e122]:
+                            - link "CS 시스템 메뉴 인벤토리" [ref=e123] [cursor=pointer]:
+                              - /url: /goodthinking-isp/02-analysis/menu-analysis/cs-menu-inventory/
+              - listitem [ref=e124]:
+                - group [ref=e125]:
+                  - generic "3. 기능요건 도출" [ref=e126] [cursor=pointer]:
+                    - generic [ref=e127]: 3. 기능요건 도출
+                    - img [ref=e128]
+                  - list [ref=e130]:
+                    - listitem [ref=e131]:
+                      - link "대시보드" [ref=e132] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/dashboard/
+                    - listitem [ref=e133]:
+                      - link "고객 관리" [ref=e134] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/customer-management/
+                    - listitem [ref=e135]:
+                      - link "구독 관리" [ref=e136] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/subscription-management/
+                    - listitem [ref=e137]:
+                      - link "주문 관리" [ref=e138] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/order-management/
+                    - listitem [ref=e139]:
+                      - link "배송 관리" [ref=e140] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/delivery-management/
+                    - listitem [ref=e141]:
+                      - link "결제/정산" [ref=e142] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/payment-settlement/
+                    - listitem [ref=e143]:
+                      - link "CS/상담" [ref=e144] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/cs-consultation/
+                    - listitem [ref=e145]:
+                      - link "선물 관리" [ref=e146] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/gift-management/
+                    - listitem [ref=e147]:
+                      - link "재고/도서" [ref=e148] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/inventory-book/
+                    - listitem [ref=e149]:
+                      - link "시스템 관리" [ref=e150] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/system-admin/
+                    - listitem [ref=e151]:
+                      - link "비기능 요구사항" [ref=e152] [cursor=pointer]:
+                        - /url: /goodthinking-isp/03-requirements/non-functional/
+              - listitem [ref=e153]:
+                - group [ref=e154]:
+                  - generic "4. 목표 모델 설계" [ref=e155] [cursor=pointer]:
+                    - generic [ref=e156]: 4. 목표 모델 설계
+                    - img [ref=e157]
+                  - list [ref=e159]:
+                    - listitem [ref=e160]:
+                      - link "TO-BE 엔티티 조감도" [ref=e161] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/entity-map-tobe/
+                    - listitem [ref=e162]:
+                      - link "목표 모델 설계 (TO-BE Design)" [ref=e163] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/
+                    - listitem [ref=e164]:
+                      - link "아키텍처 설계 방법론" [ref=e165] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/architecture-methodology/
+                    - listitem [ref=e166]:
+                      - link "데이터 통합 모델" [ref=e167] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/data-integration/
+                    - listitem [ref=e168]:
+                      - link "자동화 프로세스 (BPR)" [ref=e169] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/process-automation/
+                    - listitem [ref=e170]:
+                      - link "품질 속성 시나리오" [ref=e171] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/quality-scenarios/
+                    - listitem [ref=e172]:
+                      - link "Utility Tree" [ref=e173] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/utility-tree/
+                    - listitem [ref=e174]:
+                      - link "Web 시스템 아키텍처" [ref=e175] [cursor=pointer]:
+                        - /url: /goodthinking-isp/04-design/web-architecture/
+              - listitem [ref=e176]:
+                - group [ref=e177]:
+                  - generic "5. 이행 계획" [ref=e178] [cursor=pointer]:
+                    - generic [ref=e179]: 5. 이행 계획
+                    - img [ref=e180]
+                  - list [ref=e182]:
+                    - listitem [ref=e183]:
+                      - link "이행 계획 (Implementation Plan)" [ref=e184] [cursor=pointer]:
+                        - /url: /goodthinking-isp/05-implementation/
+                    - listitem [ref=e185]:
+                      - link "마이그레이션 계획" [ref=e186] [cursor=pointer]:
+                        - /url: /goodthinking-isp/05-implementation/migration-plan/
+                    - listitem [ref=e187]:
+                      - link "발주 지원 (RFP)" [ref=e188] [cursor=pointer]:
+                        - /url: /goodthinking-isp/05-implementation/rfp-preparation/
+              - listitem [ref=e189]:
+                - group [ref=e190]:
+                  - generic "6. 향후 확장 로드맵" [ref=e191] [cursor=pointer]:
+                    - generic [ref=e192]: 6. 향후 확장 로드맵
+                    - img [ref=e193]
+                  - list [ref=e195]:
+                    - listitem [ref=e196]:
+                      - link "향후 확장 로드맵" [ref=e197] [cursor=pointer]:
+                        - /url: /goodthinking-isp/06-future-roadmap/
+                    - listitem [ref=e198]:
+                      - link "AI 기술 도입" [ref=e199] [cursor=pointer]:
+                        - /url: /goodthinking-isp/06-future-roadmap/ai-transformation/
+                    - listitem [ref=e200]:
+                      - link "디지털 아카이브" [ref=e201] [cursor=pointer]:
+                        - /url: /goodthinking-isp/06-future-roadmap/digital-archive/
+                    - listitem [ref=e202]:
+                      - link "프론트엔드 리뉴얼" [ref=e203] [cursor=pointer]:
+                        - /url: /goodthinking-isp/06-future-roadmap/frontend-renewal/
+              - listitem [ref=e204]:
+                - group [ref=e205]:
+                  - generic "부록" [ref=e206] [cursor=pointer]:
+                    - generic [ref=e207]: 부록
+                    - img [ref=e208]
+                  - list [ref=e210]:
+                    - listitem [ref=e211]:
+                      - link "부록" [ref=e212] [cursor=pointer]:
+                        - /url: /goodthinking-isp/appendix/
+                    - listitem [ref=e213]:
+                      - link "산출물 목록" [ref=e214] [cursor=pointer]:
+                        - /url: /goodthinking-isp/appendix/deliverables/
+                    - listitem [ref=e215]:
+                      - link "용어 사전" [ref=e216] [cursor=pointer]:
+                        - /url: /goodthinking-isp/appendix/glossary/
+    - generic [ref=e218]:
+      - complementary [ref=e219]:
+        - navigation "목차" [ref=e224]:
+          - heading "목차" [level=2] [ref=e225]
+          - list [ref=e226]:
+            - listitem [ref=e227]:
+              - link "개요" [ref=e228] [cursor=pointer]:
+                - /url: "#_top"
+            - listitem [ref=e229]:
+              - link "1. 전체 조감도 (TO-BE)" [ref=e230] [cursor=pointer]:
+                - /url: "#1-전체-조감도-to-be"
+            - listitem [ref=e231]:
+              - link "2. 팀별 조감도 (TO-BE)" [ref=e232] [cursor=pointer]:
+                - /url: "#2-팀별-조감도-to-be"
+              - list [ref=e233]:
+                - listitem [ref=e234]:
+                  - link "2-1. 정기구독팀" [ref=e235] [cursor=pointer]:
+                    - /url: "#2-1-정기구독팀"
+                - listitem [ref=e236]:
+                  - link "2-2. 영업추진팀" [ref=e237] [cursor=pointer]:
+                    - /url: "#2-2-영업추진팀"
+                - listitem [ref=e238]:
+                  - link "2-3. 경영지원팀" [ref=e239] [cursor=pointer]:
+                    - /url: "#2-3-경영지원팀"
+                - listitem [ref=e240]:
+                  - link "2-4. 편집실 (월간지 + 단행본)" [ref=e241] [cursor=pointer]:
+                    - /url: "#2-4-편집실-월간지--단행본"
+                - listitem [ref=e242]:
+                  - link "2-5. 외주 콜센터 (더아이앤오)" [ref=e243] [cursor=pointer]:
+                    - /url: "#2-5-외주-콜센터-더아이앤오"
+            - listitem [ref=e244]:
+              - link "3. 시스템 간 연동 관계 (TO-BE)" [ref=e245] [cursor=pointer]:
+                - /url: "#3-시스템-간-연동-관계-to-be"
+            - listitem [ref=e246]:
+              - link "4. AS-IS → TO-BE 변화 요약" [ref=e247] [cursor=pointer]:
+                - /url: "#4-as-is--to-be-변화-요약"
+              - list [ref=e248]:
+                - listitem [ref=e249]:
+                  - link "병목 해소 매핑" [ref=e250] [cursor=pointer]:
+                    - /url: "#병목-해소-매핑"
+                - listitem [ref=e251]:
+                  - link "시스템 전환 요약" [ref=e252] [cursor=pointer]:
+                    - /url: "#시스템-전환-요약"
+            - listitem [ref=e253]:
+              - link "범례" [ref=e254] [cursor=pointer]:
+                - /url: "#범례"
+      - main [ref=e256]:
+        - generic [ref=e258]:
+          - heading "TO-BE 엔티티 조감도" [level=1] [ref=e260]
+          - generic [ref=e261]:
+            - button "이 문서 인쇄" [ref=e262] [cursor=pointer]:
+              - img [ref=e263]
+              - generic [ref=e267]: 이 문서 인쇄
+            - button "섹션 전체 인쇄" [ref=e268] [cursor=pointer]:
+              - img [ref=e269]
+              - generic [ref=e272]: 섹션 전체 인쇄
+        - generic [ref=e274]:
+          - generic [ref=e275]:
+            - generic [ref=e276]:
+              - heading "TO-BE 엔티티 조감도" [level=1] [ref=e277]
+              - 'link "섹션 제목: “TO-BE 엔티티 조감도”" [ref=e278] [cursor=pointer]':
+                - /url: "#to-be-엔티티-조감도"
+                - img [ref=e280]
+                - generic [ref=e282]: "섹션 제목: “TO-BE 엔티티 조감도”"
+            - paragraph [ref=e283]:
+              - link "AS-IS 엔티티 관계도" [ref=e284] [cursor=pointer]:
+                - /url: /goodthinking-isp/02-analysis/entity-map/
+              - text: 에서 식별된
+              - strong [ref=e285]: 병목 업무
+              - text: 와
+              - link "기능요건" [ref=e286] [cursor=pointer]:
+                - /url: /goodthinking-isp/03-requirements/
+              - text: 을 반영하여, 목표 시스템에서 각 팀의 업무 흐름이 어떻게 변화하는지를 조망합니다.
+            - separator [ref=e287]
+            - generic [ref=e288]:
+              - heading "1. 전체 조감도 (TO-BE)" [level=2] [ref=e289]
+              - 'link "섹션 제목: “1. 전체 조감도 (TO-BE)”" [ref=e290] [cursor=pointer]':
+                - /url: "#1-전체-조감도-to-be"
+                - img [ref=e292]
+                - generic [ref=e294]: "섹션 제목: “1. 전체 조감도 (TO-BE)”"
+            - paragraph [ref=e295]:
+              - text: C/S 로컬 시스템이
+              - strong [ref=e296]: 웹 기반 웹 CS 시스템
+              - text: 으로 전환되고, 분산된 외부 시스템 연동이
+              - strong [ref=e297]: API/자동화
+              - text: 로 일원화됩니다.
+            - document [ref=e299]:
+              - generic [ref=e301]:
+                - generic [ref=e302]:
+                  - paragraph [ref=e309]: 📋 업무
+                  - paragraph [ref=e316]: 💻 시스템
+                  - paragraph [ref=e323]: 🏢 조직
+                  - paragraph [ref=e330]: 🌐 외부 연동
+                  - paragraph [ref=e337]: 🏠 현행 유지
+                  - paragraph [ref=e344]: 📦 통합 DB
+                  - paragraph [ref=e351]: 🌐 웹 CS 시스템 (Web)
+                - generic [ref=e382]:
+                  - paragraph [ref=e388]: 결제 API
+                  - paragraph [ref=e394]: 주문 수집
+                  - paragraph [ref=e400]: 송장 API
+                  - paragraph [ref=e406]: 발송 데이터
+                  - paragraph [ref=e412]: Excel 자동생성
+                  - paragraph [ref=e418]: 권한 연동
+                  - paragraph [ref=e424]: 재고 템플릿
+                  - paragraph [ref=e430]: 웹 CTI
+                  - paragraph [ref=e436]: 인입
+                - generic [ref=e437]:
+                  - paragraph [ref=e444]: 정기구독팀
+                  - paragraph [ref=e451]: 영업추진팀
+                  - paragraph [ref=e458]: 경영지원팀
+                  - paragraph [ref=e465]: 편집실
+                  - paragraph [ref=e472]: 외주 콜센터
+                  - paragraph [ref=e479]: 고객 정보 통합 모듈
+                  - paragraph [ref=e486]: 대시보드
+                  - paragraph [ref=e493]: 고객 정보 템플릿 매핑
+                  - paragraph [ref=e500]: AWS RDS MSSQL
+                  - paragraph [ref=e507]: 위하고 ERP
+                  - paragraph [ref=e514]: CMS
+                  - paragraph [ref=e521]: 홈페이지 Admin
+                  - paragraph [ref=e528]: NAS
+                  - paragraph [ref=e535]: 나이스페이
+                  - paragraph [ref=e542]: Playauto
+                  - paragraph [ref=e549]: 고려출판물류
+                  - paragraph [ref=e556]: 우체국
+                  - paragraph [ref=e563]: CJ대한통운
+                  - paragraph [ref=e570]: 신한뱅크
+                  - paragraph [ref=e577]: 웹 CTI 🟢
+                  - paragraph [ref=e584]: LG유플러스
+                  - paragraph [ref=e591]:
+                    - text: 정기구독 관리
+                    - text: 자동수집·자동매칭·권한연동
+                  - paragraph [ref=e598]:
+                    - text: 단행본 영업
+                    - text: 거래처관리·입금자동대조
+                  - paragraph [ref=e605]:
+                    - text: 경영관리
+                    - text: 자동정산·이연수익·리포트
+                  - paragraph [ref=e612]:
+                    - text: 콘텐츠 제작
+                    - text: 원고수집·편집·자동권한연동
+                  - paragraph [ref=e619]:
+                    - text: 고객상담
+                    - text: CTI팝업·통합이력·실적통계
+            - separator [ref=e620]
+            - generic [ref=e621]:
+              - heading "2. 팀별 조감도 (TO-BE)" [level=2] [ref=e622]
+              - 'link "섹션 제목: “2. 팀별 조감도 (TO-BE)”" [ref=e623] [cursor=pointer]':
+                - /url: "#2-팀별-조감도-to-be"
+                - img [ref=e625]
+                - generic [ref=e627]: "섹션 제목: “2. 팀별 조감도 (TO-BE)”"
+            - paragraph [ref=e628]:
+              - text: 각 팀의 AS-IS 병목이 TO-BE에서 어떻게 해소되는지를
+              - strong [ref=e629]: Before → After
+              - text: 형식으로 표시합니다.
+            - generic [ref=e630]:
+              - heading "2-1. 정기구독팀" [level=3] [ref=e631]
+              - 'link "섹션 제목: “2-1. 정기구독팀”" [ref=e632] [cursor=pointer]':
+                - /url: "#2-1-정기구독팀"
+                - img [ref=e634]
+                - generic [ref=e636]: "섹션 제목: “2-1. 정기구독팀”"
+            - generic [ref=e637]: "flowchart LR subgraph SYS_CORE[\"🌐 웹 CS 시스템\"] WEB[\"고객 정보 통합 모듈<br/><small>구독·주문·배송 통합</small>\"] API[\"고객 정보 템플릿 매핑\"] WEB <--> API end subgraph SYS_LEGACY[\"🏠 현행 유지\"] ERP[\"위하고 ERP<br/><small>매출·재무</small>\"] end subgraph SYS_EXT[\"🌐 외부\"] NICE[\"나이스페이<br/><small>통합 결제 API</small>\"] POST[\"우체국<br/><small>배송</small>\"] CJ[\"CJ대한통운<br/><small>배송 API</small>\"] PLAY[\"Playauto<br/><small>외부몰</small>\"] CMS[\"CMS<br/><small>열람 권한</small>\"] end P1((\"①\")) P2((\"②\")) P3((\"③\")) P4((\"④\")) P5((\"⑤\")) P6((\"⑥\")) %% 업무 흐름 PLAY -->|\"API 수집\"| P1 P1 -->|\"자동 등록\"| WEB P2 -->|\"온라인 처리\"| WEB API -->|\"송장 API\"| CJ API -->|\"발송 데이터\"| POST P3 -->|\"자동 매칭\"| WEB NICE -->|\"결제 API\"| P4 P4 -->|\"자동 전송\"| WEB API -->|\"Excel 자동생성\"| ERP P5 -->|\"원클릭\"| WEB API -->|\"권한 자동연동\"| CMS P6 -->|\"자동 알림\"| WEB style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5 style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P6 fill:#dcfce7,stroke:#16a34a,stroke-width:2px"
+            - table [ref=e638]:
+              - rowgroup [ref=e639]:
+                - row "업무 AS-IS 병목 TO-BE 개선 관련 요건" [ref=e640]:
+                  - columnheader "업무" [ref=e641]
+                  - columnheader "AS-IS 병목" [ref=e642]
+                  - columnheader "TO-BE 개선" [ref=e643]
+                  - columnheader "관련 요건" [ref=e644]
+              - rowgroup [ref=e645]:
+                - row "① 🔴 Playauto Excel → CS 수기입력 🟢 Playauto → API 자동 수집 → 자동 등록 OM-01, SB-09" [ref=e646]:
+                  - cell "①" [ref=e647]:
+                    - generic [ref=e648]: ①
+                  - cell "🔴 Playauto Excel → CS 수기입력" [ref=e649]:
+                    - text: 🔴 Playauto Excel → CS
+                    - strong [ref=e650]: 수기입력
+                  - cell "🟢 Playauto → API 자동 수집 → 자동 등록" [ref=e651]:
+                    - text: 🟢 Playauto → API 자동 수집 →
+                    - strong [ref=e652]: 자동 등록
+                  - cell "OM-01, SB-09" [ref=e653]
+                - row "② 🔴 구독 해지 → CS 수기삭제 🟢 웹 CS 시스템에서 온라인 등록/해지/변경 SB-01" [ref=e654]:
+                  - cell "②" [ref=e655]:
+                    - generic [ref=e656]: ②
+                  - cell "🔴 구독 해지 → CS 수기삭제" [ref=e657]:
+                    - text: 🔴 구독 해지 → CS
+                    - strong [ref=e658]: 수기삭제
+                  - cell "🟢 웹 CS 시스템에서 온라인 등록/해지/변경" [ref=e659]:
+                    - text: 🟢 웹 CS 시스템에서
+                    - strong [ref=e660]: 온라인 등록/해지/변경
+                  - cell "SB-01" [ref=e661]
+                - row "③ 🔴 우체국·CJ ↔ 엑셀 수기 매칭 → ERP 🟢 택배사 API 자동 연동 + ERP Excel 자동생성 DL-03, DL-05" [ref=e662]:
+                  - cell "③" [ref=e663]:
+                    - generic [ref=e664]: ③
+                  - cell "🔴 우체국·CJ ↔ 엑셀 수기 매칭 → ERP" [ref=e665]:
+                    - text: 🔴 우체국·CJ ↔
+                    - strong [ref=e666]: 엑셀 수기 매칭
+                    - text: → ERP
+                  - cell "🟢 택배사 API 자동 연동 + ERP Excel 자동생성" [ref=e667]:
+                    - text: 🟢 택배사
+                    - strong [ref=e668]: API 자동 연동
+                    - text: + ERP Excel 자동생성
+                  - cell "DL-03, DL-05" [ref=e669]
+                - row "④ 🟢 나이스페이 승인 → ERP 매출 🟢 결제 API 통합 → ERP 자동 전송 FN-01, FN-06" [ref=e670]:
+                  - cell "④" [ref=e671]:
+                    - generic [ref=e672]: ④
+                  - cell "🟢 나이스페이 승인 → ERP 매출" [ref=e673]
+                  - cell "🟢 결제 API 통합 → ERP 자동 전송" [ref=e674]:
+                    - text: 🟢 결제 API 통합 → ERP
+                    - strong [ref=e675]: 자동 전송
+                  - cell "FN-01, FN-06" [ref=e676]
+                - row "⑤ 🟢 선물·재발송 (3~4단계 우회) 🟢 원클릭 선발송 처리 SB-06" [ref=e677]:
+                  - cell "⑤" [ref=e678]:
+                    - generic [ref=e679]: ⑤
+                  - cell "🟢 선물·재발송 (3~4단계 우회)" [ref=e680]
+                  - cell "🟢 원클릭 선발송 처리" [ref=e681]:
+                    - text: 🟢
+                    - strong [ref=e682]: 원클릭 선발송
+                    - text: 처리
+                  - cell "SB-06" [ref=e683]
+                - row "⑥ ❌ 만료 확인 수동 조회 / CMS 권한 수동 복사 🟢 만료 예정 자동 알림 + CMS 권한 자동 연동 SB-04, SB-05" [ref=e684]:
+                  - cell "⑥" [ref=e685]:
+                    - generic [ref=e686]: ⑥
+                  - cell "❌ 만료 확인 수동 조회 / CMS 권한 수동 복사" [ref=e687]
+                  - cell "🟢 만료 예정 자동 알림 + CMS 권한 자동 연동" [ref=e688]:
+                    - text: 🟢
+                    - strong [ref=e689]: 만료 예정 자동 알림
+                    - text: + CMS
+                    - strong [ref=e690]: 권한 자동 연동
+                  - cell "SB-04, SB-05" [ref=e691]
+            - generic [ref=e692]:
+              - heading "2-2. 영업추진팀" [level=3] [ref=e693]
+              - 'link "섹션 제목: “2-2. 영업추진팀”" [ref=e694] [cursor=pointer]':
+                - /url: "#2-2-영업추진팀"
+                - img [ref=e696]
+                - generic [ref=e698]: "섹션 제목: “2-2. 영업추진팀”"
+            - generic [ref=e699]: "flowchart LR subgraph SYS_CORE[\"🌐 웹 CS 시스템\"] WEB[\"고객 정보 통합 모듈<br/><small>거래처·입금·재고 통합</small>\"] API[\"고객 정보 템플릿 매핑\"] WEB <--> API end subgraph SYS_LEGACY[\"🏠 현행 유지\"] ERP[\"위하고 ERP<br/><small>주력·재고</small>\"] end subgraph SYS_EXT[\"🌐 외부\"] KORYO[\"고려출판물류<br/><small>단행본 출고</small>\"] CJ[\"CJ대한통운<br/><small>배송 API</small>\"] BANK[\"신한뱅크<br/><small>입출금 데이터</small>\"] end P1((\"①\")) P2((\"②\")) P3((\"③\")) P4((\"④\")) %% 업무 흐름 KORYO -->|\"재고 템플릿\"| P1 P1 -->|\"자동 반영\"| WEB API -->|\"Excel 자동생성\"| ERP BANK -->|\"데이터 업로드\"| P2 P2 -->|\"자동 대조\"| WEB P3 -->|\"대시보드\"| WEB P4 -->|\"통합 관리\"| WEB API -->|\"출고 지시\"| CJ style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5 style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px"
+            - table [ref=e700]:
+              - rowgroup [ref=e701]:
+                - row "업무 AS-IS 병목 TO-BE 개선 관련 요건" [ref=e702]:
+                  - columnheader "업무" [ref=e703]
+                  - columnheader "AS-IS 병목" [ref=e704]
+                  - columnheader "TO-BE 개선" [ref=e705]
+                  - columnheader "관련 요건" [ref=e706]
+              - rowgroup [ref=e707]:
+                - row "① 🔴 고려출판물류 → ERP 이중입력 🟢 재고 템플릿 업로드 → 웹 CS 시스템 자동 반영 + ERP Excel 자동생성 BK-03" [ref=e708]:
+                  - cell "①" [ref=e709]:
+                    - generic [ref=e710]: ①
+                  - cell "🔴 고려출판물류 → ERP 이중입력" [ref=e711]:
+                    - text: 🔴 고려출판물류 → ERP
+                    - strong [ref=e712]: 이중입력
+                  - cell "🟢 재고 템플릿 업로드 → 웹 CS 시스템 자동 반영 + ERP Excel 자동생성" [ref=e713]:
+                    - text: 🟢 재고 템플릿 업로드 → 웹 CS 시스템
+                    - strong [ref=e714]: 자동 반영
+                    - text: + ERP Excel 자동생성
+                  - cell "BK-03" [ref=e715]
+                - row "② 🔴 엑셀 → 관리 → 위하고 삼중입력 🟢 은행 데이터 업로드 → 자동 대조 + 미수금 현황 즉시 파악 FN-10" [ref=e716]:
+                  - cell "②" [ref=e717]:
+                    - generic [ref=e718]: ②
+                  - cell "🔴 엑셀 → 관리 → 위하고 삼중입력" [ref=e719]:
+                    - text: 🔴 엑셀 → 관리 → 위하고
+                    - strong [ref=e720]: 삼중입력
+                  - cell "🟢 은행 데이터 업로드 → 자동 대조 + 미수금 현황 즉시 파악" [ref=e721]:
+                    - text: 🟢 은행 데이터 업로드 →
+                    - strong [ref=e722]: 자동 대조
+                    - text: + 미수금 현황 즉시 파악
+                  - cell "FN-10" [ref=e723]
+                - row "③ 🔴 통장내역 수작업 대조 🟢 재고 공유 대시보드 + 보고서 자동 생성 DB-04, DB-03" [ref=e724]:
+                  - cell "③" [ref=e725]:
+                    - generic [ref=e726]: ③
+                  - cell "🔴 통장내역 수작업 대조" [ref=e727]:
+                    - text: 🔴 통장내역
+                    - strong [ref=e728]: 수작업 대조
+                  - cell "🟢 재고 공유 대시보드 + 보고서 자동 생성" [ref=e729]:
+                    - text: 🟢
+                    - strong [ref=e730]: 재고 공유 대시보드
+                    - text: + 보고서 자동 생성
+                  - cell "DB-04, DB-03" [ref=e731]
+                - row "④ 🟡 개인엑셀 관리 → CS 카드결제 🟢 거래처 통합 관리 + 위하고 코드 매핑 CM-07" [ref=e732]:
+                  - cell "④" [ref=e733]:
+                    - generic [ref=e734]: ④
+                  - cell "🟡 개인엑셀 관리 → CS 카드결제" [ref=e735]
+                  - cell "🟢 거래처 통합 관리 + 위하고 코드 매핑" [ref=e736]:
+                    - text: 🟢
+                    - strong [ref=e737]: 거래처 통합 관리
+                    - text: + 위하고 코드 매핑
+                  - cell "CM-07" [ref=e738]
+            - generic [ref=e739]:
+              - heading "2-3. 경영지원팀" [level=3] [ref=e740]
+              - 'link "섹션 제목: “2-3. 경영지원팀”" [ref=e741] [cursor=pointer]':
+                - /url: "#2-3-경영지원팀"
+                - img [ref=e743]
+                - generic [ref=e745]: "섹션 제목: “2-3. 경영지원팀”"
+            - generic [ref=e746]: "flowchart LR subgraph SYS_CORE[\"🌐 웹 CS 시스템\"] WEB[\"고객 정보 통합 모듈<br/><small>정산·이연수익·리포트</small>\"] API[\"고객 정보 템플릿 매핑\"] WEB <--> API end subgraph SYS_LEGACY[\"🏠 현행 유지\"] ERP[\"위하고 ERP<br/><small>회계·급여</small>\"] end subgraph SYS_EXT[\"🌐 외부\"] BANK[\"신한 인사이트 뱅크<br/><small>입출금 조회</small>\"] end P1((\"①\")) P2((\"②\")) P3((\"③\")) P4((\"④\")) P5((\"⑤\")) %% 업무 흐름 API -->|\"Excel 자동생성\"| ERP P1 -->|\"자동 대사\"| WEB BANK -->|\"데이터 업로드\"| P2 P2 -->|\"자동 매칭\"| WEB P3 -->|\"자동 계산\"| WEB P4 -->|\"자동 계산\"| WEB P5 -->|\"자동 생성\"| WEB style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5 style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px"
+            - table [ref=e747]:
+              - rowgroup [ref=e748]:
+                - row "업무 AS-IS 병목 TO-BE 개선 관련 요건" [ref=e749]:
+                  - columnheader "업무" [ref=e750]
+                  - columnheader "AS-IS 병목" [ref=e751]
+                  - columnheader "TO-BE 개선" [ref=e752]
+                  - columnheader "관련 요건" [ref=e753]
+              - rowgroup [ref=e754]:
+                - row "① 🔴 CS ↔ ERP 수기 대사 🟢 매출 데이터 → ERP용 Excel 자동생성 + 자동 대사 FN-04" [ref=e755]:
+                  - cell "①" [ref=e756]:
+                    - generic [ref=e757]: ①
+                  - cell "🔴 CS ↔ ERP 수기 대사" [ref=e758]:
+                    - text: 🔴 CS ↔ ERP
+                    - strong [ref=e759]: 수기 대사
+                  - cell "🟢 매출 데이터 → ERP용 Excel 자동생성 + 자동 대사" [ref=e760]:
+                    - text: 🟢 매출 데이터 → ERP용
+                    - strong [ref=e761]: Excel 자동생성
+                    - text: + 자동 대사
+                  - cell "FN-04" [ref=e762]
+                - row "② 🔴 신한뱅크 → 엑셀 → CS 수기입력 🟢 입금 데이터 업로드 → PG/무통장/지로 자동 매칭 FN-02" [ref=e763]:
+                  - cell "②" [ref=e764]:
+                    - generic [ref=e765]: ②
+                  - cell "🔴 신한뱅크 → 엑셀 → CS 수기입력" [ref=e766]:
+                    - text: 🔴 신한뱅크 → 엑셀 → CS
+                    - strong [ref=e767]: 수기입력
+                  - cell "🟢 입금 데이터 업로드 → PG/무통장/지로 자동 매칭" [ref=e768]:
+                    - text: 🟢 입금 데이터 업로드 → PG/무통장/지로
+                    - strong [ref=e769]: 자동 매칭
+                  - cell "FN-02" [ref=e770]
+                - row "③ 🟡 급여·인세 수기 산출 🟢 출고 수량 기반 인세 자동 계산 + 원가 관리 FN-08" [ref=e771]:
+                  - cell "③" [ref=e772]:
+                    - generic [ref=e773]: ③
+                  - cell "🟡 급여·인세 수기 산출" [ref=e774]:
+                    - text: 🟡 급여·인세
+                    - strong [ref=e775]: 수기 산출
+                  - cell "🟢 출고 수량 기반 인세 자동 계산 + 원가 관리" [ref=e776]:
+                    - text: 🟢 출고 수량 기반
+                    - strong [ref=e777]: 인세 자동 계산
+                    - text: + 원가 관리
+                  - cell "FN-08" [ref=e778]
+                - row "④ 🟢 선수수익 관리 🟢 구독 기간 기반 이연수익 자동 계산 FN-03" [ref=e779]:
+                  - cell "④" [ref=e780]:
+                    - generic [ref=e781]: ④
+                  - cell "🟢 선수수익 관리" [ref=e782]
+                  - cell "🟢 구독 기간 기반 이연수익 자동 계산" [ref=e783]:
+                    - text: 🟢 구독 기간 기반
+                    - strong [ref=e784]: 이연수익 자동 계산
+                  - cell "FN-03" [ref=e785]
+                - row "⑤ ❌ 매출 통계 미지원 🟢 채널 통합 매출 리포트 자동 생성 FN-05" [ref=e786]:
+                  - cell "⑤" [ref=e787]:
+                    - generic [ref=e788]: ⑤
+                  - cell "❌ 매출 통계 미지원" [ref=e789]
+                  - cell "🟢 채널 통합 매출 리포트 자동 생성" [ref=e790]:
+                    - text: 🟢 채널 통합
+                    - strong [ref=e791]: 매출 리포트 자동 생성
+                  - cell "FN-05" [ref=e792]
+            - generic [ref=e793]:
+              - heading "2-4. 편집실 (월간지 + 단행본)" [level=3] [ref=e794]
+              - 'link "섹션 제목: “2-4. 편집실 (월간지 + 단행본)”" [ref=e795] [cursor=pointer]':
+                - /url: "#2-4-편집실-월간지--단행본"
+                - img [ref=e797]
+                - generic [ref=e799]: "섹션 제목: “2-4. 편집실 (월간지 + 단행본)”"
+            - generic [ref=e800]: flowchart LR subgraph SYS_LEGACY["🏠 현행 유지"] HP_ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"] CMS["CMS<br/><small>발행 아카이브·검색</small>"] NAS["NAS<br/><small>원고·이미지 저장</small>"] HP_ADMIN -->|"발행"| CMS end subgraph SYS_NEW["🟢 신규 연동"] WEB_API["고객 정보 통합 모듈"] API_MAP["고객 정보 템플릿 매핑"] WEB_API <--> API_MAP end P1(("①")) P2(("②")) P3(("③")) P4(("④")) %% 업무 흐름 P1 -->|"수집"| HP_ADMIN HP_ADMIN -->|"배분"| P2 NAS <-->|"원고"| P2 P2 -->|"완료"| P3 P3 -->|"아카이브"| CMS API_MAP -->|"구독 권한<br/>자동 연동"| P4 P4 -->|"열람 권한 반영"| CMS style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px style SYS_NEW fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P1 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px style P2 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+            - table [ref=e801]:
+              - rowgroup [ref=e802]:
+                - row "업무 AS-IS TO-BE 개선 관련 요건" [ref=e803]:
+                  - columnheader "업무" [ref=e804]
+                  - columnheader "AS-IS" [ref=e805]
+                  - columnheader "TO-BE 개선" [ref=e806]
+                  - columnheader "관련 요건" [ref=e807]
+              - rowgroup [ref=e808]:
+                - 'row "① 🟡 원고 수집: 다양한 채널 → Admin 🟡 현행 유지 (Admin 원고 수집·배분) —" [ref=e809]':
+                  - cell "①" [ref=e810]:
+                    - generic [ref=e811]: ①
+                  - 'cell "🟡 원고 수집: 다양한 채널 → Admin" [ref=e812]'
+                  - cell "🟡 현행 유지 (Admin 원고 수집·배분)" [ref=e813]
+                  - cell "—" [ref=e814]
+                - 'row "② 🟡 편집·교정: Admin → NAS 작업 🟡 현행 유지 (NAS 기반 편집 작업) —" [ref=e815]':
+                  - cell "②" [ref=e816]:
+                    - generic [ref=e817]: ②
+                  - 'cell "🟡 편집·교정: Admin → NAS 작업" [ref=e818]'
+                  - cell "🟡 현행 유지 (NAS 기반 편집 작업)" [ref=e819]
+                  - cell "—" [ref=e820]
+                - row "③ 🟢 발행·아카이브 → CMS 🟢 현행 유지 (CMS 아카이브) —" [ref=e821]:
+                  - cell "③" [ref=e822]:
+                    - generic [ref=e823]: ③
+                  - cell "🟢 발행·아카이브 → CMS" [ref=e824]
+                  - cell "🟢 현행 유지 (CMS 아카이브)" [ref=e825]
+                  - cell "—" [ref=e826]
+                - row "④ ❌ CMS 열람 권한 수동 복사·붙여넣기 🟢 구독 상태 → CMS 열람 권한 자동 연동 SB-05" [ref=e827]:
+                  - cell "④" [ref=e828]:
+                    - generic [ref=e829]: ④
+                  - cell "❌ CMS 열람 권한 수동 복사·붙여넣기" [ref=e830]:
+                    - text: ❌ CMS 열람 권한
+                    - strong [ref=e831]: 수동 복사·붙여넣기
+                  - cell "🟢 구독 상태 → CMS 열람 권한 자동 연동" [ref=e832]:
+                    - text: 🟢 구독 상태 → CMS 열람 권한
+                    - strong [ref=e833]: 자동 연동
+                  - cell "SB-05" [ref=e834]
+            - blockquote [ref=e835]:
+              - paragraph [ref=e836]:
+                - strong [ref=e837]: 편집실 핵심 변화
+                - text: ": 기존 원고 수집·편집 워크플로우는 현행 유지하되,"
+                - strong [ref=e838]: 병목 ⑰
+                - text: (Admin→CMS 수동 복사·붙여넣기)이 웹 CS 시스템의 API를 통해 자동화됩니다.
+            - generic [ref=e839]:
+              - heading "2-5. 외주 콜센터 (더아이앤오)" [level=3] [ref=e840]
+              - 'link "섹션 제목: “2-5. 외주 콜센터 (더아이앤오)”" [ref=e841] [cursor=pointer]':
+                - /url: "#2-5-외주-콜센터-더아이앤오"
+                - img [ref=e843]
+                - generic [ref=e845]: "섹션 제목: “2-5. 외주 콜센터 (더아이앤오)”"
+            - generic [ref=e846]: "flowchart LR subgraph SYS_CORE[\"🌐 웹 CS 시스템\"] WEB[\"고객 정보 통합 모듈<br/><small>웹 기반 접속</small>\"] end subgraph SYS_EXT[\"🌐 외부\"] CTI_NEW[\"웹 CTI<br/><small>🟢 복구</small>\"] LG[\"LG유플러스<br/><small>인바운드</small>\"] AUTO[\"오토콜<br/><small>아웃바운드</small>\"] end P1((\"①\")) P2((\"②\")) P3((\"③\")) P4((\"④\")) P5((\"⑤\")) %% 업무 흐름 LG -->|\"인입\"| CTI_NEW CTI_NEW -->|\"팝업\"| P1 P1 -->|\"자동 검색\"| WEB AUTO -->|\"발신\"| P2 P2 --> WEB P3 -->|\"통합 기록\"| WEB P4 -->|\"내장 통계\"| WEB P5 -->|\"결제 링크\"| WEB style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5 style CTI_NEW fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px"
+            - table [ref=e847]:
+              - rowgroup [ref=e848]:
+                - row "업무 AS-IS 병목 TO-BE 개선 관련 요건" [ref=e849]:
+                  - columnheader "업무" [ref=e850]
+                  - columnheader "AS-IS 병목" [ref=e851]
+                  - columnheader "TO-BE 개선" [ref=e852]
+                  - columnheader "관련 요건" [ref=e853]
+              - rowgroup [ref=e854]:
+                - row "① 🔴 CTI 중단 → CS 수기 번호 검색 🟢 웹 CTI 복구 → 전화 인입 시 고객 정보 자동 팝업 CS-03" [ref=e855]:
+                  - cell "①" [ref=e856]:
+                    - generic [ref=e857]: ①
+                  - cell "🔴 CTI 중단 → CS 수기 번호 검색" [ref=e858]:
+                    - text: 🔴 CTI 중단 → CS
+                    - strong [ref=e859]: 수기 번호 검색
+                  - cell "🟢 웹 CTI 복구 → 전화 인입 시 고객 정보 자동 팝업" [ref=e860]:
+                    - text: 🟢
+                    - strong [ref=e861]: 웹 CTI 복구
+                    - text: → 전화 인입 시 고객 정보 자동 팝업
+                  - cell "CS-03" [ref=e862]
+                - row "② 🟢 아웃바운드 콜 (오토콜) 🟢 현행 유지 + 만료 명단 자동 추출 연동 SB-08" [ref=e863]:
+                  - cell "②" [ref=e864]:
+                    - generic [ref=e865]: ②
+                  - cell "🟢 아웃바운드 콜 (오토콜)" [ref=e866]
+                  - cell "🟢 현행 유지 + 만료 명단 자동 추출 연동" [ref=e867]
+                  - cell "SB-08" [ref=e868]
+                - row "③ 🟡 CS + 엑셀 이중기록 🟢 웹 CS 시스템 단일 기록 + 메모 일괄 업로드 CS-02, CS-07" [ref=e869]:
+                  - cell "③" [ref=e870]:
+                    - generic [ref=e871]: ③
+                  - cell "🟡 CS + 엑셀 이중기록" [ref=e872]:
+                    - text: 🟡 CS + 엑셀
+                    - strong [ref=e873]: 이중기록
+                  - cell "🟢 웹 CS 시스템 단일 기록 + 메모 일괄 업로드" [ref=e874]:
+                    - text: 🟢 웹 CS 시스템
+                    - strong [ref=e875]: 단일 기록
+                    - text: + 메모 일괄 업로드
+                  - cell "CS-02, CS-07" [ref=e876]
+                - row "④ 🟢 리포트 (외부 엑셀 집계) 🟢 내장 OB/IB 실적 통계 + 정산 자동화 CS-08" [ref=e877]:
+                  - cell "④" [ref=e878]:
+                    - generic [ref=e879]: ④
+                  - cell "🟢 리포트 (외부 엑셀 집계)" [ref=e880]
+                  - cell "🟢 내장 OB/IB 실적 통계 + 정산 자동화" [ref=e881]:
+                    - text: 🟢
+                    - strong [ref=e882]: 내장 OB/IB 실적 통계
+                    - text: + 정산 자동화
+                  - cell "CS-08" [ref=e883]
+                - row "⑤ ❌ 카드 결제 URL 발송 미지원 🟢 결제 링크 즉시 발송 (알림톡/SMS) + 당일 취소 FN-09" [ref=e884]:
+                  - cell "⑤" [ref=e885]:
+                    - generic [ref=e886]: ⑤
+                  - cell "❌ 카드 결제 URL 발송 미지원" [ref=e887]
+                  - cell "🟢 결제 링크 즉시 발송 (알림톡/SMS) + 당일 취소" [ref=e888]:
+                    - text: 🟢
+                    - strong [ref=e889]: 결제 링크 즉시 발송
+                    - text: (알림톡/SMS) + 당일 취소
+                  - cell "FN-09" [ref=e890]
+            - blockquote [ref=e891]:
+              - paragraph [ref=e892]:
+                - strong [ref=e893]: 콜센터 핵심 변화
+                - text: ": VPN 접속 → 웹 브라우저 접속으로 전환되며,"
+                - strong [ref=e894]: 권한 세분화
+                - text: (CS-05)로 실적 데이터 수정이 불가능해져 정산 투명성이 확보됩니다.
+            - separator [ref=e895]
+            - generic [ref=e896]:
+              - heading "3. 시스템 간 연동 관계 (TO-BE)" [level=2] [ref=e897]
+              - 'link "섹션 제목: “3. 시스템 간 연동 관계 (TO-BE)”" [ref=e898] [cursor=pointer]':
+                - /url: "#3-시스템-간-연동-관계-to-be"
+                - img [ref=e900]
+                - generic [ref=e902]: "섹션 제목: “3. 시스템 간 연동 관계 (TO-BE)”"
+            - paragraph [ref=e903]:
+              - text: AS-IS의 분산된 시스템 연동이
+              - strong [ref=e904]: 고객 정보 템플릿 매핑
+              - text: 중심으로 일원화됩니다.
+            - generic [ref=e905]: "flowchart TB subgraph EXTERNAL[\"🌐 외부 연동\"] direction LR NICE[\"나이스페이<br/><small>통합 결제</small>\"] PLAY[\"Playauto<br/><small>외부몰</small>\"] CJ[\"CJ대한통운\"] POST[\"우체국\"] KORYO[\"고려출판물류\"] BANK[\"신한뱅크\"] LG[\"LG유플러스\"] CTI[\"웹 CTI\"] end subgraph CORE[\"🌐 통합 시스템\"] direction LR ADMIN[\"고객 정보 통합 모듈 (Web)\"] API[\"고객 정보 템플릿 매핑\"] DB[\"통합 DB<br/><small>AWS RDS MSSQL</small>\"] DASH[\"대시보드\"] ADMIN <--> API API --> DB ADMIN --> DASH end subgraph LEGACY[\"🏠 현행 유지\"] direction LR ERP[\"위하고 ERP\"] HP_ADMIN[\"홈페이지 Admin\"] CMS[\"CMS\"] NAS[\"NAS\"] end %% 외부 → 통합 시스템 NICE -->|\"결제 API\"| API PLAY -->|\"주문 수집\"| API CJ -->|\"송장 API\"| API POST -->|\"발송\"| API KORYO -->|\"재고\"| API BANK -->|\"업로드\"| API LG -->|\"인입\"| CTI CTI -->|\"팝업\"| ADMIN %% 통합 시스템 → 현행 유지 API -->|\"Excel 자동생성\"| ERP API -->|\"권한 연동\"| CMS %% 콘텐츠 시스템 NAS <-->|\"원고\"| HP_ADMIN HP_ADMIN -->|\"발행\"| CMS style CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px style LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px style EXTERNAL fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5"
+            - separator [ref=e906]
+            - generic [ref=e907]:
+              - heading "4. AS-IS → TO-BE 변화 요약" [level=2] [ref=e908]
+              - 'link "섹션 제목: “4. AS-IS → TO-BE 변화 요약”" [ref=e909] [cursor=pointer]':
+                - /url: "#4-as-is--to-be-변화-요약"
+                - img [ref=e911]
+                - generic [ref=e913]: "섹션 제목: “4. AS-IS → TO-BE 변화 요약”"
+            - generic [ref=e914]:
+              - heading "병목 해소 매핑" [level=3] [ref=e915]
+              - 'link "섹션 제목: “병목 해소 매핑”" [ref=e916] [cursor=pointer]':
+                - /url: "#병목-해소-매핑"
+                - img [ref=e918]
+                - generic [ref=e920]: "섹션 제목: “병목 해소 매핑”"
+            - table [ref=e921]:
+              - rowgroup [ref=e922]:
+                - row "# AS-IS 병목 TO-BE 해소 방안 핵심 요건" [ref=e923]:
+                  - columnheader "#" [ref=e924]
+                  - columnheader "AS-IS 병목" [ref=e925]
+                  - columnheader "TO-BE 해소 방안" [ref=e926]
+                  - columnheader "핵심 요건" [ref=e927]
+              - rowgroup [ref=e928]:
+                - row "1 Playauto Excel 수기입력 주문 자동 수집 + 일괄등록 OM-01, SB-09" [ref=e929]:
+                  - cell "1" [ref=e930]
+                  - cell "Playauto Excel 수기입력" [ref=e931]
+                  - cell "주문 자동 수집 + 일괄등록" [ref=e932]
+                  - cell "OM-01, SB-09" [ref=e933]
+                - row "2 구독 해지 수기삭제 통합 구독 관리 (등록/해지/변경) SB-01" [ref=e934]:
+                  - cell "2" [ref=e935]
+                  - cell "구독 해지 수기삭제" [ref=e936]
+                  - cell "통합 구독 관리 (등록/해지/변경)" [ref=e937]
+                  - cell "SB-01" [ref=e938]
+                - row "3 배송 엑셀 수기 매칭 택배사 API 자동 연동 DL-03, DL-05" [ref=e939]:
+                  - cell "3" [ref=e940]
+                  - cell "배송 엑셀 수기 매칭" [ref=e941]
+                  - cell "택배사 API 자동 연동" [ref=e942]
+                  - cell "DL-03, DL-05" [ref=e943]
+                - row "4 CS ↔ ERP 수기 대사 ERP용 Excel 자동생성 FN-04" [ref=e944]:
+                  - cell "4" [ref=e945]
+                  - cell "CS ↔ ERP 수기 대사" [ref=e946]
+                  - cell "ERP용 Excel 자동생성" [ref=e947]
+                  - cell "FN-04" [ref=e948]
+                - row "5 신한뱅크 → 엑셀 → CS 수기입력 입금 데이터 업로드 → 자동 매칭 FN-02" [ref=e949]:
+                  - cell "5" [ref=e950]
+                  - cell "신한뱅크 → 엑셀 → CS 수기입력" [ref=e951]
+                  - cell "입금 데이터 업로드 → 자동 매칭" [ref=e952]
+                  - cell "FN-02" [ref=e953]
+                - row "6 고려출판물류 → ERP 이중입력 재고 템플릿 + Excel 자동생성 BK-03" [ref=e954]:
+                  - cell "6" [ref=e955]
+                  - cell "고려출판물류 → ERP 이중입력" [ref=e956]
+                  - cell "재고 템플릿 + Excel 자동생성" [ref=e957]
+                  - cell "BK-03" [ref=e958]
+                - row "7 입금 삼중입력 (엑셀→관리→위하고) 일일 입금 자동 대조 + 미수금 현황 FN-10" [ref=e959]:
+                  - cell "7" [ref=e960]
+                  - cell "입금 삼중입력 (엑셀→관리→위하고)" [ref=e961]
+                  - cell "일일 입금 자동 대조 + 미수금 현황" [ref=e962]
+                  - cell "FN-10" [ref=e963]
+                - row "8 CTI 중단 → 수기 번호 검색 웹 CTI 복구 → 자동 팝업 CS-03" [ref=e964]:
+                  - cell "8" [ref=e965]
+                  - cell "CTI 중단 → 수기 번호 검색" [ref=e966]
+                  - cell "웹 CTI 복구 → 자동 팝업" [ref=e967]
+                  - cell "CS-03" [ref=e968]
+                - row "9 Admin → CMS 수동 복사·붙여넣기 구독 상태 → CMS 권한 자동 연동 SB-05" [ref=e969]:
+                  - cell "9" [ref=e970]
+                  - cell "Admin → CMS 수동 복사·붙여넣기" [ref=e971]
+                  - cell "구독 상태 → CMS 권한 자동 연동" [ref=e972]
+                  - cell "SB-05" [ref=e973]
+                - row "10 상담 이력 이중기록 (CS+엑셀) 통합 상담 이력 + 메모 일괄 업로드 CS-02, CS-07" [ref=e974]:
+                  - cell "10" [ref=e975]
+                  - cell "상담 이력 이중기록 (CS+엑셀)" [ref=e976]
+                  - cell "통합 상담 이력 + 메모 일괄 업로드" [ref=e977]
+                  - cell "CS-02, CS-07" [ref=e978]
+            - generic [ref=e979]:
+              - heading "시스템 전환 요약" [level=3] [ref=e980]
+              - 'link "섹션 제목: “시스템 전환 요약”" [ref=e981] [cursor=pointer]':
+                - /url: "#시스템-전환-요약"
+                - img [ref=e983]
+                - generic [ref=e985]: "섹션 제목: “시스템 전환 요약”"
+            - table [ref=e986]:
+              - rowgroup [ref=e987]:
+                - row "구분 AS-IS TO-BE" [ref=e988]:
+                  - columnheader "구분" [ref=e989]
+                  - columnheader "AS-IS" [ref=e990]
+                  - columnheader "TO-BE" [ref=e991]
+              - rowgroup [ref=e992]:
+                - row "핵심 시스템 C/S 로컬 설치형 (XPlatform) 웹 기반 웹 CS 시스템 (React + NestJS)" [ref=e993]:
+                  - cell "핵심 시스템" [ref=e994]:
+                    - strong [ref=e995]: 핵심 시스템
+                  - cell "C/S 로컬 설치형 (XPlatform)" [ref=e996]
+                  - cell "웹 기반 웹 CS 시스템 (React + NestJS)" [ref=e997]
+                - row "데이터베이스 MSSQL + MySQL 분리 운영 AWS RDS MSSQL 통합 DB" [ref=e998]:
+                  - cell "데이터베이스" [ref=e999]:
+                    - strong [ref=e1000]: 데이터베이스
+                  - cell "MSSQL + MySQL 분리 운영" [ref=e1001]
+                  - cell "AWS RDS MSSQL 통합 DB" [ref=e1002]
+                - row "외부 연동 수동 Excel ↔ 개별 시스템 고객 정보 템플릿 매핑 중심 자동 연동" [ref=e1003]:
+                  - cell "외부 연동" [ref=e1004]:
+                    - strong [ref=e1005]: 외부 연동
+                  - cell "수동 Excel ↔ 개별 시스템" [ref=e1006]
+                  - cell "고객 정보 템플릿 매핑 중심 자동 연동" [ref=e1007]
+                - row "ERP 연동 수기 대사 + 이중입력 Excel 자동생성 (API 미제공으로 현실적 대안)" [ref=e1008]:
+                  - cell "ERP 연동" [ref=e1009]:
+                    - strong [ref=e1010]: ERP 연동
+                  - cell "수기 대사 + 이중입력" [ref=e1011]
+                  - cell "Excel 자동생성 (API 미제공으로 현실적 대안)" [ref=e1012]
+                - row "CMS 연동 수동 복사·붙여넣기 API 기반 권한 자동 연동" [ref=e1013]:
+                  - cell "CMS 연동" [ref=e1014]:
+                    - strong [ref=e1015]: CMS 연동
+                  - cell "수동 복사·붙여넣기" [ref=e1016]
+                  - cell "API 기반 권한 자동 연동" [ref=e1017]
+                - row "CTI ⚠️ 중단 (KT→LG 전환 후) 🟢 웹 CTI 복구" [ref=e1018]:
+                  - cell "CTI" [ref=e1019]:
+                    - strong [ref=e1020]: CTI
+                  - cell "⚠️ 중단 (KT→LG 전환 후)" [ref=e1021]
+                  - cell "🟢 웹 CTI 복구" [ref=e1022]
+                - row "대시보드 없음 준실시간 KPI + 알림 + 보고서" [ref=e1023]:
+                  - cell "대시보드" [ref=e1024]:
+                    - strong [ref=e1025]: 대시보드
+                  - cell "없음" [ref=e1026]
+                  - cell "준실시간 KPI + 알림 + 보고서" [ref=e1027]
+                - row "보안 로컬 네트워크 제한 VPN + 2차 인증 + 권한 세분화" [ref=e1028]:
+                  - cell "보안" [ref=e1029]:
+                    - strong [ref=e1030]: 보안
+                  - cell "로컬 네트워크 제한" [ref=e1031]
+                  - cell "VPN + 2차 인증 + 권한 세분화" [ref=e1032]
+            - separator [ref=e1033]
+            - generic [ref=e1034]:
+              - heading "범례" [level=2] [ref=e1035]
+              - 'link "섹션 제목: “범례”" [ref=e1036] [cursor=pointer]':
+                - /url: "#범례"
+                - img [ref=e1038]
+                - generic [ref=e1040]: "섹션 제목: “범례”"
+            - table [ref=e1041]:
+              - rowgroup [ref=e1042]:
+                - row "기호 의미" [ref=e1043]:
+                  - columnheader "기호" [ref=e1044]
+                  - columnheader "의미" [ref=e1045]
+              - rowgroup [ref=e1046]:
+                - row "🟢 개선 완료 (자동화·통합)" [ref=e1047]:
+                  - cell "🟢" [ref=e1048]
+                  - cell "개선 완료 (자동화·통합)" [ref=e1049]
+                - row "🟡 현행 유지 (안정 운영 중)" [ref=e1050]:
+                  - cell "🟡" [ref=e1051]
+                  - cell "현행 유지 (안정 운영 중)" [ref=e1052]
+                - row "❌ AS-IS 미지원 → TO-BE 신규" [ref=e1053]:
+                  - cell "❌" [ref=e1054]
+                  - cell "AS-IS 미지원 → TO-BE 신규" [ref=e1055]
+                - row "→ 데이터 흐름 (일방향)" [ref=e1056]:
+                  - cell "→" [ref=e1057]:
+                    - code [ref=e1058]: →
+                  - cell "데이터 흐름 (일방향)" [ref=e1059]
+                - row "<--> 데이터 동기화 (쌍방향)" [ref=e1060]:
+                  - cell "<-->" [ref=e1061]:
+                    - code [ref=e1062]: <-->
+                  - cell "데이터 동기화 (쌍방향)" [ref=e1063]
+                - row "🌐 웹 CS 시스템 AS-IS C/S System을 대체하는 웹 기반 시스템" [ref=e1064]:
+                  - cell "🌐 웹 CS 시스템" [ref=e1065]
+                  - cell "AS-IS C/S System을 대체하는 웹 기반 시스템" [ref=e1066]
+                - row "🏠 현행 유지 변경 없이 유지되는 기존 시스템" [ref=e1067]:
+                  - cell "🏠 현행 유지" [ref=e1068]
+                  - cell "변경 없이 유지되는 기존 시스템" [ref=e1069]
+          - generic [ref=e1071]:
+            - link "이전 비기능 요구사항" [ref=e1072] [cursor=pointer]:
+              - /url: /goodthinking-isp/03-requirements/non-functional/
+              - img [ref=e1073]
+              - generic [ref=e1075]:
+                - text: 이전
+                - text: 비기능 요구사항
+            - link "다음 목표 모델 설계 (TO-BE Design)" [ref=e1076] [cursor=pointer]:
+              - /url: /goodthinking-isp/04-design/
+              - img [ref=e1077]
+              - generic [ref=e1079]:
+                - text: 다음
+                - text: 목표 모델 설계 (TO-BE Design)
+  - generic [ref=e1082]:
+    - button "Menu" [ref=e1083]:
+      - img [ref=e1085]
+      - generic: Menu
+    - button "Inspect" [ref=e1089]:
+      - img [ref=e1091]
+      - generic: Inspect
+    - button "Audit" [ref=e1093]:
+      - img [ref=e1095]
+      - generic: Audit
+    - button "Settings" [ref=e1098]:
+      - img [ref=e1100]
+      - generic: Settings
+  - img [ref=e1104]

@@ -1,5 +1,5 @@
 ---
-title: Utility Tree
+title: 4.7. 유틸리티 구조
 description: 좋은생각 웹 시스템 품질 속성 우선순위 분석
 ---
 
@@ -15,11 +15,12 @@ Utility Tree는 아키텍처 설계 시 품질 속성의 우선순위를 결정�
 graph TD
     Root["시스템 유용성<br/>System Utility"]
     A["가용성<br/>Availability"]
-    B["성능<br/>Performance"]
-    C["보안<br/>Security"]
-    D["변경용이성<br/>Modifiability"]
-    E["사용성<br/>Usability"]
-    F["운영성<br/>Operability"]
+    B["상호운용성<br/>Interoperability"]
+    C["성능<br/>Performance"]
+    D["보안<br/>Security"]
+    E["변경용이성<br/>Modifiability"]
+    F["사용성<br/>Usability"]
+    G["운영성<br/>Operability"]
 
     Root --> A
     Root --> B
@@ -27,6 +28,7 @@ graph TD
     Root --> D
     Root --> E
     Root --> F
+    Root --> G
 ```
 
 ### 우선순위 표기법
@@ -49,13 +51,23 @@ graph TD
     SysRecovery["시스템 장애 복구"]
     A1["A-1: 웹 서버 크래시 시<br/>5분 내 복구 (H,M)"]
     ExternalFailure["외부 연동 장애 대응"]
-    A2["A-2: Excel 업로드 데이터<br/>검증 오류 대응 (H,H) ⭐"]
+    A2["A-2: 채널 API 장애 시<br/>재시도 및 알림 (H,H) 1/5"]
     DataProtect["데이터 보호"]
-    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) ⭐"]
+    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) 1/5"]
+    
+    INT["상호운용성 Interoperability"]
+    ChannelInteg["채널 연동"]
+    I1["I-1: 다채널 주문<br/>자동 수집 (H,H) 1/5"]
+    CmsInteg["CMS 연동"]
+    I2["I-2: CMS 권한<br/>Excel 기반 간소화 (H,M)"]
+    ErpInteg["ERP 연동"]
+    I3["I-3: 위하고 ERP<br/>Excel 자동 생성 (M,L)"]
+    DelivInteg["배송사 연동"]
+    I4["I-4: 택배사 API<br/>송장/추적 자동화 (M,M)"]
     
     PF["성능 Performance"]
     RespTime["응답 시간"]
-    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) ⭐"]
+    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) 1/5"]
     Throughput["처리량"]
     P1["P-1: 일 500건 주문<br/>10분 내 수집 (M,L)"]
     LargeLoad["대용량 처리"]
@@ -63,15 +75,15 @@ graph TD
     
     SEC["보안 Security"]
     AccessControl["접근 통제"]
-    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) ⭐"]
+    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) 1/5"]
     AttackDefense["외부 공격 방어"]
     S2["S-2: SQL Injection, XSS<br/>100% 차단 (H,M)"]
     DataLeakage["데이터 유출 방지"]
-    S3["S-3: 대량 다운로드 승인,<br/>개인정보 Excel 비밀번호,<br/>로깅 (H,M)"]
+    S3["S-3: 대량 다운로드<br/>승인 및 로깅 (H,L)"]
     
     MOD["변경용이성 Modifiability"]
     FeatureExtend["기능 확장"]
-    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) ⭐"]
+    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) 1/5"]
     ProcessChange["프로세스 변경"]
     M2["M-2: 워크플로우<br/>설정만으로 변경 (M,M)"]
     ReportChange["리포트 변경"]
@@ -92,6 +104,7 @@ graph TD
     O2["O-2: 배치 실패 시<br/>즉시 알림 및 재실행 (M,L)"]
     
     Root --> AV
+    Root --> INT
     Root --> PF
     Root --> SEC
     Root --> MOD
@@ -104,6 +117,15 @@ graph TD
     SysRecovery --> A1
     ExternalFailure --> A2
     DataProtect --> A3
+    
+    INT --> ChannelInteg
+    INT --> CmsInteg
+    INT --> ErpInteg
+    INT --> DelivInteg
+    ChannelInteg --> I1
+    CmsInteg --> I2
+    ErpInteg --> I3
+    DelivInteg --> I4
     
     PF --> RespTime
     PF --> Throughput
@@ -149,17 +171,18 @@ graph TD
 
 | ID | 시나리오 | 품질 속성 | 아키텍처 결정 영향 |
 |----|----------|-----------|-------------------|
-| A-2 | Excel 업로드 데이터 검증 오류 대응 | 가용성 | Excel 파싱 검증 패턴, 행 단위 오류 처리, 비동기 큐 시스템 도입 |
-| A-3 | DB 장애 시 데이터 유실 0건 | 가용성 | Lightsail DB HA (자동 페일오버), 트랜잭션 관리 |
+| A-2 | 채널 API 장애 시 재시도 및 알림 | 가용성 | Circuit Breaker 패턴, 메시지 큐 도입 |
+| A-3 | DB 장애 시 데이터 유실 0건 | 가용성 | DB 이중화, 트랜잭션 관리 |
+| I-1 | 다채널 주문 자동 수집 | 상호운용성 | 어댑터 패턴, API 폴링/Webhook 하이브리드 |
 
 ### Tier 2: 주요 드라이버 (H, M) 또는 (M, H)
 
 | ID | 시나리오 | 품질 속성 | 아키텍처 결정 영향 |
 |----|----------|-----------|-------------------|
-| P-2 | 고객 조회 2초 이내 응답 | 성능 | Redis 캐싱, 인덱스 최적화 |
-| S-1 | 개인정보 권한 기반 접근 | 보안 | RBAC (Role-Based Access Control), 데이터 마스킹 레이어 |
-| S-3 | 대량 다운로드 승인 + 개인정보 Excel 비밀번호 | 보안 | Excel 자동 비밀번호 암호화 (AES-128), excel_export_log, 승인 프로세스 |
-| M-1 | 신규 판매채널 5일 내 추가 | 변경용이성 | Excel 템플릿 어댑터 패턴 (플러그인 방식) |
+| I-2 | CMS 권한 Excel 기반 간소화 | 상호운용성 | Excel 템플릿 생성 모듈, 다운로드 UI |
+| P-2 | 고객 조회 2초 이내 응답 | 성능 | 캐싱 전략, 인덱스 최적화 |
+| S-1 | 개인정보 권한 기반 접근 | 보안 | RBAC, 데이터 마스킹 레이어 |
+| M-1 | 신규 판매채널 5일 내 추가 | 변경용이성 | 어댑터 패턴, 플러그인 아키텍처 |
 | U-3 | 주요 업무 5클릭 내 완료 | 사용성 | UI/UX 설계, 업무 흐름 최적화 |
 
 ---
@@ -168,8 +191,8 @@ graph TD
 
 |  | 높은 난이도 (H) | 중간 난이도 (M) | 낮은 난이도 (L) |
 |--|:---------------:|:---------------:|:---------------:|
-| **높은 중요도 (H)** | A-2, A-3 | A-1, P-2, S-1, S-2, S-3, U-3 | - |
-| **중간 중요도 (M)** | M-1, P-3 | M-2, O-1 | P-1, U-1, U-2, O-2 |
+| **높은 중요도 (H)** | A-2, A-3, I-1 | A-1, I-2, P-2, S-1, S-2, U-3 | S-3 |
+| **중간 중요도 (M)** | M-1, P-3 | M-2, O-1, I-4 | I-3, P-1, U-1, U-2, O-2 |
 | **낮은 중요도 (L)** | - | - | M-3 |
 
 ### 우선순위 결정 원칙
@@ -186,14 +209,14 @@ graph TD
 
 ### 1. 가용성 전략
 
-**드라이버**: A-2 (Excel 데이터 검증), A-3 (데이터 보호)
+**드라이버**: A-2 (채널 API 장애), A-3 (데이터 보호)
 
 ```mermaid
 graph LR
     A["가용성 전략"]
-    B["Excel 파싱 검증 패턴<br/>행 단위 오류 처리"]
-    C["비동기 큐 기반<br/>Excel 업로드 처리"]
-    D["Lightsail DB HA<br/>MariaDB 자동 페일오버"]
+    B["Circuit Breaker 패턴<br/>적용 외부 API 연동"]
+    C["메시지 큐 기반<br/>비동기 처리 주문 수집"]
+    D["DB 이중화<br/>Master-Slave Replication"]
     E["자동 페일오버 구성"]
     F["배치 작업 재시도 메커니즘"]
     
@@ -202,16 +225,36 @@ graph LR
     A --> D
     A --> E
     A --> F
-```
 
-### 2. 성능 전략
+
+### 2. 상호운용성 전략
+
+**드라이버**: I-1 (다채널 주문 수집), I-2 (CMS 권한 — Excel 기반)
+
+```mermaid
+graph LR
+    A["상호운용성 전략"]
+    B["어댑터 패턴<br/>채널별 API 표준화"]
+    C["Excel 템플릿 기반<br/>CMS 권한 간소화"]
+    D["재시도 큐<br/>연동 실패 자동 복구"]
+    E["API 게이트웨이<br/>외부 연동 통합 관리"]
+    F["ERP Excel 생성 모듈<br/>위하고 업로드용"]
+    
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+
+
+### 3. 성능 전략
 
 **드라이버**: P-2 (고객 조회 응답)
 
 ```mermaid
 graph LR
     A["성능 전략"]
-    B["Redis 캐싱 적용<br/>CMS Cache Backend"]
+    B["Redis 캐싱 적용<br/>자주 조회되는 고객 데이터"]
     C["DB 인덱스 최적화<br/>검색 조건 기반"]
     D["페이지네이션 및<br/>Lazy Loading"]
     E["쿼리 최적화 및<br/>실행 계획 분석"]
@@ -220,9 +263,9 @@ graph LR
     A --> C
     A --> D
     A --> E
-```
 
-### 3. 보안 전략
+
+### 4. 보안 전략
 
 **드라이버**: S-1 (개인정보 접근 통제)
 
@@ -230,31 +273,29 @@ graph LR
 graph LR
     A["보안 전략"]
     B["RBAC<br/>Role-Based Access Control"]
-    C["개인정보 마스킹 레이어<br/>API 필드 레벨"]
-    D["감사 로그 자동 기록<br/>감사 로그 모듈"]
-    E["Cloudflare WAF<br/>Web Application Firewall"]
+    C["개인정보 마스킹 레이어<br/>API 레벨"]
+    D["감사 로그 자동 기록"]
+    E["WAF<br/>Web Application Firewall"]
     F["암호화<br/>전송중: TLS, 저장시: AES-256"]
-    G["Excel 비밀번호 자동 적용<br/>개인정보 포함 시 AES-128"]
     
     A --> B
     A --> C
     A --> D
     A --> E
     A --> F
-    A --> G
-```
 
-### 4. 변경용이성 전략
+
+### 5. 변경용이성 전략
 
 **드라이버**: M-1 (신규 판매채널 추가)
 
 ```mermaid
 graph LR
     A["변경용이성 전략"]
-    B["Excel 템플릿 어댑터 패턴<br/>채널별 Excel 양식 파싱"]
-    C["ExcelTemplateAdapterInterface<br/>신규 채널 추가 용이"]
-    D["설정 기반<br/>워크플로우 관리"]
-    E["내부 API 버저닝 전략"]
+    B["어댑터 패턴<br/>채널별 API 연동"]
+    C["플러그인 아키텍처<br/>신규 채널 추가 용이"]
+    D["설정 기반<br/>워크플로우 엔진"]
+    E["API 버저닝 전략"]
     F["모듈화된 컴포넌트 설계"]
     
     A --> B
@@ -262,7 +303,7 @@ graph LR
     A --> D
     A --> E
     A --> F
-```
+
 
 ---
 
@@ -272,11 +313,11 @@ graph LR
 
 | 선택지 | 가용성 | 비용 | 권장 |
 |--------|:------:|:----:|:----:|
-| 단일 서버 | 낮음 | 낮음 | ❌ |
-| Active-Standby | 높음 | 중간 | ✅ |
+| 단일 서버 | 낮음 | 낮음 | ✗ |
+| Active-Standby | 높음 | 중간 | ✓ |
 | Active-Active | 매우 높음 | 높음 | △ (향후) |
 
-**결정**: 초기에는 Lightsail DB HA (Active-Standby)로 시작, 트래픽 증가 시 RDS Aurora 전환 검토
+**결정**: 초기에는 Active-Standby로 시작, 트래픽 증가 시 Active-Active 전환
 
 ### 성능 vs 일관성
 
@@ -295,14 +336,3 @@ graph LR
 - [품질 속성 시나리오](./quality-scenarios) - 상세 시나리오 정의
 - [Web 시스템 아키텍처](./web-architecture) - 드라이버 기반 아키텍처 설계
 - [아키텍처 설계 방법론](./architecture-methodology) - 설계 프로세스 가이드
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| 2026-02-24 | ISP팀 | 초안 작성 |
-| 2026-04-23 | 김명직 | 과업요청서 범용화: 특정 제품명 → 일반 기술 패턴 용어로 전환 |
-| 2026-04-23 | 김명직 | 외부 연동 현실성 반영: A-2 채널 API 장애 → Excel 업로드 데이터 검증 오류로 전환, Circuit Breaker → Excel 파싱 검증 패턴, 어댑터 패턴 → Excel 템플릿 어댑터 패턴 |
-| 2026-04-23 | 김명직 | S-3 개인정보 보호 강화: 난이도 (H,L)→(H,M) 승격, Excel 자동 비밀번호 암호화·excel_export_log 추가, 보안 전략에 Excel 비밀번호 노드 추가, Tier 2 드라이버 승격 |

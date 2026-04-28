@@ -1,5 +1,5 @@
 ---
-title: 프론트엔드 리뉴얼
+title: 6.4. 프론트엔드 리뉴얼
 description: 좋은생각 홈페이지 프론트엔드 디자인 및 기능 리뉴얼
 ---
 
@@ -34,7 +34,7 @@ description: 좋은생각 홈페이지 프론트엔드 디자인 및 기능 리�
 graph TD
     A["좋은생각 디자인 컨셉<br/><br/>키워드: 따뜻함 | 정제됨 | 신뢰감 | 편안함"]
     
-    B["컬러 팔레트<br/><br/>Primary: #______ | Secondary: #______<br/>Accent: #______ | Background: #______"]
+    B["컬러 팔레트<br/><br/>Primary: TBD | Secondary: TBD<br/>Accent: TBD | Background: TBD"]
     
     C["타이포그래피<br/><br/>제목: 본명조 / Noto Serif KR<br/>본문: 프리텐다드 / Pretendard"]
     
@@ -119,9 +119,9 @@ graph TD
 
 ### 정량적 효과
 
-:::note[추정치]
-현행 홈페이지 트래픽/성능 수치는 인터뷰 및 GA 데이터 확인 후 보정이 필요합니다.
-:::
+> **[참고]** 추정치
+>
+> 현행 홈페이지 트래픽/성능 수치는 인터뷰 및 GA 데이터 확인 후 보정이 필요합니다.
 
 | 지표 | 현재 (추정) | 목표 | 개선율 |
 |------|:------:|:------:|:------:|
@@ -150,9 +150,9 @@ graph TD
 | Editor | TipTap / Editor.js | 확장성, 커스터마이징, 좋은생각 스타일 블록 구현 |
 | CMS 연동 | 통합 DB API (NestJS) | 현행 CMS 13t(ptcms_*) 통합 관리자 시스템 API 경유 |
 
-:::note[ISP 연계]
-홈페이지 프론트엔드는 [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/)의 "홈페이지 SPA" 레이어에 해당합니다. 관리자 시스템과 동일한 NestJS 백엔드 API를 공유하되, 코드베이스는 분리합니다.
-:::
+> **[참고]** ISP 연계
+>
+> 홈페이지 프론트엔드는 [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/)의 "홈페이지 SPA" 레이어에 해당합니다. 관리자 시스템과 동일한 NestJS 백엔드 API를 공유하되, 코드베이스는 분리합니다.
 
 ### 단계별 구현
 
