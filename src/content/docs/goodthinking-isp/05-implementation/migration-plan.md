@@ -15,13 +15,13 @@ description: 데이터 이관 및 시스템 전환 전략
 
 | 구분 | 원본 | 주요 테이블 | 대상 | 데이터량 (추정) |
 |------|------|-----------|------|----------------|
-| 고객 데이터 | C/S MSSQL (사내) | `PT_Customer` (48 cols), `PT_Company` (49 cols) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 구독 데이터 | C/S MSSQL (사내) | `PT_Subscribe` (20 cols), `PT_Receiver` (43 cols), `PT_Giro` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 결제/재무 | C/S MSSQL (사내) | `PT_Finance` (22 cols), `PT_Deposit`, `PT_DEFERINCOME_*` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 상품/재고 | C/S MSSQL (사내) | `PT_Book` (30 cols), `PT_BookPrice`, `PT_Stock` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| CS 이력 | C/S MSSQL (사내) | `PT_Councel_History`, `PT_SendHistory` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 홈페이지 주문 | AWS MSSQL | `PTM_Orders`, `PTM_Order_Items`, `PTM_Regular_Orders` (63t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| CMS 콘텐츠 | AWS MSSQL | `ptcms_contents` (33 cols), `ptcms_writer`, `ptcms_books` (13t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 고객 데이터 | C/S MSSQL (사내) | `PT_Customer` (48 cols), `PT_Company` (49 cols) | 통합 DB (클라우드) | 약 5~10만 건 (구독자+거래처, 33년 누적 추정) |
+| 구독 데이터 | C/S MSSQL (사내) | `PT_Subscribe` (20 cols), `PT_Receiver` (43 cols), `PT_Giro` | 통합 DB (클라우드) | 약 10~30만 건 (구독 이력 누적 추정) |
+| 결제/재무 | C/S MSSQL (사내) | `PT_Finance` (22 cols), `PT_Deposit`, `PT_DEFERINCOME_*` | 통합 DB (클라우드) | 약 20~50만 건 (연간 결제 건수 기반 추정) |
+| 상품/재고 | C/S MSSQL (사내) | `PT_Book` (30 cols), `PT_BookPrice`, `PT_Stock` | 통합 DB (클라우드) | 약 1~3만 건 (출판물+아트상품 카탈로그) |
+| CS 이력 | C/S MSSQL (사내) | `PT_Councel_History`, `PT_SendHistory` | 통합 DB (클라우드) | 약 10~30만 건 (상담·발송 이력 누적 추정) |
+| 홈페이지 주문 | AWS MSSQL | `PTM_Orders`, `PTM_Order_Items`, `PTM_Regular_Orders` (63t) | 통합 DB (클라우드) | 약 5~15만 건 (자사몰 주문 누적 추정) |
+| CMS 콘텐츠 | AWS MSSQL | `ptcms_contents` (33 cols), `ptcms_writer`, `ptcms_books` (13t) | 통합 DB (클라우드) | 약 1~5만 건 (월간지 33년분 콘텐츠 추정) |
 | SP/Trigger 로직 | C/S MSSQL (사내) | 20 SPs + 14 Functions + 15 Triggers | 애플리케이션 코드로 전환 | 49개 객체 |
 
 ### 이관 전략
@@ -178,9 +178,36 @@ WHEN NOT MATCHED THEN INSERT (
 
 | 테이블 | AS-IS 건수 | TO-BE 건수 | 차이 | 원인 |
 |--------|-----------|-----------|------|------|
-| 고객 | | | | |
-| 주문 | | | | |
-| CS | | | | |
+| 고객 | (이관 시 실측) | (이관 후 검증) | 0 허용 | 중복 통합 시 감소 가능 — 통합 건수 별도 기록 |
+| 주문 | (이관 시 실측) | (이관 후 검증) | 0 허용 | 채널별 합산 일치 여부 확인 |
+| CS | (이관 시 실측) | (이관 후 검증) | 0 허용 | 이력 누락 없음 확인 |
+
+> **[참고]** AS-IS/TO-BE 건수는 VPN 접속 후 아래 검증 스크립트를 실행하여 채웁니다.
+
+#### 건수 검증 스크립트 (AS-IS — C/S MSSQL)
+
+```sql
+-- 고객 건수
+SELECT 'PT_Customer' AS tbl, COUNT(*) AS cnt FROM PT_Customer
+UNION ALL
+SELECT 'PT_Company', COUNT(*) FROM PT_Company;
+
+-- 구독 건수
+SELECT 'PT_Subscribe' AS tbl, COUNT(*) AS cnt FROM PT_Subscribe
+UNION ALL
+SELECT 'PT_Receiver', COUNT(*) FROM PT_Receiver;
+
+-- 결제 건수
+SELECT 'PT_Finance' AS tbl, COUNT(*) AS cnt FROM PT_Finance;
+
+-- CS 이력 건수
+SELECT 'PT_Councel_History' AS tbl, COUNT(*) AS cnt FROM PT_Councel_History
+UNION ALL
+SELECT 'PT_SendHistory', COUNT(*) FROM PT_SendHistory;
+
+-- 상품 건수
+SELECT 'PT_Book' AS tbl, COUNT(*) AS cnt FROM PT_Book;
+```
 
 ### 2. 데이터 정합성 검증
 
