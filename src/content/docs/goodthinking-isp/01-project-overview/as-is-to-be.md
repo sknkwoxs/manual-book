@@ -34,7 +34,7 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 - **형상관리**: Visual SVN Server
 - **데이터베이스**: MSSQL Server 2008 (`203.231.234.7:1433`) — 75개 테이블, 20 SP, 14 Function, 15 Trigger
 - **화면 수**: **86개** (사용자 매뉴얼 74개 + 관리자 매뉴얼 12개)
-- **외부 연동**: 나이스페이(PG 4종/CTI ARS), 금융결제원(지로), Ecount-ERP(엑셀 양방향), 더아이앤오(외부콜센터)
+- **외부 연동**: 나이스페이(PG 4종/CTI ARS), 금융결제원(지로), 위하고(WEHAGO)(엑셀 양방향), 더아이앤오(외부콜센터)
 
 #### 웹 환경 (AWS)
 
@@ -72,7 +72,7 @@ graph TD
         E3["Playauto<br/>(주문 수집)"]
         E4["나이스페이<br/>(PG/CTI ARS)"]
         E5["금융결제원<br/>(지로)"]
-        E6["Ecount-ERP"]
+        E6["위하고(WEHAGO)"]
     end
 
     subgraph DB["데이터베이스"]
