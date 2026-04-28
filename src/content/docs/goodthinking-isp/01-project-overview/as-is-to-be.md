@@ -91,9 +91,9 @@ graph TD
     E1 --> E3
     E2 --> E3
 
-    C -.->|"❌ 범용 API 연동 없음<br/>Excel 수작업 이관"| D
-    C <-->|"⚠️ 선수수익 연동만 존재<br/>(웹 구독접수/결제/발송)"| D
-    E3 -.->|"❌ 미연동<br/>Excel 다운로드 → CS 업로드"| C
+    C -.->|"[X] 범용 API 연동 없음<br/>Excel 수작업 이관"| D
+    C <-->|"[주의] 선수수익 연동만 존재<br/>(웹 구독접수/결제/발송)"| D
+    E3 -.->|"[X] 미연동<br/>Excel 다운로드 → CS 업로드"| C
 
     style CS fill:#ffccbc
     style AWS fill:#b3e5fc

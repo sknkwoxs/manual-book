@@ -51,13 +51,13 @@ graph TD
     SysRecovery["시스템 장애 복구"]
     A1["A-1: 웹 서버 크래시 시<br/>5분 내 복구 (H,M)"]
     ExternalFailure["외부 연동 장애 대응"]
-    A2["A-2: 채널 API 장애 시<br/>재시도 및 알림 (H,H) ⭐"]
+    A2["A-2: 채널 API 장애 시<br/>재시도 및 알림 (H,H) 1/5"]
     DataProtect["데이터 보호"]
-    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) ⭐"]
+    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) 1/5"]
     
     INT["상호운용성 Interoperability"]
     ChannelInteg["채널 연동"]
-    I1["I-1: 다채널 주문<br/>자동 수집 (H,H) ⭐"]
+    I1["I-1: 다채널 주문<br/>자동 수집 (H,H) 1/5"]
     CmsInteg["CMS 연동"]
     I2["I-2: CMS 권한<br/>Excel 기반 간소화 (H,M)"]
     ErpInteg["ERP 연동"]
@@ -67,7 +67,7 @@ graph TD
     
     PF["성능 Performance"]
     RespTime["응답 시간"]
-    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) ⭐"]
+    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) 1/5"]
     Throughput["처리량"]
     P1["P-1: 일 500건 주문<br/>10분 내 수집 (M,L)"]
     LargeLoad["대용량 처리"]
@@ -75,7 +75,7 @@ graph TD
     
     SEC["보안 Security"]
     AccessControl["접근 통제"]
-    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) ⭐"]
+    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) 1/5"]
     AttackDefense["외부 공격 방어"]
     S2["S-2: SQL Injection, XSS<br/>100% 차단 (H,M)"]
     DataLeakage["데이터 유출 방지"]
@@ -83,7 +83,7 @@ graph TD
     
     MOD["변경용이성 Modifiability"]
     FeatureExtend["기능 확장"]
-    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) ⭐"]
+    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) 1/5"]
     ProcessChange["프로세스 변경"]
     M2["M-2: 워크플로우<br/>설정만으로 변경 (M,M)"]
     ReportChange["리포트 변경"]
@@ -313,8 +313,8 @@ graph LR
 
 | 선택지 | 가용성 | 비용 | 권장 |
 |--------|:------:|:----:|:----:|
-| 단일 서버 | 낮음 | 낮음 | ❌ |
-| Active-Standby | 높음 | 중간 | ✅ |
+| 단일 서버 | 낮음 | 낮음 | ✗ |
+| Active-Standby | 높음 | 중간 | ✓ |
 | Active-Active | 매우 높음 | 높음 | △ (향후) |
 
 **결정**: 초기에는 Active-Standby로 시작, 트래픽 증가 시 Active-Active 전환

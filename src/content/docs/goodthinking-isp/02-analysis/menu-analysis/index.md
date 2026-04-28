@@ -7,13 +7,13 @@ description: 현행 CS 시스템(Tobesoft) 전체 메뉴의 부서별 사용 현
 
 현행 CS 시스템(Tobesoft 기반)의 **5개 대분류, 109개 메뉴**에 대해 4개 부서의 실제 사용 현황을 교차 분석하고, 웹 전환 시 **존치·통합·폐기** 판정의 근거 자료를 제공합니다.
 
-:::note[데이터 출처]
-본 분석은 아래 인터뷰 결과를 기반으로 작성되었습니다:
-- [정기구독팀 인터뷰 — 안건 3](/goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/#안건-3-cs-시스템-메뉴-사용-현황-확인): 5개 대분류 92개 메뉴 전수 조사
-- [영업추진팀 인터뷰 — 안건 5](/goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/#안건-5-cs-시스템-메뉴-사용-현황): 영업관리 16개 + 관리자업무 1개
-- [콜센터 인터뷰](/goodthinking-isp/02-analysis/meeting-notes/call-center-interview/): 구독접수 메뉴 범위 확인
-- [경영지원팀 인터뷰](/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/): 매출·정산 관련 메뉴 일부 확인
-:::
+> **[참고]** 데이터 출처
+>
+> 본 분석은 아래 인터뷰 결과를 기반으로 작성되었습니다:
+> - [정기구독팀 인터뷰 — 안건 3](/goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/#안건-3-cs-시스템-메뉴-사용-현황-확인): 5개 대분류 92개 메뉴 전수 조사
+> - [영업추진팀 인터뷰 — 안건 5](/goodthinking-isp/02-analysis/meeting-notes/sales-team-interview/#안건-5-cs-시스템-메뉴-사용-현황): 영업관리 16개 + 관리자업무 1개
+> - [콜센터 인터뷰](/goodthinking-isp/02-analysis/meeting-notes/call-center-interview/): 구독접수 메뉴 범위 확인
+> - [경영지원팀 인터뷰](/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/): 매출·정산 관련 메뉴 일부 확인
 
 ---
 
@@ -41,9 +41,9 @@ description: 현행 CS 시스템(Tobesoft) 전체 메뉴의 부서별 사용 현
 | 영업관리 | 17 | 2 | 0 | 15 | 0 |
 | **합계** | **109** | **42** | **7** | **58** | **2** |
 
-:::caution[판정 기준]
-- **존치**: 1개 부서 이상에서 정기적으로 사용 중인 메뉴
-- **통합**: 유사 기능이 다른 메뉴에서 중복 제공되어 하나로 합칠 수 있는 메뉴
-- **폐기 후보**: 모든 부서에서 미사용이거나, 사업 종료 등으로 더 이상 필요 없는 메뉴
-- **미확정**: 정기구독팀 실무자 외 관리자 레벨에서 사용 여부 추가 확인 필요
-:::
+> **[주의]** 판정 기준
+>
+> - **존치**: 1개 부서 이상에서 정기적으로 사용 중인 메뉴
+> - **통합**: 유사 기능이 다른 메뉴에서 중복 제공되어 하나로 합칠 수 있는 메뉴
+> - **폐기 후보**: 모든 부서에서 미사용이거나, 사업 종료 등으로 더 이상 필요 없는 메뉴
+> - **미확정**: 정기구독팀 실무자 외 관리자 레벨에서 사용 여부 추가 확인 필요

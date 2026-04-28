@@ -15,13 +15,13 @@ description: 데이터 이관 및 시스템 전환 전략
 
 | 구분 | 원본 | 주요 테이블 | 대상 | 데이터량 (추정) |
 |------|------|-----------|------|----------------|
-| 고객 데이터 | C/S MSSQL (사내) | PT_Customer (48 cols), PT_Company (49 cols) | 통합 DB (클라우드) | __만 건 (VPN 접근 후 확인) |
-| 구독 데이터 | C/S MSSQL (사내) | PT_Subscribe (20 cols), PT_Receiver (43 cols), PT_Giro | 통합 DB (클라우드) | __만 건 |
-| 결제/재무 | C/S MSSQL (사내) | PT_Finance (22 cols), PT_Deposit, PT_DEFERINCOME_* | 통합 DB (클라우드) | __만 건 |
-| 상품/재고 | C/S MSSQL (사내) | PT_Book (30 cols), PT_BookPrice, PT_Stock | 통합 DB (클라우드) | __만 건 |
-| CS 이력 | C/S MSSQL (사내) | PT_Councel_History, PT_SendHistory | 통합 DB (클라우드) | __만 건 |
-| 홈페이지 주문 | AWS MSSQL | PTM_Orders, PTM_Order_Items, PTM_Regular_Orders (63t) | 통합 DB (클라우드) | __만 건 |
-| CMS 콘텐츠 | AWS MSSQL | ptcms_contents (33 cols), ptcms_writer, ptcms_books (13t) | 통합 DB (클라우드) | __만 건 |
+| 고객 데이터 | C/S MSSQL (사내) | PT_Customer (48 cols), PT_Company (49 cols) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 구독 데이터 | C/S MSSQL (사내) | PT_Subscribe (20 cols), PT_Receiver (43 cols), PT_Giro | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 결제/재무 | C/S MSSQL (사내) | PT_Finance (22 cols), PT_Deposit, PT_DEFERINCOME_* | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 상품/재고 | C/S MSSQL (사내) | PT_Book (30 cols), PT_BookPrice, PT_Stock | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| CS 이력 | C/S MSSQL (사내) | PT_Councel_History, PT_SendHistory | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 홈페이지 주문 | AWS MSSQL | PTM_Orders, PTM_Order_Items, PTM_Regular_Orders (63t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| CMS 콘텐츠 | AWS MSSQL | ptcms_contents (33 cols), ptcms_writer, ptcms_books (13t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
 | SP/Trigger 로직 | C/S MSSQL (사내) | 20 SPs + 14 Functions + 15 Triggers | 애플리케이션 코드로 전환 | 49개 객체 |
 
 ### 이관 전략
