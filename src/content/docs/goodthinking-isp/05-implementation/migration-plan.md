@@ -146,20 +146,28 @@ def map_customer_type(code):
 ### 3. Load (적재)
 
 ```sql
--- TO-BE 통합 DB에 데이터 적재 (PostgreSQL 예시)
-INSERT INTO customers (
-    customer_code, name, phone, mobile, email, 
+-- TO-BE 통합 DB에 데이터 적재 (AWS RDS MSSQL)
+MERGE INTO customers AS target
+USING (VALUES (@customer_code, @name, @phone, @mobile, @email, 
+               @customer_type, @is_subscriber, @created_at))
+    AS source (customer_code, name, phone, mobile, email, 
+               customer_type, is_subscriber, created_at)
+ON target.customer_code = source.customer_code
+WHEN MATCHED THEN UPDATE SET
+    target.name = source.name,
+    target.phone = source.phone,
+    target.mobile = source.mobile,
+    target.email = source.email,
+    target.customer_type = source.customer_type,
+    target.is_subscriber = source.is_subscriber,
+    target.updated_at = GETDATE()
+WHEN NOT MATCHED THEN INSERT (
+    customer_code, name, phone, mobile, email,
     customer_type, is_subscriber, created_at
-)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-ON CONFLICT (customer_code) DO UPDATE SET
-    name = EXCLUDED.name,
-    phone = EXCLUDED.phone,
-    mobile = EXCLUDED.mobile,
-    email = EXCLUDED.email,
-    customer_type = EXCLUDED.customer_type,
-    is_subscriber = EXCLUDED.is_subscriber,
-    updated_at = NOW();
+) VALUES (
+    source.customer_code, source.name, source.phone, source.mobile, source.email,
+    source.customer_type, source.is_subscriber, source.created_at
+);
 ```
 
 ---
@@ -183,10 +191,10 @@ SELECT COUNT(*) AS cnt, SUM(Finance_AMT) AS total_amt
 FROM PT_Finance 
 WHERE YEAR(Finance_DT) = 2024 AND Finance_Type IN ('입금','카드');
 
--- TO-BE (통합 DB)
+-- TO-BE (통합 DB — AWS RDS MSSQL)
 SELECT COUNT(*) AS cnt, SUM(amount) AS total_amt 
 FROM payments 
-WHERE EXTRACT(YEAR FROM payment_date) = 2024 
+WHERE YEAR(payment_date) = 2024 
   AND payment_type IN ('deposit', 'card');
 ```
 
