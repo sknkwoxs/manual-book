@@ -138,7 +138,7 @@ style: |
 
   h4 {
     color: #2f3945;
-    font-size: 15px;
+    font-size: 16px;
     margin: 8px 0 6px;
     font-weight: 700;
     line-height: 1.4;
@@ -226,10 +226,48 @@ style: |
 
   table {
     font-size: 14px;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
     margin: 0 0 16px;
     border: none;
+  }
+
+  th:first-child {
+    border-top-left-radius: 12px;
+  }
+  th:last-child {
+    border-top-right-radius: 12px;
+  }
+  tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+  }
+  tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+  }
+
+  section.bottleneck-slide {
+    justify-content: flex-start !important;
+  }
+  section.bottleneck-slide .diagram-wrap {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    overflow: hidden;
+  }
+  section.bottleneck-slide .diagram-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  section.bottleneck-slide .twocol {
+    flex-shrink: 0 !important;
+  }
+  section.bottleneck-slide .twocol h3 {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+  section.bottleneck-slide .twocol ol {
+    margin-top: 0;
   }
 
   table.table-center {
@@ -438,7 +476,10 @@ style: |
     margin-right: auto;
   }
 
-  /* twocol 안의 diagram-wrap: max-width 해제, 높이 제한 */
+  /* twocol 오른쪽에 이미지가 있는 경우 중앙 정렬 */
+  .twocol > div:last-child > .diagram-wrap {
+    margin: auto;
+  }
   .twocol .diagram-wrap {
     max-width: none;
     display: flex;
@@ -616,25 +657,23 @@ style: |
   .toc-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px 20px;
-    margin-top: 10px;
+    gap: 10px 48px;
+    margin-top: 20px;
   }
 
   .toc-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    background: #ffffff;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .toc-num {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 999px;
-    background: #000000;
+    background: var(--fg);
     color: #ffffff;
     display: inline-flex;
     align-items: center;
@@ -646,7 +685,7 @@ style: |
 
   .toc-text {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     color: var(--fg);
   }
@@ -778,7 +817,7 @@ style: |
 <!-- _class: lead -->
 <!-- _paginate: false -->
 <div class="cover-project">좋은생각 CS 시스템 웹 전환 ISP</div>
-<div class="cover-layout"><div class="cover-left"><img src="../public/skunkworks-logo.png" alt="Skunkworks Studio" class="cover-logo" /><div class="kicker">GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION</div><div class="cover-h1">좋은생각 CS 시스템<br>웹 전환 ISP</div><div class="cover-sub">현행 시스템 분석 및 CS 중심 목표 모델 제안</div></div><div class="cover-right"><div class="cover-tagline">좋은생각의 디지털 전환은<br>"모든 시스템의 동시 통합"이 아니라,<br><strong>운영 병목이 가장 큰 CS 시스템부터<br>우선 개선하는 전략</strong>에서 시작해야 합니다.</div><div class="cover-rule-h"></div><div class="cover-meta">수행 · 스컹크웍스스튜디오<br>기간 · 2026.03 ~ 2026.05<br>대상 · 좋은생각사람들</div></div></div>
+<div class="cover-layout"><div class="cover-left"><img src="../../../../../public/skunkworks-logo.png" alt="Skunkworks Studio" class="cover-logo" /><div class="kicker">GOODTHINKING ISP / CS SYSTEM WEB TRANSFORMATION</div><div class="cover-h1">좋은생각 CS 시스템<br>웹 전환 ISP</div><div class="cover-sub">현행 시스템 분석 및 CS 중심 목표 모델 제안</div></div><div class="cover-right"><div class="cover-tagline">좋은생각의 디지털 전환은<br>"모든 시스템의 동시 통합"이 아니라,<br><strong>운영 병목이 가장 큰 CS 시스템부터<br>우선 개선하는 전략</strong>에서 시작해야 합니다.</div><div class="cover-rule-h"></div><div class="cover-meta">수행 · 스컹크웍스스튜디오<br>기간 · 2026.03 ~ 2026.05<br>대상 · 좋은생각사람들</div></div></div>
 
 ---
 
@@ -867,7 +906,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 현재는 시스템이 연결된 구조가 아니라, **사람이 시스템 사이를 연결하는 구조**입니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start;">
 <div>
 
 ### 현행 시스템 구성
@@ -885,11 +924,15 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 </div>
 <div>
 
-<div class="diagram-wrap">
+<div style="display:flex; align-items:center; justify-content:center; height:100%;">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-current-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<div class="diagram-wrap" style="padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: none;">
+
+<img src="./diagrams/goodthinking-current-system.png" alt="현행 시스템 구조" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">현행 시스템 연결 구조 / 수동 연결 지점 표시</div>
+
+</div>
 
 </div>
 
@@ -902,7 +945,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 인터뷰를 통해 확인된 공통 요구는 "더 많은 기능"보다 **덜 끊기는 업무 흐름**이었습니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start;">
 <div>
 
 ### 인터뷰 대상
@@ -923,7 +966,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-interview-insights.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-interview-illustration.png" alt="인터뷰 일러스트" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">부서 인터뷰 결과가 공통 문제군으로 수렴되는 구조</div>
 
@@ -956,7 +999,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 병목은 특정 기능 하나가 아니라, **입력-조회-처리-후속관리 전체 흐름에 걸쳐 누적**되어 있습니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start; font-size: 14px;">
 <div>
 
 ### 핵심 병목
@@ -966,24 +1009,26 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 4. 정산/리포트/후속 처리를 위한 별도 수기 작업 반복
 5. 자주 쓰는 메뉴가 분산되어 있어 업무 흐름이 끊김
 
+<div style="margin-top: 24px;"></div>
+
+### 해결방안 요약
+1. **웹 전환** — 로컬 C/S → 웹 기반 전환
+2. **템플릿 기능 도입** — 업·다운로드 표준화
+3. **단계적 전략** — CS 우선, 어드민/CMS 2단계
+
 </div>
 <div>
 
-<div class="diagram-wrap">
+<div class="diagram-wrap" style="border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-bottlenecks.svg" alt="diagram" style="display:block;max-width:100%;max-height:480px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-bottleneck-illustration.png" alt="병목현상 일러스트" style="display:block;max-width:100%;max-height:480px;margin:0 auto;object-fit:contain;" />
 
-<div class="diagram-caption">주문 수집부터 후속 처리까지 이어지는 병목 흐름</div>
-
-</div>
+<div class="diagram-caption">주문에서 처리까지의 비효율적 업무 흐름</div>
 
 </div>
-</div>
 
-### 해결방안 요약
-1. **웹 전환** — 로컬 C/S 구조를 웹 기반으로 전환하여 접근성·확장성 확보
-2. **템플릿 시스템** — 업·다운로드 표준화로 엑셀 수작업·외부 양식 재가공 해소
-3. **단계적 전략** — CS 시스템 우선 개선 후, 어드민/CMS는 2단계로 분리 추진
+</div>
+</div>
 
 ---
 
@@ -1002,7 +1047,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 
 ### 왜 필요한가
-현재 C/S 구조(로컬 설치 기반)는 부분 보완으로 해결할 수 있는 단계를 넘었습니다.
+현재 로컬 설치 기반 C/S 구조는 부분 보완으로 해결할 수 있는 단계를 넘었습니다.
 웹 전환을 통해 향후 데이터 통합, 자동화, 권한 관리, 화면 재구성의 기반을 <br>만들 수 있습니다.
 
 </div>
@@ -1010,9 +1055,9 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-web-transition.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-web-transition.png" alt="웹 전환 일러스트" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
-<div class="diagram-caption">웹 전환 이후 확보되는 운영 기반</div>
+<div class="diagram-caption">웹 전환의 핵심 운영 기반</div>
 
 </div>
 
@@ -1025,7 +1070,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 사람마다 엑셀을 다시 맞추는 방식에서, **시스템이 필요한 서식을 만들어주는 방식**으로 전환해야 합니다.
 
-<div class="twocol">
+<div class="twocol" style="align-items: start;">
 <div>
 
 ### 필요 배경
@@ -1043,13 +1088,13 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 <!-- TODO: (이미지 보안) 템플릿 저장 기능에 대한 예시 이미지가 필요합니다 -->
 
 </div>
-<div>
+<div style="display:flex; align-items:center; justify-content:center; height:100%;">
 
-<div class="diagram-wrap">
+<div class="diagram-wrap" style="padding: 28px; width: 100%; height: 100%; display:flex; flex-direction:column; align-items:center; justify-content:center;">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-template-system.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-template-system.png" alt="템플릿 시스템 일러스트" style="display:block;max-width:100%;max-height:100%;margin:0 auto;object-fit:contain;" />
 
-<div class="diagram-caption">하나의 CS 데이터에서 다양한 외부 서식으로 분기</div>
+<div class="diagram-caption" style="margin-top: 20px;">하나의 CS 데이터에서 다양한 외부 서식으로 분기</div>
 
 </div>
 
@@ -1062,7 +1107,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 > 이번 분석을 통해 **CS 시스템과 어드민&CMS를 한 번에 통합하는 것은 현실적으로 어렵다**는 점을 확인하였습니다.
 
-<div class="twocol" style="align-items: center;">
+<div class="twocol" style="align-items: start;">
 <div>
 
 ### 이유
@@ -1070,7 +1115,8 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
   - CS 시스템: 고객 생애주기 전반을 관리하는 운영 시스템
   (가입→구독→결제→발송→상담→해지)
   - 어드민&CMS: 원고 생애주기 전반을 관리하는 콘텐츠 운영 시스템
-  (수집→편집→검수→채택→게시, 이 두 시스템은 향후 통합하는 것을 제안)
+  (수집→편집→검수→승인→게시)
+  <span style="margin-left:0.15em;">※ 어드민과 CMS는 향후 하나의 시스템으로 통합을 제안</span>
 
 ### CS 시스템 주요 개선 방향
 - 통합 회원 조회 및 중복 식별 기능
@@ -1082,13 +1128,13 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 - 예외 건 관리 기능 보강
 
 </div>
-<div>
+<div style="display:flex; align-items:center; justify-content:center;">
 
-<div class="diagram-wrap">
+<div class="diagram-wrap" style="padding: 28px; width: 100%; display:flex; flex-direction:column; align-items:center; justify-content:center;">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-phased-strategy.svg" alt="diagram" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-phased-strategy.png" alt="단계적 전략 일러스트" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
-<div class="diagram-caption">1단계와 2단계의 역할 분리 및 추진 방향</div>
+<div class="diagram-caption" style="margin-top: 4px;">1단계와 2단계의 역할 분리 및 추진 방향</div>
 
 </div>
 
@@ -1105,6 +1151,8 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 <div>
 
 ### 분석 결과 요약
+
+<div style="margin-top: 16px;"></div>
 
 | 대분류 | 메뉴 수 | 존치 | 통합 | 폐기 후보 | 미확정 |
 |--------|:-------:|:----:|:----:|:---------:|:------:|
@@ -1142,14 +1190,14 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 <div class="twocol" style="align-items: start; line-height: 1.9;">
 <div>
 
-<h4 style="margin-top:0;">1) 회원 관리</h4>
+<h3 style="margin-top:0;">1) 회원 관리</h3>
 
 - 통합 회원 조회
 - 중복 회원 식별 및 계정 통폐합
 - 회원정보 수정 이력 확인
 - 권한별 고객정보 노출 제어
 
-<h4 style="margin-top:18px;">2) 주문/구독 관리</h4>
+<h3 style="margin-top:18px;">2) 주문/구독 관리</h3>
 
 - 주문 및 구독 현황 통합 조회
 - 상태 변경 및 이력 관리
@@ -1159,19 +1207,19 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 </div>
 <div>
 
-<h4 style="margin-top:0;">3) 상담/이력 관리</h4>
+<h3 style="margin-top:0;">3) 상담/이력 관리</h3>
 
 - 상담 이력 통합 기록
 - 고객 상세 화면에서 전체 이력 확인
 - 처리 상태 및 후속 조치 관리
 
-<h4 style="margin-top:18px;">4) 데이터 활용 기능</h4>
+<h3 style="margin-top:18px;">4) 데이터 활용 기능</h3>
 
 - 업로드/다운로드 템플릿
 - 자주 쓰는 양식 저장
 - 외부 시스템 양식 대응
 
-<h4 style="margin-top:18px;">5) 인터뷰간 도출된 요건</h4>
+<h3 style="margin-top:18px;">5) 인터뷰간 도출된 요건</h3>
 
 - 개인정보 자동 파기
 - 엑셀 양식 표준화
@@ -1191,13 +1239,13 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 <div class="twocol" style="align-items: start;">
 <div>
 
-#### 고객 360도 화면
+### 고객 360도 화면
 - 기본 회원정보 · 구독 · 결제 · 발송 · 상담 이력 통합
 
-#### 자주 쓰는 기능 우선 배치
+### 자주 쓰는 기능 우선 배치
 - 회원 조회 · 구독 처리 · 발송 확인 · 상담 등록 · 템플릿 추출
 
-#### 검색 UX 개선
+### 검색 UX 개선
 - 이름, 연락처, 주소, 최근 회원번호 기준 검색
 - 동일인 관련 정보 묶음 조회
 - 최근 사용 데이터 우선 노출
@@ -1207,7 +1255,7 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 
 <div class="diagram-wrap">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-ux-wireframe.svg" alt="UX wireframe" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-ux-wireframe.svg" alt="UX wireframe" style="display:block;max-width:100%;max-height:380px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">고객 360도 화면 기반 UX 구조 예시</div>
 
@@ -1225,24 +1273,28 @@ CS 시스템을 우선 웹 전환하고, 템플릿·통합조회·권한관리�
 <div class="twocol" style="align-items: start;">
 <div>
 
-#### 1단계
-- CS 시스템 목표 모델 확정
-- 핵심 기능 우선순위 정리
-- 메뉴 재구성 및 UX 설계
-- 이행 계획 및 RFP 구체화
+### 1단계 — CS 시스템 웹 전환
+- 통합 회원 조회 · 중복 식별 · 계정 통폐합
+- 고객 360도 화면 (회원·구독·결제·상담 통합)
+- 주문/구독 상태 변경 및 이력 관리
+- 상담 이력 통합 기록 · 후속 조치 관리
+- 업·다운로드 템플릿 및 양식 표준화
+- 권한 세분화 및 접속 이력 관리
+- 메뉴 재구성 (109→42+7) 및 UX 설계
 
-<h4 style="margin-top:24px;">2단계</h4>
+<h3 style="margin-top:24px;">2단계 — 어드민/CMS 고도화</h3>
 
-- 어드민/CMS 고도화 검토
-- 콘텐츠 운영 및 편집 기능 구조 개선
-- 필요한 범위 내 연계 강화
+- 콘텐츠 편집·검수·승인·게시 워크플로우 구축
+- 어드민 권한 체계 재설계
+- CS↔어드민↔CMS 데이터 연계 강화
+- AI 기반 확장 기반 마련 (자동 분류, 추천 등)
 
 </div>
 <div>
 
 <div class="diagram-wrap">
 
-<img src="../src/content/docs/goodthinking-isp/00-clinet_document/diagrams/goodthinking-roadmap.svg" alt="단계별 로드맵" style="display:block;max-width:88%;max-height:360px;margin:0 auto;object-fit:contain;" />
+<img src="./diagrams/goodthinking-roadmap.svg" alt="단계별 로드맵" style="display:block;max-width:100%;max-height:400px;margin:0 auto;object-fit:contain;" />
 
 <div class="diagram-caption">CS 중심 추진 이후 어드민/CMS 고도화로 이어지는 단계별 로드맵</div>
 
