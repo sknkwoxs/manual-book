@@ -15,13 +15,13 @@ description: 데이터 이관 및 시스템 전환 전략
 
 | 구분 | 원본 | 주요 테이블 | 대상 | 데이터량 (추정) |
 |------|------|-----------|------|----------------|
-| 고객 데이터 | C/S MSSQL (사내) | PT_Customer (48 cols), PT_Company (49 cols) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 구독 데이터 | C/S MSSQL (사내) | PT_Subscribe (20 cols), PT_Receiver (43 cols), PT_Giro | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 결제/재무 | C/S MSSQL (사내) | PT_Finance (22 cols), PT_Deposit, PT_DEFERINCOME_* | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 상품/재고 | C/S MSSQL (사내) | PT_Book (30 cols), PT_BookPrice, PT_Stock | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| CS 이력 | C/S MSSQL (사내) | PT_Councel_History, PT_SendHistory | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| 홈페이지 주문 | AWS MSSQL | PTM_Orders, PTM_Order_Items, PTM_Regular_Orders (63t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
-| CMS 콘텐츠 | AWS MSSQL | ptcms_contents (33 cols), ptcms_writer, ptcms_books (13t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 고객 데이터 | C/S MSSQL (사내) | `PT_Customer` (48 cols), `PT_Company` (49 cols) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 구독 데이터 | C/S MSSQL (사내) | `PT_Subscribe` (20 cols), `PT_Receiver` (43 cols), `PT_Giro` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 결제/재무 | C/S MSSQL (사내) | `PT_Finance` (22 cols), `PT_Deposit`, `PT_DEFERINCOME_*` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 상품/재고 | C/S MSSQL (사내) | `PT_Book` (30 cols), `PT_BookPrice`, `PT_Stock` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| CS 이력 | C/S MSSQL (사내) | `PT_Councel_History`, `PT_SendHistory` | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| 홈페이지 주문 | AWS MSSQL | `PTM_Orders`, `PTM_Order_Items`, `PTM_Regular_Orders` (63t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
+| CMS 콘텐츠 | AWS MSSQL | `ptcms_contents` (33 cols), `ptcms_writer`, `ptcms_books` (13t) | 통합 DB (클라우드) | TBD(VPN 접근 후 확인) |
 | SP/Trigger 로직 | C/S MSSQL (사내) | 20 SPs + 14 Functions + 15 Triggers | 애플리케이션 코드로 전환 | 49개 객체 |
 
 ### 이관 전략
@@ -65,23 +65,23 @@ graph TD
 
 | AS-IS (MSSQL) | TO-BE (통합 DB) | 변환 규칙 |
 |---------------|-------------------|----------|
-| PT_Customer (48 cols) | customers | Customer_ID(decimal13)→customer_code, 연락처 정규화, 이름 공백제거 |
-| PT_Subscribe (20 cols) | subscriptions | Customer_ID+Subscribe_SN 복합키 → 단일 PK, 상태코드 표준화 |
-| PT_Receiver (43 cols) | delivery_addresses + order_items | 받는사람 정보 분리: 배송지 + 주문항목 |
-| PT_Finance (22 cols) | payments | Finance_Type별 입금/환불 분리, 나이스페이 코드 매핑 |
-| PT_Company (49 cols) | partners | Company_CD→partner_code |
-| PT_Book + PT_BookPrice | products | 도서+가격 통합, Book_SQ→product_code |
-| PT_Stock + PT_GiftStock | inventory | 일반재고+선물재고 통합 |
-| PT_Councel_History | cs_tickets + cs_histories | 상담이력 → 티켓+처리이력 분리 |
-| PT_Giro | payment_giro | 지로 결제 정보 이관 |
-| PT_GiftSend | gift_orders | 선물발송 → 선물주문 |
-| PT_DEFERINCOME_INFO/MST/STAT | deferred_revenues | 선수수익 3테이블 통합 |
-| PTM_Products + PTM_ProductOptions | products (병합) | 홈페이지 상품 → C/S 도서와 통합 상품 테이블 |
-| PTM_Orders + PTM_Order_Items | orders + order_items | 홈페이지 주문 이관 |
-| PTM_Regular_Orders + PTM_Regulars | subscriptions (병합) | 웹 정기구독 → C/S 구독과 통합 |
-| PTM_Coupons + PTM_Coupon_* | coupons + coupon_histories | 쿠폰 통합 |
-| ptcms_contents + ptcms_writer | cms_contents + cms_writers | CMS 콘텐츠 이관 (33 cols 정리) |
-| ptcms_books | products (카테고리 병합) | CMS 도서 → 상품 통합 |
+| `PT_Customer` (48 cols) | customers | Customer_ID(decimal13)→customer_code, 연락처 정규화, 이름 공백제거 |
+| `PT_Subscribe` (20 cols) | subscriptions | Customer_ID+Subscribe_SN 복합키 → 단일 PK, 상태코드 표준화 |
+| `PT_Receiver` (43 cols) | delivery_addresses + order_items | 받는사람 정보 분리: 배송지 + 주문항목 |
+| `PT_Finance` (22 cols) | payments | Finance_Type별 입금/환불 분리, 나이스페이 코드 매핑 |
+| `PT_Company` (49 cols) | partners | Company_CD→partner_code |
+| `PT_Book` + `PT_BookPrice` | products | 도서+가격 통합, Book_SQ→product_code |
+| `PT_Stock` + `PT_GiftStock` | inventory | 일반재고+선물재고 통합 |
+| `PT_Councel_History` | cs_tickets + cs_histories | 상담이력 → 티켓+처리이력 분리 |
+| `PT_Giro` | payment_giro | 지로 결제 정보 이관 |
+| `PT_GiftSend` | gift_orders | 선물발송 → 선물주문 |
+| `PT_DEFERINCOME_INFO`/`MST`/`STAT` | deferred_revenues | 선수수익 3테이블 통합 |
+| `PTM_Products` + `PTM_ProductOptions` | products (병합) | 홈페이지 상품 → C/S 도서와 통합 상품 테이블 |
+| `PTM_Orders` + `PTM_Order_Items` | orders + order_items | 홈페이지 주문 이관 |
+| `PTM_Regular_Orders` + `PTM_Regulars` | subscriptions (병합) | 웹 정기구독 → C/S 구독과 통합 |
+| `PTM_Coupons` + `PTM_Coupon_*` | coupons + coupon_histories | 쿠폰 통합 |
+| `ptcms_contents` + `ptcms_writer` | cms_contents + cms_writers | CMS 콘텐츠 이관 (33 cols 정리) |
+| `ptcms_books` | products (카테고리 병합) | CMS 도서 → 상품 통합 |
 
 ### 필드 매핑 예시
 
@@ -277,4 +277,4 @@ flowchart LR
 |------|--------|----------|
 | 2026-02-26 | - | 초안 작성 (템플릿) |
 | 2026-03-03 | 김명직 | 이관 대상 8건 상세화, 테이블 매핑 17건, 필드 매핑 7건 추가 |
-| 2026-03-03 | 김명직 | ETL 예시 실제 PT_Customer 필드명으로 수정, 검증 SQL 보강 |
+| 2026-03-03 | 김명직 | ETL 예시 실제 `PT_Customer` 필드명으로 수정, 검증 SQL 보강 |

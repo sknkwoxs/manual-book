@@ -44,7 +44,7 @@ flowchart LR
             direction TB
             ERP["위하고 ERP"]
             CMS["CMS"]
-            HP_ADMIN["홈페이지 Admin"]
+            HP_ADMIN["홈페이지 어드민"]
             NAS["NAS"]
         end
         subgraph SYS_EXT["🌐 외부 연동"]
@@ -296,7 +296,7 @@ flowchart LR
 flowchart TB
     subgraph SYS_LEGACY["🏠 현행 유지"]
         direction LR
-        HP_ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"]
+        HP_ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
         CMS["CMS<br/><small>발행 아카이브·검색</small>"]
         NAS["NAS<br/><small>원고·이미지 저장</small>"]
         HP_ADMIN -->|"발행"| CMS
@@ -425,7 +425,7 @@ flowchart TB
     subgraph LEGACY["🏠 현행 유지"]
         direction LR
         ERP["위하고 ERP"]
-        HP_ADMIN["홈페이지 Admin"]
+        HP_ADMIN["홈페이지 어드민"]
         CMS["CMS"]
         NAS["NAS"]
     end

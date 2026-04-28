@@ -42,33 +42,33 @@ description: One-Stop 자동화 프로세스 설계
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화/간소화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
-| ① 구독 접수 | 전화/웹 수동 입력 (CS System) | 웹 접수 자동 등록 | 80% | PT_Customer, PT_Subscribe |
-| ② 결제 확인 | 나이스페이 PG + 지로 수동 확인 | PG Webhook 자동 매칭 + 지로 Excel 업로드 파싱 | 90% | PT_Finance, PT_NicepayCreditcardIncome |
-| ③ 발송 처리 | CS System SP 호출 (반자동) | 자동 발송 스케줄링 | 90% | sp_PT_SendBookData, PT_RegularSend_Info |
-| ④ 배송 관리 | 우체국/CJ 수동 연동 | 택배사 API 자동 연동 | 95% | PT_SendHistory |
-| ⑤ CS 처리 | CS System + CTI 수동 | 웹 기반 통합 CS | 50% | PT_Councel_History |
+| ① 구독 접수 | 전화/웹 수동 입력 (CS System) | 웹 접수 자동 등록 | 80% | `PT_Customer`, `PT_Subscribe` |
+| ② 결제 확인 | 나이스페이 PG + 지로 수동 확인 | PG Webhook 자동 매칭 + 지로 Excel 업로드 파싱 | 90% | `PT_Finance`, `PT_NicepayCreditcardIncome` |
+| ③ 발송 처리 | CS System SP 호출 (반자동) | 자동 발송 스케줄링 | 90% | `sp_PT_SendBookData`, `PT_RegularSend_Info` |
+| ④ 배송 관리 | 우체국/CJ 수동 연동 | 택배사 API 자동 연동 | 95% | `PT_SendHistory` |
+| ⑤ CS 처리 | CS System + CTI 수동 | 웹 기반 통합 CS | 50% | `PT_Councel_History` |
 
 #### 영업추진팀 (이성수, 권지은) — 7단계 중 5단계 자동화/간소화
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화/간소화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
 | ① 주문 수집 | Playauto → Excel 다운로드 | Playauto API 자동 수집 (현행 경유 유지) + Excel 업로드 | 90% | (신규) 통합 주문 테이블 |
-| ② 주문 확인 | Excel 수동 확인 (다중 채널) | 자동 검증 + 대시보드 | 90% | PTM_Orders, PTM_Order_Items |
-| ③ 결제 처리 | 나이스페이 PG 수동 확인 | PG Webhook 자동 | 95% | PT_Finance, PTM_PaymentLogs |
-| ④ 재고 확인 | CS System 수동 조회 | 실시간 재고 연동 | 95% | PT_Stock, PT_Stock_History |
-| ⑤ 발송 지시 | CS System 반자동 | 자동 발송 처리 | 90% | sp_PT_SendBookData |
-| ⑥ 배송 관리 | CJ대한통운 수동 추적 | API 자동 추적 | **100%** | PTM_ShippingInfos |
-| ⑦ CS/환불 | CS System + 나이스페이 수동 | 웹 기반 원클릭 환불 | 70% | sp_PT_FinanceRefund, PT_RefundRequest |
+| ② 주문 확인 | Excel 수동 확인 (다중 채널) | 자동 검증 + 대시보드 | 90% | `PTM_Orders`, `PTM_Order_Items` |
+| ③ 결제 처리 | 나이스페이 PG 수동 확인 | PG Webhook 자동 | 95% | `PT_Finance`, `PTM_PaymentLogs` |
+| ④ 재고 확인 | CS System 수동 조회 | 실시간 재고 연동 | 95% | `PT_Stock`, `PT_Stock_History` |
+| ⑤ 발송 지시 | CS System 반자동 | 자동 발송 처리 | 90% | `sp_PT_SendBookData` |
+| ⑥ 배송 관리 | CJ대한통운 수동 추적 | API 자동 추적 | **100%** | `PTM_ShippingInfos` |
+| ⑦ CS/환불 | CS System + 나이스페이 수동 | 웹 기반 원클릭 환불 | 70% | `sp_PT_FinanceRefund`, `PT_RefundRequest` |
 
 #### 경영지원팀 (송윤경, 김나현) — 5단계 중 3단계 자동화
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
 | ① 매출 관리 | CS System → Excel 수동 취합 | 통합 대시보드 자동 집계 | **100%** | func_dailySendCount/Amount |
-| ② 정산 처리 | Excel + 나이스페이 수동 | 자동 정산 리포트 | 90% | PT_DEFERINCOME_*, PT_SettlementMethod |
-| ③ 세금계산서 | 위하고(WEHAGO) ERP 이중 입력 | 위하고 업로드용 Excel 자동 생성 | 70% | PT_Tax_invoice |
+| ② 정산 처리 | Excel + 나이스페이 수동 | 자동 정산 리포트 | 90% | `PT_DEFERINCOME_*`, `PT_SettlementMethod` |
+| ③ 세금계산서 | 위하고(WEHAGO) ERP 이중 입력 | 위하고 업로드용 Excel 자동 생성 | 70% | `PT_Tax_invoice` |
 | ④ 기안/결재 | 위하고(WEHAGO) ERP 수동 | 위하고(WEHAGO) ERP (현행 유지) | - | (외부 시스템) |
-| ⑤ 월결산 | 위하고 + Excel 수동 | 자동 결산 리포트 생성 | 70% | sp_PT_DeferIncomeCalc |
+| ⑤ 월결산 | 위하고 + Excel 수동 | 자동 결산 리포트 생성 | 70% | `sp_PT_DeferIncomeCalc` |
 
 #### 앵두아트프로젝트 — 7단계 중 3단계 자동화
 
@@ -76,11 +76,11 @@ description: One-Stop 자동화 프로세스 설계
 |:----:|-------------|-------------|:--------:|-------------|
 | ① 기획 | - | (업무 특성상 수동) | - | - |
 | ② 제작 | - | (업무 특성상 수동) | - | - |
-| ③ 재고 관리 | CS System 수동 등록 | 통합 재고 관리 | 80% | PT_Stock, PT_GiftStock |
-| ④ 판매 | 홈페이지 Admin + 외부몰 수동 등록 | 통합 상품 관리 + 외부몰 등록용 Excel 생성 | 60% | PTM_Products |
-| ⑤ 주문 처리 | Admin + Playauto 수동 | 자동 수집 + 통합 처리 | 90% | PTM_Orders |
-| ⑥ 배송 | CJ대한통운 수동 | API 자동 연동 | **100%** | PTM_ShippingInfos |
-| ⑦ 정산 | Excel + 위하고 수동 | 자동 정산 → 위하고 업로드용 Excel 생성 | 70% | PT_DEFERINCOME_* |
+| ③ 재고 관리 | CS System 수동 등록 | 통합 재고 관리 | 80% | `PT_Stock`, `PT_GiftStock` |
+| ④ 판매 | 홈페이지 어드민 + 외부몰 수동 등록 | 통합 상품 관리 + 외부몰 등록용 Excel 생성 | 60% | `PTM_Products` |
+| ⑤ 주문 처리 | Admin + Playauto 수동 | 자동 수집 + 통합 처리 | 90% | `PTM_Orders` |
+| ⑥ 배송 | CJ대한통운 수동 | API 자동 연동 | **100%** | `PTM_ShippingInfos` |
+| ⑦ 정산 | Excel + 위하고 수동 | 자동 정산 → 위하고 업로드용 Excel 생성 | 70% | `PT_DEFERINCOME_*` |
 
 ---
 
@@ -207,14 +207,14 @@ graph TD
 
 | 현행 로직 | 유형 | 현행 동작 | TO-BE 전환 방식 |
 |-----------|------|----------|----------------|
-| sp_PT_SubscribeCreate | SP | 구독 접수 처리 | API 엔드포인트 (POST /subscriptions) |
-| sp_PT_SubscribeCancel | SP | 구독 취소 | API 엔드포인트 (DELETE /subscriptions) |
-| sp_PT_FinanceCreate | SP | 입금 등록 | PG Webhook → 자동 Finance 생성 |
-| sp_PT_FinanceRefund | SP | 환불 처리 | API + PG 환불 API 연동 |
-| sp_PT_SendBookData | SP | 도서 발송 처리 | 스케줄러 기반 자동 발송 배치 |
-| sp_PT_NicepayProcess | SP | PG 결제 처리 | 나이스페이 Webhook 수신 → 자동 처리 |
-| sp_PT_CustomerMerge | SP | 고객 병합 | 관리자 UI + 중복 탐지 알고리즘 |
-| sp_PT_DeferIncomeCalc | SP | 선수수익 산출 | 월간 배치 + 자동 리포트 |
+| `sp_PT_SubscribeCreate` | SP | 구독 접수 처리 | API 엔드포인트 (POST /subscriptions) |
+| `sp_PT_SubscribeCancel` | SP | 구독 취소 | API 엔드포인트 (DELETE /subscriptions) |
+| `sp_PT_FinanceCreate` | SP | 입금 등록 | PG Webhook → 자동 Finance 생성 |
+| `sp_PT_FinanceRefund` | SP | 환불 처리 | API + PG 환불 API 연동 |
+| `sp_PT_SendBookData` | SP | 도서 발송 처리 | 스케줄러 기반 자동 발송 배치 |
+| `sp_PT_NicepayProcess` | SP | PG 결제 처리 | 나이스페이 Webhook 수신 → 자동 처리 |
+| `sp_PT_CustomerMerge` | SP | 고객 병합 | 관리자 UI + 중복 탐지 알고리즘 |
+| `sp_PT_DeferIncomeCalc` | SP | 선수수익 산출 | 월간 배치 + 자동 리포트 |
 | trg_Subscribe_Giro_* | Trigger (3) | 구독↔지로 자동 연동 | 이벤트 기반 처리 (구독 생성/변경/삭제 시) |
 | trg_GiftSend_Stock_* | Trigger (3) | 선물↔재고 자동 연동 | 이벤트 기반 재고 관리 |
 | trg_Finance_DeferIncome | Trigger | 입금→선수수익 반영 | 결제 이벤트 → 자동 선수수익 계산 |
@@ -226,14 +226,14 @@ graph TD
 
 | 트리거 이벤트 | 자동 실행 액션 | 관련 현행 객체 |
 |--------------|---------------|---------------|
-| 주문 생성 | 고객 매칭, 주문 등록 | sp_PT_SubscribeCreate |
-| 결제 완료 | 구독 생성, CMS 권한 대상 등록, 선수수익 반영 | sp_PT_FinanceCreate, trg_Finance_DeferIncome |
+| 주문 생성 | 고객 매칭, 주문 등록 | `sp_PT_SubscribeCreate` |
+| 결제 완료 | 구독 생성, CMS 권한 대상 등록, 선수수익 반영 | `sp_PT_FinanceCreate`, `trg_Finance_DeferIncome` |
 | 구독 만료 D-7 | 갱신 안내 알림 | (신규) |
 | 구독 만료 | CMS 권한 해제 대상 등록 | (신규) |
-| 배송 출고 | 송장 등록, 알림 발송 | sp_PT_SendBookData |
+| 배송 출고 | 송장 등록, 알림 발송 | `sp_PT_SendBookData` |
 | 배송 완료 | 상태 업데이트, 알림 | (신규) |
 | 선물 발송 | 선물 재고 차감 | trg_GiftSend_Stock_Insert |
-| 환불 처리 | 선수수익 역분개, 재고 복원 | sp_PT_FinanceRefund |
+| 환불 처리 | 선수수익 역분개, 재고 복원 | `sp_PT_FinanceRefund` |
 
 ### 스케줄 기반 자동화
 
@@ -302,7 +302,7 @@ graph TD
 
 ## 성과 지표 (KPI)
 
-> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 인터뷰/워크 쉐도잉 후 실측 데이터로 대체 필요.
+> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 인터뷰/워크쉐도잉 후 실측 데이터로 대체 필요.
 
 | 지표 | AS-IS (추정) | TO-BE 목표 | 개선율 | 근거 |
 |------|:------:|:---------:|:------:|------|

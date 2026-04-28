@@ -262,15 +262,15 @@ graph LR
 
 | AS-IS (On-Prem MSSQL + AWS MySQL) | TO-BE (AWS RDS for SQL Server 통합) | 변환 규칙 |
 |-----------------------------------|-------------------------------------|----------|
-| PT_Customer (On-Prem, 48컬럼) | customer | 컬럼 정리, 정규화 |
-| PT_Subscribe (On-Prem) | subscription | 구독 유형별 분리 |
-| PTM_Orders / PT_Finance (혼재) | order + payment | 주문-결제 분리 |
-| PT_Councel_History (On-Prem) | cs_ticket + cs_history | 티켓-이력 분리 |
-| PTM_ShippingInfos + PT_SendHistory | delivery | 배송 통합 |
-| PT_GiftStock + PT_Stock | gift + stock | 선물-재고 분리 |
+| `PT_Customer` (On-Prem, 48컬럼) | customer | 컬럼 정리, 정규화 |
+| `PT_Subscribe` (On-Prem) | subscription | 구독 유형별 분리 |
+| `PTM_Orders` / `PT_Finance` (혼재) | order + payment | 주문-결제 분리 |
+| `PT_Councel_History` (On-Prem) | cs_ticket + cs_history | 티켓-이력 분리 |
+| `PTM_ShippingInfos` + `PT_SendHistory` | delivery | 배송 통합 |
+| `PT_GiftStock` + `PT_Stock` | gift + stock | 선물-재고 분리 |
 | 홈페이지 DB (AWS MySQL 63t) | 통합 DB로 이관 | 고객 매칭 후 이관 |
 
-> **참고**: 좋은생각 CMS DB (ptcms_* 13t)는 원고 아카이브 전용으로, CS 통합 DB 이관 범위에 포함되지 않습니다. CMS 데이터 통합은 웹사이트 Admin과의 2단계 과제입니다.
+> **참고**: 좋은생각 CMS DB (ptcms_* 13t)는 원고 아카이브 전용으로, CS 통합 DB 이관 범위에 포함되지 않습니다. CMS 데이터 통합은 홈페이지 어드민과의 2단계 과제입니다.
 
 ### 중복 데이터 처리
 

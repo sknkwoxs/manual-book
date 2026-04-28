@@ -32,7 +32,7 @@ flowchart LR
             direction TB
             CS["CS System<br/><small>고객·구독 관리</small>"]
             ERP["위하고 ERP<br/><small>매출·재무</small>"]
-            ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"]
+            ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
             CMS["CMS<br/><small>발행 아카이브·검색</small>"]
             NAS["NAS<br/><small>원고·이미지</small>"]
         end
@@ -254,7 +254,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph SYS_INT["🏠 내부"]
-        ADMIN["홈페이지 Admin<br/><small>원고 수집·교정 배분</small>"]
+        ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
         CMS["CMS<br/><small>발행 아카이브·검색</small>"]
         NAS["NAS<br/><small>원고·이미지 저장</small>"]
         ADMIN -->|"발행"| CMS
@@ -341,7 +341,7 @@ flowchart LR
     subgraph INTERNAL["🏠 내부"]
         CS["CS System<br/><small>고객·구독 관리</small>"]
         ERP["위하고 ERP<br/><small>매출·재무</small>"]
-        ADMIN["홈페이지 Admin<br/><small>원고 수집·배분</small>"]
+        ADMIN["홈페이지 어드민<br/><small>원고 수집·배분</small>"]
         CMS["CMS<br/><small>발행 아카이브</small>"]
         NAS["NAS<br/><small>원고·이미지</small>"]
     end
