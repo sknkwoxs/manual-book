@@ -2,7 +2,7 @@
 title: 1.1. 시스템 개요
 ---
 
-## 1. SP100주년 뮤지엄 웹사이트 소개
+## 1.1.1 SP100주년 뮤지엄 웹사이트 소개
 
 SP100주년 뮤지엄은 삼화페인트 창립 100주년을 기념하여 제작된 웹사이트입니다. 이벤트 운영, 당첨자 발표, 갤러리 관리 등의 기능을 제공합니다.
 
@@ -27,7 +27,7 @@ SP100주년 뮤지엄은 삼화페인트 WordPress 멀티사이트의 일부로 
 
 ---
 
-## 2. WordPress 관리자 접속
+## 1.1.2 WordPress 관리자 접속
 
 ### 접속 URL
 
@@ -46,29 +46,13 @@ SP100주년 뮤지엄은 삼화페인트 WordPress 멀티사이트의 일부로 
 
 ---
 
-## 3. 관리자 화면 구성
+## 1.1.3 관리자 화면 구성
 
 ### 대시보드
 
 로그인 후 WordPress 관리자 대시보드가 표시됩니다. 좌측 메뉴에서 각 기능에 접근할 수 있습니다.
 
-```mermaid
-flowchart TB
-    subgraph DASHBOARD["🏠 관리자 대시보드"]
-        subgraph EVENT["📌 이벤트 관련"]
-            E1["이벤트 관리 ✅"]
-            E2["당첨자 발표 ✅"]
-            E3["이벤트 댓글 관리 ✅"]
-        end
-        subgraph GALLERY["📌 갤러리 관련"]
-            G1["갤러리 관리 ✅"]
-        end
-    end
-    
-    style DASHBOARD fill:#f5f5f5
-    style EVENT fill:#e3f2fd
-    style GALLERY fill:#fff8e1
-```
+![관리자 대시보드 구조](../images/diagrams/overview-dashboard.svg)
 
 ### 주요 메뉴
 
@@ -81,7 +65,7 @@ flowchart TB
 
 ---
 
-## 4. 기술 스택 요약
+## 1.1.4 기술 스택 요약
 
 ### 핵심 스택
 
@@ -96,21 +80,11 @@ flowchart TB
 
 ### 테마 구조
 
-```mermaid
-flowchart TB
-    PARENT["sknk<br/>(부모 테마)"]
-    EN["sknk_en<br/>(영문 차일드)"]
-    MUSEUM["sknk_80<br/>(뮤지엄 차일드)<br/>★ 현재 사이트"]
-    
-    PARENT --> EN
-    PARENT --> MUSEUM
-    
-    style MUSEUM fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-```
+![테마 구조](../images/diagrams/overview-theme.svg)
 
 ---
 
-## 5. 보안 유의사항
+## 1.1.5 보안 유의사항
 
 | 주의사항 | 설명 |
 |----------|------|
@@ -120,7 +94,7 @@ flowchart TB
 
 ---
 
-## 6. 문의 및 지원
+## 1.1.6 문의 및 지원
 
 | 구분 | 담당 | 연락처 |
 |------|------|--------|
