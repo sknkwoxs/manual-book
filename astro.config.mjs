@@ -222,19 +222,31 @@ export default defineConfig({
           items: [
             { label: '개요', link: '/samhwa-musuem/' },
             {
-              label: '관리자 매뉴얼',
+              label: '1. 관리자 매뉴얼',
               items: [
-                { label: '시스템 개요', link: '/samhwa-musuem/manual/01-system-overview/' },
+                { label: '1.1. 시스템 개요', link: '/samhwa-musuem/manual/01-system-overview/' },
                 {
-                  label: '이벤트 관리',
-                  autogenerate: { directory: 'samhwa-musuem/manual/event-management' },
+                  label: '1.2. 이벤트 관리',
+                  items: [
+                    { label: '1.2.1. 이벤트 생성 및 관리', link: '/samhwa-musuem/manual/event-management/01-event-crud/' },
+                    { label: '1.2.2. 이벤트 댓글 관리', link: '/samhwa-musuem/manual/event-management/02-comment-management/' },
+                    { label: '1.2.3. 당첨자 발표 및 관리', link: '/samhwa-musuem/manual/event-management/03-winner-management/' },
+                  ],
                 },
-                { label: '갤러리 관리', link: '/samhwa-musuem/manual/02-gallery-management/' },
+                { label: '1.3. 아카이브 관리', link: '/samhwa-musuem/manual/02-gallery-management/' },
               ],
             },
             {
-              label: '개발 명세서',
-              autogenerate: { directory: 'samhwa-musuem/specification' },
+              label: '2. 개발 명세서',
+              items: [
+                { label: '2.1. 개요', link: '/samhwa-musuem/specification/' },
+                { label: '2.2. 코딩가이드', link: '/samhwa-musuem/specification/01-코딩가이드/' },
+                { label: '2.3. 테이블 정의서', link: '/samhwa-musuem/specification/02-테이블정의서/' },
+                { label: '2.4. 화면테이블매핑', link: '/samhwa-musuem/specification/03-화면테이블매핑/' },
+                { label: '2.5. DB-ERD', link: '/samhwa-musuem/specification/04-db-erd/' },
+                { label: '2.6. 프로그램목록정의서', link: '/samhwa-musuem/specification/05-프로그램목록정의서/' },
+                { label: '2.7. 개발소스', link: '/samhwa-musuem/specification/06-개발소스/' },
+              ],
             },
           ],
         },
