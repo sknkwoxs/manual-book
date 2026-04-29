@@ -1,12 +1,8 @@
 ---
-title: DB ERD
+title: 2.5. DB-ERD
 ---
 
-# SP100주년 뮤지엄 사이트 DB-ERD
-
-> **버전**: 1.0 (간소화)  
-> **작성일**: 2026-04-20  
-> **특징**: WordPress 기본 테이블 구조 기반
+# 2.5. DB-ERD
 
 ---
 
@@ -19,7 +15,7 @@ WordPress 표준 테이블 구조를 그대로 사용합니다.
 
 ## 2. 전체 ERD (Mermaid)
 
-### 2.1 Core Tables (핵심 테이블)
+### 2.1 Core Tables
 
 ```mermaid
 erDiagram
@@ -81,7 +77,7 @@ erDiagram
     }
 ```
 
-### 2.2 Taxonomy Tables (분류 테이블)
+### 2.2 Taxonomy Tables
 
 ```mermaid
 erDiagram
@@ -120,7 +116,7 @@ erDiagram
     }
 ```
 
-### 2.3 Multisite Shared Tables (공유 테이블)
+### 2.3 Multisite Shared Tables
 
 ```mermaid
 erDiagram
@@ -165,9 +161,9 @@ erDiagram
     }
 ```
 
-### 2.4 Post Type별 ERD
+### 2.4 Post Type ERD
 
-#### Event (이벤트 CPT)
+#### Event CPT
 
 ```mermaid
 erDiagram
@@ -175,59 +171,59 @@ erDiagram
     EVENT ||--o{ COMMENTS : "has"
     COMMENTS ||--o{ COMMENTMETA : "has"
 
-    EVENT["wp_3_posts (event)"] {
+    EVENT {
         bigint ID PK
-        text post_title "이벤트 제목"
-        longtext post_content "이벤트 내용"
-        varchar post_status "publish/draft"
-        varchar post_type "event"
+        text post_title
+        longtext post_content
+        varchar post_status
+        varchar post_type
     }
 
-    POSTMETA["wp_3_postmeta"] {
+    POSTMETA {
         bigint meta_id PK
         bigint post_id FK
-        varchar meta_key "event_start, event_end, event_status"
-        longtext meta_value "이벤트 설정값"
+        varchar meta_key
+        longtext meta_value
     }
 
-    COMMENTS["wp_3_comments"] {
+    COMMENTS {
         bigint comment_ID PK
         bigint comment_post_ID FK
-        text comment_content "댓글 내용"
-        varchar comment_approved "승인 상태"
+        text comment_content
+        varchar comment_approved
     }
 
-    COMMENTMETA["wp_3_commentmeta"] {
+    COMMENTMETA {
         bigint meta_id PK
         bigint comment_id FK
     }
 ```
 
-#### Winner (당첨자 발표 CPT)
+#### Winner CPT
 
 ```mermaid
 erDiagram
     WINNER ||--o{ POSTMETA : "has"
     WINNER ||--o| ATTACHMENT : "thumbnail"
 
-    WINNER["wp_3_posts (winner)"] {
+    WINNER {
         bigint ID PK
-        text post_title "발표 제목"
-        longtext post_content "발표 내용"
-        varchar post_type "winner"
+        text post_title
+        longtext post_content
+        varchar post_type
     }
 
-    POSTMETA["wp_3_postmeta"] {
+    POSTMETA {
         bigint meta_id PK
         bigint post_id FK
-        varchar meta_key "winner_name, winner_prize"
-        longtext meta_value "당첨자 정보"
+        varchar meta_key
+        longtext meta_value
     }
 
-    ATTACHMENT["wp_3_posts (attachment)"] {
+    ATTACHMENT {
         bigint ID PK
-        varchar guid "파일 URL"
-        varchar post_mime_type "image/jpeg"
+        varchar guid
+        varchar post_mime_type
     }
 ```
 
@@ -235,7 +231,7 @@ erDiagram
 
 ## 3. 핵심 관계 설명
 
-### 3.1 Posts ↔ Postmeta (1:N)
+### 3.1 Posts - Postmeta (1:N)
 
 ```mermaid
 flowchart LR
@@ -245,7 +241,7 @@ flowchart LR
 - 하나의 포스트는 여러 메타데이터를 가짐
 - ACF 필드 값은 postmeta에 저장됨
 
-### 3.2 Posts ↔ Comments (1:N)
+### 3.2 Posts - Comments (1:N)
 
 ```mermaid
 flowchart LR
@@ -255,7 +251,7 @@ flowchart LR
 - 이벤트(event) 포스트에 댓글 연결
 - 뮤지엄 사이트에서 댓글은 이벤트에만 사용
 
-### 3.3 Comments ↔ Commentmeta (1:N)
+### 3.3 Comments - Commentmeta (1:N)
 
 ```mermaid
 flowchart LR
@@ -307,88 +303,116 @@ flowchart LR
 
 ## 5. Post Type별 ERD
 
-### 5.1 Page (페이지)
+### 5.1 Page
 
 ```mermaid
 erDiagram
     PAGE ||--o{ POSTMETA : "has"
     PAGE ||--o| PAGE : "post_parent"
 
-    PAGE["wp_3_posts (page)"] {
+    PAGE {
         bigint ID PK
-        text post_title "페이지 제목"
-        longtext post_content "페이지 내용"
-        varchar post_name "URL 슬러그"
-        varchar post_status "publish/draft"
-        int menu_order "정렬 순서"
-        bigint post_parent FK "부모 페이지"
+        text post_title
+        longtext post_content
+        varchar post_name
+        varchar post_status
+        int menu_order
+        bigint post_parent FK
     }
 
-    POSTMETA["wp_3_postmeta"] {
+    POSTMETA {
         bigint meta_id PK
         bigint post_id FK
-        varchar meta_key "ACF fields"
+        varchar meta_key
         longtext meta_value
     }
 ```
 
-### 5.2 Event (이벤트 CPT)
+### 5.2 Event CPT
 
 ```mermaid
 erDiagram
     EVENT ||--o{ POSTMETA : "has"
     EVENT ||--o{ COMMENTS : "has"
 
-    EVENT["wp_3_posts (event)"] {
+    EVENT {
         bigint ID PK
-        text post_title "이벤트 제목"
-        longtext post_content "이벤트 내용"
-        varchar post_name "URL 슬러그"
-        varchar post_status "publish/draft"
+        text post_title
+        longtext post_content
+        varchar post_name
+        varchar post_status
     }
 
-    POSTMETA["wp_3_postmeta"] {
+    POSTMETA {
         bigint meta_id PK
         bigint post_id FK
-        varchar meta_key "event_start, event_end, event_status"
-        longtext meta_value "이벤트 설정값"
+        varchar meta_key
+        longtext meta_value
     }
 
-    COMMENTS["wp_3_comments"] {
+    COMMENTS {
         bigint comment_ID PK
         bigint comment_post_ID FK
-        tinytext comment_author "작성자명"
-        text comment_content "댓글 내용"
-        datetime comment_date "작성일시"
-        varchar comment_approved "승인 상태"
+        tinytext comment_author
+        text comment_content
+        datetime comment_date
+        varchar comment_approved
     }
 ```
 
-### 5.3 Winner (수상작 CPT)
+### 5.3 Winner CPT
 
 ```mermaid
 erDiagram
     WINNER ||--o{ POSTMETA : "has"
     WINNER ||--o| ATTACHMENT : "thumbnail"
 
-    WINNER["wp_3_posts (winner)"] {
+    WINNER {
         bigint ID PK
-        text post_title "발표 제목"
-        longtext post_content "발표 내용"
-        varchar post_type "winner"
+        text post_title
+        longtext post_content
+        varchar post_type
     }
 
-    POSTMETA["wp_3_postmeta"] {
+    POSTMETA {
         bigint meta_id PK
         bigint post_id FK
-        varchar meta_key "winner_name, winner_prize, winner_year"
-        longtext meta_value "당첨자 정보"
+        varchar meta_key
+        longtext meta_value
     }
 
-    ATTACHMENT["wp_3_posts (attachment)"] {
+    ATTACHMENT {
         bigint ID PK
-        varchar guid "파일 URL"
-        varchar post_mime_type "image/jpeg"
+        varchar guid
+        varchar post_mime_type
+    }
+```
+
+### 5.4 Archive CPT
+
+```mermaid
+erDiagram
+    ARCHIVE ||--o{ POSTMETA : "has"
+    ARCHIVE ||--o| ATTACHMENT : "thumbnail"
+
+    ARCHIVE {
+        bigint ID PK
+        text post_title
+        longtext post_content
+        varchar post_type
+    }
+
+    POSTMETA {
+        bigint meta_id PK
+        bigint post_id FK
+        varchar meta_key
+        longtext meta_value
+    }
+
+    ATTACHMENT {
+        bigint ID PK
+        varchar guid
+        varchar post_mime_type
     }
 ```
 
@@ -399,24 +423,24 @@ erDiagram
 ```mermaid
 erDiagram
     CONTENT ||--o| ATTACHMENT : "post_parent"
-    CONTENT ||--o| ATTACHMENT : "_thumbnail_id"
+    CONTENT ||--o| ATTACHMENT : "thumbnail_id"
 
-    CONTENT["wp_3_posts (page/event/winner)"] {
+    CONTENT {
         bigint ID PK
         text post_title
         longtext post_content
     }
 
-    ATTACHMENT["wp_3_posts (attachment)"] {
+    ATTACHMENT {
         bigint ID PK
-        bigint post_parent FK "부모 콘텐츠 ID"
-        varchar guid "파일 URL"
-        varchar post_mime_type "image/jpeg"
+        bigint post_parent FK
+        varchar guid
+        varchar post_mime_type
     }
 
-    POSTMETA["wp_3_postmeta"] {
-        varchar meta_key "_thumbnail_id"
-        longtext meta_value "attachment ID"
+    POSTMETA {
+        varchar meta_key
+        longtext meta_value
     }
 ```
 
@@ -426,83 +450,21 @@ erDiagram
 
 ---
 
-## 7. ERD 이미지 생성용 DDL (참고)
+## 7. 참고사항
 
-```sql
--- 주요 테이블만 발췌 (MySQL)
--- 실제 WordPress 테이블은 더 많은 컬럼 포함
-
-CREATE TABLE wp_3_posts (
-    ID bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    post_author bigint(20),
-    post_date datetime,
-    post_content longtext,
-    post_title text,
-    post_status varchar(20),
-    post_name varchar(200),
-    post_type varchar(20),
-    post_parent bigint(20),
-    menu_order int(11),
-    FOREIGN KEY (post_parent) REFERENCES wp_3_posts(ID),
-    FOREIGN KEY (post_author) REFERENCES wp_users(ID)
-);
-
-CREATE TABLE wp_3_postmeta (
-    meta_id bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    post_id bigint(20),
-    meta_key varchar(255),
-    meta_value longtext,
-    FOREIGN KEY (post_id) REFERENCES wp_3_posts(ID)
-);
-
-CREATE TABLE wp_3_comments (
-    comment_ID bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    comment_post_ID bigint(20),
-    comment_author tinytext,
-    comment_author_email varchar(100),
-    comment_date datetime,
-    comment_content text,
-    comment_approved varchar(20),
-    comment_parent bigint(20),
-    user_id bigint(20),
-    FOREIGN KEY (comment_post_ID) REFERENCES wp_3_posts(ID),
-    FOREIGN KEY (comment_parent) REFERENCES wp_3_comments(comment_ID),
-    FOREIGN KEY (user_id) REFERENCES wp_users(ID)
-);
-
-CREATE TABLE wp_3_commentmeta (
-    meta_id bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    comment_id bigint(20),
-    meta_key varchar(255),
-    meta_value longtext,
-    FOREIGN KEY (comment_id) REFERENCES wp_3_comments(comment_ID)
-);
-
-CREATE TABLE wp_3_options (
-    option_id bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    option_name varchar(191) UNIQUE,
-    option_value longtext,
-    autoload varchar(20)
-);
-```
-
----
-
-## 8. 참고사항
-
-### 8.1 별도 테이블 없음
+### 7.1 별도 테이블 없음
 
 - 뮤지엄 사이트는 WordPress 표준 테이블만 사용
 - Custom Table 생성 없음
 - MIS 연동 없음 (별도 Postgres 연결 없음)
 
-### 8.2 데이터 분리
+### 7.2 데이터 분리
 
 - blog_id=3 데이터는 `wp_3_*` 테이블에만 저장
 - 다른 사이트(blog_id=1,2)와 데이터 분리됨
 - 사용자(`wp_users`)만 공유
 
-### 8.3 ERD 도구 추천
+### 7.3 ERD 도구 추천
 
 시각적 ERD 생성 시 권장 도구:
 - MySQL Workbench (Reverse Engineering)
