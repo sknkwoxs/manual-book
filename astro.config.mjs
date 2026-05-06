@@ -103,7 +103,6 @@ export default defineConfig({
                   label: '2.5.1. 인터뷰 결과',
                   items: [
                     { label: '개요', link: '/goodthinking-isp/02-analysis/meeting-notes/' },
-                    { label: '킥오프 회의', link: '/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda/' },
                     { label: '정기구독팀', link: '/goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/' },
                     { label: '편집팀', link: '/goodthinking-isp/02-analysis/meeting-notes/editing-team-interview/' },
                     { label: '경영지원팀', link: '/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/' },
