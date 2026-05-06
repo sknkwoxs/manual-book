@@ -30,21 +30,7 @@ description: 좋은생각 홈페이지 프론트엔드 디자인 및 기능 리�
 
 #### 디자인 방향
 
-```mermaid
-graph TD
-    A["좋은생각 디자인 컨셉<br/><br/>키워드: 따뜻함 | 정제됨 | 신뢰감 | 편안함"]
-    
-    B["컬러 팔레트<br/><br/>Primary: TBD | Secondary: TBD<br/>Accent: TBD | Background: TBD"]
-    
-    C["타이포그래피<br/><br/>제목: 본명조 / Noto Serif KR<br/>본문: 프리텐다드 / Pretendard"]
-    
-    A --> B
-    A --> C
-    
-    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style B fill:#f5f5f5,stroke:#999,stroke-width:1px
-    style C fill:#f5f5f5,stroke:#999,stroke-width:1px
-```
+![디자인 방향](/diagrams/goodthinking-isp/06-future-roadmap/frontend-renewal-L33.svg)
 
 #### 개선 항목
 
@@ -57,22 +43,7 @@ graph TD
 
 ### 2. 반응형 웹 디자인
 
-```mermaid
-graph LR
-    A["Mobile<br/>~767px<br/><br/>1컬럼"]
-    B["Tablet<br/>768~1023px<br/><br/>2컬럼"]
-    C["Desktop<br/>1024~1439px<br/><br/>3컬럼"]
-    D["Wide<br/>1440px~<br/><br/>사이드바<br/>+ 3컬럼"]
-    
-    A --> B
-    B --> C
-    C --> D
-    
-    style A fill:#f0f0f0,stroke:#666,stroke-width:2px
-    style B fill:#e8e8e8,stroke:#666,stroke-width:2px
-    style C fill:#e0e0e0,stroke:#666,stroke-width:2px
-    style D fill:#d8d8d8,stroke:#666,stroke-width:2px
-```
+![2. 반응형 웹 디자인](/diagrams/goodthinking-isp/06-future-roadmap/frontend-renewal-L60.svg)
 
 ### 3. 웹 에디터 기능 강화
 
@@ -89,29 +60,7 @@ graph LR
 
 #### 에디터 UI 컨셉
 
-```mermaid
-graph TD
-    A["좋은생각 웹 에디터<br/><br/>[저장] [발행]"]
-    
-    B["[B] [I] [U] │ [H1] [H2] │ [각주] [목록] │ [이미지] [링크] │ [템플릿]"]
-    
-    C["제목을 입력하세요"]
-    D["─────────────────────────────────"]
-    
-    E["본문을 작성하세요..."]
-    
-    F["좋은 글귀를 인용합니다<br/><br/>- 작가명"]
-    
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    
-    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style B fill:#f5f5f5,stroke:#999,stroke-width:1px
-    style F fill:#e8f4f8,stroke:#666,stroke-width:2px
-```
+![에디터 UI 컨셉](/diagrams/goodthinking-isp/06-future-roadmap/frontend-renewal-L92.svg)
 
 ---
 
@@ -162,12 +111,3 @@ graph TD
 | 2 | 2개월 | 프론트엔드 개발 |
 | 3 | 1개월 | 웹 에디터 개발 |
 | 4 | 1개월 | 테스트 및 최적화 |
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| 2026-02-26 | - | 초안 작성 (템플릿) |
-| 2026-03-03 | 김명직 | 정량적 효과 추정값 채움, 기술 스택 ISP 권장안 반영 (Next.js+Tailwind+NestJS API), CMS 연동 현행 분석 반영 |

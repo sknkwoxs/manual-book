@@ -83,12 +83,11 @@ export default defineConfig({
           label: '좋은생각 ISP',
           items: [
             { label: '개요', link: '/goodthinking-isp/' },
-            { label: '추진 일정', link: '/goodthinking-isp/schedule/' },
             {
               label: '1. 프로젝트 개요',
               items: [
                 { label: '1.1. 사업개요', link: '/goodthinking-isp/01-project-overview/business-overview/' },
-                { label: '1.2. 프로젝트 개요', link: '/goodthinking-isp/01-project-overview/' },
+                { label: '1.2. 추진 일정', link: '/goodthinking-isp/schedule/' },
                 { label: '1.3. 현황 및 개선방향', link: '/goodthinking-isp/01-project-overview/as-is-to-be/' },
               ],
             },
@@ -104,7 +103,6 @@ export default defineConfig({
                   label: '2.5.1. 인터뷰 결과',
                   items: [
                     { label: '개요', link: '/goodthinking-isp/02-analysis/meeting-notes/' },
-                    { label: '킥오프 회의', link: '/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda/' },
                     { label: '정기구독팀', link: '/goodthinking-isp/02-analysis/meeting-notes/subscription-team-interview/' },
                     { label: '편집팀', link: '/goodthinking-isp/02-analysis/meeting-notes/editing-team-interview/' },
                     { label: '경영지원팀', link: '/goodthinking-isp/02-analysis/meeting-notes/management-support-team-interview/' },
@@ -183,6 +181,71 @@ export default defineConfig({
                 { label: '7.1. 개요', link: '/goodthinking-isp/appendix/' },
                 { label: '7.2. 산출물 목록', link: '/goodthinking-isp/appendix/deliverables/' },
                 { label: '7.3. 용어 사전', link: '/goodthinking-isp/appendix/glossary/' },
+              ],
+            },
+            {
+              label: '8. 제안요청서(안)',
+              items: [
+                { label: '표지 / 목차', link: '/goodthinking-isp/08-rfp/' },
+                {
+                  label: '제1장 사업 개요',
+                  items: [
+                    { label: '1. 사업 개요', link: '/goodthinking-isp/08-rfp/01-overview/' },
+                  ],
+                },
+                {
+                  label: '제2장 현황 및 문제점',
+                  items: [
+                    { label: '2. 현황 및 문제점', link: '/goodthinking-isp/08-rfp/02-current-status/' },
+                  ],
+                },
+                {
+                  label: '제3장 사업 추진 전략',
+                  items: [
+                    { label: '3. 사업 추진 전략', link: '/goodthinking-isp/08-rfp/03-strategy/' },
+                  ],
+                },
+                {
+                  label: '제4장 제안 요청 사항',
+                  items: [
+                    { label: '4. 제안 요청 개요', link: '/goodthinking-isp/08-rfp/04-proposal-request/' },
+                    { label: '4.3.1 시스템 구축(STR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/str-system-build/' },
+                    { label: '4.3.2 기능(SRE) — 79건', link: '/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/' },
+                    { label: '4.3.3 보안(SER)', link: '/goodthinking-isp/08-rfp/04-proposal-request/ser-security/' },
+                    { label: '4.3.4 데이터(DAR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/dar-data/' },
+                    { label: '4.3.5 테스트·운영(TER)', link: '/goodthinking-isp/08-rfp/04-proposal-request/ter-test-ops/' },
+                    { label: '4.3.6 교육·기술지원(EDR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/edr-education/' },
+                    { label: '4.3.7 제약 사항(COR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/cor-constraints/' },
+                  ],
+                },
+                {
+                  label: '제5장 제안서 작성 안내',
+                  items: [
+                    { label: '5. 제안서 작성 안내', link: '/goodthinking-isp/08-rfp/05-proposal-guideline/' },
+                  ],
+                },
+                {
+                  label: '제6장 제안 안내 및 평가',
+                  items: [
+                    { label: '6. 제안 안내 및 평가', link: '/goodthinking-isp/08-rfp/06-evaluation/' },
+                  ],
+                },
+                {
+                  label: '부록',
+                  items: [
+                    { label: '부록 표지', link: '/goodthinking-isp/08-rfp/appendix/' },
+                    { label: '[부록 1] 개인정보처리위탁 계약서', link: '/goodthinking-isp/08-rfp/appendix/01-personal-info-consignment/' },
+                    { label: '[부록 2] 보안 위약금 부과 기준', link: '/goodthinking-isp/08-rfp/appendix/02-security-penalty/' },
+                    { label: '[부록 3] 보안 위반 처리 기준', link: '/goodthinking-isp/08-rfp/appendix/03-security-violation/' },
+                    { label: '[부록 4] 누설금지 대상 정보', link: '/goodthinking-isp/08-rfp/appendix/04-confidentiality/' },
+                  ],
+                },
+                {
+                  label: '별지 서식',
+                  items: [
+                    { label: '제1호~제15호 서식', link: '/goodthinking-isp/08-rfp/forms/' },
+                  ],
+                },
               ],
             },
           ],

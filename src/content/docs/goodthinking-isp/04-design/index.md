@@ -13,59 +13,19 @@ ISP 2단계(4\~6주)에서 수행하는 목표 모델 설계 문서입니다.
 
 ### 전환 목표
 
-```mermaid
-graph LR
-    subgraph ASIS["AS-IS (현재)"]
-        A1["C/S 로컬<br/>설치형"]
-        A2["MSSQL+MySQL<br/>분리 운영"]
-        A3["수작업<br/>프로세스"]
-    end
-    
-    subgraph TOBE["TO-BE (목표)"]
-        B1["웹 기반 통합 시스템<br/>(어디서나 접속 가능)"]
-        B2["통합 DB<br/>(단일 고객 뷰)"]
-        B3["자동화 프로세스<br/>(One-Stop 처리)"]
-    end
-    
-    A1 -->|전환| B1
-    A2 -->|전환| B2
-    A3 -->|전환| B3
-```
+![전환 목표](/diagrams/goodthinking-isp/04-design/index-L16.svg)
 
 ### 3대 핵심 목표
 
 | 목표 | AS-IS 문제 | TO-BE 해결 방안 | 기대 효과 |
 |------|------------|-----------------|----------|
 | **1. C/S → Web 전환** | 로컬 PC에 설치된 XPlatform 기반 시스템 | 클라우드 기반 웹 Admin 시스템 구축 | 장소 제약 없이 업무 가능, 유지보수 용이 |
-| **2. 데이터 통합** | MSSQL + MySQL 분리, 채널별 데이터 파편화 | 통합 DB 구축, 단일 고객 마스터 | 360° 고객 뷰, 실시간 데이터 공유 |
-| **3. 프로세스 자동화** | 주문→입력→권한부여 수작업 처리 | Excel 템플릿 자동 생성/변환 기반 One-Stop 자동화 | 처리 시간 단축, 오류 최소화 |
+| **2. 데이터 통합** | MSSQL + MySQL 분리, 채널별 데이터 파편화 | MSSQL 통합 DB 구축 (AWS RDS), 단일 고객 마스터 | 360° 고객 뷰, 실시간 데이터 공유 |
+| **3. 프로세스 자동화** | 주문→입력→권한부여 수작업 처리 | API 연동(현행 유지) + Excel 템플릿 간소화 | 처리 시간 단축, 오류 최소화 |
 
 ### 목표 아키텍처 개요
 
-```mermaid
-graph TB
-    User["사용자 (CS팀)"]
-    User -->|웹 브라우저| CF["Cloudflare CDN + Edge"]
-    
-    subgraph Infra["인프라"]
-        Frontend["SSR 프론트엔드<br/>(CDN Edge 배포)"]
-        Backend["Headless CMS 백엔드<br/>(AWS Lightsail)"]
-        Admin_Modules["고객관리 | 주문관리 | 구독관리 | CS관리 | 통계/리포트"]
-        
-        DB["MariaDB<br/>(Lightsail Managed DB)"]
-        DB_Tables["고객 마스터 | 주문 이력 | 구독 정보 | CS 이력"]
-        
-        Frontend -->|RESTful API| Backend
-        Backend --> Admin_Modules
-        Admin_Modules --> DB
-        DB --> DB_Tables
-    end
-    
-    CF --> Frontend
-    Backend -->|"Excel 템플릿"| Channel["외부 채널(네이버 등)"]
-    Backend -->|"Excel 정산"| PG["결제 PG(나이스페이)"]
-    Backend -->|내부 연동| CMS["CMS(권한 연동)"]
-```
+![목표 아키텍처 개요](/diagrams/goodthinking-isp/04-design/index-L45.svg)
 
 ### 목표별 실현 방안
 
@@ -73,28 +33,29 @@ graph TB
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **프론트엔드** | SSR 프레임워크 + 경량 UI 프레임워크 + 유틸리티 CSS 웹 Admin 구축 |
-| **백엔드** | Headless CMS (RESTful API + 커스텀 비즈니스 모듈) |
-| **인프라** | AWS Lightsail (서버) + Cloudflare (CDN/Edge/R2) |
-| **접근성** | HTTPS (TLS 1.3), OAuth2 인증 |
+| **프론트엔드** | React + Ant Design 기반 SPA로 웹 Admin 구축 |
+| **백엔드** | NestJS 모놀리식 모듈 기반 API 서버 |
+| **인프라** | AWS 클라우드 (기존 인프라 활용) |
+| **접근성** | HTTPS 기반 보안 접속, SSO 연동 |
 
 #### 2. 데이터 통합
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **통합 DB** | MariaDB / MySQL (오픈소스, Lightsail Managed DB) |
+| **통합 DB** | MSSQL 유지 (AWS RDS for SQL Server), 이관 리스크 최소화 |
 | **고객 마스터** | 채널별 고객 데이터 통합, 중복 제거 |
-| **데이터 마이그레이션** | MSSQL 데이터 → MariaDB 이관 |
+| **데이터 마이그레이션** | On-Prem MSSQL + AWS MySQL → AWS RDS MSSQL 통합 이관 |
 | **데이터 동기화** | 레거시 병행 운영 시 실시간 동기화 |
 
 #### 3. 프로세스 자동화
 
 | 항목 | 실현 방안 |
 |------|----------|
-| **주문 수집** | 외부 채널 Excel 자동 파싱 및 템플릿 매핑 (Playauto Excel 포맷 자동 변환) |
-| **자동 입력** | 수집된 주문 데이터 자동 DB 저장 |
-| **CMS 권한** | 결제 완료 확인 시 내부 연동으로 자동 권한 부여 |
-| **배송 연동** | 택배사 양식 Excel 자동 생성 및 송장 Excel 업로드 자동 파싱 |
+| **주문 수집** | Playauto 경유 외부몰 API 자동 수집 (현행 유지) + Excel 업로드 |
+| **자동 입력** | 수집된 주문 데이터 자동 DB 저장, Excel 업로드 파싱 |
+| **CMS 권한** | 결제 완료 시 CMS 구독자 열람 권한 대상 Excel 내보내기 → 좋은생각 CMS 일괄 처리 |
+| **배송 연동** | 택배사 API 자동 연동 (계약 기반, 현행 유지) |
+| **ERP 연동** | 위하고 업로드용 Excel 자동 생성 (API 미제공) |
 
 ---
 
@@ -143,7 +104,7 @@ SW 아키텍처 설계 프로세스 및 품질 속성 기반 설계 가이드
 통합 DB 모델의 엔터티 관계 시각화
 
 ### [자동화 프로세스 (BPR)](./process-automation)
-[주문수집 → 자동입력 → CMS권한부여 → 배송]의 One-Stop 자동화 흐름 설계 (Excel 템플릿 기반 외부 연동)
+[주문수집 → 자동입력 → CMS권한부여 → 배송]의 One-Stop 자동화 흐름 설계
 
 - 프로세스 재설계
 - 자동화 포인트
@@ -155,30 +116,30 @@ SW 아키텍처 설계 프로세스 및 품질 속성 기반 설계 가이드
 
 | 산출물 | 설명 | 상태 |
 |--------|------|:----:|
-| TO-BE ERD (통합모델) | 통합 데이터 모델 | 미착수 |
-| 요구기능정의서 (상세) | 상세 기능 명세 | 미착수 |
-| 시스템 아키텍처 설계서 | 기술 아키텍처 문서 | 미착수 |
-| BPR 설계서 | 개선 프로세스 정의 | 미착수 |
+| TO-BE ERD (통합모델) | 통합 데이터 모델 | 완료 ([TO-BE 엔터티 관계도](./entity-map-tobe) + [데이터 통합 모델](./data-integration)) |
+| 요구기능정의서 (상세) | 상세 기능 명세 | 완료 (사이드바 **3. 기능요건 도출** 카테고리 — 기능 79건 상세 정의) |
+| 시스템 아키텍처 설계서 | 기술 아키텍처 문서 | 완료 ([Web 시스템 아키텍처](./web-architecture) + [아키텍처 설계 방법론](./architecture-methodology)) |
+| BPR 설계서 | 개선 프로세스 정의 | 완료 ([자동화 프로세스 (BPR)](./process-automation)) |
 
 ---
 
 ## 설계 원칙
 
 ### 1. 확장성 (Scalability)
-- CMS 모듈 기반 설계
-- CDN Edge 배포로 글로벌 확장
+- NestJS 모듈 기반 모놀리식 설계 (점진적 MSA 분리 가능)
+- 수평적 확장 가능한 구조 (ECS Fargate)
 
 ### 2. 유연성 (Flexibility)
-- RESTful API 기반 Headless 아키텍처
-- 커스텀 모듈로 비즈니스 로직 분리
+- 모듈화된 컴포넌트
+- API 기반 연동
 
 ### 3. 보안성 (Security)
-- 개인정보 보호 기준 준수 (필드 암호화)
-- CMS Role/Permission + Cloudflare WAF
+- 개인정보 보호 기준 준수
+- 접근 통제 및 감사 로그
 
 ### 4. 사용성 (Usability)
-- 경량 인터랙티브 UI + 유틸리티 CSS
-- CMS 기본 Admin UI 병행 활용
+- 직관적인 UI/UX
+- 업무 효율성 중심 설계
 
 ---
 

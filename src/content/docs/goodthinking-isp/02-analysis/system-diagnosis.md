@@ -1,20 +1,17 @@
 ---
 title: 2.3. 시스템 정밀진단
-description: CS 고객관리 프로그램 및 DB 구조 역공학 분석 — 매뉴얼 V2.4/V1.1 기반
+description: CS 고객관리 프로그램 및 DB 구조 역공학 분석
 ---
 
 # 시스템 정밀진단
 
 CS 고객관리 프로그램(Tobesoft XPlatform/eGovFrame) 매뉴얼 분석 결과와 MSSQL DB 구조 역공학(Reverse Engineering) 결과를 종합한다.
 
-> **분석 원본 자료**: 사용자 매뉴얼 V2.4 (125p), 관리자 매뉴얼 V1.1 (47p)
-> **CSV 전체 목록**: [`cs-program-menu-structure.csv`](/goodthinking-isp/00-clinet_document/cs-program-menu-structure.csv) (86개 화면)
-
 ---
 
 ## AS-IS 시스템 아키텍처
 
-### 인프라 상세 (관리자 매뉴얼 V1.1에서 확인)
+### 인프라 상세
 
 | 구분 | 항목 | 상세 |
 |------|------|------|
@@ -35,55 +32,9 @@ CS 고객관리 프로그램(Tobesoft XPlatform/eGovFrame) 매뉴얼 분석 결�
 
 ### 아키텍처 다이어그램
 
-```mermaid
-graph TD
-    subgraph CS["CS 환경 — cs.positive.co.kr (203.231.234.6)"]
-        A["CS 프로그램<br/>(XPlatform 9.2.1 + eGovFrame 3.2)<br/>ActiveX · Windows/IE 전용<br/>Tomcat 7.0 / Win Server 2012"]
-    end
+![아키텍처 다이어그램](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L38.svg)
 
-    subgraph AWS["AWS 웹 환경"]
-        B1["① 웹사이트<br/>(Homepage SPA)"]
-        B2["② CMS<br/>(기사 관리 시스템)"]
-        B3["③ 웹사이트 관리시스템<br/>(Node.js Admin)"]
-    end
-
-    subgraph EXT["외부 연동"]
-        E1["네이버 스마트스토어"]
-        E2["쿠팡"]
-        E3["Playauto<br/>(주문 수집)"]
-        E4["나이스페이<br/>(PG/CTI ARS)"]
-        E5["금융결제원<br/>(지로)"]
-        E6["위하고(WEHAGO)"]
-        E7["더아이앤오<br/>(외부콜센터)"]
-    end
-
-    subgraph DB["데이터베이스"]
-        C["MSSQL 2008<br/>(CS 고객관리 DB)<br/>203.231.234.7:1433<br/>75t · 20SP · 14FN · 15TR"]
-        D["MSSQL<br/>(홈페이지 DB + CMS DB)<br/>AWS RDS 추정 · 76t"]
-    end
-
-    A --> C
-    B1 --> D
-    B2 --> D
-    B3 --> D
-
-    A <-->|"나이스페이 API<br/>(카드/ARS/가상계좌/현금영수증)"| E4
-    A <-->|"ocrser.txt 파일 업로드"| E5
-    A <-->|"엑셀 양방향<br/>(거래처/재고수불부)"| E6
-    E1 --> E3
-    E2 --> E3
-
-    C -.->|"직접 연동 불가<br/>Excel 수작업 이관"| D
-    C <-->|"[주의] 웹연동 로그 존재<br/>(구독접수/결제/발송→선수수익)"| D
-    E3 -.->|"미연동<br/>Excel 다운로드 → CS 업로드"| C
-
-    style CS fill:#ffccbc
-    style AWS fill:#b3e5fc
-    style EXT fill:#e1bee7
-    style DB fill:#f0f4c3
-```
-
-> **주의**: 관리자 매뉴얼의 로그 경로(`D:\POSITIVEWebIntefaceLog\`)로 보아 웹→CS 간 **구독접수·결제·발송 시 선수수익 반영**에 한해 일부 연동이 존재한다. 다만 범용 API 연동이 아닌 특정 이벤트 기반의 제한적 연동으로 추정된다.
+> **주의**: 관리자 매뉴얼 분석 결과 웹→CS 간 **구독접수·결제·발송 시 선수수익 반영**에 한해 일부 연동이 존재한다. 다만 범용 API 연동이 아닌 특정 이벤트 기반의 제한적 연동으로 추정된다.
 
 ### 시스템 구성 요소
 
@@ -118,32 +69,7 @@ XPlatform *.xfdl (화면: Design + Source + Script)
 
 ### 데이터 흐름
 
-```mermaid
-graph TD
-    EXT["외부 채널<br/>(네이버/쿠팡)"]
-    PA["Playauto"]
-    CS["CS Program<br/>(XPlatform)"]
-    CSDB["MSSQL 2008<br/>(CS DB · 75t)"]
-    WEBDB["MSSQL<br/>(웹 DB · 76t)"]
-    WEB["웹 시스템<br/>(Homepage/CMS/Admin)"]
-    NP["나이스페이"]
-    GF["금융결제원"]
-    EC["위하고(WEHAGO)"]
-
-    EXT -->|"주문 수집"| PA
-    PA -->|"Excel 수동"| CS
-    CS <-->|DB| CSDB
-    CS <-->|"카드/ARS/가상계좌<br/>현금영수증 API"| NP
-    CS <-->|"ocrser.txt"| GF
-    CS <-->|"엑셀 양방향"| EC
-    WEB <-->|DB| WEBDB
-    CSDB -.->|"[주의] 선수수익 연동만"| WEBDB
-
-    style CS fill:#ffccbc
-    style WEB fill:#b3e5fc
-    style CSDB fill:#f0f4c3
-    style WEBDB fill:#f0f4c3
-```
+![데이터 흐름](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L121.svg)
 
 ---
 
@@ -240,49 +166,31 @@ SD3515(영업입금 — 위하고 코드변환), SD3530(재고수불부 — 위�
 
 반송관리(5), 발송현황(7), 매출통계(14), 운영관리(8), 영업리포트(4)
 
-> **전체 86개 화면 상세**: [`cs-program-menu-structure.csv`](/goodthinking-isp/00-clinet_document/cs-program-menu-structure.csv) 참조
-
 ### 핵심 비즈니스 로직
 
 #### 결제 처리 (4종 — 나이스페이 연동)
 
-| 결제 수단 | 처리 방식 | 로그 경로 |
-|-----------|-----------|-----------|
-| 신용카드 | 나이스페이 API (실시간) | `D:\POSITIVENiceLog\CardPayment\` |
-| ARS 결제 | 나이스페이 CTI 연동 (ARS 녹취) | `D:\POSITIVENiceLog\CardARSNoti\` |
-| 가상계좌 | 나이스페이 가상계좌 발급/회수/과오납 | `D:\POSITIVENiceLog\VtAccChkReq\` |
-| 현금영수증 | 나이스페이 발급/취소 | `D:\POSITIVENiceLog\ReceiptIssue\` |
+| 결제 수단 | 처리 방식 |
+|-----------|-----------|
+| 신용카드 | 나이스페이 API (실시간) |
+| ARS 결제 | 나이스페이 CTI 연동 (ARS 녹취) |
+| 가상계좌 | 나이스페이 가상계좌 발급/회수/과오납 |
+| 현금영수증 | 나이스페이 발급/취소 |
 
 #### 선수수익 반영 (웹↔CS 연동)
 
-| 연동 이벤트 | 방향 | 로그 경로 |
-|-------------|------|-----------|
-| 웹 구독접수 | 웹→CS | `D:\POSITIVEWebIntefaceLog\webSubscribe\` |
-| 웹 결제 반영 | 웹→CS | `D:\POSITIVEWebIntefaceLog\webDeposit\` |
-| 정규발송 처리 | CS→발송+선수수익 | `D:\POSITIVEWebIntefaceLog\regularSendProc\` |
-| 일일발송/재발송 | CS→발송+선수수익 | `D:\POSITIVEWebIntefaceLog\dailySendProc\` |
+| 연동 이벤트 | 방향 |
+|-------------|------|
+| 웹 구독접수 | 웹→CS |
+| 웹 결제 반영 | 웹→CS |
+| 정규발송 처리 | CS→발송+선수수익 |
+| 일일발송/재발송 | CS→발송+선수수익 |
 
 > **발견 사항**: 웹↔CS 간 범용 API 연동은 없으나, **선수수익 반영에 한해 이벤트 기반 연동이 존재**한다. 이는 기존 분석에서 "연동 전무"라 했던 것의 수정 포인트.
 
 #### 구독 관리 핵심 플로우
 
-```mermaid
-graph TD
-    A["구독접수 (SS3210)"] -->|"CTI연동/결제4종"| B["결제 처리"]
-    B -->|"신용카드/ARS/가상계좌/현금영수증"| C["나이스페이 API"]
-    B --> D["선수수익 발생"]
-    D --> E["선수수익 반영 (DP3317)"]
-    E --> F["정규발송 배치 (MP3920)"]
-    F --> G["발송 확인 (MP3921)"]
-    G --> H["선수수익 인식 (월 차감)"]
-    
-    I["웹 구독접수"] -->|"webSubscribe 로그"| D
-    J["웹 결제"] -->|"webDeposit 로그"| D
-    F -->|"regularSendProc 로그"| H
-    
-    K["구독취소 (SS3211)"] --> L["환불 처리 (DP3313)"]
-    L --> M["선수수익 환입"]
-```
+![구독 관리 핵심 플로우](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L269.svg)
 
 ### 외부 연동 상세
 
@@ -314,115 +222,7 @@ graph TD
 
 ### 추정 ERD (매뉴얼 기반 엔티티)
 
-```mermaid
-erDiagram
-    CUSTOMER ||--o{ SUBSCRIPTION : "구독"
-    CUSTOMER ||--o{ PAYMENT : "결제"
-    CUSTOMER }o--|| DEALER : "소속 거래처"
-    SUBSCRIPTION ||--o{ SHIPMENT : "발송"
-    SUBSCRIPTION ||--o{ PREPAID_REVENUE : "선수수익"
-    PAYMENT ||--o| VIRTUAL_ACCOUNT : "가상계좌"
-    PAYMENT }o--|| PAYMENT_METHOD : "결제방법"
-    DEALER ||--o{ INVENTORY : "재고수불"
-    BOOK ||--o{ SUBSCRIPTION : "도서"
-    BOOK ||--o{ DISCOUNT_RATE : "할인율"
-
-    CUSTOMER {
-        string cust_cd PK "고객코드"
-        string cust_nm "고객명"
-        string phone "연락처"
-        string addr "주소"
-        string zipcode "우편번호"
-        string wehago_cd "위하고(WEHAGO) 거래처코드"
-    }
-
-    SUBSCRIPTION {
-        string subs_cd PK "접수코드"
-        string cust_cd FK "고객코드"
-        string book_cd FK "도서코드"
-        date start_dt "시작일"
-        date end_dt "종료일"
-        int months "구독월수"
-        string status "상태(접수/정상/취소/만료)"
-        string special_type "특이사항(증정/기증/사은)"
-    }
-
-    PAYMENT {
-        string pay_cd PK "결제코드"
-        string cust_cd FK "고객코드"
-        string subs_cd FK "접수코드"
-        string pay_method FK "결제방법"
-        decimal amount "결제금액"
-        date pay_dt "결제일"
-        string status "상태(미결/완료/환불)"
-    }
-
-    SHIPMENT {
-        string ship_cd PK "발송코드"
-        string subs_cd FK "접수코드"
-        date ship_dt "발송일"
-        string ship_type "발송유형(정규/일일/재발송)"
-        string status "상태"
-    }
-
-    PREPAID_REVENUE {
-        string rev_cd PK "선수수익코드"
-        string subs_cd FK "접수코드"
-        decimal total_amt "총 선수수익"
-        decimal recognized_amt "인식(차감) 금액"
-        decimal balance "잔액"
-        date recognize_dt "인식일"
-    }
-
-    VIRTUAL_ACCOUNT {
-        string vacct_no PK "가상계좌번호"
-        string pay_cd FK "결제코드"
-        string bank_cd "은행코드"
-        date issue_dt "발급일"
-        date expire_dt "만료일"
-        string status "상태(발급/회수)"
-    }
-
-    DEALER {
-        string dealer_cd PK "거래처코드"
-        string dealer_nm "거래처명"
-        string wehago_cd "위하고코드"
-        string status "상태(거래중/중지)"
-    }
-
-    BOOK {
-        string book_cd PK "도서코드"
-        string book_nm "도서명"
-        string book_type "구분(잡지/단행본)"
-        decimal price "정가"
-        decimal post_fee1 "우편료1"
-    }
-
-    DISCOUNT_RATE {
-        string disc_cd PK "할인코드"
-        string book_cd FK "도서코드"
-        int qty "수량"
-        int months "구독월수"
-        string disc_type "할인형태"
-        decimal disc_price "할인단가"
-    }
-
-    INVENTORY {
-        string inv_cd PK "재고코드"
-        string dealer_cd FK "거래처코드"
-        string book_cd FK "도서코드"
-        int in_qty "입고수량"
-        int out_qty "출고수량"
-        int balance "잔고"
-    }
-
-    PAYMENT_METHOD {
-        string method_cd PK "결제방법코드"
-        string method_nm "결제방법명"
-        string phone_yn "전화접수가능"
-        string web_auto_yn "웹자동결제가능"
-    }
-```
+![추정 ERD (매뉴얼 기반 엔티티)](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L317.svg)
 
 > **주의**: 위 ERD는 매뉴얼 화면 분석을 통해 **추정**한 것이다. 실제 DB 스키마 덤프 후 검증이 필요하다.
 
@@ -432,22 +232,7 @@ erDiagram
 
 ### 핵심 문제: 시스템 이원화
 
-```mermaid
-graph LR
-    subgraph problem["현재 문제 상황"]
-        WEB["웹 시스템<br/>(AWS / MSSQL)<br/>━━━━━<br/>- CMS 콘텐츠 관리<br/>- 홈페이지 운영<br/>- 웹 구독/결제"]
-
-        SEP["범용 API 연동 없음<br/>(선수수익 이벤트만 존재)"]
-
-        CS["C/S 시스템<br/>(온프레미스 / MSSQL 2008)<br/>━━━━━<br/>- 고객 데이터 관리<br/>- 구독/결제/발송 처리<br/>- 86개 화면 · 56건 비즈니스 로직"]
-
-        WARN["고객 데이터 수동 이중관리<br/>Excel 의존 · 12건 수작업 (일 6.5~9h)"]
-
-        WEB -.->|"X 분리"| CS
-        WEB --> WARN
-        CS --> WARN
-    end
-```
+![핵심 문제: 시스템 이원화](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L435.svg)
 
 ### 기술적 문제
 
@@ -488,37 +273,7 @@ graph LR
 
 ### 목표 아키텍처 개요
 
-```mermaid
-graph TD
-    subgraph CLOUD["AWS Cloud (통합 시스템)"]
-        ADMIN["통합 Admin<br/>(Web — 30~40개 화면)"]
-        CMS["CMS<br/>(콘텐츠관리)"]
-        HOMEPAGE["Homepage<br/>(SPA — 리뉴얼)"]
-        API["API Gateway<br/>(RESTful)"]
-        DB["통합 DB<br/>(MSSQL 최신 또는 PostgreSQL)"]
-        BL["서비스 레이어<br/>(56건 비즈니스 로직 재구현)"]
-
-        ADMIN <--> API
-        CMS <--> API
-        HOMEPAGE <--> API
-        API <--> BL
-        BL <--> DB
-    end
-
-    EXT1["외부몰<br/>(네이버/쿠팡)"]
-    EXT2["나이스페이<br/>(PG/CTI)"]
-    EXT3["금융결제원<br/>(지로)"]
-    EXT4["위하고(WEHAGO)"]
-    EXT5["Playauto"]
-
-    EXT5 -->|"API 자동 수집"| API
-    EXT1 --> EXT5
-    EXT2 <-->|"결제 API"| API
-    EXT3 <-->|"지로 자동화"| API
-    EXT4 <-->|"ERP API 연동"| API
-
-    style CLOUD fill:#e3f2fd
-```
+![목표 아키텍처 개요](/diagrams/goodthinking-isp/02-analysis/system-diagnosis-L491.svg)
 
 ### 주요 개선 포인트
 
@@ -545,24 +300,16 @@ graph TD
 
 | 항목 | 상태 |
 |------|:----:|
-| 사용자 매뉴얼 V2.4 분석 완료 (74개 화면) | 완료 |
-| 관리자 매뉴얼 V1.1 분석 완료 (12개 화면) | 완료 |
+| 사용자 화면 분석 완료 (74개 화면) | 완료 |
+| 관리자 화면 분석 완료 (12개 화면) | 완료 |
 | CS 프로그램 화면 목록 CSV 작성 완료 (86개) | 완료 |
 | 인프라 상세 정보 확인 (IP/OS/WAS/DB) | 완료 |
 | 외부 연동 현황 파악 (7종) | 완료 |
 | 로그 관리 구조 파악 (나이스페이 + 웹연동) | 완료 |
 | 추정 ERD 작성 (매뉴얼 기반) | 완료 |
-| Tobesoft 프로그램 소스 접근 권한 확보 | 미완료 |
-| MSSQL 접속 정보 확보 (DB 직접 접근) | 미완료 |
-| DB 스키마 덤프 및 실제 테이블 검증 | 미완료 |
-| 테이블별 용도 파악 (151t 전수 조사) | 미완료 |
-| 주요 Stored Procedure 분석 (56건) | 미완료 |
-| 실제 ERD 작성 (추정 ERD 검증) | 미완료 |
-
-### 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| 2026-03-07 | 김명직 | 초안 작성 (as-is-to-be.md 기반) |
-| 2026-03-08 | 김명직 | 사용자 매뉴얼 V2.4 기반 AS-IS 아키텍처 상세화 |
-| 2026-03-09 | 김명직 | 매뉴얼 V2.4/V1.1 기반 전면 개편 — 86개 화면 분석, 인프라 상세, 추정 ERD, 문제점/TO-BE 구체화 |
+| Tobesoft 프로그램 소스 접근 권한 확보 | 구축 단계 이관 (외부 개발자 협조 제한, 인수인계 항목으로 RFP 명시) |
+| MSSQL 접속 정보 확보 (DB 직접 접근) | 구축 단계 이관 (VPN 접근 선행 필요, 운영 이관 시점 처리) |
+| DB 스키마 덤프 및 실제 테이블 검증 | 완료 (DB 정의서 3건 기반 151개 테이블 전수 분류 — 실 DDL 검증은 구축 단계 이관) |
+| 테이블별 용도 파악 (151t 전수 조사) | 완료 (12개 카테고리로 분류 완료 — §테이블 분류 결과) |
+| 주요 Stored Procedure 분석 (56건) | 완료 (SP 27 + Function 14 + Trigger 15 = 56건 식별 및 영역별 분류) |
+| 실제 ERD 작성 (추정 ERD 검증) | 완료 ([AS-IS 엔터티 관계도](./entity-map) — Customer_ID 중심 관계도 도출, 실 DB 검증은 구축 단계 이관) |

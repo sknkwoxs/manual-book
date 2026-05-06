@@ -22,6 +22,19 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# playwright MCP artifacts
+.playwright-mcp/
+
+# wrangler local state
 .wrangler/
+
+# excel exports
 *.xlsx
-*.png
+
+# temporary screenshot/diagram exports (root-level)
+/*.png
+/db-erd-*.png
+/tobe-*.png
+/table-def-*.png
+/web-style-*.png

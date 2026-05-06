@@ -88,80 +88,17 @@ description: One-Stop 자동화 프로세스 설계
 
 ### 1. 전체 자동화 흐름
 
-```mermaid
-graph TD
-    A["주문 발생"]
-    B["1. 자동 수집"]
-    C["2. 자동 입력"]
-    D["3. 결제 확인<br/>PG 연동"]
-    E["CMS 권한 대상<br/>Excel 내보내기"]
-    F["4. 배송 연동"]
-    G["송장 등록<br/>배송 추적<br/>택배사 API"]
-    H["5. 알림 발송<br/>결제완료, 권한부여,<br/>배송시작, 배송완료"]
-    
-    I["자사몰 API<br/>외부몰 API<br/>Webhook"]
-    J["데이터 정규화<br/>통합 DB 저장"]
-    
-    A --> B
-    I -.->|입력| B
-    B --> C
-    C --> J
-    C --> D
-    D --> E
-    D --> F
-    F --> G
-    F --> H
-```
+![1. 전체 자동화 흐름](/diagrams/goodthinking-isp/04-design/process-automation-L91.svg)
 
 ### 2. 상세 프로세스
 
 #### 2.1 주문 자동 수집
 
-```mermaid
-graph LR
-    A["자사몰"]
-    B["Webhook"]
-    C["네이버"]
-    D["API 폴링<br/>5분"]
-    E["쿠팡"]
-    F["API 폴링<br/>5분"]
-    
-    G["수집 서비스"]
-    H["• 데이터 검증<br/>• 중복 체크<br/>• 정규화"]
-    
-    I["통합 DB"]
-    
-    A -->|Webhook| B
-    B --> G
-    C -->|API 폴링 5분| D
-    D --> G
-    E -->|API 폴링 5분| F
-    F --> G
-    G --> H
-    H --> I
-```
+![2.1 주문 자동 수집](/diagrams/goodthinking-isp/04-design/process-automation-L120.svg)
 
 #### 2.2 CMS 권한 처리 (Excel 기반)
 
-```mermaid
-graph TD
-    A["결제 완료 이벤트"]
-    B{구독 상품?}
-    C["구독<br/>처리"]
-    D["일반<br/>주문"]
-    E["구독 생성<br/>통합 DB"]
-    F["CMS 권한 대상<br/>Excel 생성"]
-    G["담당자<br/>CMS 일괄 처리"]
-    H["고객 알림<br/>열람 안내"]
-    
-    A --> B
-    B -->|Yes| C
-    B -->|No| D
-    C --> E
-    E --> F
-    F --> G
-    G --> H
-```
+![2.2 CMS 권한 처리 (Excel 기반)](/diagrams/goodthinking-isp/04-design/process-automation-L146.svg)
 
 ---
 
@@ -251,58 +188,21 @@ graph TD
 
 ### 1. 수집 오류
 
-```mermaid
-graph TD
-    A["수집 실패"]
-    B["재시도 3회"]
-    C{성공?}
-    D["오류 로그 기록"]
-    E["담당자 알림<br/>Slack/메일"]
-    
-    A --> B
-    B --> C
-    C -->|Yes| End1["완료"]
-    C -->|No| D
-    D --> E
-    E --> End2["대기"]
-```
+![1. 수집 오류](/diagrams/goodthinking-isp/04-design/process-automation-L254.svg)
 
 ### 2. CMS 권한 처리 오류
 
-```mermaid
-graph TD
-    A["Excel 생성/다운로드 오류"]
-    B["오류 로그 기록"]
-    C["담당자 알림"]
-    D["수동 대상 목록<br/>확인 후 처리"]
-    
-    A --> B
-    B --> C
-    C --> D
-    D --> End1["완료"]
-```
+![2. CMS 권한 처리 오류](/diagrams/goodthinking-isp/04-design/process-automation-L272.svg)
 
 ### 3. 데이터 불일치
 
-```mermaid
-graph TD
-    A["고객 매칭 실패"]
-    B{대응 방식}
-    C["신규 고객<br/>자동 생성"]
-    D["수동 매칭<br/>필요"]
-    E["CS 확인 후<br/>처리"]
-    
-    A --> B
-    B -->|Case 1| C
-    B -->|Case 2| D
-    D --> E
-```
+![3. 데이터 불일치](/diagrams/goodthinking-isp/04-design/process-automation-L287.svg)
 
 ---
 
 ## 성과 지표 (KPI)
 
-> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 인터뷰/워크쉐도잉 후 실측 데이터로 대체 필요.
+> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 화면 시연 인터뷰 후 실측 데이터로 대체 필요.
 
 | 지표 | AS-IS (추정) | TO-BE 목표 | 개선율 | 근거 |
 |------|:------:|:---------:|:------:|------|
@@ -355,16 +255,3 @@ Phase 1 (개발 1차, 2개월)          Phase 2 (개발 2차, 1개월)
 → Phase 1 완료 시 수작업 ~55% 절감
 → Phase 2 완료 시 수작업 ~75% 절감
 ```
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| 2026-02-23 | - | 초안 작성 |
-| 2026-03-03 | 현승인 | 팀별 자동화 대상 매핑 추가 (4개 팀, 24단계), AS-IS→TO-BE 전환 매핑 보강 (결제확인/매출정산/알림 추가), 현행 DB 로직 기반 자동화 전환 매핑 14건 (SP/Trigger/Function → API/이벤트), 트리거 기반 자동화 관련 현행 객체 연결, KPI 추정값 채움 (인터뷰 후 실측 대체 필요), 자동화 우선순위 7건 추가 |
-| 2026-03-03 | 현승인 | 수작업 12건↔자동화 매핑 테이블 신설 (건별 잔여 수작업률 명시), 병목 7건↔자동화 우선순위↔요구사항 교차 매핑 추가, KPI 근거 컬럼 추가 및 업무분석 수치(6.5\~9h/일) 동기화, 팀별 기대 효과 테이블 신설, 자동화 우선순위 7건→8건 확장 (PG/지로 입금 자동 매칭 분리), 구현 단계별 로드맵(Phase 1/2) 추가 |
-| 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: ERP 명칭 이카운트→위하고(WEHAGO) 전면 수정, 인터뷰 확인 병목 3건 추가 (⑧ CTI 미작동 CS-03, ⑨ CMS 수동 복사 SB-05, ⑩ 거래처 미등록 CM-07), 스케줄 기반 자동화에 개인정보 자동 파기 추가 (AD-05, SC-05) |
-| 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: CMS/ERP/외부몰 직접 API 연동 → Excel 템플릿 기반 간소화로 전환 (현행 API 유지 — 나이스페이 PG, 택배사, Playauto), 자동화율·KPI 수치 현실화 (90%→75%), CMS 권한 처리 Excel 기반 흐름으로 재설계, 팀별 기대효과·우선순위·로드맵 보정 |
-| 2026-04-20 | ISP팀 | CMS 개념 보정: 고객 정보 분산 표현에서 CMS 제외 (C/S+웹+CMS 3곳 → C/S+웹 2곳), 좋은생각 CMS는 원고 아카이브 시스템으로 고객 데이터 통합 범위가 아님을 명확화 |
