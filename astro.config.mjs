@@ -210,7 +210,7 @@ export default defineConfig({
                   items: [
                     { label: '4. 제안 요청 개요', link: '/goodthinking-isp/08-rfp/04-proposal-request/' },
                     { label: '4.3.1 시스템 구축(STR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/str-system-build/' },
-                    { label: '4.3.2 기능(SRE) — 79건', link: '/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/' },
+                    { label: '4.3.2 기능(SRE)', link: '/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/' },
                     { label: '4.3.3 보안(SER)', link: '/goodthinking-isp/08-rfp/04-proposal-request/ser-security/' },
                     { label: '4.3.4 데이터(DAR)', link: '/goodthinking-isp/08-rfp/04-proposal-request/dar-data/' },
                     { label: '4.3.5 테스트·운영(TER)', link: '/goodthinking-isp/08-rfp/04-proposal-request/ter-test-ops/' },
