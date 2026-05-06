@@ -36,7 +36,7 @@ description: 7개 분류 114건 요구사항 — 시스템 구축·기능·보�
 전체 요구사항은 **114건**으로 구성됩니다:
 
 - **STR** (시스템 구축): 7건
-- **SRE** (기능)
+- **SRE** (기능): 79건
 - **SER** (보안): 6건
 - **DAR** (데이터): 6건
 - **TER** (테스트·운영): 6건
@@ -49,62 +49,8 @@ description: 7개 분류 114건 요구사항 — 시스템 구축·기능·보�
 
 ### 전체 시스템 아키텍처
 
-```mermaid
-graph TD
-    subgraph "사용자 영역"
-        U1[일반 사용자]
-        U2[CS 관리자]
-        U3[시스템 관리자]
-    end
+![전체 시스템 아키텍처 구성도](/diagrams/08-rfp/system-architecture.svg)
 
-    subgraph "프론트엔드 계층"
-        WEB[웹 SPA<br/>Vue.js/React]
-        ADMIN[관리자 웹<br/>SPA]
-    end
-
-    subgraph "백엔드 계층"
-        API[API Gateway<br/>REST/GraphQL]
-        AUTH[인증·권한 서비스]
-        BIZ[비즈니스 로직<br/>서비스]
-    end
-
-    subgraph "데이터 계층"
-        DB[(메인 DB<br/>MySQL/PostgreSQL)]
-        CACHE[(캐시<br/>Redis)]
-        FILE[파일 스토리지<br/>S3/NAS]
-    end
-
-    subgraph "외부 연동 시스템"
-        PG[나이스페이<br/>결제 PG]
-        PLAY[Playauto<br/>외부몰 연동]
-        CMS[CMS<br/>콘텐츠 관리]
-        ERP[위하고<br/>ERP 시스템]
-        CTI[CTI<br/>전화 상담]
-        SHIP[택배사<br/>배송 연동]
-    end
-
-    U1 --> WEB
-    U2 --> ADMIN
-    U3 --> ADMIN
-
-    WEB --> API
-    ADMIN --> API
-
-    API --> AUTH
-    API --> BIZ
-
-    AUTH --> DB
-    BIZ --> DB
-    BIZ --> CACHE
-    BIZ --> FILE
-
-    BIZ --> PG
-    BIZ --> PLAY
-    BIZ --> CMS
-    BIZ --> ERP
-    BIZ --> CTI
-    BIZ --> SHIP
-```
 
 ### 주요 구성 요소
 
