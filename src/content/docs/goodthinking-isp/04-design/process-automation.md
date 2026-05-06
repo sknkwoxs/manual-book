@@ -302,7 +302,7 @@ graph TD
 
 ## 성과 지표 (KPI)
 
-> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 인터뷰/워크쉐도잉 후 실측 데이터로 대체 필요.
+> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 화면 시연 인터뷰 후 실측 데이터로 대체 필요.
 
 | 지표 | AS-IS (추정) | TO-BE 목표 | 개선율 | 근거 |
 |------|:------:|:---------:|:------:|------|
