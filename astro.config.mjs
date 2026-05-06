@@ -183,6 +183,19 @@ export default defineConfig({
                 { label: '7.3. 용어 사전', link: '/goodthinking-isp/appendix/glossary/' },
               ],
             },
+            {
+              label: '8. 제안요청서(안)',
+              items: [
+                { label: '8.1. 개요', link: '/goodthinking-isp/08-rfp/' },
+                { label: '8.2. 사업 개요', link: '/goodthinking-isp/08-rfp/business-overview/' },
+                { label: '8.3. 현황 및 요구사항', link: '/goodthinking-isp/08-rfp/current-status-requirements/' },
+                { label: '8.4. 제안 요청 내용', link: '/goodthinking-isp/08-rfp/proposal-request/' },
+                { label: '8.5. 제안서 작성 지침', link: '/goodthinking-isp/08-rfp/proposal-guideline/' },
+                { label: '8.6. 평가 및 선정', link: '/goodthinking-isp/08-rfp/evaluation/' },
+                { label: '8.7. 계약 조건', link: '/goodthinking-isp/08-rfp/contract/' },
+                { label: '8.8. 부록', link: '/goodthinking-isp/08-rfp/appendix/' },
+              ],
+            },
           ],
         },
         {
