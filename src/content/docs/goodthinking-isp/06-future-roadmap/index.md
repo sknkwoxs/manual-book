@@ -72,11 +72,3 @@ description: 통합 데이터 기반 미래 서비스 제안
 ## 시너지 효과
 
 ![시너지 효과](/diagrams/goodthinking-isp/06-future-roadmap/index-L95.svg)
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| TBD | - | 초안 작성 |

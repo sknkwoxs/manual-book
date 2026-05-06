@@ -19,12 +19,9 @@ description: 좋은생각 CS 시스템 개선 및 데이터 통합을 위한 정
 
 본 ISP 문서는 다음과 같이 구성되어 있습니다:
 
-### [추진 일정](/goodthinking-isp/schedule/)
-- 전체 일정 개요 (8주, 3인 투입)
-- 주차별 상세 일정 및 산출물
-
-### [1. 프로젝트 개요](/goodthinking-isp/01-project-overview/)
+### [1. 프로젝트 개요](/goodthinking-isp/01-project-overview/business-overview/)
 - 사업 개요 및 배경
+- 추진 일정 (8주, 3인 투입)
 - 현황(AS-IS) 및 개선방향(TO-BE) 상세
 
 ### [2. 현황 분석 (AS-IS Analysis)](/goodthinking-isp/02-analysis/)

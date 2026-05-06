@@ -130,14 +130,3 @@ audit_log (
 | 13 | 시스템 설정 | 사용자, 권한, 코드 관리, 감사로그 | AD-01~07 | ISP 정의 완료 |
 
 > **주**: 화면별 항목/요건 매핑은 ISP 단계에서 정의 완료. 상세 wireframe·UI/UX 설계는 [구축 단계 RFP](/goodthinking-isp/05-implementation/rfp-preparation/)의 "화면 설계서(D-06)" 산출물로 이관됩니다.
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| YYYY-MM-DD | - | 초안 작성 |
-| 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: 기술스택 확정 (React/Ant Design + NestJS + MSSQL/AWS RDS + ECS Fargate), DB엔진 PostgreSQL→MSSQL 전면 수정, 서비스 레이어 5개→11개 모듈 확장, 화면 목록 7개→13개 확장 및 3장 요건번호 연결, 시스템 구성도 외부 연동 보강 (ERP/CTI 추가) |
-| 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: ERP API→Excel 템플릿 연동, CMS API→Excel 기반 처리, CTI 조건부 연동으로 수정 |
-| 2026-04-20 | ISP팀 | CMS 개념 보정: CMSAPI 모듈명을 '구독권한 Excel관리'로 변경 — CS 시스템 내 CMS 모듈이 아닌 구독자 열람 권한 Excel 내보내기 기능임을 명확화 |

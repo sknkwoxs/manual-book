@@ -83,12 +83,11 @@ export default defineConfig({
           label: '좋은생각 ISP',
           items: [
             { label: '개요', link: '/goodthinking-isp/' },
-            { label: '추진 일정', link: '/goodthinking-isp/schedule/' },
             {
               label: '1. 프로젝트 개요',
               items: [
                 { label: '1.1. 사업개요', link: '/goodthinking-isp/01-project-overview/business-overview/' },
-                { label: '1.2. 프로젝트 개요', link: '/goodthinking-isp/01-project-overview/' },
+                { label: '1.2. 추진 일정', link: '/goodthinking-isp/schedule/' },
                 { label: '1.3. 현황 및 개선방향', link: '/goodthinking-isp/01-project-overview/as-is-to-be/' },
               ],
             },

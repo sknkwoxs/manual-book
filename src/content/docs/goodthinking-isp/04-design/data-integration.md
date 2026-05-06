@@ -137,14 +137,3 @@ description: 통합 DB 스키마(ERD) 설계
 
 - 고객: 연락처 + 이름 기준 매칭
 - 주문: 외부 주문번호 기준 중복 체크
-
----
-
-## 작성 이력
-
-| 날짜 | 작성자 | 변경 내용 |
-|------|--------|----------|
-| YYYY-MM-DD | - | 초안 작성 |
-| 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: DB 엔진 PostgreSQL→MSSQL(AWS RDS) 통일, 데이터타입 MSSQL 표준으로 전환 (BIGINT IDENTITY, DATETIME2, NVARCHAR), ERD 4도메인→11도메인 확장 (배송/결제정산/선물/재고도서/시스템관리 추가), 마이그레이션 매핑 테이블 구체화 (On-Prem MSSQL+AWS MySQL→AWS RDS 통합), 코드 표준 확장 (결제수단/배송사/선물상태/사용자역할 추가) |
-| 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: CMS 연동 Mermaid를 API 기반→Excel 기반 흐름으로 수정 |
-| 2026-04-20 | ISP팀 | CMS 개념 보정: AS-IS 다이어그램에서 CMS DB(ptcms_* 13t)를 CS 통합 DB 범위에서 분리, CMS 연동 섹션에 좋은생각 CMS 용도(원고 아카이브) 명시, 마이그레이션 범위에서 CMS 제외 명시 |
