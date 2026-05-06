@@ -13,24 +13,7 @@ ISP 2단계(4\~6주)에서 수행하는 목표 모델 설계 문서입니다.
 
 ### 전환 목표
 
-```mermaid
-graph LR
-    subgraph ASIS["AS-IS (현재)"]
-        A1["C/S 로컬<br/>설치형"]
-        A2["MSSQL+MySQL<br/>분리 운영"]
-        A3["수작업<br/>프로세스"]
-    end
-    
-    subgraph TOBE["TO-BE (목표)"]
-        B1["웹 기반 통합 시스템<br/>(어디서나 접속 가능)"]
-        B2["통합 DB<br/>(단일 고객 뷰)"]
-        B3["자동화 프로세스<br/>(One-Stop 처리)"]
-    end
-    
-    A1 -->|전환| B1
-    A2 -->|전환| B2
-    A3 -->|전환| B3
-```
+![전환 목표](/diagrams/goodthinking-isp/04-design/index-L16.svg)
 
 ### 3대 핵심 목표
 
@@ -42,30 +25,7 @@ graph LR
 
 ### 목표 아키텍처 개요
 
-```mermaid
-graph TB
-    User["사용자 (CS팀)"]
-    User -->|웹 브라우저| GW["AWS Cloud"]
-    
-    subgraph AWS["AWS Cloud"]
-        Admin["통합 Admin(Web)"]
-        Admin_Modules["대시보드 | 고객관리 | 구독관리 | 주문관리 | 배송관리<br/>결제/정산 | CS/상담 | 선물관리 | 재고/도서 | 통계 | 시스템관리"]
-        
-        DB["통합 DB"]
-        DB_Tables["고객 마스터 | 주문 이력 | 구독 정보 | CS 이력<br/>결제/정산 | 배송 | 선물 | 재고/도서 | 감사로그"]
-        
-        APIGateway["API Gateway"]
-        
-        Admin --> Admin_Modules
-        Admin_Modules --> APIGateway
-        APIGateway --> DB
-        DB --> DB_Tables
-    end
-    
-    APIGateway -->|API| Channel["외부 채널(네이버 등)"]
-    APIGateway -->|API| PG["결제 PG(나이스페이)"]
-    APIGateway -->|Excel| CMS["좋은생각 CMS<br/>(구독자 열람 권한<br/>Excel 전달)"]
-```
+![목표 아키텍처 개요](/diagrams/goodthinking-isp/04-design/index-L45.svg)
 
 ### 목표별 실현 방안
 
@@ -156,10 +116,10 @@ SW 아키텍처 설계 프로세스 및 품질 속성 기반 설계 가이드
 
 | 산출물 | 설명 | 상태 |
 |--------|------|:----:|
-| TO-BE ERD (통합모델) | 통합 데이터 모델 | 미착수 |
-| 요구기능정의서 (상세) | 상세 기능 명세 | 미착수 |
-| 시스템 아키텍처 설계서 | 기술 아키텍처 문서 | 미착수 |
-| BPR 설계서 | 개선 프로세스 정의 | 미착수 |
+| TO-BE ERD (통합모델) | 통합 데이터 모델 | 완료 ([TO-BE 엔터티 관계도](./entity-map-tobe) + [데이터 통합 모델](./data-integration)) |
+| 요구기능정의서 (상세) | 상세 기능 명세 | 완료 (사이드바 **3. 기능요건 도출** 카테고리 — 기능 79건 상세 정의) |
+| 시스템 아키텍처 설계서 | 기술 아키텍처 문서 | 완료 ([Web 시스템 아키텍처](./web-architecture) + [아키텍처 설계 방법론](./architecture-methodology)) |
+| BPR 설계서 | 개선 프로세스 정의 | 완료 ([자동화 프로세스 (BPR)](./process-automation)) |
 
 ---
 

@@ -13,103 +13,7 @@ description: 클라우드 기반 웹 시스템 아키텍처 설계
 
 ### TO-BE 시스템 구성도
 
-```mermaid
-graph TD
-    Users["사용자 레이어"]
-    CS["CS 담당자"]
-    OP["운영 담당자"]
-    ADMIN["관리자"]
-    CUST["고객"]
-    
-    Web["웹 애플리케이션 레이어"]
-    WebAdmin["웹 관리자 시스템<br/>(React + Ant Design)"]
-    DASH["대시보드"]
-    CSM["CS 관리"]
-    OM["주문 관리"]
-    CM["고객 관리"]
-    SUBS["구독 관리"]
-    DLV["배송 관리"]
-    PAY["결제/정산"]
-    GIFT["선물 관리"]
-    INV["재고/도서"]
-    STAT["통계/리포트"]
-    SYS["시스템 관리"]
-    
-    APIGW["API 게이트웨이"]
-    APIGW_ITEMS["인증/인가(JWT+RBAC) | 라우팅<br/>레이트 리밋 | 로깅"]
-    
-    Services["서비스 레이어<br/>(NestJS 모듈)"]
-    CustAPI["고객API"]
-    SubsAPI["구독API"]
-    OrderAPI["주문API"]
-    DelivAPI["배송API"]
-    PayAPI["결제API"]
-    CSAPI["CS API"]
-    GiftAPI["선물API"]
-    StockAPI["재고API"]
-    CMSAPI["구독권한<br/>Excel관리"]
-    NotifAPI["알림API"]
-    ReportAPI["리포트API"]
-    
-    Data["데이터 레이어"]
-    DB["통합 DB<br/>MSSQL (AWS RDS)"]
-    Cache["캐시<br/>Redis (ElastiCache)"]
-    
-    External["외부 연동 레이어"]
-    OwnMall["자사몰 API"]
-    ExtMall["외부몰 API<br/>(네이버/쿠팡)"]
-    PG["결제PG API<br/>(나이스페이)"]
-    Delivery["배송사 API<br/>(CJ대한통운/우체국)"]
-    ERP["ERP 연동<br/>(위하고 — Excel 템플릿)"]
-    CTI["CTI 연동<br/>(조건부)"]
-    
-    CS --> Users
-    OP --> Users
-    ADMIN --> Users
-    CUST --> Users
-    
-    Users --> Web
-    Web --> WebAdmin
-    WebAdmin --> DASH
-    WebAdmin --> CSM
-    WebAdmin --> OM
-    WebAdmin --> CM
-    WebAdmin --> SUBS
-    WebAdmin --> DLV
-    WebAdmin --> PAY
-    WebAdmin --> GIFT
-    WebAdmin --> INV
-    WebAdmin --> STAT
-    WebAdmin --> SYS
-    
-    WebAdmin --> APIGW
-    APIGW --> APIGW_ITEMS
-    
-    APIGW --> Services
-    Services --> CustAPI
-    Services --> SubsAPI
-    Services --> OrderAPI
-    Services --> DelivAPI
-    Services --> PayAPI
-    Services --> CSAPI
-    Services --> GiftAPI
-    Services --> StockAPI
-    Services --> CMSAPI
-    Services --> NotifAPI
-    Services --> ReportAPI
-    
-    Services --> Data
-    Data --> DB
-    Data --> Cache
-    
-    Services --> External
-    External --> OwnMall
-    External --> ExtMall
-    External --> PG
-    External --> Delivery
-    External --> ERP
-    External --> CTI
-```
+![TO-BE 시스템 구성도](/diagrams/goodthinking-isp/04-design/web-architecture-L16.svg)
 
 ---
 
@@ -158,19 +62,7 @@ graph TD
 
 ### 1. 인증 (Authentication)
 
-```mermaid
-graph LR
-    Login["로그인"]
-    AuthServer["인증서버"]
-    JWT["JWT 발급"]
-    AccessToken["Access Token"]
-    RefreshToken["Refresh Token"]
-    
-    Login --> AuthServer
-    AuthServer --> JWT
-    JWT --> AccessToken
-    JWT --> RefreshToken
-```
+![1. 인증 (Authentication)](/diagrams/goodthinking-isp/04-design/web-architecture-L161.svg)
 
 | 항목 | 정책 |
 |------|------|
@@ -223,19 +115,21 @@ audit_log (
 
 | No | 화면 | 설명 | 관련 요건 | 상태 |
 |----|------|------|-----------|:----:|
-| 1 | 대시보드 | 핵심 지표 요약 (매출, 구독, CS, 배송) | DB-01~05 | 미착수 |
-| 2 | 고객 목록 | 통합 고객 조회 (채널별 필터) | CM-01~09 | 미착수 |
-| 3 | 고객 상세 | 고객 정보 + 구독/결제/CS/배송 이력 (탭) | CM-01, CM-02, CM-05 | 미착수 |
-| 4 | 구독 관리 | 구독 접수/갱신/해지/CMS 권한 | SB-01~11 | 미착수 |
-| 5 | 주문 목록 | 다채널 주문 통합 조회 | OM-01~05 | 미착수 |
-| 6 | 주문 상세 | 주문 처리, 결제, 배송 연동 | OM-02, OM-03 | 미착수 |
-| 7 | 배송 관리 | 송장 등록, 배송 추적, 정기발송 | DL-01~09 | 미착수 |
-| 8 | 결제/정산 | 결제 확인, 환불, 정산 리포트, 이연수익 | FN-01~16 | 미착수 |
-| 9 | CS/상담 | 문의 접수, 처리, CTI 연동, 상담 이력 | CS-01~10 | 미착수 |
-| 10 | 선물 관리 | 선물 주문, 발송, 재고 | GF-01~04 | 미착수 |
-| 11 | 재고/도서 | 도서 관리, 재고 현황, 입출고 | BK-01~03 | 미착수 |
-| 12 | 통계/리포트 | 매출, 구독, CS 분석 리포트 | DB-01~05, FN-15~16 | 미착수 |
-| 13 | 시스템 설정 | 사용자, 권한, 코드 관리, 감사로그 | AD-01~07 | 미착수 |
+| 1 | 대시보드 | 핵심 지표 요약 (매출, 구독, CS, 배송) | DB-01~05 | ISP 정의 완료 |
+| 2 | 고객 목록 | 통합 고객 조회 (채널별 필터) | CM-01~09 | ISP 정의 완료 |
+| 3 | 고객 상세 | 고객 정보 + 구독/결제/CS/배송 이력 (탭) | CM-01, CM-02, CM-05 | ISP 정의 완료 |
+| 4 | 구독 관리 | 구독 접수/갱신/해지/CMS 권한 | SB-01~11 | ISP 정의 완료 |
+| 5 | 주문 목록 | 다채널 주문 통합 조회 | OM-01~05 | ISP 정의 완료 |
+| 6 | 주문 상세 | 주문 처리, 결제, 배송 연동 | OM-02, OM-03 | ISP 정의 완료 |
+| 7 | 배송 관리 | 송장 등록, 배송 추적, 정기발송 | DL-01~09 | ISP 정의 완료 |
+| 8 | 결제/정산 | 결제 확인, 환불, 정산 리포트, 이연수익 | FN-01~16 | ISP 정의 완료 |
+| 9 | CS/상담 | 문의 접수, 처리, CTI 연동, 상담 이력 | CS-01~10 | ISP 정의 완료 |
+| 10 | 선물 관리 | 선물 주문, 발송, 재고 | GF-01~04 | ISP 정의 완료 |
+| 11 | 재고/도서 | 도서 관리, 재고 현황, 입출고 | BK-01~03 | ISP 정의 완료 |
+| 12 | 통계/리포트 | 매출, 구독, CS 분석 리포트 | DB-01~05, FN-15~16 | ISP 정의 완료 |
+| 13 | 시스템 설정 | 사용자, 권한, 코드 관리, 감사로그 | AD-01~07 | ISP 정의 완료 |
+
+> **주**: 화면별 항목/요건 매핑은 ISP 단계에서 정의 완료. 상세 wireframe·UI/UX 설계는 [구축 단계 RFP](/goodthinking-isp/05-implementation/rfp-preparation/)의 "화면 설계서(D-06)" 산출물로 이관됩니다.
 
 ---
 

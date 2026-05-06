@@ -11,28 +11,7 @@ description: 통합 데이터 기반 미래 서비스 제안
 
 ## 로드맵 개요
 
-```mermaid
-flowchart LR
-    subgraph Phase1["Phase 1<br/>(현재 ISP)"]
-        A["CS 웹 전환"]
-        A1["• 데이터 통합<br/>• 프로세스 자동화<br/>• CMS 연동"]
-        A --> A1
-    end
-    
-    subgraph Phase2["Phase 2"]
-        B["홈페이지 리뉴얼"]
-        B1["• UI/UX 개선<br/>• 웹 에디터<br/>• 브랜드 아이덴티티"]
-        B --> B1
-    end
-    
-    subgraph Phase3["Phase 3"]
-        C["AI & 아카이브"]
-        C1["• 감성 검색<br/>• AI 에디터<br/>• 디지털 아카이브"]
-        C --> C1
-    end
-    
-    Phase1 --> Phase2 --> Phase3
-```
+![로드맵 개요](/diagrams/goodthinking-isp/06-future-roadmap/index-L14.svg)
 
 ---
 
@@ -92,38 +71,7 @@ flowchart LR
 
 ## 시너지 효과
 
-```mermaid
-graph TD
-    A["통합 데이터 플랫폼"]
-    
-    B["고객 데이터"]
-    C["주문 데이터"]
-    D["콘텐츠 데이터"]
-    E["행동 데이터"]
-    
-    F["데이터 분석"]
-    
-    G["개인화 서비스"]
-    H["AI 추천 서비스"]
-    I["인사이트 리포트"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    
-    B --> F
-    C --> F
-    D --> F
-    E --> F
-    
-    F --> G
-    F --> H
-    F --> I
-    
-    style A fill:#f0f0f0,stroke:#333,stroke-width:2px
-    style F fill:#e8e8e8,stroke:#333,stroke-width:2px
-```
+![시너지 효과](/diagrams/goodthinking-isp/06-future-roadmap/index-L95.svg)
 
 ---
 

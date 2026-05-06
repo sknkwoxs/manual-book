@@ -26,31 +26,7 @@ description: 좋은생각 CS 시스템 웹 전환 ISP 킥오프 회의 안건 (2
 
 ## 조직 구성 (2026.01.06 기준)
 
-```mermaid
-graph TD
-    CEO["<b>대표이사</b><br/>정용철"]
-
-    SUB["<b>정기구독팀</b><br/>정황규, 어은진<br/><small>인/아웃바운드, 온라인 영업</small>"]
-    SALES["<b>영업추진팀</b><br/>이성수, 권지은<br/><small>월간지 총판, 서점, 다량 판매, 단행본 영업</small>"]
-    ADMIN["<b>경영지원팀</b><br/>송윤경, 김나현<br/><small>인사, 총무, 재무/회계</small>"]
-    CONTENT["<b>콘텐츠부문</b><br/>정다정 연구소장"]
-
-    EDIT["<b>편집실</b><br/>이민애 실장"]
-    MONTHLY["<b>월간지팀</b><br/>김혜원, 김지민, 김지호, 함은재<br/><small>월간지 기획, 편집, 디자인, 홍보, 영업전담, SNS 마케팅</small>"]
-    BOOK["<b>단행본팀</b><br/>강시현<br/><small>단행본 기획, 편집, 디자인, 제작 총괄, SNS 마케팅</small>"]
-    LAB["<b>콘텐츠 연구소</b><br/>구세영, 최가은, 김승준<br/><small>콘텐츠 개발, 디자인</small>"]
-
-    CEO --> SUB
-    CEO --> SALES
-    CEO --> ADMIN
-    CEO --> CONTENT
-
-    CONTENT --> EDIT
-    CONTENT --> LAB
-
-    EDIT --> MONTHLY
-    EDIT --> BOOK
-```
+![조직 구성 (2026.01.06 기준)](/diagrams/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda-L29.svg)
 
 ---
 
@@ -97,39 +73,15 @@ ISP 착수 전, 좋은생각의 실제 업무 프로세스 전체상을 파악�
 
 **주문처리 프로세스 담당팀 매핑**:
 
-```mermaid
-graph LR
-    A["① 주문 발생/접수<br/><small>담당: ___<br/>시스템: ___</small>"]
-    B["② 주문 수집<br/><small>담당: ___<br/>시스템: ___</small>"]
-    C["③ CS 시스템 입력<br/><small>담당: ___<br/>시스템: CS프로그램</small>"]
-    D["④ 결제 확인<br/><small>담당: ___<br/>시스템: ___</small>"]
-    E["⑤ 권한부여/배송<br/><small>담당: ___<br/>시스템: ___</small>"]
-    F["⑥ 완료/사후처리<br/><small>담당: ___<br/>시스템: ___</small>"]
-
-    A --> B --> C --> D --> E --> F
-```
+![역할 매핑 결과 (회의 중 작성)](/diagrams/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda-L100.svg)
 
 **데이터 취합 프로세스 담당팀 매핑**:
 
-```mermaid
-graph LR
-    A["① 채널별 데이터 수집<br/><small>담당: ___<br/>도구: ___</small>"]
-    B["② 데이터 통합<br/><small>담당: ___<br/>도구: ___</small>"]
-    C["③ CS 시스템 반영<br/><small>담당: ___<br/>도구: CS프로그램</small>"]
-    D["④ 검증<br/><small>담당: ___<br/>도구: ___</small>"]
-
-    A --> B --> C --> D
-```
+![역할 매핑 결과 (회의 중 작성)](/diagrams/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda-L114.svg)
 
 **CS 처리 담당팀 매핑**:
 
-```mermaid
-graph LR
-    A["내부 CS 처리<br/><small>담당: ___</small>"]
-    B["외주 콜센터<br/><small>더아이앤오<br/>담당: ___</small>"]
-    C["시스템 유지보수<br/><small>담당: ___</small>"]
-    D["경영 의사결정<br/><small>담당: ___</small>"]
-```
+![diagram](/diagrams/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda-L126.svg)
 
 ---
 
@@ -204,13 +156,7 @@ graph LR
 
 ### 테이블 구조 분석 방법
 
-```mermaid
-graph TD
-    A["공유받은 DB 정의서·ERD 분석"] --> B["테이블 구조 파악"]
-    B --> C["현행 시스템 정밀진단"]
-    C --> D["AS-IS ERD 작성"]
-    D --> E["TO-BE 설계의 기초 데이터"]
-```
+![테이블 구조 분석 방법](/diagrams/goodthinking-isp/02-analysis/meeting-notes/kickoff-agenda-L207.svg)
 
 - 고객 측에서 공유받은 DB 정의서(ERD, 테이블 정의서, 테이블 목록)를 기반으로 테이블 구조를 파악
 - DB에 직접 접근하지 않고, 문서 기반으로 현행 데이터 구조를 분석
@@ -222,11 +168,11 @@ graph TD
 | 순서 | 작업                              | 산출물                                    | 상태 |
 |:----:|----------------------------------|------------------------------------------|:----:|
 | 1    | 회의록 작성                        | 킥오프 회의 안건 문서 (본 문서)                | 완료   |
-| 2    | 공유 자료 분석 (18건)               | 자료 분석 보고서 (DB 구조·업무흐름·기능 범위 요약) | 미착수   |
-| 3    | 인터뷰 대상자-업무구간 매핑표 확정      | 대상자별 역할·담당 구간 매핑표                   | 미착수   |
-| 4    | 대상자별 맞춤 질문지 설계             | 인터뷰 질문지 (대상자별)                       | 미착수   |
-| 5    | 인터뷰 일정 재요청 (정주안 대표 통해)   | 확정 일정표                                  | 미착수   |
-| 6    | 시스템 정밀진단 착수                   | AS-IS ERD, 시스템 진단 보고서                  | 미착수   |
+| 2    | 공유 자료 분석 (18건)               | 자료 분석 보고서 (DB 구조·업무흐름·기능 범위 요약) | 완료 ([시스템 정밀진단](/goodthinking-isp/02-analysis/system-diagnosis/) + [업무 분석](/goodthinking-isp/02-analysis/business-analysis/)) |
+| 3    | 인터뷰 대상자-업무구간 매핑표 확정      | 대상자별 역할·담당 구간 매핑표                   | 완료 ([인터뷰 계획](/goodthinking-isp/02-analysis/interview/) — 12명 매핑) |
+| 4    | 대상자별 맞춤 질문지 설계             | 인터뷰 질문지 (대상자별)                       | 완료 ([인터뷰 계획](/goodthinking-isp/02-analysis/interview/) — 유형 A\~G 질문지) |
+| 5    | 인터뷰 일정 재요청 (정주안 대표 통해)   | 확정 일정표                                  | 완료 (3/12 \~ 4/23 인터뷰 일정 확정·실시) |
+| 6    | 시스템 정밀진단 착수                   | AS-IS ERD, 시스템 진단 보고서                  | 완료 ([시스템 정밀진단](/goodthinking-isp/02-analysis/system-diagnosis/) + [AS-IS 엔터티 관계도](/goodthinking-isp/02-analysis/entity-map/)) |
 
 ---
 

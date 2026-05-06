@@ -33,24 +33,7 @@ description: 좋은생각 CS 시스템 웹 전환 ISP 사업의 배경, 목적 �
 
 ### 조직 구조
 
-```mermaid
-graph TD
-    CEO["정용철<br/>(CEO)"]
-    
-    CEO --> Content["콘텐츠부문<br/>정다정 (연구소장)"]
-    CEO --> Support["경영지원팀<br/>송윤경, 김나현"]
-    CEO --> Art["앵두아트프로젝트"]
-    
-    Content --> Edit["편집실"]
-    Content --> Plan["(기획)"]
-    
-    Edit --> Monthly["월간지팀"]
-    Edit --> Book["단행본팀"]
-    
-    Support --> Sub["정기구독팀<br/>정황규, 어은진"]
-    Support --> Sales["영업추진팀<br/>이성수, 권지은"]
-    Support --> Call["외부콜센터<br/>더아이앤오<br/>~4명"]
-```
+![조직 구조](/diagrams/goodthinking-isp/01-project-overview/business-overview-L36.svg)
 
 | 부서 | 주요 업무 | 인원 | 주요 시스템 |
 |------|----------|:----:|-----------|
@@ -135,17 +118,7 @@ graph TD
 
 ## 프로젝트 체계도
 
-```mermaid
-graph TD
-    PM["프로젝트 관리<br/>현승인 (PM)"]
-    
-    PM --> Analysis["현황 분석<br/>· 업무 분석<br/>· 시스템 진단<br/>· 데이터 분석"]
-    PM --> Design["설계<br/>· 아키텍처 설계<br/>· 데이터 모델링<br/>· 인터페이스 정의"]
-    PM --> Impl["구현 계획<br/>· RFP 작성<br/>· 마이그레이션 계획<br/>· 비용 산정"]
-    
-    Client["발주처<br/>(주)좋은생각사람들<br/>정용철 대표"]
-    Client -.->|요구사항 확인·승인| PM
-```
+![프로젝트 체계도](/diagrams/goodthinking-isp/01-project-overview/business-overview-L138.svg)
 
 ## 승인
 

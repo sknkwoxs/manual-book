@@ -88,80 +88,17 @@ description: One-Stop 자동화 프로세스 설계
 
 ### 1. 전체 자동화 흐름
 
-```mermaid
-graph TD
-    A["주문 발생"]
-    B["1. 자동 수집"]
-    C["2. 자동 입력"]
-    D["3. 결제 확인<br/>PG 연동"]
-    E["CMS 권한 대상<br/>Excel 내보내기"]
-    F["4. 배송 연동"]
-    G["송장 등록<br/>배송 추적<br/>택배사 API"]
-    H["5. 알림 발송<br/>결제완료, 권한부여,<br/>배송시작, 배송완료"]
-    
-    I["자사몰 API<br/>외부몰 API<br/>Webhook"]
-    J["데이터 정규화<br/>통합 DB 저장"]
-    
-    A --> B
-    I -.->|입력| B
-    B --> C
-    C --> J
-    C --> D
-    D --> E
-    D --> F
-    F --> G
-    F --> H
-```
+![1. 전체 자동화 흐름](/diagrams/goodthinking-isp/04-design/process-automation-L91.svg)
 
 ### 2. 상세 프로세스
 
 #### 2.1 주문 자동 수집
 
-```mermaid
-graph LR
-    A["자사몰"]
-    B["Webhook"]
-    C["네이버"]
-    D["API 폴링<br/>5분"]
-    E["쿠팡"]
-    F["API 폴링<br/>5분"]
-    
-    G["수집 서비스"]
-    H["• 데이터 검증<br/>• 중복 체크<br/>• 정규화"]
-    
-    I["통합 DB"]
-    
-    A -->|Webhook| B
-    B --> G
-    C -->|API 폴링 5분| D
-    D --> G
-    E -->|API 폴링 5분| F
-    F --> G
-    G --> H
-    H --> I
-```
+![2.1 주문 자동 수집](/diagrams/goodthinking-isp/04-design/process-automation-L120.svg)
 
 #### 2.2 CMS 권한 처리 (Excel 기반)
 
-```mermaid
-graph TD
-    A["결제 완료 이벤트"]
-    B{구독 상품?}
-    C["구독<br/>처리"]
-    D["일반<br/>주문"]
-    E["구독 생성<br/>통합 DB"]
-    F["CMS 권한 대상<br/>Excel 생성"]
-    G["담당자<br/>CMS 일괄 처리"]
-    H["고객 알림<br/>열람 안내"]
-    
-    A --> B
-    B -->|Yes| C
-    B -->|No| D
-    C --> E
-    E --> F
-    F --> G
-    G --> H
-```
+![2.2 CMS 권한 처리 (Excel 기반)](/diagrams/goodthinking-isp/04-design/process-automation-L146.svg)
 
 ---
 
@@ -251,52 +188,15 @@ graph TD
 
 ### 1. 수집 오류
 
-```mermaid
-graph TD
-    A["수집 실패"]
-    B["재시도 3회"]
-    C{성공?}
-    D["오류 로그 기록"]
-    E["담당자 알림<br/>Slack/메일"]
-    
-    A --> B
-    B --> C
-    C -->|Yes| End1["완료"]
-    C -->|No| D
-    D --> E
-    E --> End2["대기"]
-```
+![1. 수집 오류](/diagrams/goodthinking-isp/04-design/process-automation-L254.svg)
 
 ### 2. CMS 권한 처리 오류
 
-```mermaid
-graph TD
-    A["Excel 생성/다운로드 오류"]
-    B["오류 로그 기록"]
-    C["담당자 알림"]
-    D["수동 대상 목록<br/>확인 후 처리"]
-    
-    A --> B
-    B --> C
-    C --> D
-    D --> End1["완료"]
-```
+![2. CMS 권한 처리 오류](/diagrams/goodthinking-isp/04-design/process-automation-L272.svg)
 
 ### 3. 데이터 불일치
 
-```mermaid
-graph TD
-    A["고객 매칭 실패"]
-    B{대응 방식}
-    C["신규 고객<br/>자동 생성"]
-    D["수동 매칭<br/>필요"]
-    E["CS 확인 후<br/>처리"]
-    
-    A --> B
-    B -->|Case 1| C
-    B -->|Case 2| D
-    D --> E
-```
+![3. 데이터 불일치](/diagrams/goodthinking-isp/04-design/process-automation-L287.svg)
 
 ---
 

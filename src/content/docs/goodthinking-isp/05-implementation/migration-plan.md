@@ -26,36 +26,7 @@ description: 데이터 이관 및 시스템 전환 전략
 
 ### 이관 전략
 
-```mermaid
-graph TD
-    A["마이그레이션 전략"]
-    
-    A --> B["1단계: 준비"]
-    B --> B1["소스 데이터 분석"]
-    B --> B2["매핑 테이블 작성"]
-    B --> B3["ETL 스크립트 개발"]
-    
-    A --> C["2단계: 테스트 이관"]
-    C --> C1["샘플 데이터 이관"]
-    C --> C2["검증 및 수정"]
-    C --> C3["반복 테스트"]
-    
-    A --> D["3단계: 본 이관"]
-    D --> D1["전체 데이터 이관"]
-    D --> D2["정합성 검증"]
-    D --> D3["차이 데이터 동기화"]
-    
-    A --> E["4단계: 전환"]
-    E --> E1["신규 시스템 오픈"]
-    E --> E2["기존 시스템 폐쇄"]
-    E --> E3["병행 운영 기간 종료"]
-    
-    style A fill:#e3f2fd
-    style B fill:#f3e5f5
-    style C fill:#f3e5f5
-    style D fill:#f3e5f5
-    style E fill:#f3e5f5
-```
+![이관 전략](/diagrams/goodthinking-isp/05-implementation/migration-plan-L29.svg)
 
 ---
 
@@ -237,37 +208,14 @@ WHERE YEAR(payment_date) = 2024
 
 ### 옵션 1: 빅뱅 전환
 
-```mermaid
-flowchart LR
-    A["기존 시스템 운영"] --> B["일시 중단<br/>4시간"]
-    B --> C["데이터 이관"]
-    C --> D["신규 시스템 오픈"]
-    
-    style A fill:#fff9c4
-    style B fill:#ffccbc
-    style C fill:#ffccbc
-    style D fill:#c8e6c9
-```
+![옵션 1: 빅뱅 전환](/diagrams/goodthinking-isp/05-implementation/migration-plan-L240.svg)
 
 **장점:** 전환 기간 짧음, 단순함  
 **단점:** 리스크 높음, 롤백 어려움
 
 ### 옵션 2: 단계적 전환 (권장)
 
-```mermaid
-flowchart LR
-    A["기존 시스템"] --> B["병행 운영<br/>1주"]
-    B --> C["종료"]
-    
-    D["신규 시스템"] --> B
-    B --> E["단독 운영"]
-    
-    style A fill:#fff9c4
-    style D fill:#c8e6c9
-    style B fill:#b3e5fc
-    style E fill:#c8e6c9
-    style C fill:#ffccbc
-```
+![옵션 2: 단계적 전환 (권장)](/diagrams/goodthinking-isp/05-implementation/migration-plan-L257.svg)
 
 **장점:** 리스크 분산, 롤백 가능  
 **단점:** 병행 운영 부담

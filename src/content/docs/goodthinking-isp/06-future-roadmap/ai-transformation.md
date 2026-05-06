@@ -31,47 +31,11 @@ description: 감성 분석 검색 및 AI 에디터 도입
 
 #### 컨셉
 
-```mermaid
-graph LR
-    A["사용자 입력<br/>오늘 힘든 하루를<br/>보냈어요..."]
-    
-    B["감성 분석<br/><br/>감정: 피로, 슬픔<br/>니즈: 위로, 공감"]
-    
-    C["검색 결과<br/><br/>당신에게 위로가 될<br/>이야기들<br/><br/>• 힘든 날의 위로<br/>• 다시 일어서는 용기<br/>• 작은 행복 찾기"]
-    
-    A --> B
-    B --> C
-    
-    style A fill:#f9f9f9,stroke:#666,stroke-width:2px
-    style B fill:#f0f0f0,stroke:#666,stroke-width:2px
-    style C fill:#f9f9f9,stroke:#666,stroke-width:2px
-```
+![컨셉](/diagrams/goodthinking-isp/06-future-roadmap/ai-transformation-L34.svg)
 
 #### 기술 구현 방안
 
-```mermaid
-flowchart TD
-    A["[사용자 쿼리]"]
-    
-    B["감성 분석<br/>(NLU)<br/><br/>LLM: GPT-4/Claude<br/>또는 감정 분류 모델"]
-    
-    C["벡터 검색<br/>(Semantic)"]
-    D["콘텐츠 임베딩<br/>(Vector DB)"]
-    
-    E["랭킹 & 추천<br/><br/>사용자 히스토리<br/>인기도"]
-    
-    F["[추천 콘텐츠]"]
-    
-    A --> B
-    B --> C
-    D --> C
-    C --> E
-    E --> F
-    
-    style B fill:#e8f4f8,stroke:#333,stroke-width:2px
-    style C fill:#e8f4f8,stroke:#333,stroke-width:2px
-    style E fill:#e8f4f8,stroke:#333,stroke-width:2px
-```
+![기술 구현 방안](/diagrams/goodthinking-isp/06-future-roadmap/ai-transformation-L52.svg)
 
 #### 검색 시나리오
 
@@ -88,90 +52,11 @@ flowchart TD
 
 #### 기능 구성
 
-```mermaid
-graph TD
-    A["AI 에디터 기능"]
-    
-    B["1. 오타 교정"]
-    B1["맞춤법 검사"]
-    B2["띄어쓰기 교정"]
-    B3["문법 오류 수정"]
-    
-    C["2. 원고 요약"]
-    C1["핵심 내용 추출"]
-    C2["3줄 요약 생성"]
-    C3["키워드 자동 태깅"]
-    
-    D["3. 품질 분석"]
-    D1["가독성 점수"]
-    D2["감성 톤 분석"]
-    D3["유사 콘텐츠 중복 체크"]
-    
-    E["4. 편집 제안"]
-    E1["문장 개선 제안"]
-    E2["표현 다양화 제안"]
-    E3["좋은생각 스타일 가이드 적용"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    
-    B --> B1
-    B --> B2
-    B --> B3
-    
-    C --> C1
-    C --> C2
-    C --> C3
-    
-    D --> D1
-    D --> D2
-    D --> D3
-    
-    E --> E1
-    E --> E2
-    E --> E3
-    
-    style A fill:#f0f0f0,stroke:#333,stroke-width:2px
-```
+![기능 구성](/diagrams/goodthinking-isp/06-future-roadmap/ai-transformation-L91.svg)
 
 #### 워크플로우
 
-```mermaid
-flowchart TD
-    A["[원고 접수]"]
-    B["[AI 자동 분석]"]
-    
-    C["오타 교정"]
-    D["요약 생성"]
-    E["품질 점수"]
-    
-    F["[AI 분석 리포트]"]
-    G["[편집자 검토]"]
-    
-    H["[채택/수정]"]
-    I["[반려]"]
-    
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-    
-    C --> F
-    D --> F
-    E --> F
-    
-    F --> G
-    G --> H
-    G --> I
-    
-    style A fill:#e8f4f8,stroke:#333,stroke-width:2px
-    style B fill:#e8f4f8,stroke:#333,stroke-width:2px
-    style F fill:#f0e8f8,stroke:#333,stroke-width:2px
-    style H fill:#d4f1d4,stroke:#333,stroke-width:2px
-    style I fill:#f1d4d4,stroke:#333,stroke-width:2px
-```
+![워크플로우](/diagrams/goodthinking-isp/06-future-roadmap/ai-transformation-L141.svg)
 
 ---
 

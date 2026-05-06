@@ -54,52 +54,7 @@ description: 좋은생각 CS 시스템의 현재 상태와 목표 상태 비교 
 
 #### 아키텍처 다이어그램
 
-```mermaid
-graph TD
-    subgraph CS["CS 환경 — cs.positive.co.kr (203.231.234.6)"]
-        A["CS 프로그램<br/>(XPlatform 9.2.1 + eGovFrame 3.2)<br/>ActiveX · Windows/IE 전용<br/>Tomcat 7.0 / Win Server 2012"]
-    end
-
-    subgraph AWS["AWS 웹 환경"]
-        B1["① 웹사이트<br/>(Homepage SPA)"]
-        B2["② CMS<br/>(기사 관리 시스템)"]
-        B3["③ 웹사이트 관리시스템<br/>(Node.js Admin)"]
-    end
-
-    subgraph EXT["외부 연동"]
-        E1["네이버 스마트스토어"]
-        E2["쿠팡"]
-        E3["Playauto<br/>(주문 수집)"]
-        E4["나이스페이<br/>(PG/CTI ARS)"]
-        E5["금융결제원<br/>(지로)"]
-        E6["위하고(WEHAGO)"]
-    end
-
-    subgraph DB["데이터베이스"]
-        C["MSSQL 2008<br/>(CS 고객관리 DB)<br/>203.231.234.7:1433<br/>75t · 20SP · 14FN · 15TR"]
-        D["MSSQL<br/>(홈페이지 DB + CMS DB)<br/>AWS RDS 추정 · 76t"]
-    end
-
-    A --> C
-    B1 --> D
-    B2 --> D
-    B3 --> D
-
-    A <-->|"나이스페이 API<br/>(카드/ARS/가상계좌/현금영수증)"| E4
-    A <-->|"ocrser.txt 파일 업로드"| E5
-    A <-->|"엑셀 양방향<br/>(거래처/재고수불부)"| E6
-    E1 --> E3
-    E2 --> E3
-
-    C -.->|"[X] 범용 API 연동 없음<br/>Excel 수작업 이관"| D
-    C <-->|"[주의] 선수수익 연동만 존재<br/>(웹 구독접수/결제/발송)"| D
-    E3 -.->|"[X] 미연동<br/>Excel 다운로드 → CS 업로드"| C
-
-    style CS fill:#ffccbc
-    style AWS fill:#b3e5fc
-    style EXT fill:#e1bee7
-    style DB fill:#f0f4c3
-```
+![아키텍처 다이어그램](/diagrams/goodthinking-isp/01-project-overview/as-is-to-be-L57.svg)
 
 **문제점:**
 - CS 프로그램이 ActiveX/IE 전용으로 Windows PC + 내부망/VPN에서만 접근 가능
@@ -124,23 +79,7 @@ graph TD
 
 ### 3. 프로세스 현황
 
-```mermaid
-flowchart LR
-    A["주문발생"] --> B["Excel 다운로드"]
-    B --> C["수기 취합"]
-    C --> D["CS 입력"]
-    D --> E["권한 부여"]
-    
-    F["휴먼 에러 발생 구간"]
-    
-    D -.->|에러| F
-    
-    style A fill:#c8e6c9
-    style E fill:#c8e6c9
-    style F fill:#ffccbc
-    style C fill:#fff9c4
-    style D fill:#fff9c4
-```
+![3. 프로세스 현황](/diagrams/goodthinking-isp/01-project-overview/as-is-to-be-L127.svg)
 
 **문제점:**
 - 처리 지연 (최대 4시간 이상)
@@ -153,21 +92,7 @@ flowchart LR
 
 ### 1. 아키텍처 목표
 
-```mermaid
-graph TD
-    subgraph WEB["웹 기반 통합 시스템"]
-        A["CS Admin"]
-        B["CMS"]
-        C["쇼핑몰"]
-        
-        A --> D["통합 DB<br/>(Cloud)"]
-        B --> D
-        C --> D
-    end
-    
-    style WEB fill:#c8e6c9
-    style D fill:#fff9c4
-```
+![1. 아키텍처 목표](/diagrams/goodthinking-isp/01-project-overview/as-is-to-be-L156.svg)
 
 ### 2. 데이터 통합 목표
 
@@ -177,24 +102,7 @@ graph TD
 
 ### 3. 자동화 프로세스 목표
 
-```mermaid
-flowchart LR
-    A["주문발생"] --> B["자동 수집"]
-    B --> C["자동 처리"]
-    C --> D["즉시 권한 부여"]
-    D --> E["알림 발송"]
-    
-    F["시스템 자동 처리"]
-    
-    C -.->|시스템 자동| F
-    
-    style A fill:#c8e6c9
-    style E fill:#c8e6c9
-    style F fill:#c8e6c9
-    style B fill:#b3e5fc
-    style C fill:#b3e5fc
-    style D fill:#b3e5fc
-```
+![3. 자동화 프로세스 목표](/diagrams/goodthinking-isp/01-project-overview/as-is-to-be-L180.svg)
 
 ---
 

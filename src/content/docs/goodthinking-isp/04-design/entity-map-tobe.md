@@ -15,115 +15,7 @@ sidebar:
 
 C/S 로컬 시스템이 **웹 기반 웹 CS 시스템**으로 전환되고, 분산된 외부 시스템 연동이 **API/자동화**로 일원화됩니다.
 
-```mermaid
-flowchart LR
-    %% ── 조직 레이어 ──
-    subgraph ORG["🏢 조직"]
-        direction TB
-        SUB["정기구독팀"]
-        SALES["영업추진팀"]
-        MGMT["경영지원팀"]
-        EDIT["편집실"]
-        CALL["외주 콜센터"]
-    end
-
-    %% ── 시스템 레이어 ──
-    subgraph SYS["💻 시스템"]
-        direction TB
-        subgraph SYS_CORE["🌐 웹 CS 시스템 (Web)"]
-            direction TB
-            ADMIN_WEB["고객 정보 통합 모듈"]
-            DASH["대시보드"]
-            API_GW["고객 정보 템플릿 매핑"]
-        end
-        subgraph SYS_DATA["📦 통합 DB"]
-            direction TB
-            DB["AWS RDS MSSQL"]
-        end
-        subgraph SYS_LEGACY["🏠 현행 유지"]
-            direction TB
-            ERP["위하고 ERP"]
-            CMS["CMS"]
-            HP_ADMIN["홈페이지 어드민"]
-            NAS["NAS"]
-        end
-        subgraph SYS_EXT["🌐 외부 연동"]
-            direction TB
-            NICE["나이스페이"]
-            PLAY["Playauto"]
-            KORYO["고려출판물류"]
-            POST["우체국"]
-            CJ["CJ대한통운"]
-            BANK["신한뱅크"]
-            CTI_NEW["웹 CTI 정상"]
-            LG["LG유플러스"]
-        end
-    end
-
-    %% ── 업무 레이어 ──
-    subgraph PROC["📋 업무"]
-        direction TB
-        P_SUB["정기구독 관리<br/><small>자동수집·자동매칭·권한연동</small>"]
-        P_SALES["단행본 영업<br/><small>거래처관리·입금자동대조</small>"]
-        P_MGMT["경영관리<br/><small>자동정산·이연수익·리포트</small>"]
-        P_EDIT["콘텐츠 제작<br/><small>원고수집·편집·자동권한연동</small>"]
-        P_CALL["고객상담<br/><small>CTI팝업·통합이력·실적통계</small>"]
-    end
-
-    %% ── 조직 → 시스템 ──
-    SUB --> ADMIN_WEB
-    SUB --> ERP
-
-    SALES --> ADMIN_WEB
-    SALES --> ERP
-
-    MGMT --> ADMIN_WEB
-    MGMT --> ERP
-    MGMT --> BANK
-
-    EDIT --> HP_ADMIN
-    EDIT --> CMS
-    EDIT --> NAS
-
-    CALL --> ADMIN_WEB
-    CALL --> CTI_NEW
-    CALL --> LG
-
-    %% ── 웹 CS 시스템 내부 연동 ──
-    ADMIN_WEB <--> API_GW
-    ADMIN_WEB --> DASH
-    ADMIN_WEB --> DB
-
-    %% ── 고객 정보 템플릿 매핑 → 외부 연동 ──
-    API_GW -->|"결제 API"| NICE
-    API_GW -->|"주문 수집"| PLAY
-    API_GW -->|"송장 API"| CJ
-    API_GW -->|"발송 데이터"| POST
-    API_GW -->|"Excel 자동생성"| ERP
-    API_GW -->|"권한 연동"| CMS
-    API_GW -->|"재고 템플릿"| KORYO
-
-    %% ── CTI 연동 ──
-    CTI_NEW -->|"웹 CTI"| ADMIN_WEB
-    LG -->|"인입"| CTI_NEW
-
-    %% ── 시스템 → 업무 ──
-    ADMIN_WEB -.-> P_SUB
-    ADMIN_WEB -.-> P_SALES
-    ADMIN_WEB -.-> P_MGMT
-    HP_ADMIN -.-> P_EDIT
-    ADMIN_WEB -.-> P_CALL
-
-    %% ── 스타일 ──
-    style ORG fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-    style SYS fill:#fefce8,stroke:#eab308,stroke-width:2px
-    style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style SYS_DATA fill:#e0e7ff,stroke:#6366f1,stroke-width:2px
-    style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-    style PROC fill:#d1fae5,stroke:#10b981,stroke-width:2px
-    style CTI_NEW fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![1. 전체 조감도 (TO-BE)](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L18.svg)
 
 ---
 
@@ -133,55 +25,7 @@ flowchart LR
 
 ### 2-1. 정기구독팀
 
-```mermaid
-flowchart LR
-    subgraph SYS_CORE["🌐 웹 CS 시스템"]
-        WEB["고객 정보 통합 모듈<br/><small>구독·주문·배송 통합</small>"]
-        API["고객 정보 템플릿 매핑"]
-        WEB <--> API
-    end
-    subgraph SYS_LEGACY["🏠 현행 유지"]
-        ERP["위하고 ERP<br/><small>매출·재무</small>"]
-    end
-    subgraph SYS_EXT["🌐 외부"]
-        NICE["나이스페이<br/><small>통합 결제 API</small>"]
-        POST["우체국<br/><small>배송</small>"]
-        CJ["CJ대한통운<br/><small>배송 API</small>"]
-        PLAY["Playauto<br/><small>외부몰</small>"]
-        CMS["CMS<br/><small>열람 권한</small>"]
-    end
-
-    P1(("①"))
-    P2(("②"))
-    P3(("③"))
-    P4(("④"))
-    P5(("⑤"))
-    P6(("⑥"))
-
-    %% 업무 흐름
-    PLAY -->|"API 수집"| P1
-    P1 -->|"자동 등록"| WEB
-    P2 -->|"온라인 처리"| WEB
-    API -->|"송장 API"| CJ
-    API -->|"발송 데이터"| POST
-    P3 -->|"자동 매칭"| WEB
-    NICE -->|"결제 API"| P4
-    P4 -->|"자동 전송"| WEB
-    API -->|"Excel 자동생성"| ERP
-    P5 -->|"원클릭"| WEB
-    API -->|"권한 자동연동"| CMS
-    P6 -->|"자동 알림"| WEB
-
-    style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-    style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P6 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![2-1. 정기구독팀](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L136.svg)
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
@@ -194,45 +38,7 @@ flowchart LR
 
 ### 2-2. 영업추진팀
 
-```mermaid
-flowchart LR
-    subgraph SYS_CORE["🌐 웹 CS 시스템"]
-        WEB["고객 정보 통합 모듈<br/><small>거래처·입금·재고 통합</small>"]
-        API["고객 정보 템플릿 매핑"]
-        WEB <--> API
-    end
-    subgraph SYS_LEGACY["🏠 현행 유지"]
-        ERP["위하고 ERP<br/><small>주력·재고</small>"]
-    end
-    subgraph SYS_EXT["🌐 외부"]
-        KORYO["고려출판물류<br/><small>단행본 출고</small>"]
-        CJ["CJ대한통운<br/><small>배송 API</small>"]
-        BANK["신한뱅크<br/><small>입출금 데이터</small>"]
-    end
-
-    P1(("①"))
-    P2(("②"))
-    P3(("③"))
-    P4(("④"))
-
-    %% 업무 흐름
-    KORYO -->|"재고 템플릿"| P1
-    P1 -->|"자동 반영"| WEB
-    API -->|"Excel 자동생성"| ERP
-    BANK -->|"데이터 업로드"| P2
-    P2 -->|"자동 대조"| WEB
-    P3 -->|"대시보드"| WEB
-    P4 -->|"통합 관리"| WEB
-    API -->|"출고 지시"| CJ
-
-    style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-    style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![2-2. 영업추진팀](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L197.svg)
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
@@ -243,44 +49,7 @@ flowchart LR
 
 ### 2-3. 경영지원팀
 
-```mermaid
-flowchart LR
-    subgraph SYS_CORE["🌐 웹 CS 시스템"]
-        WEB["고객 정보 통합 모듈<br/><small>정산·이연수익·리포트</small>"]
-        API["고객 정보 템플릿 매핑"]
-        WEB <--> API
-    end
-    subgraph SYS_LEGACY["🏠 현행 유지"]
-        ERP["위하고 ERP<br/><small>회계·급여</small>"]
-    end
-    subgraph SYS_EXT["🌐 외부"]
-        BANK["신한 인사이트 뱅크<br/><small>입출금 조회</small>"]
-    end
-
-    P1(("①"))
-    P2(("②"))
-    P3(("③"))
-    P4(("④"))
-    P5(("⑤"))
-
-    %% 업무 흐름
-    API -->|"Excel 자동생성"| ERP
-    P1 -->|"자동 대사"| WEB
-    BANK -->|"데이터 업로드"| P2
-    P2 -->|"자동 매칭"| WEB
-    P3 -->|"자동 계산"| WEB
-    P4 -->|"자동 계산"| WEB
-    P5 -->|"자동 생성"| WEB
-
-    style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-    style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![2-3. 경영지원팀](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L246.svg)
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
@@ -292,45 +61,7 @@ flowchart LR
 
 ### 2-4. 편집실 (월간지 + 단행본)
 
-```mermaid
-flowchart TB
-    subgraph SYS_LEGACY["🏠 현행 유지"]
-        direction LR
-        HP_ADMIN["홈페이지 어드민<br/><small>원고 수집·교정 배분</small>"]
-        CMS["CMS<br/><small>발행 아카이브·검색</small>"]
-        NAS["NAS<br/><small>원고·이미지 저장</small>"]
-        HP_ADMIN -->|"발행"| CMS
-    end
-    subgraph SYS_NEW["정상 신규 연동"]
-        direction LR
-        WEB_API["고객 정보 통합 모듈"]
-        API_MAP["고객 정보 템플릿 매핑"]
-        WEB_API <--> API_MAP
-    end
-
-    P1(("①"))
-    P2(("②"))
-    P3(("③"))
-    P4(("④"))
-
-    %% 업무 흐름 - 콘텐츠 제작
-    P1 -->|"수집"| HP_ADMIN
-    HP_ADMIN -->|"배분"| P2
-    NAS <-->|"원고"| P2
-    P2 -->|"완료"| P3
-    P3 -->|"아카이브"| CMS
-
-    %% 업무 흐름 - 권한 연동 (분리 경로)
-    API_MAP -->|"구독 권한 자동 연동"| P4
-    P4 -->|"열람 권한 반영"| CMS
-
-    style SYS_LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style SYS_NEW fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P1 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
-    style P2 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
-    style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![2-4. 편집실 (월간지 + 단행본)](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L295.svg)
 
 | 업무 | AS-IS | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
@@ -343,42 +74,7 @@ flowchart TB
 
 ### 2-5. 외주 콜센터 (더아이앤오)
 
-```mermaid
-flowchart LR
-    subgraph SYS_CORE["🌐 웹 CS 시스템"]
-        WEB["고객 정보 통합 모듈<br/><small>웹 기반 접속</small>"]
-    end
-    subgraph SYS_EXT["🌐 외부"]
-        CTI_NEW["웹 CTI<br/><small>정상 복구</small>"]
-        LG["LG유플러스<br/><small>인바운드</small>"]
-        AUTO["오토콜<br/><small>아웃바운드</small>"]
-    end
-
-    P1(("①"))
-    P2(("②"))
-    P3(("③"))
-    P4(("④"))
-    P5(("⑤"))
-
-    %% 업무 흐름
-    LG -->|"인입"| CTI_NEW
-    CTI_NEW -->|"팝업"| P1
-    P1 -->|"자동 검색"| WEB
-    AUTO -->|"발신"| P2
-    P2 --> WEB
-    P3 -->|"통합 기록"| WEB
-    P4 -->|"내장 통계"| WEB
-    P5 -->|"결제 링크"| WEB
-
-    style SYS_CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style SYS_EXT fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-    style CTI_NEW fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P1 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P2 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P4 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style P5 fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-```
+![2-5. 외주 콜센터 (더아이앤오)](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L346.svg)
 
 | 업무 | AS-IS 병목 | TO-BE 개선 | 관련 요건 |
 |:---:|:---|:---|:---:|
@@ -396,62 +92,7 @@ flowchart LR
 
 AS-IS의 분산된 시스템 연동이 **고객 정보 템플릿 매핑** 중심으로 일원화됩니다.
 
-```mermaid
-flowchart TB
-    subgraph EXTERNAL["🌐 외부 연동"]
-        direction LR
-        NICE["나이스페이<br/><small>통합 결제</small>"]
-        PLAY["Playauto<br/><small>외부몰</small>"]
-        CJ["CJ대한통운"]
-        POST["우체국"]
-        KORYO["고려출판물류"]
-        BANK["신한뱅크"]
-        LG["LG유플러스"]
-        CTI["웹 CTI"]
-    end
-
-    subgraph CORE["🌐 웹 CS 시스템"]
-        direction LR
-        ADMIN["고객 정보 통합 모듈 (Web)"]
-        API["고객 정보 템플릿 매핑"]
-        DB["통합 DB<br/><small>AWS RDS MSSQL</small>"]
-        DASH["대시보드"]
-
-        ADMIN <--> API
-        ADMIN --> DB
-        ADMIN --> DASH
-    end
-
-    subgraph LEGACY["🏠 현행 유지"]
-        direction LR
-        ERP["위하고 ERP"]
-        HP_ADMIN["홈페이지 어드민"]
-        CMS["CMS"]
-        NAS["NAS"]
-    end
-
-    %% 외부 → 웹 CS 시스템
-    NICE -->|"결제 API"| API
-    PLAY -->|"주문 수집"| API
-    CJ -->|"송장 API"| API
-    POST -->|"발송"| API
-    KORYO -->|"재고"| API
-    BANK -->|"업로드"| API
-    LG -->|"인입"| CTI
-    CTI -->|"팝업"| ADMIN
-
-    %% 웹 CS 시스템 → 현행 유지
-    API -->|"Excel 자동생성"| ERP
-    API -->|"권한 연동"| CMS
-
-    %% 콘텐츠 시스템
-    NAS <-->|"원고"| HP_ADMIN
-    HP_ADMIN -->|"발행"| CMS
-
-    style CORE fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style LEGACY fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
-    style EXTERNAL fill:#fff7ed,stroke:#f97316,stroke-width:2px,stroke-dasharray: 5 5
-```
+![3. 시스템 간 연동 관계 (TO-BE)](/diagrams/goodthinking-isp/04-design/entity-map-tobe-L399.svg)
 
 ---
 

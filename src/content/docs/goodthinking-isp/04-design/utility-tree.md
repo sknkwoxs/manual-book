@@ -11,25 +11,7 @@ Utility Tree는 아키텍처 설계 시 품질 속성의 우선순위를 결정�
 
 ## Utility Tree 구조
 
-```mermaid
-graph TD
-    Root["시스템 유용성<br/>System Utility"]
-    A["가용성<br/>Availability"]
-    B["상호운용성<br/>Interoperability"]
-    C["성능<br/>Performance"]
-    D["보안<br/>Security"]
-    E["변경용이성<br/>Modifiability"]
-    F["사용성<br/>Usability"]
-    G["운영성<br/>Operability"]
-
-    Root --> A
-    Root --> B
-    Root --> C
-    Root --> D
-    Root --> E
-    Root --> F
-    Root --> G
-```
+![Utility Tree 구조](/diagrams/goodthinking-isp/04-design/utility-tree-L14.svg)
 
 ### 우선순위 표기법
 
@@ -43,123 +25,7 @@ graph TD
 
 ## 좋은생각 웹 시스템 Utility Tree
 
-```mermaid
-graph TD
-    Root["좋은생각 웹 시스템 Utility"]
-    
-    AV["가용성 Availability"]
-    SysRecovery["시스템 장애 복구"]
-    A1["A-1: 웹 서버 크래시 시<br/>5분 내 복구 (H,M)"]
-    ExternalFailure["외부 연동 장애 대응"]
-    A2["A-2: 채널 API 장애 시<br/>재시도 및 알림 (H,H) 1/5"]
-    DataProtect["데이터 보호"]
-    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) 1/5"]
-    
-    INT["상호운용성 Interoperability"]
-    ChannelInteg["채널 연동"]
-    I1["I-1: 다채널 주문<br/>자동 수집 (H,H) 1/5"]
-    CmsInteg["CMS 연동"]
-    I2["I-2: CMS 권한<br/>Excel 기반 간소화 (H,M)"]
-    ErpInteg["ERP 연동"]
-    I3["I-3: 위하고 ERP<br/>Excel 자동 생성 (M,L)"]
-    DelivInteg["배송사 연동"]
-    I4["I-4: 택배사 API<br/>송장/추적 자동화 (M,M)"]
-    
-    PF["성능 Performance"]
-    RespTime["응답 시간"]
-    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) 1/5"]
-    Throughput["처리량"]
-    P1["P-1: 일 500건 주문<br/>10분 내 수집 (M,L)"]
-    LargeLoad["대용량 처리"]
-    P3["P-3: 50만건 마이그레이션<br/>4시간 내 완료 (M,H)"]
-    
-    SEC["보안 Security"]
-    AccessControl["접근 통제"]
-    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) 1/5"]
-    AttackDefense["외부 공격 방어"]
-    S2["S-2: SQL Injection, XSS<br/>100% 차단 (H,M)"]
-    DataLeakage["데이터 유출 방지"]
-    S3["S-3: 대량 다운로드<br/>승인 및 로깅 (H,L)"]
-    
-    MOD["변경용이성 Modifiability"]
-    FeatureExtend["기능 확장"]
-    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) 1/5"]
-    ProcessChange["프로세스 변경"]
-    M2["M-2: 워크플로우<br/>설정만으로 변경 (M,M)"]
-    ReportChange["리포트 변경"]
-    M3["M-3: 리포트 양식<br/>2일 내 수정 (L,L)"]
-    
-    USE["사용성 Usability"]
-    Learning["학습 용이성"]
-    U1["U-1: 4시간 교육 후<br/>업무 수행 가능 (M,L)"]
-    ErrorHandle["오류 대응"]
-    U2["U-2: 명확한 오류 메시지<br/>및 해결 안내 (M,L)"]
-    Efficiency["업무 효율성"]
-    U3["U-3: 주요 업무<br/>5클릭 내 완료 (H,M)"]
-    
-    OPE["운영성 Operability"]
-    Monitoring["모니터링"]
-    O1["O-1: 이상 징후<br/>5분 내 감지 (M,M)"]
-    FailureResp["장애 대응"]
-    O2["O-2: 배치 실패 시<br/>즉시 알림 및 재실행 (M,L)"]
-    
-    Root --> AV
-    Root --> INT
-    Root --> PF
-    Root --> SEC
-    Root --> MOD
-    Root --> USE
-    Root --> OPE
-    
-    AV --> SysRecovery
-    AV --> ExternalFailure
-    AV --> DataProtect
-    SysRecovery --> A1
-    ExternalFailure --> A2
-    DataProtect --> A3
-    
-    INT --> ChannelInteg
-    INT --> CmsInteg
-    INT --> ErpInteg
-    INT --> DelivInteg
-    ChannelInteg --> I1
-    CmsInteg --> I2
-    ErpInteg --> I3
-    DelivInteg --> I4
-    
-    PF --> RespTime
-    PF --> Throughput
-    PF --> LargeLoad
-    RespTime --> P2
-    Throughput --> P1
-    LargeLoad --> P3
-    
-    SEC --> AccessControl
-    SEC --> AttackDefense
-    SEC --> DataLeakage
-    AccessControl --> S1
-    AttackDefense --> S2
-    DataLeakage --> S3
-    
-    MOD --> FeatureExtend
-    MOD --> ProcessChange
-    MOD --> ReportChange
-    FeatureExtend --> M1
-    ProcessChange --> M2
-    ReportChange --> M3
-    
-    USE --> Learning
-    USE --> ErrorHandle
-    USE --> Efficiency
-    Learning --> U1
-    ErrorHandle --> U2
-    Efficiency --> U3
-    
-    OPE --> Monitoring
-    OPE --> FailureResp
-    Monitoring --> O1
-    FailureResp --> O2
-```
+![좋은생각 웹 시스템 Utility Tree](/diagrams/goodthinking-isp/04-design/utility-tree-L46.svg)
 
 ---
 
@@ -211,104 +77,31 @@ graph TD
 
 **드라이버**: A-2 (채널 API 장애), A-3 (데이터 보호)
 
-```mermaid
-graph LR
-    A["가용성 전략"]
-    B["Circuit Breaker 패턴<br/>적용 외부 API 연동"]
-    C["메시지 큐 기반<br/>비동기 처리 주문 수집"]
-    D["DB 이중화<br/>Master-Slave Replication"]
-    E["자동 페일오버 구성"]
-    F["배치 작업 재시도 메커니즘"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-
-
-```
+![1. 가용성 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L214.svg)
 
 ### 2. 상호운용성 전략
 
 **드라이버**: I-1 (다채널 주문 수집), I-2 (CMS 권한 — Excel 기반)
 
-```mermaid
-graph LR
-    A["상호운용성 전략"]
-    B["어댑터 패턴<br/>채널별 API 표준화"]
-    C["Excel 템플릿 기반<br/>CMS 권한 간소화"]
-    D["재시도 큐<br/>연동 실패 자동 복구"]
-    E["API 게이트웨이<br/>외부 연동 통합 관리"]
-    F["ERP Excel 생성 모듈<br/>위하고 업로드용"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-
-```
+![2. 상호운용성 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L236.svg)
 
 ### 3. 성능 전략
 
 **드라이버**: P-2 (고객 조회 응답)
 
-```mermaid
-graph LR
-    A["성능 전략"]
-    B["Redis 캐싱 적용<br/>자주 조회되는 고객 데이터"]
-    C["DB 인덱스 최적화<br/>검색 조건 기반"]
-    D["페이지네이션 및<br/>Lazy Loading"]
-    E["쿼리 최적화 및<br/>실행 계획 분석"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-
-```
+![3. 성능 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L257.svg)
 
 ### 4. 보안 전략
 
 **드라이버**: S-1 (개인정보 접근 통제)
 
-```mermaid
-graph LR
-    A["보안 전략"]
-    B["RBAC<br/>Role-Based Access Control"]
-    C["개인정보 마스킹 레이어<br/>API 레벨"]
-    D["감사 로그 자동 기록"]
-    E["WAF<br/>Web Application Firewall"]
-    F["암호화<br/>전송중: TLS, 저장시: AES-256"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-
-```
+![4. 보안 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L276.svg)
 
 ### 5. 변경용이성 전략
 
 **드라이버**: M-1 (신규 판매채널 추가)
 
-```mermaid
-graph LR
-    A["변경용이성 전략"]
-    B["어댑터 패턴<br/>채널별 API 연동"]
-    C["플러그인 아키텍처<br/>신규 채널 추가 용이"]
-    D["설정 기반<br/>워크플로우 엔진"]
-    E["API 버저닝 전략"]
-    F["모듈화된 컴포넌트 설계"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-```
+![5. 변경용이성 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L297.svg)
 
 
 ---
