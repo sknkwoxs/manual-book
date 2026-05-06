@@ -49,7 +49,7 @@ description: 좋은생각 CS 시스템 웹 전환 사업 제안요청서(안) - 
 - 4.2 목표 시스템 구성도
 - 4.3 상세 요구 사항
   - [4.3.1 시스템 구축 요구사항 (STR)](/goodthinking-isp/08-rfp/04-proposal-request/str-system-build/)
-  - [4.3.2 기능 요구사항 (SRE) — 79건](/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/)
+  - [4.3.2 기능 요구사항 (SRE)](/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/)
   - [4.3.3 보안 요구사항 (SER)](/goodthinking-isp/08-rfp/04-proposal-request/ser-security/)
   - [4.3.4 데이터 요구사항 (DAR)](/goodthinking-isp/08-rfp/04-proposal-request/dar-data/)
   - [4.3.5 테스트 및 운영 요구사항 (TER)](/goodthinking-isp/08-rfp/04-proposal-request/ter-test-ops/)
@@ -83,5 +83,5 @@ description: 좋은생각 CS 시스템 웹 전환 사업 제안요청서(안) - 
 - **자기완결성**: 본 문서 내에서 사업 범위·요구사항·평가 방식 모두 파악 가능. 외부 보고서·링크 참조 불요.
 - **기술 중립성**: 특정 제품·인프라 강제 없음. 달성 목표(요건)와 참고 예시를 분리하여 기술. 평가는 제품명이 아닌 목표 충족도로 수행.
 - **개조식 문체**: 모호 표현(`사용 가능`, `고려 중`, `추진 예정`) 배제. 명사 종결로 명확화.
-- **요구사항 추적성**: 79건 기능(SRE-001\~079) + 비기능(SER/COR 등) 모두 고유번호로 식별 가능. 각 요구사항은 (1) 목표 (2) 세부 내용 (3) 산출정보 3단 구조.
+- **요구사항 추적성**: 기능(SRE) + 비기능(SER/COR 등) 모두 고유번호로 식별 가능. 각 요구사항은 (1) 목표 (2) 세부 내용 (3) 산출정보 3단 구조.
 - **빈칸 명시**: 발주 직전 확정 사항(일자·금액)은 `__________`(10개 underscore)로 표기.
