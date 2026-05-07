@@ -248,6 +248,14 @@ export default defineConfig({
                 },
               ],
             },
+            {
+              label: '9. 산출 견적서',
+              items: [
+                { label: '표지 / 목차', link: '/goodthinking-isp/09-cost-estimate/' },
+                { label: '9.1 FP 정통법 기반', link: '/goodthinking-isp/09-cost-estimate/01-fp-method/' },
+                { label: '9.2 인건비 직접 산정', link: '/goodthinking-isp/09-cost-estimate/02-mm-method/' },
+              ],
+            },
           ],
         },
         {
