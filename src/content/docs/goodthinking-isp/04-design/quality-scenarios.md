@@ -1,5 +1,5 @@
 ---
-title: 4.6. 품질 속성 시나리오
+title: 품질 속성 시나리오
 description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 ---
 
@@ -7,12 +7,12 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 좋은생각사람들 C/S → Web 전환 프로젝트에서 달성해야 할 품질 속성별 구체적인 시나리오를 정의합니다.
 
-> **[참고]** 현행 시스템 규모 참고
->
-> - **사용자**: 사내 직원 \~10명 + 외부콜센터(더아이앤오) 4명 = 동시 사용자 약 10\~15명
-> - **데이터**: CS 통합 DB 138 tables (고객관리 75t + 홈페이지 63t) — 좋은생각 CMS 13t(원고 아카이브)은 별도 운영
-> - **비즈니스 로직**: 49개 (20 SP + 14 Function + 15 Trigger)
-> - **외부 연동**: 나이스페이 PG, CJ대한통운, Playauto(네이버/쿠팡), 위하고(WEHAGO) ERP, CTI
+:::note[현행 시스템 규모 참고]
+- **사용자**: 사내 직원 \~10명 + 외부콜센터(더아이앤오) 4명 = 동시 사용자 약 10\~15명
+- **데이터**: 통합 DB 151 tables (고객관리 75t + 홈페이지 63t + CMS 13t)
+- **비즈니스 로직**: 49개 (20 SP + 14 Function + 15 Trigger)
+- **외부 연동**: 나이스페이 PG (정산 Excel), CJ대한통운 (Excel), Playauto (Excel), 위하고 ERP (Excel), CTI (⚠️ 별도 과업)
+:::
 
 ---
 
@@ -37,34 +37,34 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 | 요소 | 내용 |
 |------|------|
-| **Source** | 내부 - 통합 웹 관리자 서버 (AWS ECS/EC2) |
-| **Stimulus** | NestJS API 서버 프로세스 크래시 |
-| **Artifact** | 통합 웹 관리자 시스템 (관리자 SPA + API 서버) |
+| **Source** | 내부 - 통합 웹 관리자 서버 (AWS Lightsail) |
+| **Stimulus** | 백엔드 애플리케이션 프로세스 크래시 |
+| **Artifact** | 통합 웹 관리자 시스템 (SSR 프론트엔드 + 백엔드 API) |
 | **Environment** | 정상 운영 시간 (09:00\~18:00, 평일) — 사내 직원 + 외부콜센터 동시 사용 |
-| **Response** | ECS 헬스체크 → 자동 재시작, ALB 페일오버 |
+| **Response** | Lightsail 인스턴스 헬스체크 → 애플리케이션 자동 재시작, Cloudflare 페일오버 |
 | **Response Measure** | 서비스 중단 시간 5분 이내, 연간 가용률 99.5% (약 43시간/년 허용) |
 
-### A-2: 외부 채널 연동 장애
+### A-2: 외부몰 Excel 업로드 데이터 검증 오류
 
 | 요소 | 내용 |
 |------|------|
-| **Source** | 외부 - Playauto API (네이버 스마트스토어/쿠팡 주문 수집 경유) |
-| **Stimulus** | API 타임아웃 또는 오류 응답 (네이버/쿠팡 측 장애 포함) |
-| **Artifact** | MarketplaceService — 외부몰 주문 수집 모듈 |
-| **Environment** | 자동 주문 수집 배치 실행 중 (10분 간격 폴링) |
-| **Response** | Circuit Breaker 패턴 적용, 3회 재시도 후 실패 시 수동 처리 대기열 등록 및 담당자 알림 |
-| **Response Measure** | 3회 재시도(30초 간격), 정기구독팀 담당자 알림 1분 이내 (SMS/Slack) |
+| **Source** | 영업추진팀 담당자 — Playauto에서 다운로드한 외부몰 주문 Excel 업로드 |
+| **Stimulus** | Excel 데이터 형식 불일치, 필수 필드 누락, 중복 주문번호 등 검증 오류 |
+| **Artifact** | 외부몰 연동 모듈 — Excel 업로드/파싱 서비스 |
+| **Environment** | 업무 시간 중 담당자가 수동으로 Excel 업로드 |
+| **Response** | 행 단위 검증 → 오류 행 표시 및 사유 안내 → 정상 행만 DB 저장 → 오류 건 수정 후 재업로드 안내 |
+| **Response Measure** | 오류 행 100% 식별, 정상 행 처리 완료 1분 이내, 오류 사유 한국어 메시지 제공 |
 
 ### A-3: 데이터베이스 장애
 
 | 요소 | 내용 |
 |------|------|
-| **Source** | 내부 - 통합 DB (AWS RDS for SQL Server) |
+| **Source** | 내부 - 통합 DB (AWS Lightsail Managed MariaDB) |
 | **Stimulus** | Primary DB 연결 실패 또는 인스턴스 장애 |
 | **Artifact** | 전체 시스템 (관리자 + 홈페이지 + 배치) |
 | **Environment** | 정상 운영 중 |
-| **Response** | RDS Multi-AZ 자동 페일오버, 읽기 전용 레플리카로 조회 전환, 쓰기 작업 큐잉 |
-| **Response Measure** | 읽기 서비스 30초 이내 복구, 데이터 유실 0건, RPO 0 (동기 복제) |
+| **Response** | Lightsail DB HA 자동 페일오버, 읽기 작업 계속 가능, 쓰기 작업 큐잉 |
+| **Response Measure** | 읽기 서비스 30초 이내 복구, 데이터 유실 0건, Lightsail DB 자동 백업 7일 |
 
 ---
 
@@ -74,9 +74,9 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 | 요소 | 내용 |
 |------|------|
-| **Source** | 시스템 - 배치 스케줄러 (NestJS @nestjs/schedule) |
+| **Source** | 시스템 - 배치 스케줄러 (CMS 내장 스케줄러 + 큐 시스템) |
 | **Stimulus** | Playauto 경유 외부몰 주문 수집 (네이버+쿠팡 합산 약 50\~100건/일 추정) |
-| **Artifact** | MarketplaceService — 주문 수집 배치 모듈 |
+| **Artifact** | 외부몰 연동 모듈 — 주문 수집 배치 |
 | **Environment** | 10분 간격 폴링 (업무 시간대 09:00\~18:00) |
 | **Response** | 외부몰 주문 자동 수집 → 통합 DB 저장 → 재고 차감 |
 | **Response Measure** | 1회 수집 1분 이내 완료, 오류율 0.1% 미만, 중복 주문 방지 100% |
@@ -88,8 +88,8 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 | 요소 | 내용 |
 |------|------|
 | **Source** | 정기구독팀 담당자 (정황규, 어은진) 또는 외부콜센터(더아이앤오) 상담원 |
-| **Stimulus** | 고객 정보 검색 (이름, 전화번호, 고객번호, 회사명) — CTI 인바운드 콜 연동 포함 |
-| **Artifact** | 고객 조회 화면 (`PT_Customer` 48컬럼 + 관련 구독/결제/CS 이력) |
+| **Stimulus** | 고객 정보 검색 (이름, 전화번호, 고객번호, 회사명) — CTI 인바운드 콜 연동 포함 (⚠️ CTI는 별도 과업) |
+| **Artifact** | 고객 조회 화면 (고객 Entity 48필드 + 관련 구독/결제/CS 이력) |
 | **Environment** | 동시 사용자 10\~15명 (사내 10명 + 외부콜센터 4명), 전화 상담 중 |
 | **Response** | 통합된 고객 정보 (기본정보 + 구독 이력 + 결제 이력 + CS 이력 + 수신자 목록) 표시 |
 | **Response Measure** | 응답 시간 2초 이내, 검색 결과 정확도 100%, CTI 팝업 1초 이내 |
@@ -99,7 +99,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 | 요소 | 내용 |
 |------|------|
 | **Source** | 시스템 관리자 (ISP 구축 팀) |
-| **Stimulus** | On-Prem MSSQL (75t) + AWS MSSQL (63t) → CS 통합 DB 이관 실행 (좋은생각 CMS 13t은 별도 — 원고 아카이브 시스템) |
+| **Stimulus** | On-Prem MSSQL (75t) + AWS MSSQL (63t) + CMS (13t) → MariaDB 통합 DB 이관 실행 |
 | **Artifact** | ETL 마이그레이션 모듈 (데이터 정제 + 스키마 통합 + 적재) |
 | **Environment** | 비운영 시간 (야간/주말), 서비스 중단 윈도우 |
 | **Response** | 데이터 정제 → 스키마 매핑 → 적재 → 정합성 검증 (카운트/합계/샘플) |
@@ -114,11 +114,11 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 | 요소 | 내용 |
 |------|------|
 | **Source** | 내부 사용자 — 외부콜센터 상담원 (더아이앤오, CTI담당 역할) |
-| **Stimulus** | `PT_Customer` 개인정보 조회 (전화번호, 주소, 결제정보 등 48개 컬럼) |
-| **Artifact** | 고객 정보 API (CustomerService) |
+| **Stimulus** | PT_Customer 개인정보 조회 (전화번호, 주소, 결제정보 등 48개 필드) |
+| **Artifact** | 고객 정보 RESTful API (고객 Entity) |
 | **Environment** | 정상 운영 중, CTI 인바운드 콜 연동 |
-| **Response** | RBAC 권한 검증 (`PT_Auth` + `PT_MENU_authority` 기반) → 역할별 마스킹 처리된 정보 제공 |
-| **Response Measure** | 무권한 접근 차단 100%, 감사 로그 기록 100% (AuditLog 테이블), 외부콜센터는 주소 뒷자리/카드번호 마스킹 |
+| **Response** | RBAC (Role-Based Access Control) 검증 (기존 PT_Auth + PT_MENU_authority 전환) → 역할별 마스킹 처리된 정보 제공 |
+| **Response Measure** | 무권한 접근 차단 100%, 감사 로그 기록 100% (감사 로그 모듈), 외부콜센터는 주소 뒷자리/카드번호 마스킹 |
 
 ### S-2: 외부 침입 시도
 
@@ -128,7 +128,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 | **Stimulus** | SQL Injection, XSS 공격 시도 (현행 PPTP VPN 제거 후 인터넷 노출) |
 | **Artifact** | 통합 웹 관리자 + 홈페이지 |
 | **Environment** | 정상 운영 중 — 현행 대비 공격 표면 증가 (On-Prem → 클라우드 전환) |
-| **Response** | AWS WAF 규칙 탐지 → 차단 → CloudWatch 알림 → 관리자 통보 |
+| **Response** | Cloudflare WAF 규칙 탐지 → 차단 → 알림 → 관리자 통보 |
 | **Response Measure** | OWASP Top 10 공격 차단 100%, 알림 발송 1분 이내 |
 
 ### S-3: 민감 데이터 유출 방지
@@ -139,60 +139,12 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 | **Stimulus** | 고객 목록/구독자 목록 대량 Excel 다운로드 시도 |
 | **Artifact** | 데이터 내보내기 기능 (고객, 구독, 발송 데이터) |
 | **Environment** | 정상 운영 중 |
-| **Response** | 100건 초과 시 상위 관리자 승인 프로세스 실행, 다운로드 전 사유 입력 필수 |
-| **Response Measure** | 100건 초과 시 승인 필요, 모든 다운로드 AuditLog 기록, 월 1회 다운로드 현황 리포트 |
+| **Response** | ① 개인정보 포함 여부 자동 판별 → ② 포함 시 **Excel 자동 비밀번호 암호화** (AES-128, 서버 측 랜덤 12자+) → ③ 100건 초과 시 상위 관리자 승인 프로세스 실행 → ④ 다운로드 전 사유 입력 필수 → ⑤ excel_export_log 기록 |
+| **Response Measure** | 개인정보 포함 Excel 비밀번호 적용률 100%, 100건 초과 시 승인 필요, 모든 다운로드 excel_export_log 기록, 월 1회 다운로드 현황 리포트, 비밀번호 미적용 개인정보 Excel 다운로드 0건 |
 
 ---
 
-## 4. 상호운용성 (Interoperability) 시나리오
-
-### I-1: 다채널 주문 자동 수집
-
-| 요소 | 내용 |
-|------|------|
-| **Source** | 외부 시스템 — 네이버 스마트스토어, 쿠팡, 자사몰 |
-| **Stimulus** | 외부몰에서 신규 주문 발생 |
-| **Artifact** | MarketplaceService — 주문 수집 모듈 (어댑터 패턴) |
-| **Environment** | 자동 배치 실행 중 (10분 간격 폴링) |
-| **Response** | 각 채널 API로 주문 자동 수집 → 통합 DB 정규화 저장 |
-| **Response Measure** | 수집 지연 10분 이내, 채널간 데이터 형식 통합 100%, 중복 방지 100% |
-
-### I-2: CMS 권한 연동 (Excel 기반)
-
-| 요소 | 내용 |
-|------|------|
-| **Source** | 내부 시스템 — 구독 관리 모듈 |
-| **Stimulus** | 구독 결제 완료 또는 구독 만료 이벤트 |
-| **Artifact** | CmsService — CMS 권한 관리 모듈 |
-| **Environment** | 정상 운영 중 |
-| **Response** | CMS 권한 대상 Excel 자동 생성 → 담당자 다운로드 → CMS 일괄 처리, 처리 결과 시스템 기록 |
-| **Response Measure** | Excel 생성 즉시, 담당자 처리 포함 권한 반영 30분 이내, 간소화율 80% 이상 |
-
-### I-3: ERP 연동 (Excel 기반)
-
-| 요소 | 내용 |
-|------|------|
-| **Source** | 내부 시스템 — 결제/정산 모듈 |
-| **Stimulus** | 매출 데이터 확정, 세금계산서 발행 요청 |
-| **Artifact** | ErpService — 위하고(WEHAGO) ERP 연동 모듈 |
-| **Environment** | 정산 처리 시 |
-| **Response** | 위하고 업로드용 Excel 자동 생성 (매출 전표/세금계산서 양식), 담당자 위하고에 업로드 |
-| **Response Measure** | Excel 생성 즉시, 이중 입력 제거, 수작업 대비 70% 시간 절감 |
-
-### I-4: 배송사 API 연동
-
-| 요소 | 내용 |
-|------|------|
-| **Source** | 내부 시스템 — 배송 관리 모듈 |
-| **Stimulus** | 출고 지시 또는 배송 상태 조회 |
-| **Artifact** | DeliveryService — 택배사 연동 모듈 |
-| **Environment** | 정상 운영 중 |
-| **Response** | CJ대한통운/우체국 API로 송장 자동 등록, 배송 추적 자동 업데이트 |
-| **Response Measure** | 송장 등록 자동화 100%, 배송 상태 1시간 이내 갱신 |
-
----
-
-## 5. 변경용이성 (Modifiability) 시나리오
+## 4. 변경용이성 (Modifiability) 시나리오
 
 ### M-1: 신규 판매 채널 추가
 
@@ -200,9 +152,9 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 |------|------|
 | **Source** | 영업추진팀 (이성수) 요청 → 개발팀 |
 | **Stimulus** | 새로운 판매 채널 (예: 11번가, 카카오커머스) 연동 요청 |
-| **Artifact** | MarketplaceService — 외부몰 주문 수집 모듈 (어댑터 패턴) |
+| **Artifact** | 외부몰 연동 모듈 — Excel 템플릿 파싱 (채널별 Excel 양식 어댑터) |
 | **Environment** | 설계 시점 — 현행 Playauto 경유 네이버/쿠팡 2채널 → 추가 확장 |
-| **Response** | 신규 채널 어댑터 개발 (IMarketplaceAdapter 인터페이스 구현) 및 배포 |
+| **Response** | 신규 채널 Excel 템플릿 어댑터 개발 (ExcelTemplateAdapterInterface 구현, 플러그인 방식) 및 배포 |
 | **Response Measure** | 개발 공수 5일 이내, 기존 코드 수정 0건 (Open/Closed 원칙) |
 
 ### M-2: 업무 프로세스 변경
@@ -211,7 +163,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 |------|------|
 | **Source** | 정기구독팀 (정황규) |
 | **Stimulus** | 월간지 배송 프로세스 단계 추가 요청 (예: 발송 전 품질 검수 단계) |
-| **Artifact** | ShippingService — 발송 워크플로우 |
+| **Artifact** | 발송 관리 모듈 — 발송 워크플로우 |
 | **Environment** | 운영 시점 |
 | **Response** | 워크플로우 상태 머신 설정 변경으로 대응 (코드 수정 최소화) |
 | **Response Measure** | 설정 변경 + 테스트 1일 이내 반영, 기존 발송 데이터 영향 없음 |
@@ -229,7 +181,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 ---
 
-## 6. 사용성 (Usability) 시나리오
+## 5. 사용성 (Usability) 시나리오
 
 ### U-1: 신규 직원 시스템 학습
 
@@ -248,10 +200,10 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 |------|------|
 | **Source** | 일반 사용자 (사내 직원 전체) |
 | **Stimulus** | 잘못된 입력 (예: 고객번호 형식 오류, 구독 기간 미입력) 또는 시스템 오류 |
-| **Artifact** | 통합 웹 관리자 UI (Ant Design 폼 컴포넌트) |
+| **Artifact** | 통합 웹 관리자 UI (프론트엔드 폼 컴포넌트) |
 | **Environment** | 정상 운영 중 |
 | **Response** | 필드 레벨 유효성 검사 + 명확한 한국어 오류 메시지 + 해결 방법 제시 |
-| **Response Measure** | 사용자가 1회 안내로 문제 해결 가능, 서버 에러 시 Sentry 자동 보고 |
+| **Response Measure** | 사용자가 1회 안내로 문제 해결 가능, 서버 에러 시 CMS 로그 시스템 + 외부 모니터링 자동 보고 |
 
 ### U-3: 자주 사용하는 기능 접근성
 
@@ -266,7 +218,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 ---
 
-## 7. 운영성 (Operability) 시나리오
+## 6. 운영성 (Operability) 시나리오
 
 ### O-1: 시스템 모니터링
 
@@ -274,7 +226,7 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 |------|------|
 | **Source** | 시스템 관리자 (경영지원팀 또는 외주 운영) |
 | **Stimulus** | 시스템 상태 점검 — CPU, 메모리, DB 커넥션, API 응답 시간, 배치 상태 |
-| **Artifact** | AWS CloudWatch + Sentry 대시보드 |
+| **Artifact** | CMS 로그 시스템 + Cloudflare Analytics 대시보드 |
 | **Environment** | 정상 운영 중 |
 | **Response** | 실시간 메트릭 표시, 임계치 초과 시 알림 (Slack/SMS) |
 | **Response Measure** | 이상 징후 5분 이내 감지, 알림 발송 1분 이내 |
@@ -283,9 +235,9 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 
 | 요소 | 내용 |
 |------|------|
-| **Source** | 시스템 - NestJS 배치 스케줄러 (@nestjs/schedule) |
+| **Source** | 시스템 - CMS 내장 스케줄러 + 큐 시스템 |
 | **Stimulus** | 배치 작업 실패 — 월간지 발송 데이터 생성, 지로 생성, 이연수익 계산, 외부몰 주문 수집 등 |
-| **Artifact** | 배치 모니터링 (현행 `PT_DataMonitoringLog` 확장) |
+| **Artifact** | 배치 모니터링 (큐 시스템 + 로그 확장) |
 | **Environment** | 자동 배치 실행 중 |
 | **Response** | 실패 알림 즉시 발송, 관리자 UI에서 수동 재실행 가능, 실패 원인 로그 기록 |
 | **Response Measure** | 실패 알림 즉시 발송, 재실행 UI 제공, 연속 3회 실패 시 에스컬레이션 |
@@ -298,8 +250,24 @@ description: 좋은생각 웹 시스템의 품질 속성별 시나리오 정의
 |:--------:|----------|-----------|:---------------:|------|
 | 1 | P-2: 고객 조회 응답 | 성능 | 높음 | 전화 상담 중 고객 대기 — 정기구독팀+외부콜센터 핵심 업무 |
 | 2 | S-1: 개인정보 접근 통제 | 보안 | 높음 | 외부콜센터 접근 + 개인정보보호법 의무 |
-| 3 | A-2: 외부 채널 연동 장애 | 가용성 | 높음 | Playauto 경유 주문 수집 중단 시 매출 영향 |
-| 4 | I-1: 다채널 주문 자동 수집 | 상호운용성 | 높음 | 자사몰/네이버/쿠팡 API 자동 수집 — 수작업 제거 핵심 |
-| 5 | U-3: 상담 업무 접근성 | 사용성 | 높음 | 현행 C/S 대비 UX 열위 시 사용자 저항 |
-| 6 | M-1: 신규 판매 채널 추가 | 변경용이성 | 중간 | 향후 채널 확장 대비 (11번가, 카카오 등) |
-| 7 | P-1: 외부몰 주문 수집 | 성능 | 중간 | 현행 수동 입력 → 자동화 핵심 가치 |
+| 3 | A-2: 외부몰 Excel 데이터 검증 | 가용성 | 높음 | Excel 업로드 데이터 오류 시 업무 지연 영향 |
+| 4 | U-3: 상담 업무 접근성 | 사용성 | 높음 | 현행 C/S 대비 UX 열위 시 사용자 저항 |
+| 5 | M-1: 신규 판매 채널 추가 | 변경용이성 | 중간 | 향후 채널 확장 대비 (11번가, 카카오 등) |
+| 6 | P-1: 외부몰 주문 수집 | 성능 | 중간 | 현행 수동 입력 → 자동화 핵심 가치 |
+
+---
+
+## 작성 이력
+
+| 날짜 | 작성자 | 변경 내용 |
+|------|--------|----------|
+| 2026-02-24 | ISP팀 | 초안 작성 — 6개 품질 속성, 17개 시나리오 |
+| 2026-03-03 | ISP팀 | 현행 시스템 분석 기반 시나리오 구체화 — 실제 팀명/역할 반영 (정기구독팀, 영업추진팀, 경영지원팀, 외부콜센터), 동시 사용자 10\~15명 구체화, P-1 수치 보정 (500건→50\~100건), 시스템 구성요소 실명 반영 (PT_Customer, MarketplaceService, NestJS 등), 보안 시나리오 현행 매핑 (RBAC, AuditLog), 시나리오 규모 참고 정보 추가 |
+| 2026-04-23 | 김명직 | 과업요청서 범용화: 특정 제품명 → 일반 기술 패턴 용어로 전환 (CMS 내장 스케줄러, RBAC, 감사 로그 모듈, 프론트엔드 폼 컴포넌트 등) |
+| 2026-04-23 | 김명직 | 외부 연동 현실성 반영: A-2 시나리오 전면 재작성 (Playauto API 타임아웃 → Excel 업로드 데이터 검증 오류, Circuit Breaker 제거), M-1 Excel 템플릿 어댑터로 전환, CTI 별도 과업 명시, 외부 연동 목록 현실화 |
+| 2026-04-23 | 김명직 | S-3 개인정보 보호 강화: Excel 자동 비밀번호 암호화 정책 추가 (AES-128, 12자+), excel_export_log 기록, 개인정보 포함 Excel 비밀번호 적용률 100% 목표 |
+
+## 다음 단계
+
+- [Utility Tree](./utility-tree) - 품질 속성 우선순위 분석
+- [Web 시스템 아키텍처](./web-architecture) - 시나리오 기반 아키텍처 설계

@@ -1,5 +1,5 @@
 ---
-title: 4.5. 자동화 프로세스
+title: 자동화 프로세스 (BPR)
 description: One-Stop 자동화 프로세스 설계
 ---
 
@@ -18,7 +18,7 @@ description: One-Stop 자동화 프로세스 설계
 | 지표 | AS-IS 현황 (추정) | 근거 |
 |------|:--:|------|
 | 수작업 건수 | 12건 | [업무 분석 §수작업 구간](/goodthinking-isp/02-analysis/business-analysis/) |
-| 병목 구간 | 7건 (상 Critical 3건 + 중 Major 3건 + 하 Minor 1건) | [업무 분석 §병목 구간](/goodthinking-isp/02-analysis/business-analysis/) |
+| 병목 구간 | 7건 (🔴 Critical 3건 + 🟠 Major 3건 + 🟢 Minor 1건) | [업무 분석 §병목 구간](/goodthinking-isp/02-analysis/business-analysis/) |
 | 일일 수작업 시간 | 6.5\~9시간 (전 직원 합산) | 정기구독 3\~4h + 영업추진 2\~3h + 경영지원 1.5\~2h |
 | 월간 수작업 시간 | 130\~180시간 | 근무일 20일 기준 |
 | 오류 위험 "상" 항목 | 12건 중 7건 | C/S↔웹 간 데이터 불일치 |
@@ -28,11 +28,11 @@ description: One-Stop 자동화 프로세스 설계
 
 | 구분 | AS-IS (수작업) | TO-BE (자동화/간소화) |
 |------|---------------|----------------|
-| 주문 수집 | 각 채널 수동 접속/다운로드 (Playauto) | Playauto API 자동 수집 (현행 유지) + Excel 업로드 템플릿 |
+| 주문 수집 | 각 채널 수동 접속/다운로드 (Playauto) | Playauto Excel 다운로드 → 시스템 자동 파싱/변환 |
 | 데이터 입력 | Excel → CS System 수동 입력 | Excel 템플릿 업로드 → 자동 파싱/검증 → DB 저장 |
 | 권한 부여 | CMS 별도 접속, 수동 처리 | CMS 권한 대상 Excel 다운로드 → CMS에서 일괄 처리 |
-| 배송 처리 | 수동 연동 (우체국/CJ대한통운) | 택배사 API 자동 연동 (계약 기반, 현행 유지) |
-| 결제 확인 | 나이스페이 PG 수동 확인 + 지로 수동 확인 | PG Webhook 자동 매칭 (현행 유지) + 지로 Excel 업로드 |
+| 배송 처리 | 수동 연동 (우체국/CJ대한통운) | 택배사 양식 Excel 자동 생성 + 송장 Excel 자동 파싱 |
+| 결제 확인 | 나이스페이 PG 수동 확인 + 지로 수동 확인 | 나이스페이 정산 Excel 자동 파싱 + 지로 Excel 업로드 |
 | 매출 정산 | CS System → Excel → 위하고(WEHAGO) ERP 이중 입력 | 통합 DB → 위하고 업로드용 Excel 자동 생성 |
 | 알림 | 없음 또는 수동 SMS | 자동 알림 (이메일/SMS/알림톡) |
 
@@ -42,33 +42,33 @@ description: One-Stop 자동화 프로세스 설계
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화/간소화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
-| ① 구독 접수 | 전화/웹 수동 입력 (CS System) | 웹 접수 자동 등록 | 80% | `PT_Customer`, `PT_Subscribe` |
-| ② 결제 확인 | 나이스페이 PG + 지로 수동 확인 | PG Webhook 자동 매칭 + 지로 Excel 업로드 파싱 | 90% | `PT_Finance`, `PT_NicepayCreditcardIncome` |
-| ③ 발송 처리 | CS System SP 호출 (반자동) | 자동 발송 스케줄링 | 90% | `sp_PT_SendBookData`, `PT_RegularSend_Info` |
-| ④ 배송 관리 | 우체국/CJ 수동 연동 | 택배사 API 자동 연동 | 95% | `PT_SendHistory` |
-| ⑤ CS 처리 | CS System + CTI 수동 | 웹 기반 통합 CS | 50% | `PT_Councel_History` |
+| ① 구독 접수 | 전화/웹 수동 입력 (CS System) | 웹 접수 자동 등록 | 80% | PT_Customer, PT_Subscribe |
+| ② 결제 확인 | 나이스페이 PG + 지로 수동 확인 | 나이스페이 정산 Excel 자동 파싱 + 지로 Excel 업로드 파싱 | 90% | PT_Finance, PT_NicepayCreditcardIncome |
+| ③ 발송 처리 | CS System SP 호출 (반자동) | 자동 발송 스케줄링 | 90% | sp_PT_SendBookData, PT_RegularSend_Info |
+| ④ 배송 관리 | 우체국/CJ 수동 연동 | 택배사 Excel 자동 생성/파싱 | 95% | PT_SendHistory |
+| ⑤ CS 처리 | CS System + CTI 수동 | 웹 기반 통합 CS | 50% | PT_Councel_History |
 
 #### 영업추진팀 (이성수, 권지은) — 7단계 중 5단계 자동화/간소화
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화/간소화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
-| ① 주문 수집 | Playauto → Excel 다운로드 | Playauto API 자동 수집 (현행 경유 유지) + Excel 업로드 | 90% | (신규) 통합 주문 테이블 |
-| ② 주문 확인 | Excel 수동 확인 (다중 채널) | 자동 검증 + 대시보드 | 90% | `PTM_Orders`, `PTM_Order_Items` |
-| ③ 결제 처리 | 나이스페이 PG 수동 확인 | PG Webhook 자동 | 95% | `PT_Finance`, `PTM_PaymentLogs` |
-| ④ 재고 확인 | CS System 수동 조회 | 실시간 재고 연동 | 95% | `PT_Stock`, `PT_Stock_History` |
-| ⑤ 발송 지시 | CS System 반자동 | 자동 발송 처리 | 90% | `sp_PT_SendBookData` |
-| ⑥ 배송 관리 | CJ대한통운 수동 추적 | API 자동 추적 | **100%** | `PTM_ShippingInfos` |
-| ⑦ CS/환불 | CS System + 나이스페이 수동 | 웹 기반 원클릭 환불 | 70% | `sp_PT_FinanceRefund`, `PT_RefundRequest` |
+| ① 주문 수집 | Playauto → Excel 다운로드 | Playauto Excel 다운로드 → 시스템 자동 파싱 | 90% | (신규) 통합 주문 테이블 |
+| ② 주문 확인 | Excel 수동 확인 (다중 채널) | 자동 검증 + 대시보드 | 90% | PTM_Orders, PTM_Order_Items |
+| ③ 결제 처리 | 나이스페이 PG 수동 확인 | 나이스페이 정산 Excel 자동 파싱 | 95% | PT_Finance, PTM_PaymentLogs |
+| ④ 재고 확인 | CS System 수동 조회 | 실시간 재고 연동 | 95% | PT_Stock, PT_Stock_History |
+| ⑤ 발송 지시 | CS System 반자동 | 자동 발송 처리 | 90% | sp_PT_SendBookData |
+| ⑥ 배송 관리 | CJ대한통운 수동 추적 | 택배사 Excel 자동 생성/파싱 | **100%** | PTM_ShippingInfos |
+| ⑦ CS/환불 | CS System + 나이스페이 수동 | 웹 기반 원클릭 환불 | 70% | sp_PT_FinanceRefund, PT_RefundRequest |
 
 #### 경영지원팀 (송윤경, 김나현) — 5단계 중 3단계 자동화
 
 | 단계 | AS-IS 수작업 | TO-BE 자동화 | 자동화율 | 관련 DB 객체 |
 |:----:|-------------|-------------|:--------:|-------------|
 | ① 매출 관리 | CS System → Excel 수동 취합 | 통합 대시보드 자동 집계 | **100%** | func_dailySendCount/Amount |
-| ② 정산 처리 | Excel + 나이스페이 수동 | 자동 정산 리포트 | 90% | `PT_DEFERINCOME_*`, `PT_SettlementMethod` |
-| ③ 세금계산서 | 위하고(WEHAGO) ERP 이중 입력 | 위하고 업로드용 Excel 자동 생성 | 70% | `PT_Tax_invoice` |
+| ② 정산 처리 | Excel + 나이스페이 수동 | 자동 정산 리포트 | 90% | PT_DEFERINCOME_*, PT_SettlementMethod |
+| ③ 세금계산서 | 위하고(WEHAGO) ERP 이중 입력 | 위하고 업로드용 Excel 자동 생성 | 70% | PT_Tax_invoice |
 | ④ 기안/결재 | 위하고(WEHAGO) ERP 수동 | 위하고(WEHAGO) ERP (현행 유지) | - | (외부 시스템) |
-| ⑤ 월결산 | 위하고 + Excel 수동 | 자동 결산 리포트 생성 | 70% | `sp_PT_DeferIncomeCalc` |
+| ⑤ 월결산 | 위하고 + Excel 수동 | 자동 결산 리포트 생성 | 70% | sp_PT_DeferIncomeCalc |
 
 #### 앵두아트프로젝트 — 7단계 중 3단계 자동화
 
@@ -76,11 +76,11 @@ description: One-Stop 자동화 프로세스 설계
 |:----:|-------------|-------------|:--------:|-------------|
 | ① 기획 | - | (업무 특성상 수동) | - | - |
 | ② 제작 | - | (업무 특성상 수동) | - | - |
-| ③ 재고 관리 | CS System 수동 등록 | 통합 재고 관리 | 80% | `PT_Stock`, `PT_GiftStock` |
-| ④ 판매 | 홈페이지 어드민 + 외부몰 수동 등록 | 통합 상품 관리 + 외부몰 등록용 Excel 생성 | 60% | `PTM_Products` |
-| ⑤ 주문 처리 | Admin + Playauto 수동 | 자동 수집 + 통합 처리 | 90% | `PTM_Orders` |
-| ⑥ 배송 | CJ대한통운 수동 | API 자동 연동 | **100%** | `PTM_ShippingInfos` |
-| ⑦ 정산 | Excel + 위하고 수동 | 자동 정산 → 위하고 업로드용 Excel 생성 | 70% | `PT_DEFERINCOME_*` |
+| ③ 재고 관리 | CS System 수동 등록 | 통합 재고 관리 | 80% | PT_Stock, PT_GiftStock |
+| ④ 판매 | 홈페이지 Admin + 외부몰 수동 등록 | 통합 상품 관리 + 외부몰 등록용 Excel 생성 | 60% | PTM_Products |
+| ⑤ 주문 처리 | Admin + Playauto 수동 | 자동 수집 + 통합 처리 | 90% | PTM_Orders |
+| ⑥ 배송 | CJ대한통운 수동 | 택배사 Excel 자동 생성/파싱 | **100%** | PTM_ShippingInfos |
+| ⑦ 정산 | Excel + 위하고 수동 | 자동 정산 → 위하고 업로드용 Excel 생성 | 70% | PT_DEFERINCOME_* |
 
 ---
 
@@ -88,17 +88,76 @@ description: One-Stop 자동화 프로세스 설계
 
 ### 1. 전체 자동화 흐름
 
-![1. 전체 자동화 흐름](/diagrams/goodthinking-isp/04-design/process-automation-L91.svg)
+```mermaid
+graph TD
+    A["주문 발생"]
+    B["1. Excel 업로드<br/>자동 파싱"]
+    C["2. 자동 입력"]
+    D["3. 결제 확인<br/>정산 Excel 파싱"]
+    E["CMS 권한 대상<br/>Excel 내보내기"]
+    F["4. 배송 처리"]
+    G["송장 등록<br/>택배사 양식<br/>Excel 자동 생성"]
+    H["5. 알림 발송<br/>결제완료, 권한부여,<br/>배송시작, 배송완료"]
+    
+    I["외부몰 Excel 업로드<br/>자사몰 내부 DB"]
+    J["데이터 정규화<br/>통합 DB 저장"]
+    
+    A --> B
+    I -.->|입력| B
+    B --> C
+    C --> J
+    C --> D
+    D --> E
+    D --> F
+    F --> G
+    F --> H
+```
 
 ### 2. 상세 프로세스
 
-#### 2.1 주문 자동 수집
+#### 2.1 주문 수집 (Excel 업로드 기반)
 
-![2.1 주문 자동 수집](/diagrams/goodthinking-isp/04-design/process-automation-L120.svg)
+```mermaid
+graph LR
+    A["자사몰"]
+    B["내부 DB<br/>직접 연동"]
+    C["외부몰<br/>(네이버/쿠팡 등)"]
+    D["Playauto Excel<br/>다운로드"]
+    
+    G["파싱 서비스"]
+    H["• 데이터 검증<br/>• 중복 체크<br/>• 정규화"]
+    
+    I["통합 DB"]
+    
+    A -->|내부 DB| B
+    B --> G
+    C -->|Playauto 경유| D
+    D -->|Excel 업로드| G
+    G --> H
+    H --> I
+```
 
 #### 2.2 CMS 권한 처리 (Excel 기반)
 
-![2.2 CMS 권한 처리 (Excel 기반)](/diagrams/goodthinking-isp/04-design/process-automation-L146.svg)
+```mermaid
+graph TD
+    A["결제 완료 이벤트"]
+    B{구독 상품?}
+    C["구독<br/>처리"]
+    D["일반<br/>주문"]
+    E["구독 생성<br/>통합 DB"]
+    F["CMS 권한 대상<br/>Excel 생성"]
+    G["담당자<br/>CMS 일괄 처리"]
+    H["고객 알림<br/>열람 안내"]
+    
+    A --> B
+    B -->|Yes| C
+    B -->|No| D
+    C --> E
+    E --> F
+    F --> G
+    G --> H
+```
 
 ---
 
@@ -108,16 +167,16 @@ description: One-Stop 자동화 프로세스 설계
 
 > [업무 분석](/goodthinking-isp/02-analysis/business-analysis/)에서 식별한 수작업 12건과 본 문서의 자동화 포인트를 연계합니다.
 
-| 수작업 No | 업무 | AS-IS 소요 시간 [추정] | TO-BE 자동화 방식 | 잔여 수작업 | 대상 팀 |
+| 수작업 No | 업무 | AS-IS 소요 시간 🔶 | TO-BE 자동화 방식 | 잔여 수작업 | 대상 팀 |
 |:---------:|------|:--:|-------------|:---:|---------|
-| 1 | 외부몰 주문 다운로드 | 10\~15분 × 일 2\~3회 | Playauto API 자동 수집 (5분 폴링) | 0% | 영업추진 |
-| 2 | Excel 데이터 취합 | 15\~20분 × 일 1\~2회 | 불필요 (API 직접 수집 → 통합 DB) | 0% | 영업추진 |
-| 3 | CS 프로그램 수동 입력 | 3\~5분/건 × 일 20\~50건 | API 자동 연동 (외부몰→통합 DB) | 10% (예외 처리) | 정기구독 |
+| 1 | 외부몰 주문 다운로드 | 10\~15분 × 일 2\~3회 | Playauto Excel 다운로드 → 시스템 자동 파싱 | 0% | 영업추진 |
+| 2 | Excel 데이터 취합 | 15\~20분 × 일 1\~2회 | 불필요 (Excel 업로드 → 자동 파싱 → 통합 DB) | 0% | 영업추진 |
+| 3 | CS 프로그램 수동 입력 | 3\~5분/건 × 일 20\~50건 | Excel 업로드 자동 파싱 (외부몰→통합 DB) | 10% (예외 처리) | 정기구독 |
 | 4 | CMS 권한 수동 부여 | 2\~3분/건 | CMS 권한 대상 Excel 다운로드 → CMS 일괄 처리 | 20% (개별 확인) | 정기구독 |
-| 5 | 결제-구독 수동 매칭 | 2\~3분/건 × 일 10\~30건 | PG Webhook → Payment 자동 생성 → Subscription 연결 | 5% (미매칭 건) | 정기구독 |
+| 5 | 결제-구독 수동 매칭 | 2\~3분/건 × 일 10\~30건 | 나이스페이 정산 Excel 파싱 → Payment 자동 생성 → Subscription 연결 | 5% (미매칭 건) | 정기구독 |
 | 6 | 지로 입금 수동 확인 | 3\~5분/건 × 일 5\~15건 | 지로 파일 자동 파싱 + 고객 매칭 | 10% (불일치 건) | 정기구독 |
 | 7 | 홈페이지 주문 이관 | 5\~10분/건 × 일 5\~10건 | 불필요 (단일 DB, 홈페이지↔관리자 동일 DB) | 0% | 영업추진 |
-| 8 | 배송 라벨 출력 | 20\~30분 × 월 1\~2회 | CJ대한통운 API 자동 송장 등록 | 20% (대량 발송 확인) | 정기구독 |
+| 8 | 배송 라벨 출력 | 20\~30분 × 월 1\~2회 | 택배사 양식 Excel 자동 생성 → 택배사 시스템 업로드 | 20% (대량 발송 확인) | 정기구독 |
 | 9 | 매출 데이터 취합 | 30\~60분 × 일 1회 | 통합 대시보드 자동 집계 (단일 DB 조회) | 0% | 경영지원 |
 | 10 | ERP 이중 입력 | 10\~20분/건 × 일 3\~5건 | 위하고 업로드용 Excel 자동 생성 | 20% (특수 전표) | 경영지원 |
 | 11 | 데이터 검증 (목시 확인) | 10\~15분 × 일 1\~2회 | 자동 검증 규칙 + 예외 대시보드 | 20% (예외 확인) | 전체 |
@@ -127,16 +186,16 @@ description: One-Stop 자동화 프로세스 설계
 
 | 병목 No | 병목 구간 | 심각도 | 해소 방안 | 관련 수작업 | 관련 요구사항 |
 |:-------:|----------|:------:|----------|:---------:|:--------:|
-| ① | 주문 수집 → CS 입력 | 상 Critical | Playauto/외부몰 API 직접 수집 | #1, #2, #3 | FR-OM-001 |
-| ② | 결제 확인 → CMS 권한 부여 | 상 Critical | PG Webhook → 구독 → CMS 권한 Excel 내보내기 | #4, #5 | FR-SB-005, FR-CMS-003 |
-| ③ | 매출 취합 → ERP 입력 | 상 Critical | 통합 DB → 위하고 업로드용 Excel 생성 | #9, #10 | FR-FN-004, FR-FN-005 |
-| ④ | 다채널 데이터 취합 | 중 Major | 단일 DB + 통합 대시보드 | #1, #2, #7 | FR-OM-001, FR-DB-001 |
-| ⑤ | 지로/가상계좌 입금 확인 | 중 Major | 지로 자동 파싱 + PG 가상계좌 Webhook | #6, #5 | FR-FN-002, FR-GR-002 |
-| ⑥ | 구독 만료 → CMS 권한 회수 | 중 Major | 스케줄러 자동 처리 | #12 | FR-SB-005 |
-| ⑦ | 배송 처리 (월간지 발송) | 하 Minor | CJ API 연동 + 자동 송장 | #8 | FR-DL-001, FR-DL-003 |
-| ⑧ | CTI 미작동 (발신자 정보 미표시) | 중 Major | 웹 기반 CTI 연동 (브라우저 팝업) | - | CS-03 |
-| ⑨ | CMS 권한 수동 복사 (구독 갱신) | 중 Major | 구독 갱신 시 CMS 연장 대상 Excel 내보내기 | - | SB-05 |
-| ⑩ | 거래처 미등록 고객 관리 | 하 Minor | 거래처 Excel 내보내기 → 위하고 업로드 | - | CM-07 |
+| ① | 주문 수집 → CS 입력 | 🔴 Critical | Playauto Excel 업로드 → 자동 파싱 | #1, #2, #3 | FR-OM-001 |
+| ② | 결제 확인 → CMS 권한 부여 | 🔴 Critical | 나이스페이 정산 Excel 파싱 → 구독 → CMS 권한 Excel 내보내기 | #4, #5 | FR-SB-005, FR-CMS-003 |
+| ③ | 매출 취합 → ERP 입력 | 🔴 Critical | 통합 DB → 위하고 업로드용 Excel 생성 | #9, #10 | FR-FN-004, FR-FN-005 |
+| ④ | 다채널 데이터 취합 | 🟠 Major | 단일 DB + 통합 대시보드 | #1, #2, #7 | FR-OM-001, FR-DB-001 |
+| ⑤ | 지로/가상계좌 입금 확인 | 🟠 Major | 지로 자동 파싱 + 가상계좌 입금 확인 Excel 업로드 | #6, #5 | FR-FN-002, FR-GR-002 |
+| ⑥ | 구독 만료 → CMS 권한 회수 | 🟠 Major | 스케줄러 자동 처리 | #12 | FR-SB-005 |
+| ⑦ | 배송 처리 (월간지 발송) | 🟢 Minor | 택배사 양식 Excel 자동 생성 + 송장 Excel 파싱 | #8 | FR-DL-001, FR-DL-003 |
+| ⑧ | CTI 미작동 (발신자 정보 미표시) | 🟠 Major | ⚠️ 별도 과업 (서울정보시스템 담당, 고객 결정사항) | - | CS-03 |
+| ⑨ | CMS 권한 수동 복사 (구독 갱신) | 🟠 Major | 구독 갱신 시 CMS 연장 대상 Excel 내보내기 | - | SB-05 |
+| ⑩ | 거래처 미등록 고객 관리 | 🟢 Minor | 거래처 Excel 내보내기 → 위하고 업로드 | - | CM-07 |
 
 ### 현행 DB 로직 기반 자동화 전환 매핑
 
@@ -144,43 +203,77 @@ description: One-Stop 자동화 프로세스 설계
 
 | 현행 로직 | 유형 | 현행 동작 | TO-BE 전환 방식 |
 |-----------|------|----------|----------------|
-| `sp_PT_SubscribeCreate` | SP | 구독 접수 처리 | API 엔드포인트 (POST /subscriptions) |
-| `sp_PT_SubscribeCancel` | SP | 구독 취소 | API 엔드포인트 (DELETE /subscriptions) |
-| `sp_PT_FinanceCreate` | SP | 입금 등록 | PG Webhook → 자동 Finance 생성 |
-| `sp_PT_FinanceRefund` | SP | 환불 처리 | API + PG 환불 API 연동 |
-| `sp_PT_SendBookData` | SP | 도서 발송 처리 | 스케줄러 기반 자동 발송 배치 |
-| `sp_PT_NicepayProcess` | SP | PG 결제 처리 | 나이스페이 Webhook 수신 → 자동 처리 |
-| `sp_PT_CustomerMerge` | SP | 고객 병합 | 관리자 UI + 중복 탐지 알고리즘 |
-| `sp_PT_DeferIncomeCalc` | SP | 선수수익 산출 | 월간 배치 + 자동 리포트 |
-| trg_Subscribe_Giro_* | Trigger (3) | 구독↔지로 자동 연동 | 이벤트 기반 처리 (구독 생성/변경/삭제 시) |
+| sp_PT_SubscribeCreate | SP | 구독 접수 처리 | RESTful API (POST /api/subscriptions) |
+| sp_PT_SubscribeCancel | SP | 구독 취소 | RESTful API (DELETE /api/subscriptions/{id}) |
+| sp_PT_FinanceCreate | SP | 입금 등록 | 나이스페이 정산 Excel 파싱 → 자동 Finance 생성 |
+| sp_PT_FinanceRefund | SP | 환불 처리 | 나이스페이 Admin에서 환불 처리 후 결과 Excel 업로드 |
+| sp_PT_SendBookData | SP | 도서 발송 처리 | CMS 스케줄러 기반 자동 발송 배치 |
+| sp_PT_NicepayProcess | SP | PG 결제 처리 | 나이스페이 정산 Excel 파싱 → 자동 처리 |
+| sp_PT_CustomerMerge | SP | 고객 병합 | CMS Admin UI + 중복 탐지 알고리즘 (Custom Module) |
+| sp_PT_DeferIncomeCalc | SP | 선수수익 산출 | CMS 스케줄러 월간 배치 + 자동 리포트 |
+| trg_Subscribe_Giro_* | Trigger (3) | 구독↔지로 자동 연동 | 이벤트 기반 처리 (Entity presave/insert/delete hook) |
 | trg_GiftSend_Stock_* | Trigger (3) | 선물↔재고 자동 연동 | 이벤트 기반 재고 관리 |
-| trg_Finance_DeferIncome | Trigger | 입금→선수수익 반영 | 결제 이벤트 → 자동 선수수익 계산 |
-| trg_Customer_Tel_Index | Trigger | 전화번호 인덱스 갱신 | DB 인덱스 자동 관리 (ORM 레벨) |
-| func_GetCustomerByTel | Function | CTI 고객 조회 | 웹 CTI → API 호출 (GET /customers?tel=) |
-| func_CalcSubscribePeriod | Function | 구독 기간 계산 | 비즈니스 로직 레이어 (서버사이드) |
+| trg_Finance_DeferIncome | Trigger | 입금→선수수익 반영 | 이벤트 기반 처리 → 자동 선수수익 계산 |
+| trg_Customer_Tel_Index | Trigger | 전화번호 인덱스 갱신 | DB 인덱스 자동 관리 |
+| func_GetCustomerByTel | Function | CTI 고객 조회 | RESTful API 필터 (GET /api/customers?filter[phone]=) |
+| func_CalcSubscribePeriod | Function | 구독 기간 계산 | 구독 관리 모듈 서비스 레이어 |
 
 ### 트리거 기반 자동화
 
 | 트리거 이벤트 | 자동 실행 액션 | 관련 현행 객체 |
 |--------------|---------------|---------------|
-| 주문 생성 | 고객 매칭, 주문 등록 | `sp_PT_SubscribeCreate` |
-| 결제 완료 | 구독 생성, CMS 권한 대상 등록, 선수수익 반영 | `sp_PT_FinanceCreate`, `trg_Finance_DeferIncome` |
+| 주문 생성 | 고객 매칭, 주문 등록 | sp_PT_SubscribeCreate |
+| 결제 완료 | 구독 생성, CMS 권한 대상 등록, 선수수익 반영 | sp_PT_FinanceCreate, trg_Finance_DeferIncome |
 | 구독 만료 D-7 | 갱신 안내 알림 | (신규) |
 | 구독 만료 | CMS 권한 해제 대상 등록 | (신규) |
-| 배송 출고 | 송장 등록, 알림 발송 | `sp_PT_SendBookData` |
+| 배송 출고 | 송장 등록, 알림 발송 | sp_PT_SendBookData |
 | 배송 완료 | 상태 업데이트, 알림 | (신규) |
 | 선물 발송 | 선물 재고 차감 | trg_GiftSend_Stock_Insert |
-| 환불 처리 | 선수수익 역분개, 재고 복원 | `sp_PT_FinanceRefund` |
+| 환불 처리 | 선수수익 역분개, 재고 복원 | sp_PT_FinanceRefund |
 
 ### 스케줄 기반 자동화
 
 | 주기 | 작업 | 설명 |
 |------|------|------|
-| 5분 | 외부몰 주문 수집 | API 폴링 |
-| 1시간 | 배송 상태 업데이트 | 택배사 API 조회 |
+| 수시 | 외부몰 주문 Excel 업로드 | 담당자가 Playauto에서 Excel 다운로드 후 업로드 → 자동 파싱 |
+| 수시 | 배송 상태 Excel 업로드 | 택배사에서 Excel 다운로드 후 업로드 → 자동 파싱 |
 | 매일 00:00 | 구독 만료 처리 | 권한 해제 |
 | 매일 09:00 | 만료 예정 알림 | D-7, D-3, D-1 |
 | 매월 1일 | 개인정보 자동 파기 | 보유기간 초과 데이터 자동 삭제/익명화 (AD-05, SC-05) |
+
+---
+
+## Excel 보안 정책 적용 흐름
+
+모든 Excel 업로드/다운로드 프로세스에 개인정보 보호 정책을 적용합니다.
+
+### 업로드 보안
+
+| 단계 | 처리 | 비고 |
+|------|------|------|
+| 1. 파일 수신 | 임시 영역에 저장 | 암호화 저장소 |
+| 2. 파싱/검증 | 데이터 추출 → DB 저장 | 행 단위 오류 처리 |
+| 3. 개인정보 탐지 | 파싱 데이터 중 개인정보 필드 자동 식별 | 연락처, 주소 등 |
+| 4. 원본 파기 | 파싱 완료 후 **업로드 원본 Excel 즉시 삭제** | 개인정보 잔류 방지 |
+| 5. 감사 로그 | upload 이력 기록 (건수, 개인정보 포함 여부) | audit_log |
+
+### 다운로드 보안
+
+```mermaid
+graph TD
+    A["Excel 다운로드 요청"] --> B{"개인정보<br/>포함?"}
+    B -->|No| C["일반 Excel 생성"]
+    B -->|Yes| D{"100건<br/>초과?"}
+    D -->|No| E["사유 입력"]
+    D -->|Yes| F["사유 입력 +<br/>상위 승인"]
+    E --> G["비밀번호 자동 적용<br/>(AES-128, 12자+)"]
+    F --> G
+    G --> H["다운로드 +<br/>비밀번호 팝업"]
+    C --> I["excel_export_log 기록"]
+    H --> I
+```
+
+> 상세 보안 정책은 [Web 시스템 아키텍처 § 데이터 보안](./web-architecture#3-데이터-보안) 참조
 
 ---
 
@@ -188,21 +281,58 @@ description: One-Stop 자동화 프로세스 설계
 
 ### 1. 수집 오류
 
-![1. 수집 오류](/diagrams/goodthinking-isp/04-design/process-automation-L254.svg)
+```mermaid
+graph TD
+    A["수집 실패"]
+    B["재시도 3회"]
+    C{성공?}
+    D["오류 로그 기록"]
+    E["담당자 알림<br/>Slack/메일"]
+    
+    A --> B
+    B --> C
+    C -->|Yes| End1["완료"]
+    C -->|No| D
+    D --> E
+    E --> End2["대기"]
+```
 
 ### 2. CMS 권한 처리 오류
 
-![2. CMS 권한 처리 오류](/diagrams/goodthinking-isp/04-design/process-automation-L272.svg)
+```mermaid
+graph TD
+    A["Excel 생성/다운로드 오류"]
+    B["오류 로그 기록"]
+    C["담당자 알림"]
+    D["수동 대상 목록<br/>확인 후 처리"]
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> End1["완료"]
+```
 
 ### 3. 데이터 불일치
 
-![3. 데이터 불일치](/diagrams/goodthinking-isp/04-design/process-automation-L287.svg)
+```mermaid
+graph TD
+    A["고객 매칭 실패"]
+    B{대응 방식}
+    C["신규 고객<br/>자동 생성"]
+    D["수동 매칭<br/>필요"]
+    E["CS 확인 후<br/>처리"]
+    
+    A --> B
+    B -->|Case 1| C
+    B -->|Case 2| D
+    D --> E
+```
 
 ---
 
 ## 성과 지표 (KPI)
 
-> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 화면 시연 인터뷰 후 실측 데이터로 대체 필요.
+> AS-IS 수치는 [업무 분석](/goodthinking-isp/02-analysis/business-analysis/) 문서 분석 기반 추정값. 인터뷰/워크 쉐도잉 후 실측 데이터로 대체 필요.
 
 | 지표 | AS-IS (추정) | TO-BE 목표 | 개선율 | 근거 |
 |------|:------:|:---------:|:------:|------|
@@ -212,12 +342,12 @@ description: One-Stop 자동화 프로세스 설계
 | 데이터 오류율 | 2\~5% (수동입력) | 0.5% 이하 | 90%↓ | 자동 검증 + Excel 템플릿 표준화 |
 | 자동화율 | 0% (Playauto 제외) | 75% 이상 | - | 12건 수작업 중 8건 자동화 + 4건 간소화 |
 | 이중 입력 건수/일 | 매출/정산 건별 | 0건 (Excel 자동 생성) | 100%↓ | 병목 ③ 해소 |
-| 채널별 주문 수집 시간 | 30분\~1시간 (수동) | 5분 (API 폴링) | 90%↓ | 병목 ① 해소 |
+| 채널별 주문 수집 시간 | 30분\~1시간 (수동) | Excel 업로드 즉시 파싱 | 90%↓ | 병목 ① 해소 |
 | 고객 정보 분산 | 2곳 (C/S+웹) | 1곳 (통합 DB) | **완전 통합** | 정기구독 고객 데이터 정합성 확보 |
 
 ### 팀별 자동화 기대 효과
 
-| 팀 | AS-IS 수작업 [추정] | TO-BE 잔여 수작업 | 절감 | 비고 |
+| 팀 | AS-IS 수작업 🔶 | TO-BE 잔여 수작업 | 절감 | 비고 |
 |----|:--:|:--:|:--:|------|
 | 정기구독팀 | 3\~4시간/일 | 40\~70분/일 | \~70% | 구독 접수, CMS 권한 Excel 간소화, 결제 매칭 자동화 |
 | 영업추진팀 | 2\~3시간/일 | 20\~40분/일 | \~80% | 외부몰 수집, 홈페이지 이관 완전 자동화 |
@@ -230,15 +360,15 @@ description: One-Stop 자동화 프로세스 설계
 
 BPR 적용 시 비즈니스 임팩트와 기술적 난이도를 고려한 우선순위:
 
-| 순위 | 자동화 영역 | 임팩트 | 난이도 | 대상 팀 | 해소 병목 | 절감 시간 [추정] |
+| 순위 | 자동화 영역 | 임팩트 | 난이도 | 대상 팀 | 해소 병목 | 절감 시간 🔶 |
 |:----:|-----------|:------:|:------:|--------|:--------:|:----------:|
-| 1 | **주문 수집 API 자동화** | 높음 | 중간 | 영업추진팀 | 병목 ①④ | 일 2\~4시간 |
+| 1 | **주문 Excel 업로드 자동 파싱** | 높음 | 중간 | 영업추진팀 | 병목 ①④ | 일 2\~4시간 |
 | 2 | **결제→구독→CMS 권한 Excel 간소화** | 높음 | 중간 | 정기구독팀 | 병목 ②⑥ | 고객 대기 단축 |
-| 3 | **PG/지로 입금 자동 매칭** | 높음 | 중간 | 정기구독팀 | 병목 ⑤ | 일 1\~2시간 |
-| 4 | **배송 API 자동 연동** | 중간 | 낮음 | 전체 | 병목 ⑦ | 월 2\~3시간 |
+| 3 | **나이스페이 정산/지로 Excel 자동 파싱** | 높음 | 중간 | 정기구독팀 | 병목 ⑤ | 일 1\~2시간 |
+| 4 | **배송 Excel 자동 생성/파싱** | 중간 | 낮음 | 전체 | 병목 ⑦ | 월 2\~3시간 |
 | 5 | **매출 자동 집계 대시보드** | 중간 | 낮음 | 경영지원팀 | 병목 ④ | 일 30\~60분 |
 | 6 | **ERP Excel 자동 생성** | 중간 | 낮음 | 경영지원팀 | 병목 ③ | 일 30\~60분 |
-| 7 | **웹 기반 CTI 연동** | 중간 | 높음 | 정기구독팀 | - | CS 효율화 |
+| 7 | **CTI 연동** | 중간 | 높음 | 정기구독팀 | - | ⚠️ 별도 과업 |
 | 8 | **Excel 기반 상품 관리** | 낮음 | 낮음 | 앵두아트 | - | 비정기적 |
 
 ### 구현 단계별 로드맵
@@ -246,12 +376,26 @@ BPR 적용 시 비즈니스 임팩트와 기술적 난이도를 고려한 우선
 ```
 Phase 1 (개발 1차, 2개월)          Phase 2 (개발 2차, 1개월)
 ─────────────────────────          ─────────────────────────
- 우선순위 1: 주문 수집 API           우선순위 6: ERP Excel 생성
- 우선순위 2: 결제→CMS 간소화         우선순위 7: CTI 연동
- 우선순위 3: PG/지로 자동 매칭       우선순위 8: 상품 Excel 관리
- 우선순위 4: 배송 API
+ 우선순위 1: 주문 Excel 파싱         우선순위 6: ERP Excel 생성
+ 우선순위 2: 결제→CMS 간소화         우선순위 7: CTI 연동 (⚠️ 별도 과업)
+ 우선순위 3: 정산/지로 Excel 파싱     우선순위 8: 상품 Excel 관리
+ 우선순위 4: 배송 Excel 생성/파싱
  우선순위 5: 대시보드
 
 → Phase 1 완료 시 수작업 ~55% 절감
 → Phase 2 완료 시 수작업 ~75% 절감
 ```
+
+---
+
+## 작성 이력
+
+| 날짜 | 작성자 | 변경 내용 |
+|------|--------|----------|
+| 2026-02-23 | - | 초안 작성 |
+| 2026-03-03 | 현승인 | 팀별 자동화 대상 매핑 추가 (4개 팀, 24단계), AS-IS→TO-BE 전환 매핑 보강 (결제확인/매출정산/알림 추가), 현행 DB 로직 기반 자동화 전환 매핑 14건 (SP/Trigger/Function → API/이벤트), 트리거 기반 자동화 관련 현행 객체 연결, KPI 추정값 채움 (인터뷰 후 실측 대체 필요), 자동화 우선순위 7건 추가 |
+| 2026-03-03 | 현승인 | 수작업 12건↔자동화 매핑 테이블 신설 (건별 잔여 수작업률 명시), 병목 7건↔자동화 우선순위↔요구사항 교차 매핑 추가, KPI 근거 컬럼 추가 및 업무분석 수치(6.5\~9h/일) 동기화, 팀별 기대 효과 테이블 신설, 자동화 우선순위 7건→8건 확장 (PG/지로 입금 자동 매칭 분리), 구현 단계별 로드맵(Phase 1/2) 추가 |
+| 2026-04-20 | ISP팀 | 3장 기능요건 정합성 반영: ERP 명칭 이카운트→위하고(WEHAGO) 전면 수정, 인터뷰 확인 병목 3건 추가 (⑧ CTI 미작동 CS-03, ⑨ CMS 수동 복사 SB-05, ⑩ 거래처 미등록 CM-07), 스케줄 기반 자동화에 개인정보 자동 파기 추가 (AD-05, SC-05) |
+| 2026-04-20 | ISP팀 | 외부 연동 현실성 반영: 인터뷰 기반 외부 플랫폼 API 미사용 확인 → 전면 Excel 템플릿 기반 자동화로 전환 (PG Webhook/택배사 API/Playauto API 등 모두 Excel 파싱 방식으로 변경), CTI 별도 과업 분리, 자동화율·KPI 수치 현실화 (90%→75%), CMS 권한 처리 Excel 기반 흐름으로 재설계, 팀별 기대효과·우선순위·로드맵 보정 |
+| 2026-04-20 | ISP팀 | CMS 개념 보정: 고객 정보 분산 표현에서 CMS 제외 (C/S+웹+CMS 3곳 → C/S+웹 2곳), 좋은생각 CMS는 원고 아카이브 시스템으로 고객 데이터 통합 범위가 아님을 명확화 |
+| 2026-04-23 | 김명직 | Excel 보안 정책 적용 흐름 섹션 신설: 업로드 보안 (원본 파기), 다운로드 보안 (개인정보 Excel 비밀번호 AES-128, 사유 입력, 상위 승인, excel_export_log) |

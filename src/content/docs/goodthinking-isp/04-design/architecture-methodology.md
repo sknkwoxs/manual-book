@@ -1,5 +1,5 @@
 ---
-title: 4.3. 아키텍처 설계 방법론
+title: 아키텍처 설계 방법론
 description: SW 아키텍처 설계 프로세스 및 방법론
 ---
 
@@ -11,7 +11,25 @@ description: SW 아키텍처 설계 프로세스 및 방법론
 
 ## 아키텍처 설계 프로세스 개요
 
-![아키텍처 설계 프로세스 개요](/diagrams/goodthinking-isp/04-design/architecture-methodology-L14.svg)
+```mermaid
+graph TD
+    A["1. 요구사항 정의"]
+    A -->|기능 요구사항| B["기능 요구사항"]
+    A -->|품질 속성| C["품질 속성<br/>(비기능 요구사항)"]
+    A -->|제약사항| D["제약사항"]
+    
+    B --> E["2. ASR 도출"]
+    C --> E
+    D --> E
+    E -->|QAW / PALM / Utility Tree| F["3. 아키텍처 설계"]
+    
+    F -->|시나리오 → 전술 → 패턴 → 체크리스트| G["4. 아키텍처 평가"]
+    G -->|ATAM / LAE| H["5. 아키텍처 문서화"]
+    
+    H -->|모듈 뷰| I["모듈 뷰"]
+    H -->|C&C 뷰| J["C&C 뷰<br/>Component & Connector"]
+    H -->|할당 뷰| K["할당 뷰"]
+```
 
 ---
 
@@ -25,7 +43,17 @@ description: SW 아키텍처 설계 프로세스 및 방법론
 | **품질 속성** | 기능의 자격 요건 (성능, 보안 등) | 구조와 행위 설계 |
 | **제약사항** | 선택 여지 없는 결정 (언어, 플랫폼 등) | 설계 조건 |
 
-![요구사항 유형](/diagrams/goodthinking-isp/04-design/architecture-methodology-L46.svg)
+```mermaid
+graph LR
+    A["기능 요구사항"]
+    B["SW 아키텍처"]
+    C["품질 속성"]
+    D["제약사항"]
+    
+    A -->|책임 할당| B
+    C -->|구조와 행위 설계| B
+    D -->|설계 조건| B
+```
 
 ---
 
@@ -53,7 +81,37 @@ SW 아키텍처 완성 전, 이해당사자 참여를 통해 품질 속성 시�
 #### Utility Tree
 품질 속성을 계층적으로 정리하고 우선순위를 부여
 
-![Utility Tree](/diagrams/goodthinking-isp/04-design/architecture-methodology-L84.svg)
+```mermaid
+graph TD
+    A["시스템"]
+    B["성능"]
+    C["보안"]
+    D["변경용이성"]
+    E["응답시간"]
+    F["처리량"]
+    G["인증"]
+    H["권한"]
+    I["모듈화"]
+    J["확장성"]
+    K["시나리오(H,H)"]
+    L["시나리오(M,H)"]
+    M["시나리오(H,M)"]
+    
+    A --> B
+    A --> C
+    A --> D
+    
+    B --> E
+    B --> F
+    C --> G
+    C --> H
+    D --> I
+    D --> J
+    
+    E --> K
+    G --> L
+    I --> M
+```
 
 ---
 
@@ -73,18 +131,36 @@ SW 아키텍처 완성 전, 이해당사자 참여를 통해 품질 속성 시�
 
 ### 품질 속성 시나리오 구조
 
-![품질 속성 시나리오 구조](/diagrams/goodthinking-isp/04-design/architecture-methodology-L134.svg)
+```mermaid
+graph TD
+    Title["품질 속성 시나리오"]
+    S["① 원천 Source<br/>자극을 생성하는 주체"]
+    St["② 자극 Stimulus<br/>시스템에 도착하는 조건/이벤트"]
+    A["③ 대상 Artifact<br/>자극을 받는 시스템 부분"]
+    E["④ 환경 Environment<br/>자극 발생 시 시스템 상태"]
+    R["⑤ 응답 Response<br/>자극에 대한 시스템 반응"]
+    M["⑥ 응답 측정 Measure<br/>응답의 정량적 측정 기준"]
+
+    Title --- S
+    S --> St
+    St --> A
+    A --> E
+    E --> R
+    R --> M
+
+    style Title fill:#f0f0f0,stroke:#333,stroke-width:2px,font-weight:bold
+```
 
 ### 품질 속성 시나리오 예시
 
-> **[참고]** 좋은생각 적용
->
-> 아래 예시를 좋은생각사람들 시스템에 맞게 구체화한 전체 시나리오는 [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/)를 참조하세요. 17개 시나리오가 6개 품질 속성에 걸쳐 정의되어 있습니다.
+:::note[좋은생각 적용]
+아래 예시를 좋은생각사람들 시스템에 맞게 구체화한 전체 시나리오는 [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/)를 참조하세요. 17개 시나리오가 6개 품질 속성에 걸쳐 정의되어 있습니다.
+:::
 
 | 요소 | 성능 시나리오 예시 (좋은생각) |
 |:---|:---|
 | 원천 | 정기구독팀 사용자 |
-| 자극 | 고객 통합 조회 요청 (`PT_Customer` + `PT_Subscribe` + `PT_Finance`) |
+| 자극 | 고객 통합 조회 요청 (PT_Customer + PT_Subscribe + PT_Finance) |
 | 대상 | 통합 웹 관리자 시스템 (고객 관리 모듈) |
 | 환경 | 정상 운영 상태, 동시 접속 15명 |
 | 응답 | 고객 상세 정보 + 구독 이력 + 결제 이력 반환 |
@@ -96,7 +172,23 @@ SW 아키텍처 완성 전, 이해당사자 참여를 통해 품질 속성 시�
 
 ### ADD 프로세스
 
-![ADD 프로세스](/diagrams/goodthinking-isp/04-design/architecture-methodology-L175.svg)
+```mermaid
+graph TD
+    A["1. 설계할 시스템 요소 선택"]
+    B["Breadth-first / Depth-first / Mixed"]
+    C["2. 선택된 요소에 대한 ASRs 파악"]
+    D["3. 선택된 요소에 대한 설계 솔루션 생성"]
+    E["패턴, 전술, 프레임워크, 체크리스트 활용"]
+    F["4. 잔여 요구사항 검증/정련,<br/>다음 반복 투입물 선택"]
+    G["5. 모든 ASRs 충족할 때까지<br/>1~4 반복"]
+    
+    A --> B
+    B --> C
+    C --> D
+    E -.->|활용| D
+    D --> F
+    F --> G
+```
 
 ### 설계 체크리스트 (7가지 범주)
 
@@ -188,10 +280,10 @@ ATAM의 경량화 버전 (총 4\~6시간)
 
 | 단계 | 방법론 | ISP 산출물 | 상태 | 비고 |
 |:---|:---|:---|:---:|:---|
-| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | 95% | 17개 시나리오, 6개 품질 속성, 인터뷰 기반 보정 |
-| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | 95% | 품질 속성별 우선순위, Tradeoff 분석, 상호운용성 반영 |
-| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | 80% | 12모듈, NestJS+React+MSSQL |
-| 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | 80% | 비용/리스크/기술 Tradeoff |
+| ASR 도출 | QAW (간소화) | [품질 속성 시나리오](/goodthinking-isp/04-design/quality-scenarios/) | ISP 단계 완료 | 역공학 + 인터뷰/문서 기반 17개 시나리오 도출. 개발 착수 시 최종 보정 |
+| 우선순위 | Utility Tree | [Utility Tree](/goodthinking-isp/04-design/utility-tree/) | ISP 단계 완료 | 역공학 + 인터뷰/문서 기반 우선순위 산정. 개발 착수 시 최종 보정 |
+| 설계 | ADD Method | [웹 시스템 아키텍처](/goodthinking-isp/04-design/web-architecture/) | ISP 단계 완료 | 12모듈, Headless CMS+SSR 프론트엔드+MariaDB. 개발 착수 시 상세 설계 확정 |
+| 평가 | LAE (경량화 ATAM) | utility-tree.md 내 Tradeoff 분석 | ISP 단계 완료 | 비용/리스크/기술 Tradeoff 초안. 개발 착수 시 최종 평가 |
 
 ### 방법론 적용 상세
 
@@ -202,17 +294,17 @@ QAW 8단계를 좋은생각 ISP에 적용한 결과:
 | QAW 단계 | 좋은생각 적용 | 결과 |
 |:---:|:---|:---|
 | 1-3 | 킥오프 미팅 (3/3\~4) + ISP 소개 | 사업 배경, 아키텍처 방향 공유 |
-| 4 | 현행 시스템 역공학 (DB 151t 분석) + 인터뷰 | 아키텍처 동인: C/S 폐쇄성, DB 이원화, 수동 이관, CTI 미작동, ERP 이중입력 |
+| 4 | 현행 시스템 역공학 (DB 151t 분석) | 아키텍처 동인: C/S 폐쇄성, DB 이원화, 수동 이관 |
 | 5-6 | DB 분석 + 업무 플로우 기반 시나리오 도출 | 17개 시나리오 (성능 3, 보안 3, 가용성 2, 상호운영 4, 변경용이 3, 사용성 2) |
 | 7 | 우선순위 부여 (H/M/L × 비즈니스/기술) | P-1\~P-3 등급 분류 |
-| 8 | 현행 DB 테이블/SP 기반 시나리오 정련 | 실제 `PT_Customer`, `PT_Subscribe` 등 매핑 |
+| 8 | 현행 DB 테이블/SP 기반 시나리오 정련 | 실제 PT_Customer, PT_Subscribe 등 매핑 |
 
 #### Utility Tree → 품질 속성 우선순위 (utility-tree.md)
 
 | 최상위 품질 속성 | 하위 항목 수 | 최고 우선순위 항목 |
 |:---|:---:|:---|
-| 상호운용성 | 4건 | 다채널 주문 자동 수집 (H,H) |
-| 변경용이성 | 3건 | C/S 비즈니스 로직 → API 전환 (H,H) |
+| 상호운용성 | 4건 | 다채널 주문 Excel 업로드 자동 파싱 (H,H) |
+| 변경용이성 | 3건 | C/S 비즈니스 로직 → 내부 API 전환 (H,H) |
 | 성능 | 3건 | 월간지 발송 5만건 배치 처리 (H,M) |
 | 보안 | 3건 | 5만 고객 개인정보 보호 (H,M) |
 | 가용성 | 2건 | 업무 시간 99.5% SLA (M,L) |
@@ -224,13 +316,13 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 
 | 체크리스트 | 좋은생각 적용 결과 |
 |:---|:---|
-| ① 책임 할당 | 12개 도메인 모듈 (대시보드\~시스템 관리), 각 모듈에 DB 테이블/SP 매핑 |
-| ② 조정 모델 | RESTful API (동기) + BullMQ (비동기 배치), 트리거 → 이벤트 핸들러 전환 |
-| ③ 데이터 모델 | MSSQL 통합 스키마 \~100t, `PT_Customer` 허브 엔티티, TypeORM 엔티티 매핑 |
-| ④ 요소간 매핑 | 모듈 의존 관계 (고객→구독→주문→결제/배송), API Gateway 라우팅 |
-| ⑤ 자원 관리 | Redis 캐시 (세션, 빈번 조회), S3 파일 스토리지, DB 커넥션 풀 |
-| ⑥ 바인딩 시간 | 환경별 설정 (Dev/Staging/Prod), 코드 마스터 런타임 로딩 |
-| ⑦ 기술 선택 | NestJS (백엔드) + React/Ant Design (프론트) + MSSQL (AWS RDS) |
+| ① 책임 할당 | 12개 도메인 모듈 (대시보드\~시스템 관리), 각 모듈에 DB 테이블/SP 매핑 → CMS 커스텀 모듈 |
+| ② 조정 모델 | RESTful API (동기, 내부) + Queue 시스템 (비동기 배치), 트리거 → 이벤트 기반 처리 전환. 외부 연동은 Excel 템플릿 업로드/다운로드 방식 |
+| ③ 데이터 모델 | MariaDB 통합 스키마 \~100t, PT_Customer 허브 엔티티, CMS Entity 매핑 |
+| ④ 요소간 매핑 | 모듈 의존 관계 (고객→구독→주문→결제/배송), RESTful API 라우팅 |
+| ⑤ 자원 관리 | Redis 캐시 (세션, CMS 캐시 백엔드), Object Storage 파일 스토리지, DB 커넥션 풀 |
+| ⑥ 바인딩 시간 | 환경별 설정 (Dev/Staging/Prod), CMS Config Management |
+| ⑦ 기술 선택 | Headless CMS (백엔드) + SSR 프레임워크 + 경량 UI (프론트) + MariaDB (Lightsail DB) |
 
 #### LAE → Tradeoff 분석 (utility-tree.md)
 
@@ -238,26 +330,42 @@ ADD 7가지 설계 체크리스트를 좋은생각 시스템에 적용:
 
 | Tradeoff 항목 | 선택 | 근거 |
 |:---|:---|:---|
-| MSSQL 유지 vs PostgreSQL | MSSQL 유지 (1단계) | 이관 리스크 최소화, 49개 로직 일부 재활용 |
-| 모놀리식 vs MSA | 모놀리식 (NestJS 모듈) | 15명 규모에 MSA 오버 엔지니어링, 점진적 분리 가능 |
-| ECS Fargate vs K8s | ECS Fargate 또는 EC2 | K8s 운영 비용/복잡도 > 이점 (월 \~$73 절감) |
-| 자체 인프라 vs AWS 전면 이전 | AWS 전면 이전 | On-Prem MSSQL 유지 비용 > RDS 비용, VPN 취약점 해소 |
+| MSSQL 유지 vs MariaDB | MariaDB 전환 | 라이선스 비용 제거, 오픈소스 생태계, Lightsail Managed DB 지원으로 관리 비용 최소화 |
+| Full Custom 개발 vs Headless CMS | Headless CMS | Admin UI/인증/API 내장으로 개발 기간 단축, 비즈니스 로직에 집중 가능, 보안 업데이트 자동화 |
+| SPA vs SSR 프론트엔드 | SSR 프론트엔드 | CDN Edge 배포로 초기 로딩 빠름, SEO 불필요하나 SSR로 서버 부하 분산 |
+| AWS ECS Fargate vs Lightsail | AWS Lightsail + Cloudflare | 고정 월비용으로 예측 가능, 인프라 비용 대폭 절감, 15명 규모에 ECS/K8s 과잉 |
+| PostgreSQL vs MariaDB | MariaDB | Lightsail Managed DB 네이티브 지원, 오픈소스 CMS 생태계 1순위 지원 DB, 비용 최적화 |
 
 ### 일정 (실적)
 
 | 주차 | 계획 | 실적 |
 |:---:|------|------|
 | 1-2주 | 킥오프 + 현행 분석 | 킥오프 완료 (3/3\~4), Google Drive 23개 파일 전수 분석, DB 역공학 |
-| 3-4주 | QAW 워크샵, Utility Tree 작성 | DB 분석 기반 시나리오 17건 도출, Utility Tree 작성, 인터뷰 기반 기능요건 101건 도출 |
-| 5-6주 | ADD 기반 아키텍처 설계 | TO-BE 아키텍처 설계 (12모듈, 기술스택 권장안), 자동화 프로세스 설계 |
-| 7-8주 | LAE 평가, RFP 작성 | Tradeoff 분석 완료, RFP 초안 작성 중 |
+| 3-4주 | QAW 워크샵, Utility Tree 작성 | DB 분석 기반 시나리오 17건 도출, Utility Tree 작성 (인터뷰 후 보정 예정) |
+| 5-6주 | ADD 기반 아키텍처 설계 | TO-BE 아키텍처 설계 (12모듈, Headless CMS + SSR 프론트엔드 기술스택 권장안), 자동화 프로세스 설계 |
+| 7-8주 | LAE 평가, RFP 작성 | Tradeoff 분석 완료 (Full Custom→Headless CMS, RDBMS 전환, 인프라 경량화), RFP 초안 작성 중 |
 
-### 인터뷰 기반 보정 사항
+### 향후 과제
 
-> **[참고]** 인터뷰 수행 완료
->
-> QAW 시나리오와 Utility Tree는 **DB 역공학 + 문서 분석 + 인터뷰(3장 기능요건 도출)**를 기반으로 작성되었습니다.
-> 인터뷰를 통해 다음 항목이 보정되었습니다:
-> - 현행 ERP: 위하고(WEHAGO) 확인 (이카운트 아님)
-> - 인터뷰 기반 추가 병목 3건 식별 (CTI 미작동, CMS 수동 복사, 거래처 미등록)
-> - 11개 도메인 101건 기능요건 도출 완료
+:::note[ISP 단계 산출물 — 개발 과업 착수 시 최종 확정]
+본 문서의 모든 산출물은 **ISP(정보화 전략 계획) 단계**에서 DB 역공학, 인터뷰, 문서/자료 검토를 통해 도출한 것입니다.
+실제 개발 과업 착수 시 다음 항목에 대해 **최종 산출 및 보정**이 필요합니다:
+
+- **품질 속성 시나리오**: 정량 목표값 (응답시간, 처리량 등) 실측 기반 확정
+- **Utility Tree 우선순위**: 이해관계자 참여 워크샵을 통한 비즈니스 관점 최종 검증
+- **TO-BE 아키텍처 상세 설계**: 모듈 범위 확정 (홈페이지 리뉴얼 포함 여부), 기술스택 최종 선정
+- **Tradeoff 분석**: 개발 환경 구축 후 프로토타입 기반 성능/비용 실증 검증
+- **아키텍처 평가 (LAE)**: 구현 단계 진입 전 경량 ATAM 정식 수행
+:::
+
+---
+
+## 작성 이력
+
+| 날짜 | 작성자 | 변경 내용 |
+|------|--------|----------|
+| 2026-02-26 | - | 초안 작성 (방법론 이론 정리) |
+| 2026-03-03 | 김명직 | 좋은생각 ISP 적용 결과 반영: QAW→17개 시나리오 연결, ADD→12모듈 체크리스트 매핑, LAE→Tradeoff 4건, 시나리오 예시 좋은생각 맥락으로 구체화, 일정 실적 반영 |
+| 2026-04-20 | 김명직 | Tradeoff 결정 변경: MSSQL 유지 → PostgreSQL 전환, ADD 기술 선택 반영 |
+| 2026-04-23 | 김명직 | 과업요청서 범용화: 특정 제품명 → 일반 기술 패턴 용어로 전환 (Headless CMS, SSR 프론트엔드, RBAC 등). Tradeoff 5건 갱신, ADD 체크리스트 전체 반영 |
+| 2026-04-23 | 김명직 | 외부 연동 현실성 반영: 다채널 주문 자동 수집 → Excel 업로드 자동 파싱, C/S→API 전환 → 내부 API 전환으로 명확화, ADD 조정 모델에 외부 연동 Excel 방식 명시 |
