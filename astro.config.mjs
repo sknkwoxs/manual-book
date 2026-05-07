@@ -164,6 +164,7 @@ export default defineConfig({
                 { label: '5.1. 개요', link: '/goodthinking-isp/05-implementation/' },
                 { label: '5.2. 마이그레이션 계획', link: '/goodthinking-isp/05-implementation/migration-plan/' },
                 { label: '5.3. 발주 지원(RFP)', link: '/goodthinking-isp/05-implementation/rfp-preparation/' },
+                { label: '5.4. 비용 산정', link: '/goodthinking-isp/05-implementation/cost-estimation/' },
               ],
             },
             {
