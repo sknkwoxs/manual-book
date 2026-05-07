@@ -1,6 +1,6 @@
 ---
 title: 제4장 제안 요청 사항
-description: 7개 분류 114건 요구사항 — 시스템 구축·기능·보안·데이터·테스트운영·교육·제약
+description: 7개 분류 110건 요구사항 — 시스템 구축·기능·보안·데이터·테스트운영·교육·제약
 ---
 
 # 제4장 제안 요청 사항
@@ -33,10 +33,10 @@ description: 7개 분류 114건 요구사항 — 시스템 구축·기능·보�
 
 ### 총 요구사항 건수
 
-전체 요구사항은 **114건**으로 구성됩니다:
+전체 요구사항은 **110건**으로 구성됩니다:
 
 - **STR** (시스템 구축): 7건
-- **SRE** (기능): 79건
+- **SRE** (기능): 75건
 - **SER** (보안): 6건
 - **DAR** (데이터): 6건
 - **TER** (테스트·운영): 6건
@@ -85,7 +85,7 @@ description: 7개 분류 114건 요구사항 — 시스템 구축·기능·보�
 | 분류 코드 | 분류명 | 건수 | 링크 |
 |----------|--------|------|------|
 | **STR** | 시스템 구축 요구사항 | 7건 | [4.3.1 시스템 구축 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/str-system-build/) |
-| **SRE** | 기능 요구사항 | — | [4.3.2 기능 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/) |
+| **SRE** | 기능 요구사항 | 75건 | [4.3.2 기능 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/sre-functional/) |
 | **SER** | 보안 요구사항 | 6건 | [4.3.3 보안 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/ser-security/) |
 | **DAR** | 데이터 요구사항 | 6건 | [4.3.4 데이터 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/dar-data/) |
 | **TER** | 테스트·운영 요구사항 | 6건 | [4.3.5 테스트·운영 요구사항](/goodthinking-isp/08-rfp/04-proposal-request/ter-test-ops/) |
