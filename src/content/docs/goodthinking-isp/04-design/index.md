@@ -13,24 +13,7 @@ ISP 2단계(4\~6주)에서 수행하는 목표 모델 설계 문서입니다.
 
 ### 전환 목표
 
-```mermaid
-graph LR
-    subgraph ASIS["AS-IS (현재)"]
-        A1["C/S 로컬<br/>설치형"]
-        A2["MSSQL+MySQL<br/>분리 운영"]
-        A3["수작업<br/>프로세스"]
-    end
-    
-    subgraph TOBE["TO-BE (목표)"]
-        B1["웹 기반 통합 시스템<br/>(어디서나 접속 가능)"]
-        B2["통합 DB<br/>(단일 고객 뷰)"]
-        B3["자동화 프로세스<br/>(One-Stop 처리)"]
-    end
-    
-    A1 -->|전환| B1
-    A2 -->|전환| B2
-    A3 -->|전환| B3
-```
+![전환 목표](/diagrams/goodthinking-isp/04-design/index-L16.svg)
 
 ### 3대 핵심 목표
 
@@ -42,30 +25,7 @@ graph LR
 
 ### 목표 아키텍처 개요
 
-```mermaid
-graph TB
-    User["사용자 (CS팀)"]
-    User -->|웹 브라우저| CF["Cloudflare CDN + Edge"]
-    
-    subgraph Infra["인프라"]
-        Frontend["SSR 프론트엔드<br/>(CDN Edge 배포)"]
-        Backend["Headless CMS 백엔드<br/>(AWS Lightsail)"]
-        Admin_Modules["고객관리 | 주문관리 | 구독관리 | CS관리 | 통계/리포트"]
-        
-        DB["MariaDB<br/>(Lightsail Managed DB)"]
-        DB_Tables["고객 마스터 | 주문 이력 | 구독 정보 | CS 이력"]
-        
-        Frontend -->|RESTful API| Backend
-        Backend --> Admin_Modules
-        Admin_Modules --> DB
-        DB --> DB_Tables
-    end
-    
-    CF --> Frontend
-    Backend -->|"Excel 템플릿"| Channel["외부 채널(네이버 등)"]
-    Backend -->|"Excel 정산"| PG["결제 PG(나이스페이)"]
-    Backend -->|내부 연동| CMS["CMS(권한 연동)"]
-```
+![목표 아키텍처 개요](/diagrams/goodthinking-isp/04-design/index-L45.svg)
 
 ### 목표별 실현 방안
 
