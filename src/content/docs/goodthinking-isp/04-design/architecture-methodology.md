@@ -11,25 +11,7 @@ description: SW 아키텍처 설계 프로세스 및 방법론
 
 ## 아키텍처 설계 프로세스 개요
 
-```mermaid
-graph TD
-    A["1. 요구사항 정의"]
-    A -->|기능 요구사항| B["기능 요구사항"]
-    A -->|품질 속성| C["품질 속성<br/>(비기능 요구사항)"]
-    A -->|제약사항| D["제약사항"]
-    
-    B --> E["2. ASR 도출"]
-    C --> E
-    D --> E
-    E -->|QAW / PALM / Utility Tree| F["3. 아키텍처 설계"]
-    
-    F -->|시나리오 → 전술 → 패턴 → 체크리스트| G["4. 아키텍처 평가"]
-    G -->|ATAM / LAE| H["5. 아키텍처 문서화"]
-    
-    H -->|모듈 뷰| I["모듈 뷰"]
-    H -->|C&C 뷰| J["C&C 뷰<br/>Component & Connector"]
-    H -->|할당 뷰| K["할당 뷰"]
-```
+![아키텍처 설계 프로세스 개요](/diagrams/goodthinking-isp/04-design/architecture-methodology-L14.svg)
 
 ---
 
@@ -43,17 +25,7 @@ graph TD
 | **품질 속성** | 기능의 자격 요건 (성능, 보안 등) | 구조와 행위 설계 |
 | **제약사항** | 선택 여지 없는 결정 (언어, 플랫폼 등) | 설계 조건 |
 
-```mermaid
-graph LR
-    A["기능 요구사항"]
-    B["SW 아키텍처"]
-    C["품질 속성"]
-    D["제약사항"]
-    
-    A -->|책임 할당| B
-    C -->|구조와 행위 설계| B
-    D -->|설계 조건| B
-```
+![요구사항 유형](/diagrams/goodthinking-isp/04-design/architecture-methodology-L46.svg)
 
 ---
 
@@ -81,37 +53,7 @@ SW 아키텍처 완성 전, 이해당사자 참여를 통해 품질 속성 시�
 #### Utility Tree
 품질 속성을 계층적으로 정리하고 우선순위를 부여
 
-```mermaid
-graph TD
-    A["시스템"]
-    B["성능"]
-    C["보안"]
-    D["변경용이성"]
-    E["응답시간"]
-    F["처리량"]
-    G["인증"]
-    H["권한"]
-    I["모듈화"]
-    J["확장성"]
-    K["시나리오(H,H)"]
-    L["시나리오(M,H)"]
-    M["시나리오(H,M)"]
-    
-    A --> B
-    A --> C
-    A --> D
-    
-    B --> E
-    B --> F
-    C --> G
-    C --> H
-    D --> I
-    D --> J
-    
-    E --> K
-    G --> L
-    I --> M
-```
+![Utility Tree](/diagrams/goodthinking-isp/04-design/architecture-methodology-L84.svg)
 
 ---
 
@@ -131,25 +73,7 @@ graph TD
 
 ### 품질 속성 시나리오 구조
 
-```mermaid
-graph TD
-    Title["품질 속성 시나리오"]
-    S["① 원천 Source<br/>자극을 생성하는 주체"]
-    St["② 자극 Stimulus<br/>시스템에 도착하는 조건/이벤트"]
-    A["③ 대상 Artifact<br/>자극을 받는 시스템 부분"]
-    E["④ 환경 Environment<br/>자극 발생 시 시스템 상태"]
-    R["⑤ 응답 Response<br/>자극에 대한 시스템 반응"]
-    M["⑥ 응답 측정 Measure<br/>응답의 정량적 측정 기준"]
-
-    Title --- S
-    S --> St
-    St --> A
-    A --> E
-    E --> R
-    R --> M
-
-    style Title fill:#f0f0f0,stroke:#333,stroke-width:2px,font-weight:bold
-```
+![품질 속성 시나리오 구조](/diagrams/goodthinking-isp/04-design/architecture-methodology-L134.svg)
 
 ### 품질 속성 시나리오 예시
 
@@ -172,23 +96,7 @@ graph TD
 
 ### ADD 프로세스
 
-```mermaid
-graph TD
-    A["1. 설계할 시스템 요소 선택"]
-    B["Breadth-first / Depth-first / Mixed"]
-    C["2. 선택된 요소에 대한 ASRs 파악"]
-    D["3. 선택된 요소에 대한 설계 솔루션 생성"]
-    E["패턴, 전술, 프레임워크, 체크리스트 활용"]
-    F["4. 잔여 요구사항 검증/정련,<br/>다음 반복 투입물 선택"]
-    G["5. 모든 ASRs 충족할 때까지<br/>1~4 반복"]
-    
-    A --> B
-    B --> C
-    C --> D
-    E -.->|활용| D
-    D --> F
-    F --> G
-```
+![ADD 프로세스](/diagrams/goodthinking-isp/04-design/architecture-methodology-L175.svg)
 
 ### 설계 체크리스트 (7가지 범주)
 
