@@ -25,33 +25,7 @@ description: 통합 DB 스키마(ERD) 설계
 
 ### AS-IS → TO-BE 전환
 
-```mermaid
-graph LR
-    subgraph ASIS["AS-IS: 분산된 데이터"]
-        A1["CS DB<br/>MSSQL"]
-        A2["자사몰 DB"]
-        A3["외부몰<br/>Excel 업로드"]
-    end
-    
-    ETL["ETL/동기화"]
-    
-    subgraph TOBE["TO-BE: 통합 데이터"]
-        B1["통합 DB<br/>MariaDB 10.11"]
-        B2["• 고객 마스터"]
-        B3["• 주문 통합"]
-        B4["• CS 이력"]
-        B5["• 구독 정보"]
-    end
-    
-    A1 --> ETL
-    A2 --> ETL
-    A3 --> ETL
-    ETL --> B1
-    B1 --> B2
-    B1 --> B3
-    B1 --> B4
-    B1 --> B5
-```
+![AS-IS → TO-BE 전환](/diagrams/goodthinking-isp/04-design/data-integration-L28.svg)
 
 ---
 
@@ -59,31 +33,7 @@ graph LR
 
 ### 핵심 엔터티
 
-```mermaid
-graph LR
-    subgraph Customer_Domain["고객 도메인"]
-        Customer["Customer<br/>고객<br/>---<br/>PK: id<br/>이름, 연락처<br/>이메일, 등급<br/>채널"]
-        Subscription["Subscription<br/>구독<br/>---<br/>PK: id<br/>FK: 고객id<br/>시작일, 종료일<br/>상태, 채널"]
-        CmsAccess["CmsAccess<br/>CMS권한<br/>---<br/>PK: id<br/>FK: 구독id<br/>상태<br/>활성화일, 만료일"]
-    end
-    
-    subgraph Order_Domain["주문 도메인"]
-        Order["Order<br/>주문<br/>---<br/>PK: id<br/>FK: 고객id<br/>주문일시<br/>채널, 금액<br/>결제/배송상태"]
-        OrderItem["OrderItem<br/>주문상세<br/>---<br/>PK: id<br/>FK: 주문id<br/>상품명, 수량<br/>금액"]
-    end
-    
-    subgraph CS_Domain["CS 도메인"]
-        CsTicket["CsTicket<br/>CS문의<br/>---<br/>PK: id<br/>FK: 고객id<br/>유형, 제목<br/>상태, 담당자"]
-        CsHistory["CsHistory<br/>처리이력<br/>---<br/>PK: id<br/>FK: 티켓id<br/>처리자, 내용<br/>처리일시"]
-    end
-    
-    Customer <--> Subscription
-    Subscription <--> CmsAccess
-    Customer <--> Order
-    Order <--> OrderItem
-    Customer <--> CsTicket
-    CsTicket <--> CsHistory
-```
+![핵심 엔터티](/diagrams/goodthinking-isp/04-design/data-integration-L62.svg)
 
 ---
 
@@ -161,56 +111,15 @@ graph LR
 
 ### 1. 자사몰 연동
 
-```mermaid
-graph LR
-    A["자사몰 DB"]
-    B["내부 DB 직접 연동"]
-    C["동기화 서비스"]
-    D["변경 이벤트 발행"]
-    E["통합 DB"]
-    
-    A -->|내부 DB 직접 연동| B
-    B --> C
-    C --> D
-    D --> E
-```
+![1. 자사몰 연동](/diagrams/goodthinking-isp/04-design/data-integration-L164.svg)
 
 ### 2. 외부몰 연동 (Excel 기반)
 
-```mermaid
-graph LR
-    A["네이버"]
-    B["쿠팡"]
-    C["11번가"]
-    D["Playauto 경유<br/>Excel 다운로드"]
-    E["파싱 서비스"]
-    F["Excel 업로드<br/>자동 파싱/검증"]
-    G["통합 DB"]
-    
-    A -->|Playauto 경유| D
-    B -->|Playauto 경유| D
-    C -->|Playauto 경유| D
-    D -->|담당자 업로드| E
-    E --> F
-    F --> G
-```
+![2. 외부몰 연동 (Excel 기반)](/diagrams/goodthinking-isp/04-design/data-integration-L180.svg)
 
 ### 3. CMS 연동 (Excel 기반)
 
-```mermaid
-graph LR
-    A["통합 DB"]
-    B["권한 대상 추출"]
-    C["CMS 권한 Excel<br/>자동 생성"]
-    D["담당자<br/>CMS 일괄 처리"]
-    E["처리 결과<br/>상태 동기화"]
-    
-    A -->|권한 변경| B
-    B --> C
-    C --> D
-    D -->|상태 동기화| E
-    E --> A
-```
+![3. CMS 연동 (Excel 기반)](/diagrams/goodthinking-isp/04-design/data-integration-L200.svg)
 
 ---
 
