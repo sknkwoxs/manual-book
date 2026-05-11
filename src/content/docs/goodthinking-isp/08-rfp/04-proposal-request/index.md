@@ -49,66 +49,7 @@ description: 7개 분류 91건 요구사항 — 시스템 구축·기능·보안
 
 ### 전체 시스템 아키텍처
 
-```mermaid
-flowchart TB
-    subgraph U["사용자 영역"]
-        U1["일반 사용자"]
-        U2["CS 관리자"]
-        U3["시스템 관리자"]
-    end
-
-    subgraph FE["프론트엔드 계층"]
-        WEB["웹 SPA<br/>Vue.js/React"]
-        ADMIN["관리자 웹<br/>SPA"]
-    end
-
-    subgraph BE["백엔드 계층 (내부 API)"]
-        API["API Gateway<br/>REST/GraphQL (내부 전용)"]
-        AUTH["인증·권한 서비스<br/>JWT + RBAC"]
-        BIZ["비즈니스 로직<br/>10개 도메인 서비스"]
-        BATCH["배치·스케줄러<br/>엑셀 일배치 / ETL"]
-    end
-
-    subgraph DATA["데이터 계층"]
-        DB["메인 DB<br/>MySQL/PostgreSQL"]
-        CACHE["캐시<br/>Redis"]
-        FILE["파일 스토리지<br/>S3/NAS<br/>(엑셀 양식·송장)"]
-    end
-
-    subgraph EXT["외부 연동 시스템 (9종)"]
-        SHOP["자사몰<br/>(엑셀 일배치)"]
-        CMS["CMS<br/>(엑셀 일배치)"]
-        PLAY["Playauto 외부몰<br/>(엑셀 일배치)"]
-        ERP["위하고 ERP<br/>(엑셀 일배치)"]
-        PG["나이스페이 PG<br/>(결제창 표준 호출)"]
-        CTI["CTI<br/>(통신사 표준 인터페이스)"]
-        GIRO["지로<br/>(엑셀 일배치)"]
-        SHIP["택배사<br/>(엑셀 일배치)"]
-        CALL["외부 콜센터<br/>(엑셀 일배치)"]
-    end
-
-    U1 --> WEB
-    U2 --> ADMIN
-    U3 --> ADMIN
-    WEB --> API
-    ADMIN --> API
-    API --> AUTH
-    API --> BIZ
-    BIZ --> BATCH
-    AUTH --> DB
-    BIZ --> DB
-    BIZ --> CACHE
-    BIZ --> FILE
-    BIZ --> PG
-    BATCH --> SHOP
-    BATCH --> CMS
-    BATCH --> PLAY
-    BATCH --> ERP
-    BATCH --> GIRO
-    BATCH --> SHIP
-    BATCH --> CALL
-    BIZ --> CTI
-```
+![전체 시스템 아키텍처](/diagrams/goodthinking-isp/08-rfp/04-proposal-request/index-L52.svg)
 
 ### 주요 구성 요소
 
