@@ -13,92 +13,13 @@ Headless CMS 백엔드 + SSR 프론트엔드 기반의 통합 관리자(Admin) �
 
 ### TO-BE 시스템 구성도
 
-```mermaid
-graph TD
-    Users["사용자 레이어"]
-    CS["CS 담당자"]
-    OP["운영 담당자"]
-    ADMIN["관리자"]
-    CUST["고객"]
-    
-    Web["웹 애플리케이션 레이어"]
-    WebAdmin["SSR 기반<br/>통합 관리자 시스템"]
-    CSM["CS 관리"]
-    OM["주문 관리"]
-    CM["고객 관리"]
-    STAT["통계"]
-    
-    CMS["Headless CMS 백엔드"]
-    CMS_ITEMS["RESTful API | 커스텀 비즈니스 로직<br/>인증/인가 | 배치 처리"]
-    
-    Data["데이터 레이어"]
-    DB["통합 DB<br/>MariaDB / MySQL"]
-    Cache["캐시<br/>Redis"]
-    
-    External["외부 연동 레이어<br/>(Excel 템플릿 기반)"]
-    OwnMall["자사몰<br/>내부 DB 직접"]
-    ExtMall["외부몰<br/>Excel 업로드"]
-    PG["결제PG<br/>Excel 정산"]
-    Delivery["배송사<br/>Excel 송장"]
-    
-    CS --> Users
-    OP --> Users
-    ADMIN --> Users
-    CUST --> Users
-    
-    Users --> Web
-    Web --> WebAdmin
-    WebAdmin --> CSM
-    WebAdmin --> OM
-    WebAdmin --> CM
-    WebAdmin --> STAT
-    
-    WebAdmin --> CMS
-    CMS --> CMS_ITEMS
-    
-    CMS --> Data
-    Data --> DB
-    Data --> Cache
-    
-    CMS --> External
-    External --> OwnMall
-    External --> ExtMall
-    External --> PG
-    External --> Delivery
-```
+![TO-BE 시스템 구성도](/diagrams/goodthinking-isp/04-design/web-architecture-L16.svg)
 
 ### Headless CMS 아키텍처 패턴
 
 백엔드를 Headless CMS로 구성하여 **Admin UI, 인증/인가, RESTful API, 배치 스케줄링** 등 공통 기능을 CMS 프레임워크에서 제공받고, 비즈니스 로직은 커스텀 모듈로 구현합니다. 프론트엔드는 SSR 프레임워크로 분리하여 CDN 엣지에서 서빙합니다. 외부 시스템 연동은 API가 아닌 **Excel 템플릿 자동 생성/파싱** 방식으로 구현합니다 (현행 업무 방식과의 연속성 확보).
 
-```mermaid
-graph LR
-    subgraph Backend["Headless CMS 백엔드"]
-        Admin_UI["CMS Admin UI<br/>(기본 제공)"]
-        API["RESTful API<br/>(자동 노출)"]
-        Custom["커스텀 모듈<br/>(비즈니스 로직)"]
-        Queue["큐 / 비동기 처리"]
-        Cron["스케줄러<br/>(배치 작업)"]
-    end
-    
-    subgraph Frontend["SSR 프론트엔드"]
-        SSR["SSR 프레임워크<br/>(CDN Edge 배포)"]
-        UI["경량 UI 프레임워크<br/>(인터랙티브 컴포넌트)"]
-        CSS["유틸리티 CSS"]
-    end
-    
-    Frontend -->|RESTful API + OAuth2| Backend
-    
-    subgraph Infra["인프라"]
-        CDN["CDN + Edge Runtime"]
-        Server["Managed Server<br/>(CMS 호스팅)"]
-        DB["MariaDB / MySQL"]
-    end
-    
-    Backend --> Server
-    Frontend --> CDN
-    Server --> DB
-```
+![Headless CMS 아키텍처 패턴](/diagrams/goodthinking-isp/04-design/web-architecture-L74.svg)
 
 ### 패턴 선정 근거
 
@@ -161,47 +82,7 @@ graph LR
 
 좋은생각 비즈니스 로직을 CMS 커스텀 모듈로 구현합니다. 현행 MSSQL의 49개 DB 객체(SP 20개 + Function 14개 + Trigger 15개)를 애플리케이션 서비스 레이어로 전환합니다.
 
-```mermaid
-graph TD
-    subgraph Backend["CMS 커스텀 모듈"]
-        subgraph Core_Modules["핵심 비즈니스 모듈"]
-            GT_Customer["고객 관리<br/>Customer"]
-            GT_Subscribe["구독 관리<br/>Subscription"]
-            GT_Order["주문 관리<br/>Order"]
-            GT_Finance["결제/정산<br/>Payment"]
-            GT_Delivery["배송 관리<br/>Delivery"]
-            GT_CS["CS 상담<br/>CS Ticket"]
-        end
-        
-        subgraph Integration_Modules["외부 연동 모듈 (Excel 템플릿 기반)"]
-            GT_Marketplace["외부몰 Excel 연동<br/>Marketplace"]
-            GT_PG["나이스페이 Excel 정산<br/>Nicepay"]
-            GT_CMS["CMS 권한 관리<br/>CMS Access"]
-            GT_ERP["위하고 ERP Excel 연동<br/>WEHAGO"]
-            GT_Delivery_API["택배사 Excel 연동<br/>Shipping"]
-        end
-        
-        subgraph Utility_Modules["유틸리티 모듈"]
-            GT_Batch["배치/스케줄링<br/>Batch"]
-            GT_Audit["감사 로그<br/>Audit"]
-            GT_Dashboard["대시보드/통계<br/>Dashboard"]
-        end
-    end
-    
-    GT_Subscribe --> GT_Customer
-    GT_Order --> GT_Customer
-    GT_Finance --> GT_Order
-    GT_Finance --> GT_Subscribe
-    GT_Delivery --> GT_Order
-    GT_CS --> GT_Customer
-    GT_Marketplace --> GT_Order
-    GT_PG --> GT_Finance
-    GT_CMS --> GT_Subscribe
-    GT_ERP --> GT_Finance
-    GT_Delivery_API --> GT_Delivery
-    GT_Batch --> GT_Marketplace
-    GT_Batch --> GT_CMS
-```
+![커스텀 모듈 설계](/diagrams/goodthinking-isp/04-design/web-architecture-L164.svg)
 
 ### 엔터티 구조
 
@@ -252,19 +133,7 @@ GET    /api/v1/excel/download/subscriptions    # 구독자 목록 Excel 다운�
 
 ### 1. 인증 (Authentication)
 
-```mermaid
-graph LR
-    Login["로그인"]
-    AuthServer["CMS<br/>OAuth2 인증"]
-    JWT["Token 발급"]
-    AccessToken["Access Token"]
-    RefreshToken["Refresh Token"]
-    
-    Login --> AuthServer
-    AuthServer --> JWT
-    JWT --> AccessToken
-    JWT --> RefreshToken
-```
+![1. 인증 (Authentication)](/diagrams/goodthinking-isp/04-design/web-architecture-L255.svg)
 
 | 항목 | 정책 |
 |------|------|
@@ -321,20 +190,7 @@ CMS 내장 Role + Permission 시스템을 활용하며, **개인정보 취급에
 | **다운로드 사유 입력** | 100건 초과 또는 개인정보 포함 시 사유 입력 필수 |
 | **상위 승인** | 100건 초과 개인정보 포함 Excel은 상위 관리자 승인 후 다운로드 |
 
-```mermaid
-graph TD
-    A["Excel 다운로드 요청"] --> B{"개인정보<br/>포함 여부?"}
-    B -->|미포함| C["일반 Excel 다운로드"]
-    B -->|포함| D{"100건<br/>초과?"}
-    D -->|이하| E["사유 입력"]
-    D -->|초과| F["사유 입력 +<br/>상위 관리자 승인"]
-    E --> G["서버 측 비밀번호<br/>자동 생성 (12자+)"]
-    F --> G
-    G --> H["Excel 파일 암호화<br/>(AES-128)"]
-    H --> I["다운로드 +<br/>비밀번호 팝업 1회 표시"]
-    I --> J["감사 로그 기록<br/>(excel_export_log)"]
-    C --> J
-```
+![Excel 파일 보안 정책](/diagrams/goodthinking-isp/04-design/web-architecture-L324.svg)
 
 ### 4. 감사 로그
 
@@ -414,35 +270,7 @@ excel_export_log (
 
 ### 네트워크/보안 아키텍처
 
-```mermaid
-graph TD
-    Internet["인터넷"]
-    
-    subgraph CF["Cloudflare"]
-        CDN["CDN + WAF"]
-        Workers_P["Edge Runtime<br/>Production (SSR)"]
-        Workers_S["Edge Runtime<br/>Staging (SSR)"]
-        R2["Object Storage<br/>파일/이미지"]
-    end
-    
-    subgraph AWS["AWS Lightsail"]
-        Lightsail_P["Instance<br/>Production<br/>4GB RAM / 2vCPU<br/>Web Server + CMS"]
-        Lightsail_S["Instance<br/>Staging<br/>2GB RAM / 1vCPU<br/>Web Server + CMS"]
-        DB_P["Managed DB<br/>MariaDB Production<br/>2GB / HA"]
-        DB_S["Managed DB<br/>MariaDB Staging<br/>1GB / Standard"]
-        Redis_Inst["Redis<br/>(Instance 내 설치)"]
-    end
-    
-    Internet --> CDN
-    CDN --> Workers_P
-    CDN --> Workers_S
-    Workers_P -->|RESTful API| Lightsail_P
-    Workers_S -->|RESTful API| Lightsail_S
-    Lightsail_P --> DB_P
-    Lightsail_P --> Redis_Inst
-    Lightsail_S --> DB_S
-    Lightsail_P --> R2
-```
+![네트워크/보안 아키텍처](/diagrams/goodthinking-isp/04-design/web-architecture-L417.svg)
 
 ### 환경별 상세 비용
 
@@ -503,22 +331,7 @@ graph TD
 
 구축 기간 동안 **기존 온프레미스 MSSQL**과 **신규 클라우드 인프라**가 동시에 운영됩니다.
 
-```mermaid
-gantt
-    title 전환 기간 인프라 이중 운영
-    dateFormat YYYY-MM
-    axisFormat %Y-%m
-    
-    section 기존 시스템
-    온프레미스 MSSQL (C/S)    :active, legacy, 2026-06, 2027-02
-    
-    section 신규 인프라
-    Staging 환경 구축/테스트     :staging, 2026-06, 2026-12
-    Production 환경 구축         :prod, 2026-09, 2026-12
-    데이터 이관/검증             :migration, 2026-11, 2027-01
-    병행 운영                    :parallel, 2027-01, 2027-02
-    단독 운영 (기존 폐기)        :milestone, 2027-02, 0d
-```
+![전환 기간 이중 운영 비용 (6~8개월)](/diagrams/goodthinking-isp/04-design/web-architecture-L506.svg)
 
 #### 전환 기간 월별 비용 추이
 
