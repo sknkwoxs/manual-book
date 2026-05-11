@@ -11,23 +11,7 @@ Utility Tree는 아키텍처 설계 시 품질 속성의 우선순위를 결정�
 
 ## Utility Tree 구조
 
-```mermaid
-graph TD
-    Root["시스템 유용성<br/>System Utility"]
-    A["가용성<br/>Availability"]
-    B["성능<br/>Performance"]
-    C["보안<br/>Security"]
-    D["변경용이성<br/>Modifiability"]
-    E["사용성<br/>Usability"]
-    F["운영성<br/>Operability"]
-
-    Root --> A
-    Root --> B
-    Root --> C
-    Root --> D
-    Root --> E
-    Root --> F
-```
+![Utility Tree 구조](/diagrams/goodthinking-isp/04-design/utility-tree-L14.svg)
 
 ### 우선순위 표기법
 
@@ -41,103 +25,7 @@ graph TD
 
 ## 좋은생각 웹 시스템 Utility Tree
 
-```mermaid
-graph TD
-    Root["좋은생각 웹 시스템 Utility"]
-    
-    AV["가용성 Availability"]
-    SysRecovery["시스템 장애 복구"]
-    A1["A-1: 웹 서버 크래시 시<br/>5분 내 복구 (H,M)"]
-    ExternalFailure["외부 연동 장애 대응"]
-    A2["A-2: Excel 업로드 데이터<br/>검증 오류 대응 (H,H) ⭐"]
-    DataProtect["데이터 보호"]
-    A3["A-3: DB 장애 시<br/>데이터 유실 0건 (H,H) ⭐"]
-    
-    PF["성능 Performance"]
-    RespTime["응답 시간"]
-    P2["P-2: 고객 조회<br/>2초 이내 응답 (H,M) ⭐"]
-    Throughput["처리량"]
-    P1["P-1: 일 500건 주문<br/>10분 내 수집 (M,L)"]
-    LargeLoad["대용량 처리"]
-    P3["P-3: 50만건 마이그레이션<br/>4시간 내 완료 (M,H)"]
-    
-    SEC["보안 Security"]
-    AccessControl["접근 통제"]
-    S1["S-1: 개인정보 권한 기반<br/>접근 및 마스킹 (H,M) ⭐"]
-    AttackDefense["외부 공격 방어"]
-    S2["S-2: SQL Injection, XSS<br/>100% 차단 (H,M)"]
-    DataLeakage["데이터 유출 방지"]
-    S3["S-3: 대량 다운로드 승인,<br/>개인정보 Excel 비밀번호,<br/>로깅 (H,M)"]
-    
-    MOD["변경용이성 Modifiability"]
-    FeatureExtend["기능 확장"]
-    M1["M-1: 신규 판매채널<br/>5일 내 추가 (M,H) ⭐"]
-    ProcessChange["프로세스 변경"]
-    M2["M-2: 워크플로우<br/>설정만으로 변경 (M,M)"]
-    ReportChange["리포트 변경"]
-    M3["M-3: 리포트 양식<br/>2일 내 수정 (L,L)"]
-    
-    USE["사용성 Usability"]
-    Learning["학습 용이성"]
-    U1["U-1: 4시간 교육 후<br/>업무 수행 가능 (M,L)"]
-    ErrorHandle["오류 대응"]
-    U2["U-2: 명확한 오류 메시지<br/>및 해결 안내 (M,L)"]
-    Efficiency["업무 효율성"]
-    U3["U-3: 주요 업무<br/>5클릭 내 완료 (H,M)"]
-    
-    OPE["운영성 Operability"]
-    Monitoring["모니터링"]
-    O1["O-1: 이상 징후<br/>5분 내 감지 (M,M)"]
-    FailureResp["장애 대응"]
-    O2["O-2: 배치 실패 시<br/>즉시 알림 및 재실행 (M,L)"]
-    
-    Root --> AV
-    Root --> PF
-    Root --> SEC
-    Root --> MOD
-    Root --> USE
-    Root --> OPE
-    
-    AV --> SysRecovery
-    AV --> ExternalFailure
-    AV --> DataProtect
-    SysRecovery --> A1
-    ExternalFailure --> A2
-    DataProtect --> A3
-    
-    PF --> RespTime
-    PF --> Throughput
-    PF --> LargeLoad
-    RespTime --> P2
-    Throughput --> P1
-    LargeLoad --> P3
-    
-    SEC --> AccessControl
-    SEC --> AttackDefense
-    SEC --> DataLeakage
-    AccessControl --> S1
-    AttackDefense --> S2
-    DataLeakage --> S3
-    
-    MOD --> FeatureExtend
-    MOD --> ProcessChange
-    MOD --> ReportChange
-    FeatureExtend --> M1
-    ProcessChange --> M2
-    ReportChange --> M3
-    
-    USE --> Learning
-    USE --> ErrorHandle
-    USE --> Efficiency
-    Learning --> U1
-    ErrorHandle --> U2
-    Efficiency --> U3
-    
-    OPE --> Monitoring
-    OPE --> FailureResp
-    Monitoring --> O1
-    FailureResp --> O2
-```
+![좋은생각 웹 시스템 Utility Tree](/diagrams/goodthinking-isp/04-design/utility-tree-L44.svg)
 
 ---
 
@@ -188,81 +76,25 @@ graph TD
 
 **드라이버**: A-2 (Excel 데이터 검증), A-3 (데이터 보호)
 
-```mermaid
-graph LR
-    A["가용성 전략"]
-    B["Excel 파싱 검증 패턴<br/>행 단위 오류 처리"]
-    C["비동기 큐 기반<br/>Excel 업로드 처리"]
-    D["Lightsail DB HA<br/>MariaDB 자동 페일오버"]
-    E["자동 페일오버 구성"]
-    F["배치 작업 재시도 메커니즘"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-```
+![1. 가용성 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L191.svg)
 
 ### 2. 성능 전략
 
 **드라이버**: P-2 (고객 조회 응답)
 
-```mermaid
-graph LR
-    A["성능 전략"]
-    B["Redis 캐싱 적용<br/>CMS Cache Backend"]
-    C["DB 인덱스 최적화<br/>검색 조건 기반"]
-    D["페이지네이션 및<br/>Lazy Loading"]
-    E["쿼리 최적화 및<br/>실행 계획 분석"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-```
+![2. 성능 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L211.svg)
 
 ### 3. 보안 전략
 
 **드라이버**: S-1 (개인정보 접근 통제)
 
-```mermaid
-graph LR
-    A["보안 전략"]
-    B["RBAC<br/>Role-Based Access Control"]
-    C["개인정보 마스킹 레이어<br/>API 필드 레벨"]
-    D["감사 로그 자동 기록<br/>감사 로그 모듈"]
-    E["Cloudflare WAF<br/>Web Application Firewall"]
-    F["암호화<br/>전송중: TLS, 저장시: AES-256"]
-    G["Excel 비밀번호 자동 적용<br/>개인정보 포함 시 AES-128"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-    A --> G
-```
+![3. 보안 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L229.svg)
 
 ### 4. 변경용이성 전략
 
 **드라이버**: M-1 (신규 판매채널 추가)
 
-```mermaid
-graph LR
-    A["변경용이성 전략"]
-    B["Excel 템플릿 어댑터 패턴<br/>채널별 Excel 양식 파싱"]
-    C["ExcelTemplateAdapterInterface<br/>신규 채널 추가 용이"]
-    D["설정 기반<br/>워크플로우 관리"]
-    E["내부 API 버저닝 전략"]
-    F["모듈화된 컴포넌트 설계"]
-    
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-```
+![4. 변경용이성 전략](/diagrams/goodthinking-isp/04-design/utility-tree-L251.svg)
 
 ---
 
