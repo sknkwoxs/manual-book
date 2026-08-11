@@ -1,6 +1,7 @@
 ---
 title: AI 기반 국회기록원 아카이브 모형
 description: 국회기록원 디지털 아카이브의 AI 통합 설계 연구
+archived: true
 ---
 
 ## 연구 목적

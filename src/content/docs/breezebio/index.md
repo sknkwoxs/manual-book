@@ -1,6 +1,7 @@
 ---
 title: BreezeBio 매뉴얼북
 description: BreezeBio 웹사이트 운영 매뉴얼 및 개발 명세서
+archived: true
 ---
 
 **BreezeBio** 웹사이트 기술 문서입니다.

@@ -1,6 +1,7 @@
 ---
 title: GCED Clearinghouse
 description: 세계시민교육 클리어링하우스 관리자 매뉴얼
+archived: false
 ---
 
 # GCED Clearinghouse
