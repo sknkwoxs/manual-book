@@ -79,13 +79,10 @@ DB 총괄관리자가 번역 요청, 검토, Job 관리를 수행하는 방법�
 - Description (본문)
 - 기타 텍스트 필드
 
-**별도 번역이 필요한 필드 (Taxonomy):**
-
-아래 필드들은 Taxonomy(분류 체계)로 관리되어, 콘텐츠 번역 시 함께 번역되지 않습니다. [Suggestions 기능](./01-1-taxonomy-suggestions)을 통해 별도로 번역합니다.
-
-- Keyword
-- Topic
-- Region
+:::note[Taxonomy 필드는 번역 요청 대상이 아닙니다]
+Keyword, Topic, Region은 Taxonomy(분류 체계)로 관리되어 콘텐츠 번역에 포함되지 않으며,
+최고관리자가 별도로 관리합니다. 번역 요청 시 신경 쓸 필요 없습니다.
+:::
 
 **번역이 불필요한 필드:**
 
@@ -417,5 +414,4 @@ flowchart TD
 ## 다음 단계
 
 - [번역자용 번역 작업](./02-translator): 할당된 번역 작업 수행
-- [관련 Taxonomy 함께 번역하기 (Suggestions)](./01-1-taxonomy-suggestions): 콘텐츠 번역 시 Keyword 등 Taxonomy도 함께 번역
 - [택소노미 관리](../04-taxonomy): Keywords, Creator 관리
