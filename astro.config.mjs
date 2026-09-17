@@ -390,7 +390,10 @@ export default defineConfig({
                   label: '번역 관리',
                   items: [
                     { label: '번역 관리 개요', link: '/gced/manual/06-translation/' },
-                    { label: '관리자용 (요청·검토)', link: '/gced/manual/06-translation/01-admin/' },
+                    { label: '관리자 개요', link: '/gced/manual/06-translation/01-admin/' },
+                    { label: '관리자 · 번역 요청', link: '/gced/manual/06-translation/01-2-request/' },
+                    { label: '관리자 · 담당자 할당', link: '/gced/manual/06-translation/01-3-assign/' },
+                    { label: '관리자 · 검토·철회', link: '/gced/manual/06-translation/01-4-review/' },
                     { label: '번역자용 (Local Tasks)', link: '/gced/manual/06-translation/02-translator/' },
                   ],
                 },
