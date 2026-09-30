@@ -40,7 +40,7 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 
 1. Resources > Taxonomy > **Keywords** 클릭
 2. 등록된 키워드 목록 확인
-3. 각 키워드 옆 **Edit** 버튼으로 수정 가능
+3. 각 키워드 옆 <span class="doc-btn">Edit</span> 버튼으로 수정 가능
 
 #### 목록 컬럼
 
@@ -69,10 +69,10 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 
 ### 키워드 추가
 
-1. 상단 **[Add Keywords]** 버튼 클릭
+1. 상단 [<span class="doc-btn">Add Keywords</span>] 버튼 클릭
 2. **Name** 필드에 키워드 입력
 3. 필요시 다국어 번역 추가
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ### 키워드 번역
 
@@ -81,9 +81,9 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 1. 키워드 목록에서 **Translations** 컬럼의 배지 클릭
    - 초록색: 번역 편집
    - 회색: 새 번역 추가
-2. 번역할 언어의 **Add** 또는 **Edit** 클릭
+2. 번역할 언어의 <span class="doc-btn">Add</span> 또는 <span class="doc-btn">Edit</span> 클릭
 3. 번역된 키워드명 입력
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 :::tip
 키워드 번역은 검색 및 필터 기능에서 해당 언어로 키워드가 표시되도록 합니다. 주요 키워드는 7개 언어 모두 번역하는 것을 권장합니다.
@@ -137,10 +137,10 @@ Resources와 연계되어 구성된 Keywords, Creator 용어 목록을 관리합
 
 ### Creator 추가
 
-1. 상단 **[Add Creator]** 버튼 클릭
+1. 상단 [<span class="doc-btn">Add Creator</span>] 버튼 클릭
 2. **Name** 필드에 저작자명 입력
 3. 필요시 **Description** 입력
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 :::tip[Description 활용]
 Description은 사용자 화면에 표시되지 않는 내부 메모입니다. 택소노미 등록 과정에서 다른 작업자들에게 공유하고자 하는 내용(예: 동명이인 구분, 소속 정보, 등록 사유 등)을 적어두면 유용합니다.

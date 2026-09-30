@@ -1202,3 +1202,43 @@ nav.sidebar li {
   }
 }
 
+
+/* -----------------------------------------
+   14. 인라인 버튼 표기 (.doc-btn)
+   본문에서 UI 버튼명을 실제 버튼처럼 표시.
+   사용법: <span class="doc-btn doc-btn-primary">Save task</span>
+   ----------------------------------------- */
+.sl-markdown-content .doc-btn {
+  display: inline-block;
+  padding: 0.1em 0.65em;
+  margin: 0 0.15em;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
+  vertical-align: baseline;
+  color: var(--sl-color-text);
+  background: var(--sl-color-bg);
+  border: 1px solid #b5b5b5;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* 파란색 실버튼 (Save, Reopen 등 주요 액션) */
+.sl-markdown-content .doc-btn-primary {
+  color: #ffffff;
+  background: #1d73e5;
+  border-color: #1d73e5;
+}
+
+/* 빨간색 외곽선 버튼 (Reopen task 등 위험·되돌림 액션) */
+.sl-markdown-content .doc-btn-danger {
+  color: #c92a2a;
+  border-color: #c92a2a;
+}
+
+@media print {
+  .sl-markdown-content .doc-btn {
+    box-shadow: none !important;
+  }
+}
