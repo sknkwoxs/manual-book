@@ -36,10 +36,10 @@ flowchart LR
 | 확인 사항 | 콘텐츠 내용, 분류(Taxonomy), 첨부파일 등 |
 
 1. Resources > Workflow > Draft에서 검토할 게시글 확인
-2. 게시글의 **Edit** 버튼 클릭
+2. 게시글의 <span class="doc-btn">Edit</span> 버튼 클릭
 3. 콘텐츠 내용을 검토 (필요 시 수정)
 4. 우측 사이드바의 **Change to**에서 **Published** 선택
-5. **Save** 버튼 클릭
+5. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ![Draft 목록](../../images/05-workflow-draft.png)
 
@@ -49,9 +49,9 @@ flowchart LR
 
 더 이상 유지가 필요 없는 콘텐츠를 보관 처리합니다.
 
-1. 해당 게시글의 **Edit** 버튼 클릭
+1. 해당 게시글의 <span class="doc-btn">Edit</span> 버튼 클릭
 2. 우측 사이드바의 **Change to**에서 **Archived** 선택
-3. **Save** 버튼 클릭
+3. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ---
 

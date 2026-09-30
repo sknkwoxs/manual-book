@@ -20,8 +20,8 @@ Manage Tasks 화면에서 미할당 작업을 찾아 담당자를 지정하고, 
 | 단계 | 내용 | 수행 주체 |
 |------|------|----------|
 | **① 스킬 설정** | People에서 Translation skills(번역 가능 언어 쌍) 설정 → **할당받을 자격**만 생김 | 최고관리자 |
-| **② Job 생성/제출** | 콘텐츠 번역 화면에서 **Request translation** 제출 → 작업이 시스템에 등록되지만 아직 **미할당(Unassigned/Eligible)** 상태 | DB 총괄관리자 |
-| **③ 실제 할당** | 번역담당자가 Eligible 탭에서 **Assign to me**로 직접 가져가거나, 관리자가 **Manage Tasks**에서 특정 담당자를 명시적으로 지정 | 번역담당자 또는 DB 총괄관리자 |
+| **② Job 생성/제출** | 콘텐츠 번역 화면에서 <span class="doc-btn doc-btn-primary">Request translation</span> 제출 → 작업이 시스템에 등록되지만 아직 **미할당(Unassigned/Eligible)** 상태 | DB 총괄관리자 |
+| **③ 실제 할당** | 번역담당자가 Eligible 탭에서 <span class="doc-btn">Assign to me</span>로 직접 가져가거나, 관리자가 **Manage Tasks**에서 특정 담당자를 명시적으로 지정 | 번역담당자 또는 DB 총괄관리자 |
 
 **①②만 완료하고 ③을 건너뛰면**, Job은 시스템에 존재하지만 담당자가 지정되지 않은 채로 남아 있어 번역담당자의 **Pending 탭에는 절대 노출되지 않습니다.** ①②를 완료했다고 해서 자동으로 ③까지 되는 것이 아니므로, 반드시 **Manage Tasks에서 할당이 실제로 됐는지 확인**하세요.
 
@@ -35,7 +35,7 @@ Manage Tasks 화면에서 미할당 작업을 찾아 담당자를 지정하고, 
 
 **A가 실제로 작업을 받으려면**, 위 표의 ③번 줄처럼 아래 둘 중 하나가 반드시 일어나야 합니다:
 - DB 총괄관리자가 **Manage Tasks → Unassigned and ongoing**에서 해당 리소스를 체크 → **Assign to...** → A를 지정 → Apply
-- 또는 A 본인이 **Eligible 탭**(`/translate/elegible`)에서 이 리소스를 찾아 **Assign to me** 클릭
+- 또는 A 본인이 **Eligible 탭**(`/translate/elegible`)에서 이 리소스를 찾아 <span class="doc-btn">Assign to me</span> 클릭
 
 이 절차까지 완료해야 A의 **Pending 탭**(`/translate/pending`)에 리소스가 나타나고, 비로소 번역을 시작할 수 있습니다.
 
@@ -88,7 +88,7 @@ Manage Tasks의 탭이 많아 헷갈리면 **My task**를 쓰세요. 로그인 �
 ### 실제로 할당하는 방법 (핵심 절차)
 
 :::tip[할당은 두 가지 길]
-- **한 건씩**: Job 화면에서 **Assign job to** 지정 후 **Submit to provider**를
+- **한 건씩**: Job 화면에서 **Assign job to** 지정 후 <span class="doc-btn doc-btn-primary">Submit to provider</span>를
   누르면 바로 전달됩니다 (절차는 [번역 요청하기](./01-2-request#번역-요청-job-생성) 참고).
 - **여러 건 한꺼번에**: 담당자가 비어 미할당 상태로 남습니다.
   아래 절차대로 Manage Tasks에서 모아 지정하세요.
@@ -100,12 +100,12 @@ Manage Tasks의 탭이 많아 헷갈리면 **My task**를 쓰세요. 로그인 �
 2. 해당 행의 체크박스를 선택합니다 (여러 건을 한 번에 선택 가능)
 3. 화면 하단(또는 상단)의 **With selection** 드롭다운에서 **Assign to...**를 선택합니다
 4. 번역담당자의 사용자명을 입력합니다
-5. **Apply to selected items** 버튼을 클릭합니다
+5. <span class="doc-btn">Apply to selected items</span> 버튼을 클릭합니다
 6. 지정이 끝나면 해당 작업이 **Assigned** 탭으로 이동하고, **Assignee** 칸에 담당자 이름이 표시됩니다
 
 :::tip[번역담당자가 직접 가져가는 방법도 있습니다]
 관리자가 지정하는 대신, 번역담당자 본인이 **Eligible** 탭(`/translate/elegible`)에서
-자신의 언어에 맞는 미할당 작업을 확인하고 **Assign to me**를 눌러 직접 가져갈 수도 있습니다.
+자신의 언어에 맞는 미할당 작업을 확인하고 <span class="doc-btn">Assign to me</span>를 눌러 직접 가져갈 수도 있습니다.
 :::
 
 ### 할당이 실제로 됐는지 확인하는 방법
@@ -114,7 +114,7 @@ Manage Tasks의 탭이 많아 헷갈리면 **My task**를 쓰세요. 로그인 �
 화면에 완료 메시지가 떠도 저장이 안 된 경우가 있을 수 있습니다.
 
 1. **Assigned** 탭으로 이동
-2. **Provider** 칸에 방금 지정한 번역담당자의 사용자명을 입력 후 **Filter**
+2. **Provider** 칸에 방금 지정한 번역담당자의 사용자명을 입력 후 <span class="doc-btn">Filter</span>
 3. 방금 등록한 일감 제목이 목록에 뜨는지, **Assignee** 칸에 담당자 이름이 표시되는지 확인
 4. 목록에 없거나 Assignee가 비어 있다면 아직 지정이 안 된 것입니다. 위 절차를 다시 진행하세요
 

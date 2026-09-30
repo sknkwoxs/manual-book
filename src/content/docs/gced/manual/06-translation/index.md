@@ -109,7 +109,7 @@ Resources는 Published 상태에서만 번역이 가능합니다.
 4. **From** 드롭다운에서 원본 언어를 선택합니다
 5. **To** 드롭다운에서 대상 언어를 선택합니다
 6. 추가 언어 쌍이 필요한 경우 **Add another item** 버튼을 클릭합니다
-7. **Save** 버튼을 클릭하여 저장합니다
+7. <span class="doc-btn doc-btn-primary">Save</span> 버튼을 클릭하여 저장합니다
 
 ![Translation skills 설정 화면](../images/translation-skills.png)
 
@@ -169,7 +169,7 @@ flowchart LR
 | DB 총괄관리자 | [관리자 개요](./01-admin) | Translation 메뉴·용어, 전체 흐름 |
 | DB 총괄관리자 | [번역 요청하기](./01-2-request) | 번역 요청, 직접 번역 |
 | DB 총괄관리자 | [담당자에게 할당하기](./01-3-assign) | 실제 할당, 할당 검증 |
-| DB 총괄관리자 | [번역 검토·철회](./01-4-review) | 검토 화면, 수락, 철회 |
+| DB 총괄관리자 | [번역 검토·철회](./01-4-review) | 검토 화면, 수락, 철회, 완료 후 다시 열기 |
 | 번역담당자 | [번역자용 번역 작업](./02-translator) | Local Tasks 접근, 번역 수행, 저장 |
 
 ---

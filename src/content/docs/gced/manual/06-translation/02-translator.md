@@ -122,16 +122,16 @@ Eligible 탭을 확인한 뒤 관리자에게 할당 완료 여부를 물어보�
 
 | 버튼 | 설명 |
 |------|------|
-| **Save** | 작업 저장 (나중에 계속) |
-| **Save as completed** | 번역 완료 후 제출 |
-| **Preview** | 번역 결과 미리보기 |
+| <span class="doc-btn doc-btn-primary">Save</span> | 작업 저장 (나중에 계속) |
+| <span class="doc-btn doc-btn-primary">Save as completed</span> | 번역 완료 후 제출 |
+| <span class="doc-btn">Preview</span> | 번역 결과 미리보기 |
 
 :::tip[작업 중단 시]
-번역 작업 중 자리를 비워야 할 때는 **Save** 버튼을 클릭하여 현재까지의 작업을 저장하세요. 나중에 Pending 탭에서 해당 작업을 찾아 계속 진행할 수 있습니다.
+번역 작업 중 자리를 비워야 할 때는 <span class="doc-btn doc-btn-primary">Save</span> 버튼을 클릭하여 현재까지의 작업을 저장하세요. 나중에 Pending 탭에서 해당 작업을 찾아 계속 진행할 수 있습니다.
 :::
 
 :::caution[Save as completed]
-**Save as completed** 버튼은 번역이 완전히 끝났을 때만 클릭하세요. 이 버튼을 클릭하면 작업이 DB 총괄관리자의 검토 대기 상태로 전환됩니다.
+<span class="doc-btn doc-btn-primary">Save as completed</span> 버튼은 번역이 완전히 끝났을 때만 클릭하세요. 이 버튼을 클릭하면 작업이 DB 총괄관리자의 검토 대기 상태로 전환됩니다.
 :::
 
 ---
@@ -146,7 +146,11 @@ flowchart LR
     D -->|Save| C
     D -->|Save as completed| E[In review]
     E --> F[Closed]
+    F -->|Reopen · 총괄관리자| B
 ```
+
+1. **Unassigned**: 아직 담당자가 지정되지 않음
+2. **Pending**: 담당자에게 할당됨 (작업 시작 전. Closed에서 Reopen된 작업도 여기로 돌아옴)
 
 1. **Unassigned**: 아직 담당자가 지정되지 않음
 2. **Pending**: 담당자에게 할당됨 (작업 시작 전)
@@ -166,7 +170,7 @@ flowchart LR
 
 2. **Translation Skills 설정 확인**: 자신의 프로필에 Translation Skills(번역 가능 언어 쌍)가 설정되어 있는지 확인하세요. 설정되지 않으면 Eligible 탭에 작업이 표시되지 않습니다.
 
-3. **작업 할당 대기**: 번역 요청이 생성되었더라도 아직 본인에게 할당되지 않았을 수 있습니다. **Eligible** 탭에서 미할당 작업을 확인하고, 직접 **Assign to me**를 클릭하여 할당받을 수 있습니다. Translation 메뉴 → **My task**에서도 내 담당분을 확인할 수 있습니다.
+3. **작업 할당 대기**: 번역 요청이 생성되었더라도 아직 본인에게 할당되지 않았을 수 있습니다. **Eligible** 탭에서 미할당 작업을 확인하고, 직접 <span class="doc-btn">Assign to me</span>를 클릭하여 할당받을 수 있습니다. Translation 메뉴 → **My task**에서도 내 담당분을 확인할 수 있습니다.
 
 :::tip[관리자에게 확인 요청하기]
 "분명히 할당받았다"고 알고 있는데 Pending 탭에 안 보인다면, DB 총괄관리자에게 **Manage Tasks에서 실제로 할당이 완료됐는지** 확인을 요청하세요. Request translation 제출과 실제 할당은 별개 단계라, 제출만 되고 담당자 지정이 누락된 경우가 있을 수 있습니다. 관리자가 확인하는 방법은 [담당자에게 할당하기](./01-3-assign#할당이-실제로-됐는지-확인하는-방법)을 참고하세요.
@@ -174,11 +178,15 @@ flowchart LR
 
 ### Q: 번역 작업을 거절하고 싶어요
 
-**A:** 작업 상세 화면에서 **Unassign** 옵션을 찾아 할당을 해제할 수 있습니다. 거절 사유가 있다면 DB 총괄관리자에게 별도로 연락해주세요.
+**A:** 작업 상세 화면에서 <span class="doc-btn doc-btn-danger">Unassign</span> 옵션을 찾아 할당을 해제할 수 있습니다. 거절 사유가 있다면 DB 총괄관리자에게 별도로 연락해주세요.
 
 ### Q: 이미 완료한 작업을 수정하고 싶어요
 
-**A:** **Save as completed** 후에는 직접 수정이 어렵습니다. DB 총괄관리자에게 연락하여 수정을 요청하세요.
+**A:** <span class="doc-btn doc-btn-primary">Save as completed</span> 제출 후에는 직접 다시 열 수 없습니다.
+DB 총괄관리자에게 **작업 다시 열기(Reopen)**를 요청하세요.
+총괄관리자가 작업을 다시 열면 Pending 탭에 작업이 돌아오고,
+기존 번역문이 미리 채워진 상태로 수정할 수 있습니다.
+자세한 절차는 [번역 검토·철회](./01-4-review#검토-완료-후-수정-작업-다시-열기)를 참고하세요.
 
 ---
 

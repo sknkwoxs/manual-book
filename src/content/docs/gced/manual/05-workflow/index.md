@@ -60,10 +60,10 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 
 콘텐츠의 상태는 Edit 화면 우측 사이드바의 **Change to** 드롭다운에서 변경합니다.
 
-1. 해당 게시글의 **Edit** 버튼 클릭
+1. 해당 게시글의 <span class="doc-btn">Edit</span> 버튼 클릭
 2. 필요한 경우 콘텐츠 수정
 3. 우측 사이드바의 **Change to** 드롭다운에서 변경할 상태 선택
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ![상태 변경 드롭다운](../../images/05-workflow-status.png)
 
@@ -94,8 +94,8 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 ### 노트 작성
 
 1. 콘텐츠 View 화면에서 의견을 남길 **텍스트를 드래그하여 선택**
-2. **Add note** 버튼이 나타나면 클릭
-3. **Assignee**에 담당자를 지정하고, 내용을 입력한 후 **Save**
+2. <span class="doc-btn">Add note</span> 버튼이 나타나면 클릭
+3. **Assignee**에 담당자를 지정하고, 내용을 입력한 후 <span class="doc-btn doc-btn-primary">Save</span>
 
 ![노트 작성](../../images/05-workflow-note-add.png)
 
@@ -103,9 +103,9 @@ DB 총괄관리자는 콘텐츠를 등록하면서 바로 **Published** 상태�
 
 콘텐츠 View 화면 우측 상단 메뉴에서 **View Note**를 클릭하면 우측 패널에 노트 목록이 표시됩니다.
 
-- **Reply**: 노트에 답글 작성
-- **Resolve**: 처리 완료된 노트를 해결 처리
-- **Edit**: 노트 내용 수정
+- <span class="doc-btn">Reply</span>: 노트에 답글 작성
+- <span class="doc-btn">Resolve</span>: 처리 완료된 노트를 해결 처리
+- <span class="doc-btn">Edit</span>: 노트 내용 수정
 
 ![노트 확인](../../images/05-workflow-note-view.png)
 
@@ -139,7 +139,7 @@ Moderation Notes는 **텍스트 기반 필드**에서만 사용할 수 있습니
 1. 콘텐츠 **Edit** 화면으로 이동
 2. 우측 사이드바 상단의 **새 개정본 만들기** 토글이 켜져 있는지 확인
 3. **개정본 로그 메시지** 입력란에 검토 의견 작성
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 #### 확인 방법
 

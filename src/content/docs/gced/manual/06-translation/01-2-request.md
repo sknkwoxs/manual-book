@@ -48,10 +48,10 @@ sidebar:
 
 | 버튼 | 설명 |
 |------|------|
-| **View** | 해당 언어 번역본 열람 |
-| **Edit** | 기존 번역 수정 |
-| **Add** | 새 번역 추가 (직접 번역) |
-| **Request translation** | 번역담당자에게 번역 요청 |
+| <span class="doc-btn">View</span> | 해당 언어 번역본 열람 |
+| <span class="doc-btn">Edit</span> | 기존 번역 수정 |
+| <span class="doc-btn">Add</span> | 새 번역 추가 (직접 번역) |
+| <span class="doc-btn doc-btn-primary">Request translation</span> | 번역담당자에게 번역 요청 |
 
 두 방식 중 어떤 것을 쓸지는 [번역 관리 개요의 방식 선택 가이드](./index#번역-방식-선택-가이드)를 참고하세요.
 
@@ -64,16 +64,16 @@ sidebar:
 ### 번역 진행 방법
 
 1. 번역 화면에서 번역할 언어의 **⋮ (세로 점 세 개)** 버튼 클릭
-2. 드롭다운 메뉴에서 **Add** 선택
+2. 드롭다운 메뉴에서 <span class="doc-btn">Add</span> 선택
 
 :::tip[Add 버튼이 안 보여요]
-**Add** 버튼은 **⋮ (세로 점 세 개)** 버튼을 클릭해야 드롭다운 메뉴에 표시됩니다. Operations 컬럼에서 직접 보이지 않으니 ⋮ 버튼을 먼저 클릭하세요.
+<span class="doc-btn">Add</span> 버튼은 **⋮ (세로 점 세 개)** 버튼을 클릭해야 드롭다운 메뉴에 표시됩니다. Operations 컬럼에서 직접 보이지 않으니 ⋮ 버튼을 먼저 클릭하세요.
 :::
 
 ![직접 번역 화면](../images/translation-add.png)
 
 3. 원래 언어(Original language)의 각 필드를 번역 언어로 변경
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ### 번역 대상 필드
 
@@ -117,7 +117,7 @@ DB 총괄관리자가 번역이 필요한 콘텐츠를 등록(Request translatio
 ### 요청 절차
 
 1. 번역 화면에서 번역할 언어 선택 (체크박스)
-2. **Request translation** 버튼 클릭
+2. <span class="doc-btn doc-btn-primary">Request translation</span> 버튼 클릭
 3. **Provider** 드롭다운에서 **Drupal User** (프랑스어 UI: Utilisateur Drupal) 선택
 
 ![Provider 선택 화면 - Utilisateur Drupal 선택](../images/translation-provider-drupal-user.png)
@@ -130,13 +130,13 @@ DeepL 등 AI 번역 서비스도 사용 가능하지만, 현재는 사람(유저
    고른 뒤에는 반드시 5번까지 마쳐야 전달됩니다.
 
 :::caution[이름을 고르고 저장만 하면 전달되지 않습니다]
-**Assign job to**에서 이름을 골라도 **Submit to provider**를 누르기 전에는
+**Assign job to**에서 이름을 골라도 <span class="doc-btn doc-btn-primary">Submit to provider</span>를 누르기 전에는
 아무것도 전달되지 않습니다. **저장**만 누르면 이름만 적혀 있고 제출은
 안 된 상태로 멈춥니다. 화면 위에 초록색
 "One job needs to be checked out." 문구가 보이면 아직 제출 전입니다.
 :::
 
-5. **Submit to provider** 클릭
+5. <span class="doc-btn doc-btn-primary">Submit to provider</span> 클릭
 
 ### 제출 후 상태
 
@@ -145,7 +145,7 @@ DeepL 등 AI 번역 서비스도 사용 가능하지만, 현재는 사람(유저
 2. **꼭 확인**: 여기서 끝이 아닙니다. [담당자에게 할당하기](./01-3-assign#할당이-실제로-됐는지-확인하는-방법)에서
    **Assigned** 탭에 담당자 이름이 있는지 확인하세요
 3. **번역 진행**: 담당자 이름이 확인된 뒤 담당자가 직접 번역 입력
-4. **검토 및 저장**: DB 총괄관리자가 검토 후 **Save as completed**로 번역 완료 (검토 절차는 [번역 검토·철회](./01-4-review) 참고)
+4. **검토 및 저장**: DB 총괄관리자가 검토 후 <span class="doc-btn doc-btn-primary">Save as completed</span>로 번역 완료 (검토 절차는 [번역 검토·철회](./01-4-review) 참고)
 
 :::note[이메일 알림: 정상 할당되면 담당자에게 메일이 발송됩니다]
 번역 작업이 할당되면 담당자 계정의 이메일 주소로 할당 알림 메일이 **발송됩니다**.
@@ -153,7 +153,7 @@ DeepL 등 AI 번역 서비스도 사용 가능하지만, 현재는 사람(유저
 
 - **발신**: `gcedch@unescoapceiu.org` (AWS SES `amazonses.com` 경유. 메일함에 **External** 표시가 붙을 수 있음)
 - **제목 형식**: `번역 작업이 할당되었습니다: {리소스 제목}`
-- **본문**: 작업 제목 / 잡 제목 / 언어 (`English → French` 형식) / **번역 작업 열기** 버튼
+- **본문**: 작업 제목 / 잡 제목 / 언어 (`English → French` 형식) / <span class="doc-btn">번역 작업 열기</span> 버튼
 - **수신자**: 할당된 담당자 계정에 등록된 이메일 주소
 
 ![할당 알림 메일 예시](../images/translation-assignment-email.png)
@@ -174,7 +174,7 @@ DeepL 등 AI 번역 서비스도 사용 가능하지만, 현재는 사람(유저
 
 1. **원인 확인**: People에서 담당자 계정의 Translation skills에 해당 언어쌍이 있는지 확인 (예: Job 136이 Russian → French라면 "Russian → French" 스킬 필요)
 2. **스킬이 없으면**: 최고관리자가 [Translation skills 설정](./index#translation-skills-설정)으로 언어쌍을 추가한 뒤 다시 열면 목록에 나타납니다
-3. **스킬 추가 전에 제출해야 한다면**: 담당자 없이 **Submit to provider**해도 됩니다. 작업이 미할당(Unassigned) 상태로 등록되고, 스킬 설정 후 [Manage Tasks에서 할당](./01-3-assign#실제로-할당하는-방법-핵심-절차)하면 됩니다
+3. **스킬 추가 전에 제출해야 한다면**: 담당자 없이 <span class="doc-btn doc-btn-primary">Submit to provider</span>해도 됩니다. 작업이 미할당(Unassigned) 상태로 등록되고, 스킬 설정 후 [Manage Tasks에서 할당](./01-3-assign#실제로-할당하는-방법-핵심-절차)하면 됩니다
 4. **스킬을 추가했는데도 안 뜨면**: 번역 권한(다큐멘탈리스트 역할)과 계정 활성 상태를 확인하세요
 
 #### Q: 한 번에 여러 건을 신청했는데 일부가 꼬입니다
