@@ -27,7 +27,7 @@ title: 웹사이트 관리
 3. 스페이스바를 클릭하여 등록된 Resource 콘텐츠 불러오기
 4. 콘텐츠 선택 (예: `Dialogue for Social Cohesion (165760)`)
 5. 핸들을 위아래로 Drag & Drop 하여 순서 변경
-6. **Save** 버튼 클릭
+6. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 :::note
 콘텐츠 옆에 (node id)가 포함되어야 정상적으로 입력됩니다.
@@ -57,7 +57,7 @@ title: 웹사이트 관리
 1. 각 언어(En, Fr, Es...) 선택
 2. **URL** 필드에 링크 입력
 3. **Link text** 필드에 제목 입력
-4. **Save** 버튼 클릭
+4. <span class="doc-btn doc-btn-primary">Save</span> 버튼 클릭
 
 ![상단 팝업 설정](../images/07-main-popup.png)
 

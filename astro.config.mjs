@@ -417,6 +417,24 @@ export default defineConfig({
           ],
         },
         {
+          label: '취업관리시스템',
+          items: [
+            { label: '개요', link: '/mcfamily-job/' },
+            {
+              label: '1. 화면별 구성',
+              autogenerate: { directory: 'mcfamily-job/screens' },
+            },
+            {
+              label: '2. 역할별 구성',
+              autogenerate: { directory: 'mcfamily-job/roles' },
+            },
+            {
+              label: '3. 부록',
+              autogenerate: { directory: 'mcfamily-job/reference' },
+            },
+          ],
+        },
+        {
           label: '서울시립사진미술관 포토라이브러리',
           items: [
             { label: '개요', link: '/sema-photo/' },
