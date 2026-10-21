@@ -22,10 +22,10 @@ description: 서울시가족센터 취업관리시스템 테스트 가이드
 
 | 항목 | 내용 |
 |:---|:---|
-| 개발서버 URL | `__URL 입력__` |
-| 테스트 기간 | `__MM/DD ~ MM/DD__` |
-| 문의 | `__담당자 / 연락처__` |
-| 문의·오류 제보 | QA 시트(`__링크 입력__`)에 자유롭게 적어주세요 |
+| 개발서버 URL | https://mcfamily-job-new.sknkwoxs.com |
+| 테스트 기간 | 10.22 ~ 10.31 |
+| 문의 | 스컹크웍스스튜디오 장대환 매니저 (daamable@skunkworks.co.kr) |
+| 문의·오류 제보 | [QA 시트](https://docs.google.com/presentation/d/136tuX1ppUKc-9N40nntV1NWxI_mtuG-Y21FrJxm9ALI/edit?slide=id.p#slide=id.p)에 자유롭게 적어주세요 |
 
 ### 테스트 계정 (비밀번호 공통: `test1234`)
 
